@@ -1,0 +1,258 @@
+import type {
+  _0,
+  _1,
+  _2,
+  _3,
+  _4,
+  _5,
+  _6,
+  _7,
+  _8,
+  _9,
+  _10,
+  _11,
+  _12,
+  _13,
+  _14,
+  _15,
+  _16,
+  _17,
+  _18,
+  _19,
+  _20,
+  _21,
+  _22,
+  _23,
+  _24,
+  _25,
+  _101,
+  _104,
+  _105,
+  _106,
+  _111,
+} from './ISkill';
+
+interface ISkill {
+  id: string;
+  name: string;
+  type: number;
+  condition: Condition;
+  duration: number;
+  conditionTurn?: number;
+  deactivated?: boolean;
+  deleteSelf?: boolean;
+  specialCondition?: SpecialCondition;
+  specialConditionValue?: number;
+}
+
+interface Skill extends ISkill {
+  _0?: _0;
+  _1?: _1;
+  _2?: _2;
+  _3?: _3;
+  _4?: _4;
+  _5?: _5;
+  _6?: _6;
+  _7?: _7;
+  _8?: _8;
+  _9?: _9;
+  _10?: _10;
+  _11?: _11;
+  _12?: _12;
+  _13?: _13;
+  _14?: _14;
+  _15?: _15;
+  _16?: _16;
+  _17?: _17;
+  _18?: _18;
+  _19?: _19;
+  _20?: _20;
+  _21?: _21;
+  _22?: _22;
+  _23?: _23;
+  _24?: _24;
+  _25?: _25;
+  _101?: _101;
+  _104?: _104;
+  _105?: _105;
+  _106?: _106;
+  _111?: _111;
+}
+
+enum AffectType {
+  MAX_HP,
+  CURRENT_HP,
+  RAW_ATK,
+  RAW_SHIELD,
+  INCREASE_ATK,
+  DECREASE_ATK,
+  INCREASE_SHIELD_RATE_RECEIVED,
+  DECREASE_SHIELD_RATE_RECEIVED,
+  INCREASE_SHIELD_RATE_OUTPUT,
+  DECREASE_SHIELD_RATE_OUTPUT,
+  INCREASE_DMG,
+  DECREASE_DMG,
+  INCREASE_DMG_RECEIVED,
+  DECREASE_DMG_RECEIVED,
+  INCREASE_BASIC_DMG,
+  DECREASE_BASIC_DMG,
+  INCREASE_BASIC_DMG_RECEIVED,
+  DECREASE_BASIC_DMG_RECEIVED,
+  INCREASE_ULTIMATE_DMG,
+  DECREASE_ULTIMATE_DMG,
+  INCREASE_ULTIMATE_DMG_RECEIVED,
+  DECREASE_ULTIMATE_DMG_RECEIVED,
+  INCREASE_FIRE_DMG_RECEIVED,
+  INCREASE_WATER_DMG_RECEIVED,
+  INCREASE_WIND_DMG_RECEIVED,
+  INCREASE_DARK_DMG_RECEIVED,
+  INCREASE_LIGHT_DMG_RECEIVED,
+  INCREASE_FIRE_DMG,
+  INCREASE_WATER_DMG,
+  INCREASE_WIND_DMG,
+  INCREASE_DARK_DMG,
+  INCREASE_LIGHT_DMG,
+  DECREASE_FIRE_DMG,
+  DECREASE_WATER_DMG,
+  DECREASE_WIND_DMG,
+  DECREASE_DARK_DMG,
+  DECREASE_LIGHT_DMG,
+  DECREASE_FIRE_DMG_RECEIVED,
+  DECREASE_WATER_DMG_RECEIVED,
+  DECREASE_WIND_DMG_RECEIVED,
+  DECREASE_DARK_DMG_RECEIVED,
+  DECREASE_LIGHT_DMG_RECEIVED,
+  INCREASE_HEAL_RATE,
+  DECREASE_HEAL_RATE,
+  INCREASE_HEAL_RECEIVED,
+  DECREASE_HEAL_RECEIVED,
+  INCREASE_HEAL_RATE_OVER_TIME,
+  DECREASE_HEAL_RATE_OVER_TIME,
+  INCREASE_TRIGGER_DMG,
+  DECREASE_TRIGGER_DMG,
+  INCREASE_TRIGGER_DMG_RECEIVED,
+  DECREASE_TRIGGER_DMG_RECEIVED,
+  INCREASE_ATTACKER_DMG_RECEIVED,
+  DEAL_TRIGGER_DMG,
+  REDUCE_ATTRIBUTE_EFFECT,
+  IMMUNE_CD_CHANGE,
+  INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED,
+  INCREASE_OBSTRUCTER_DMG_RECEIVED,
+  IMMUNE_ATTRIBUTE_EFFECT,
+  INCREASE_GUARD_EFFECT,
+  DECREASE_GUARD_EFFECT,
+  SUCK_HP_ON_DMG,
+  IMMUNE_SILENCE,
+  IMMUNE_PARALYSIS,
+  IMMUNE_SLEEP,
+  IMMUNE_DECREASE_HEAL_RECEIVED,
+  NONE,
+}
+
+enum Condition {
+  ATTACK = 0,
+  RECEIVED_ATTACK = 1,
+  BASIC_ATTACK = 2,
+  ULTIMATE = 3,
+  TURN = 4,
+  EVERY_X_TURN = 5,
+  MOVE = 6,
+  ON_TURN_START = 7,
+  EVERY_MOVE = 8,
+  GET_HEAL = 9,
+  GUARD = 10,
+  ON_SPECIFIC_TURN = 11,
+  ENEMY_ATTACK = 12,
+  ENEMY_RECEIVED_ATTACK = 13,
+  ENEMY_BASIC_ATTACK = 14,
+  ENEMY_ULTIMATE = 15,
+  ENEMY_GET_HEAL = 16,
+  ENEMY_GUARD = 17,
+  ENEMY_EVERY_X_TURN = 18,
+  NONE = 19,
+}
+
+enum SpecialCondition {
+  HP_LOWER_THAN = 0,
+  SKILL_STACK = 1,
+}
+
+enum Target {
+  POSITION_1 = 0,
+  POSITION_2 = 1,
+  POSITION_3 = 2,
+  POSITION_4 = 3,
+  POSITION_5 = 4,
+  FIRE = 5,
+  WATER = 6,
+  WIND = 7,
+  LIGHT = 8,
+  DARK = 9,
+  NO_ATTRIBUTE = 10,
+  ATTACKER = 11,
+  PROTECTOR = 12,
+  HEALER = 13,
+  OBSTRUCTER = 14,
+  SUPPORT = 15,
+  SELF = 16,
+  ENEMY = 17,
+  ALL_ALLIES = 18,
+  ALL_EXCEPT_SELF = 19,
+  ENEMY_1 = 20,
+  ENEMY_2 = 21,
+  ENEMY_3 = 22,
+  ENEMY_4 = 23,
+  ENEMY_5 = 24,
+  ALL_LIGHT_EXCEPT_SELF = 25,
+  ALL_DARK_EXCEPT_SELF = 26,
+  ALL_FIRE_EXCEPT_SELF = 27,
+  ALL_WATER_EXCEPT_SELF = 28,
+  ALL_WIND_EXCEPT_SELF = 29,
+  ALL_LIGHT = 30,
+  ALL_DARK = 31,
+  ALL_FIRE = 32,
+  ALL_WATER = 33,
+  ALL_WIND = 34,
+  ALL_ENEMIES = 35,
+  DARK_ENEMY = 36,
+  LIGHT_ENEMY = 37,
+  FIRE_ENEMY = 38,
+  WATER_ENEMY = 39,
+  WIND_ENEMY = 40,
+  NONE = 41,
+}
+
+enum DurationType {
+  PERMANENT = 0,
+  TEMPORARY = 1,
+  STACK = 2,
+}
+
+enum SkillStackCondition {
+  HIGHER = 0,
+  LOWER = 1,
+  EQUAL = 2,
+}
+
+enum DamageType {
+  BASIC = 0,
+  BASIC_ADDON = 1,
+  BASIC_HP = 2,
+  ULTIMATE = 3,
+  ULTIMATE_ADDON = 4,
+  ULTIMATE_HP = 5,
+  TRIGGER = 6,
+  TRIGGER_HP = 7,
+  DOT = 8,
+}
+
+export type { Skill };
+export {
+  Condition,
+  Target,
+  AffectType,
+  DurationType,
+  SpecialCondition,
+  SkillStackCondition,
+  DamageType,
+};

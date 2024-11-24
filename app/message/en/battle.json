@@ -1,0 +1,22 @@
+{
+  "Battle": {
+    "turn": "Turn {turn}",
+    "player_turn": "Player Turn",
+    "enemy_turn": "Enemy Turn"
+  },
+  "Team": {
+    "header": "Create your team",
+    "LVL": "LVL",
+    "HP": "HP",
+    "ATK": "ATK",
+    "BOND": "BOND",
+    "STAR": "STAR",
+    "LIB": "LIB",
+    "ROOM": "ROOM",
+    "PASSIVE4": "PASSIVE 4",
+    "Create": "Create Team",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Battle": "Battle"
+  }
+}

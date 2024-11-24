@@ -1,0 +1,1752 @@
+{
+  "10001": {
+    "id": 10001,
+    "name": "魔王 巴爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10002": {
+    "id": 10002,
+    "name": "魔王 撒旦",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10003": {
+    "id": 10003,
+    "name": "魔王 伊布力斯",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10004": {
+    "id": 10004,
+    "name": "精靈王 賽露西亞",
+    "initHp": 3635.2,
+    "initAtk": 880,
+    "attribute": 7,
+    "class": 15,
+    "available": true,
+    "cd": 6
+  },
+  "10005": {
+    "id": 10005,
+    "name": "矮人王 蘭兒",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10006": {
+    "id": 10006,
+    "name": "法斯公主 露露",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10007": {
+    "id": 10007,
+    "name": "天使長 聖米勒",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10008": {
+    "id": 10008,
+    "name": "魔人偶 KS-VIII",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10009": {
+    "id": 10009,
+    "name": "魔管家 艾可",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10010": {
+    "id": 10010,
+    "name": "聖騎士長 雷歐娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10011": {
+    "id": 10011,
+    "name": "神官長 菲歐菈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10012": {
+    "id": 10012,
+    "name": "女忍者 凜月",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10013": {
+    "id": 10013,
+    "name": "劍聖 神無雪",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10014": {
+    "id": 10014,
+    "name": "妖狐 靜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10015": {
+    "id": 10015,
+    "name": "大將軍 朱諾安",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10016": {
+    "id": 10016,
+    "name": "天才女軍師 布蘭妮",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10017": {
+    "id": 10017,
+    "name": "祭典狂歡 巴爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10018": {
+    "id": 10018,
+    "name": "古代勇者 烏魯塔",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10019": {
+    "id": 10019,
+    "name": "現代勇者 神田綾音",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10020": {
+    "id": 10020,
+    "name": "未來勇者 牧愛菈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10021": {
+    "id": 10021,
+    "name": "賢者 白",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10022": {
+    "id": 10022,
+    "name": "狂犬 諾蕾蒂",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10023": {
+    "id": 10023,
+    "name": "副手 貝蕾朵",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10024": {
+    "id": 10024,
+    "name": "死靈女王 艾莉莎白",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10025": {
+    "id": 10025,
+    "name": "偶像 伊布力斯",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10026": {
+    "id": 10026,
+    "name": "偶像 黑白諾艾莉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10027": {
+    "id": 10027,
+    "name": "復活節 撒旦",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10028": {
+    "id": 10028,
+    "name": "復生公主 千鶴",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10029": {
+    "id": 10029,
+    "name": "夏日 靜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10030": {
+    "id": 10030,
+    "name": "夏日 露露",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10031": {
+    "id": 10031,
+    "name": "夏日 KS-Ⅷ",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10032": {
+    "id": 10032,
+    "name": "夏日 娜娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10033": {
+    "id": 10033,
+    "name": "食夢 阿爾蒂雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10034": {
+    "id": 10034,
+    "name": "剪裁之紅 安絲蒂",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10035": {
+    "id": 10035,
+    "name": "縫紉之藍 安絲娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10036": {
+    "id": 10036,
+    "name": "史萊姆女王 娜芙菈菈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10037": {
+    "id": 10037,
+    "name": "蛇女之后 梅絲米奈雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10038": {
+    "id": 10038,
+    "name": "魔法少女 托特拉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10039": {
+    "id": 10039,
+    "name": "千年血族 洛緹亞",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10040": {
+    "id": 10040,
+    "name": "小惡魔 布蘭妮",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10041": {
+    "id": 10041,
+    "name": "公會看板娘 小螢",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10042": {
+    "id": 10042,
+    "name": "夏日 伊布力斯",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10043": {
+    "id": 10043,
+    "name": "機靈古怪 賽露西亞",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10044": {
+    "id": 10044,
+    "name": "占星師 亞美西思特",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10045": {
+    "id": 10045,
+    "name": "極樂之鬼 伊吹朱點",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10046": {
+    "id": 10046,
+    "name": "刺針 嘉維爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10047": {
+    "id": 10047,
+    "name": "夜星 狄",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10048": {
+    "id": 10048,
+    "name": "毒蠍 莫默",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10049": {
+    "id": 10049,
+    "name": "高等魔族 法雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10050": {
+    "id": 10050,
+    "name": "異界 凱薩",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10051": {
+    "id": 10051,
+    "name": "最後的銀龍 普莉希拉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10052": {
+    "id": 10052,
+    "name": "暗黑聖誕 艾可",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10053": {
+    "id": 10053,
+    "name": "聖誕矮人王 蘭兒",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10054": {
+    "id": 10054,
+    "name": "聖誕馴鹿 希依",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10055": {
+    "id": 10055,
+    "name": "精靈舞者 塔諾西雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10056": {
+    "id": 10056,
+    "name": "墮龍 凱茜菲娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10057": {
+    "id": 10057,
+    "name": "煌星 妲絲艾菲娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10058": {
+    "id": 10058,
+    "name": "膽小紙袋狼 沃沃",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10059": {
+    "id": 10059,
+    "name": "音速魅影 祈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10060": {
+    "id": 10060,
+    "name": "豐收聖女 菲歐菈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10061": {
+    "id": 10061,
+    "name": "地方媽媽 提爾絲",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10062": {
+    "id": 10062,
+    "name": "異國商人 雪蘭瑚",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10063": {
+    "id": 10063,
+    "name": "傳說女僕 艾蜜莉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10066": {
+    "id": 10066,
+    "name": "千咒魔女 安西莉卡",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10067": {
+    "id": 10067,
+    "name": "新春 神無雪",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10068": {
+    "id": 10068,
+    "name": "元氣補給 蓮",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10069": {
+    "id": 10069,
+    "name": "尋情慾兔 鈴蘭",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10071": {
+    "id": 10071,
+    "name": "詛咒凝視 絲塔夏",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10072": {
+    "id": 10072,
+    "name": "花嫁 巴爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10074": {
+    "id": 10074,
+    "name": "雪姬 初華",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10075": {
+    "id": 10075,
+    "name": "夢遊魔境 千鶴",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10076": {
+    "id": 10076,
+    "name": "夢遊魔境 露露",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10077": {
+    "id": 10077,
+    "name": "黑鷹 貝里絲",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10078": {
+    "id": 10078,
+    "name": "慵懶貓貓 露露",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10079": {
+    "id": 10079,
+    "name": "新春 凜月",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10081": {
+    "id": 10081,
+    "name": "花嫁 伊布力斯",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10082": {
+    "id": 10082,
+    "name": "花嫁 撒旦",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10083": {
+    "id": 10083,
+    "name": "夢天堂店長 咲野夢",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10084": {
+    "id": 10084,
+    "name": "貓娘Vtuber 杏仁咪嚕",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10085": {
+    "id": 10085,
+    "name": "花魁 香奈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10088": {
+    "id": 10088,
+    "name": "雙星之紅 安絲蒂",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10089": {
+    "id": 10089,
+    "name": "銀河之藍 安絲娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10090": {
+    "id": 10090,
+    "name": "夏日 聖米勒",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10091": {
+    "id": 10091,
+    "name": "夏日 黑白諾艾莉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10092": {
+    "id": 10092,
+    "name": "夏日 阿爾蒂雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10093": {
+    "id": 10093,
+    "name": "適格者 娜娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10094": {
+    "id": 10094,
+    "name": "未知生命體 基貝魯",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10096": {
+    "id": 10096,
+    "name": "鮮血魔王 洛緹亞",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10097": {
+    "id": 10097,
+    "name": "性誕兔女郎 艾可",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10098": {
+    "id": 10098,
+    "name": "聖誕雪狐 靜",
+    "initHp": 3400,
+    "initAtk": 1036.8,
+    "attribute": 8,
+    "class": 11,
+    "available": true,
+    "cd": 4
+  },
+  "10100": {
+    "id": 10100,
+    "name": "惡兔魔王 兔姬",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10106": {
+    "id": 10106,
+    "name": "絕代佳人 賽露西亞",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10107": {
+    "id": 10107,
+    "name": "龍飛鳳舞 蘭兒",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10108": {
+    "id": 10108,
+    "name": "甜心可可 巴爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10109": {
+    "id": 10109,
+    "name": "純情可可 伊布力斯",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10110": {
+    "id": 10110,
+    "name": "致命可可 撒旦",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10111": {
+    "id": 10111,
+    "name": "背德密醫 艾琳",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10113": {
+    "id": 10113,
+    "name": "嬌蠻兇護 凱薩",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10114": {
+    "id": 10114,
+    "name": "魔法少女 朱諾安",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10115": {
+    "id": 10115,
+    "name": "魔法少女 布蘭妮",
+    "initHp": 3513.6,
+    "initAtk": 1003.2,
+    "attribute": 7,
+    "class": 13,
+    "available": true,
+    "cd": 4
+  },
+  "10116": {
+    "id": 10116,
+    "name": "夏日 神田綾音",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10117": {
+    "id": 10117,
+    "name": "夏日 巴爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10118": {
+    "id": 10118,
+    "name": "夏日 菲歐菈",
+    "initHp": 4619.2,
+    "initAtk": 763.2,
+    "attribute": 8,
+    "class": 13,
+    "available": true,
+    "cd": 4
+  },
+  "10119": {
+    "id": 10119,
+    "name": "夏日 艾可",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10120": {
+    "id": 10120,
+    "name": "乘風破浪 蘭兒",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10121": {
+    "id": 10121,
+    "name": "碧波白喵 娜娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10122": {
+    "id": 10122,
+    "name": "性感天使 兔姬",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10123": {
+    "id": 10123,
+    "name": "惡魔貓娘 杏仁咪嚕",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10124": {
+    "id": 10124,
+    "name": "沁夏淡粉 香草奈若",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10125": {
+    "id": 10125,
+    "name": "南瓜魔女 神田綾音",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10126": {
+    "id": 10126,
+    "name": "調皮搗蛋 白",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10127": {
+    "id": 10127,
+    "name": "雪夜幻夢 阿爾蒂雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10128": {
+    "id": 10128,
+    "name": "性誕戀歌 伊布力斯",
+    "initHp": 3456,
+    "initAtk": 1019.2,
+    "attribute": 8,
+    "class": 11,
+    "available": true,
+    "cd": 4
+  },
+  "10129": {
+    "id": 10129,
+    "name": "性誕馴鹿 希依",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10130": {
+    "id": 10130,
+    "name": "聖夜喧嘩 莎琳娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10131": {
+    "id": 10131,
+    "name": "時御者 伊娜絲",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10132": {
+    "id": 10132,
+    "name": "幽夜女爵 卡蒂雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10133": {
+    "id": 10133,
+    "name": "甜心偶像 星空奈奈美",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10134": {
+    "id": 10134,
+    "name": "閃耀歌姬 黑白諾艾莉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10135": {
+    "id": 10135,
+    "name": "偶像經紀人 梅絲米奈雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10136": {
+    "id": 10136,
+    "name": "賞金獵人 安潔娜爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10137": {
+    "id": 10137,
+    "name": "春情白兔 鈴蘭",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10138": {
+    "id": 10138,
+    "name": "迷情薄紗 露露",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10139": {
+    "id": 10139,
+    "name": "不健全遐想 托特拉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10140": {
+    "id": 10140,
+    "name": "真神化身 菈萊亞 菈萊亞",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10141": {
+    "id": 10141,
+    "name": "調查員 娜娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10142": {
+    "id": 10142,
+    "name": "夏日 千鶴",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10143": {
+    "id": 10143,
+    "name": "夏日 賽露西亞",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10144": {
+    "id": 10144,
+    "name": "夏日 凱薩",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10145": {
+    "id": 10145,
+    "name": "夏日 撒旦",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10146": {
+    "id": 10146,
+    "name": "魔獸獵手 神無雪",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10147": {
+    "id": 10147,
+    "name": "魔物終結 鬼醉木",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10148": {
+    "id": 10148,
+    "name": "酩酊狂歡 靜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10149": {
+    "id": 10149,
+    "name": "千年靈狐 椿",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10150": {
+    "id": 10150,
+    "name": "勇者兔女郎 神田綾音",
+    "initHp": 3600,
+    "initAtk": 979.2,
+    "attribute": 8,
+    "class": 11,
+    "available": true,
+    "cd": 4
+  },
+  "10151": {
+    "id": 10151,
+    "name": "性感兔女郎 伊布力斯",
+    "initHp": 3563.2,
+    "initAtk": 988.8,
+    "attribute": 7,
+    "class": 15,
+    "available": true,
+    "cd": 4
+  },
+  "10152": {
+    "id": 10152,
+    "name": "治癒之星 蘇珊",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10153": {
+    "id": 10153,
+    "name": "純真殺意 撒旦",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10801": {
+    "id": 10801,
+    "name": "法斯帝國士兵 賽蓮",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10802": {
+    "id": 10802,
+    "name": "貓妖 娜娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10803": {
+    "id": 10803,
+    "name": "龍女 伊維絲",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10804": {
+    "id": 10804,
+    "name": "犬人族 朵拉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10805": {
+    "id": 10805,
+    "name": "魅魔 撒芭絲",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10806": {
+    "id": 10806,
+    "name": "美人魚 瑪蓮",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10807": {
+    "id": 10807,
+    "name": "流浪魔法師 尤依",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10808": {
+    "id": 10808,
+    "name": "黑暗精靈 索拉卡",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10809": {
+    "id": 10809,
+    "name": "怪盜 米雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10810": {
+    "id": 10810,
+    "name": "人馬女僕 蘇菲",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10811": {
+    "id": 10811,
+    "name": "冷豔美醫 嘉莉娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10812": {
+    "id": 10812,
+    "name": "南瓜仙子 帕奈奈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10813": {
+    "id": 10813,
+    "name": "白薔薇 伊艾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10902": {
+    "id": 10902,
+    "name": "法斯帝國法師 佩托拉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10903": {
+    "id": 10903,
+    "name": "魔族戰士 芙蕾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10904": {
+    "id": 10904,
+    "name": "魔族法師 瑪努艾拉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10905": {
+    "id": 10905,
+    "name": "烈日國武士 桔梗",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10906": {
+    "id": 10906,
+    "name": "烈日國巫女 楓",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10907": {
+    "id": 10907,
+    "name": "精靈射手 奧菈",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10908": {
+    "id": 10908,
+    "name": "矮人戰士 可兒",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10909": {
+    "id": 10909,
+    "name": "雙蛇軍團士兵 夏琳",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10910": {
+    "id": 10910,
+    "name": "聖光騎士 瑪蒂娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10911": {
+    "id": 10911,
+    "name": "主神教團僧兵 克蕾雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10912": {
+    "id": 10912,
+    "name": "史萊姆娘 蘿爾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10913": {
+    "id": 10913,
+    "name": "牛女 米諾",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10914": {
+    "id": 10914,
+    "name": "蛇女 拉米亞",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10915": {
+    "id": 10915,
+    "name": "鳥身女妖 哈比",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10916": {
+    "id": 10916,
+    "name": "法斯精銳近衛 安娜",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10917": {
+    "id": 10917,
+    "name": "法斯精銳騎士 布蘭",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10918": {
+    "id": 10918,
+    "name": "法斯高階法師 諾諾可",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10919": {
+    "id": 10919,
+    "name": "懲戒天使",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10920": {
+    "id": 10920,
+    "name": "福音天使",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10921": {
+    "id": 10921,
+    "name": "獵犬小隊 茉莉",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10922": {
+    "id": 10922,
+    "name": "試作機三號",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10923": {
+    "id": 10923,
+    "name": "人馬 賽希",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10924": {
+    "id": 10924,
+    "name": "木乃伊 穆穆",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  },
+  "10933": {
+    "id": 10933,
+    "name": "獵犬小隊 安雅",
+    "initHp": 10,
+    "initAtk": 10,
+    "attribute": 5,
+    "class": 11,
+    "available": false,
+    "cd": 4
+  }
+}

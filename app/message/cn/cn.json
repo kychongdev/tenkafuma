@@ -1,0 +1,51 @@
+{
+  "Error": {
+    "description": "<p>很抱歉，我们遇到了错误。</p><p>您可以尝试<retry>重新加载页面</retry>。</p>",
+    "title": "出了些问题！"
+  },
+  "IndexPage": {
+    "description": "这是一个基本示例，展示了如何在 Next.js App Router 中使用 <code>next-intl</code>。试着在右上角切换语言，看看内容如何变化。",
+    "title": "next-intl 示例"
+  },
+  "LocaleLayout": {
+    "title": "next-intl 示例"
+  },
+  "LocaleSwitcher": {
+    "label": "切换语言",
+    "locale": "{locale, select, de {🇩 德语} en {🇺 英语} other {未知}}"
+  },
+  "Manifest": {
+    "name": "next-intl 示例"
+  },
+  "Navigation": {
+    "home": "首页",
+    "pathnames": "路径名称"
+  },
+  "NotFoundPage": {
+    "description": "请检查浏览器地址栏或使用导航前往已知页面。",
+    "title": "页面未找到"
+  },
+  "PageLayout": {
+    "links": {
+      "docs": {
+        "description": "在官方文档中了解更多关于 next-intl 的信息。",
+        "href": "https://next-intl-docs.vercel.app/",
+        "title": "文档"
+      },
+      "source": {
+        "description": "在 GitHub 上浏览此示例的源代码。",
+        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
+        "title": "源代码"
+      }
+    }
+  },
+  "AppSidebar": {
+    "header-title": "天下布魔",
+    "menu-title": "天下布魔工具網",
+    "menu1": "创建队伍",
+    "menu2": "战斗模拟"
+  },
+  "Battle": {
+    "turn": "第 {turn} 回合"
+  }
+}

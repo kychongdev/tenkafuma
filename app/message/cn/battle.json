@@ -1,0 +1,22 @@
+{
+  "Battle": {
+    "turn": "第 {turn} 回合",
+    "player_turn": "玩家回合",
+    "enemy_turn": "敵人回合"
+  },
+  "Team": {
+    "header": "创建您的队伍",
+    "LVL": "等级",
+    "HP": "HP",
+    "ATK": "ATK",
+    "BOND": "花",
+    "STAR": "星",
+    "LIB": "解放",
+    "ROOM": "寝",
+    "PASSIVE4": "被動4",
+    "Create": "創建",
+    "Edit": "編輯",
+    "Delete": "刪除",
+    "Battle": "戰鬥"
+  }
+}
