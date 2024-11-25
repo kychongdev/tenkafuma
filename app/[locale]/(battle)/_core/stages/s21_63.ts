@@ -707,7 +707,7 @@ export function s21_63_action(gameState: GameState) {
     const hpSorted = maxHpSort(gameState.characters);
     dealUltDamage(
       Target.ENEMY_1,
-      3,
+      2.75,
       gameState,
       hpSorted[2],
       DamageType.ULTIMATE,
@@ -719,7 +719,6 @@ export function s21_63_action(gameState: GameState) {
   //
 
   if (gameState.turn !== 0) {
-    parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
     const hpSorted = hpSort(gameState.characters);
     dealBasicDamage(
       Target.ENEMY_1,
@@ -761,6 +760,7 @@ export function s21_63_action(gameState: GameState) {
       DamageType.ULTIMATE,
       CharacterAction.SKILL,
     );
+    parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
   }
   // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
   // [触发条件：玩家位置9 存活]
