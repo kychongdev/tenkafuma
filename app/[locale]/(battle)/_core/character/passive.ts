@@ -1215,6 +1215,125 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
     // "10147": "魔物終結 鬼醉木",
+    case '10147': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '817-passive-1',
+          name: '必殺時，觸發「使自身以外的我方全體獲得《享受大餐》」',
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ALL_EXCEPT_SELF,
+            applySkill: [
+              {
+                id: '817-passive-1-1',
+                name: '攻擊力增加100%',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  value: 1,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+              {
+                id: '817-passive-1-2',
+                name: '普攻傷害增加100%',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  value: 1,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                },
+              },
+              {
+                id: '817-passive-1-3',
+                name: '行動後，觸發「清除自身以外的我方全體《享受大餐》的所有效果」(2回合)(觸發1次後解除)',
+                type: 24,
+                condition: Condition.MOVE,
+                duration: 2,
+                _24: {
+                  clearSkill: [
+                    '817-passive-1-1',
+                    '817-passive-1-2',
+                    '817-passive-1-3',
+                  ],
+                  target: Target.ALL_EXCEPT_SELF,
+                },
+                deleteSelf: true,
+              },
+            ],
+          },
+        },
+      ];
+
+      // 《醃製內臟乾》
+      // 行動後，觸發「使自身受到傷害減少20%(1回合)，並清除自身以外的我方全體《醃製內臟乾》的效果」(1回合)(觸發1次後解除)
+
+      // 使我方站位2獲得「必殺時，觸發『《魔物肢解》』」
+      // 《魔物肢解》
+      // 使目標受到必殺技傷害增加100%(1回合)
+      // 使目標被治療時回復量減少20%(4回合)
+      if (gameState.characters[position].stars === 5) {
+        {
+          const buff: Skill = {
+            id: '817-passive-3',
+            name: '《魔物肢解》',
+            type: 12,
+            duration: 100,
+            condition: Condition.NONE,
+            _12: {
+              position: 1,
+              applySkill: {
+                id: '817-passive-3',
+                name: '使目標受到必殺技傷害增加100%(1回合)',
+                type: 11,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _11: {
+                  target: Target.ENEMY,
+                  applySkill: [
+                    {
+                      id: '817-passive-3-1',
+                      name: '受到必殺技傷害增加',
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 1,
+                        affectType: AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          };
+          triggerSkill(buff, gameState, position);
+        }
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '817-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10148": "酩酊狂歡 靜",
     case '10148': {
       gameState.characters[position].buff = [

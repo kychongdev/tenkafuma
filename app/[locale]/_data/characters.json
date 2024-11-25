@@ -1312,10 +1312,10 @@
   "10147": {
     "id": 10147,
     "name": "魔物終結 鬼醉木",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
+    "initHp": 3808,
+    "initAtk": 924.8,
+    "attribute": 7,
+    "class": 14,
     "available": false,
     "cd": 4
   },

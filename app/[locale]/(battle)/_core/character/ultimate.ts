@@ -595,26 +595,110 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
     // "10147": "魔物終結 鬼醉木",
+    case '10147': {
+      if (bond < 3) {
+        // 以自身攻擊力330/376%對目標造成傷害，使目標受到風、光屬性傷害增加30/35%(2回合)。CD:4
+        dealUltDamage(
+          position,
+          bond === 1 ? 3.3 : 3.76,
+          gameState,
+          Target.ENEMY,
+          DamageType.ULTIMATE,
+          CharacterAction.ULTIMATE,
+        );
+        gameState.enemies[gameState.targeting].buff = [
+          ...gameState.enemies[gameState.targeting].buff,
+          {
+            id: '10147-ult-1',
+            name: '受到風屬性傷害增加30/35%(2回合)',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+              value: bond === 1 ? 0.3 : 0.35,
+            },
+          },
+          {
+            id: '10147-ult-2',
+            name: '受到光屬性傷害增加30/35%(2回合)',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+              value: bond === 1 ? 0.3 : 0.35,
+            },
+          },
+        ];
+        break;
+      }
+      gameState.enemies[gameState.targeting].buff = [
+        ...gameState.enemies[gameState.targeting].buff,
+        {
+          id: '10147-ult-1',
+          name: '受到風屬性傷害增加30/35%(2回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+            value: bond === 3 ? 0.4 : bond === 4 ? 0.45 : 0.5,
+          },
+        },
+        {
+          id: '10147-ult-2',
+          name: '受到光屬性傷害增加30/35%(2回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+            value: bond === 3 ? 0.4 : bond === 4 ? 0.45 : 0.5,
+          },
+        },
+        {
+          id: '10147-ult-3',
+          name: '目標受到傷害增加15%(2回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+            value: 0.15,
+          },
+        },
+      ];
+      dealUltDamage(
+        position,
+        bond === 3 ? 4.22 : bond === 4 ? 4.68 : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10148": "酩酊狂歡 靜",
     case '10148': {
       const buff: Skill = {
-        id: '818-ult-1',
+        id: '10148-ult-1',
         name: '受到水屬性傷害增加(最多2層)',
         type: 4,
         condition: Condition.ULTIMATE,
         duration: 100,
         _4: {
           increaseStack: 1,
-          targetSkill: '818-ult-1-1',
+          targetSkill: '10148-ult-1-1',
           target: Target.ENEMY,
           applySkill: {
-            id: '818-ult-1-1',
+            id: '10148-ult-1-1',
             name: '受到水屬性傷害增加(最多2層)',
             type: 3,
             condition: Condition.NONE,
             duration: 100,
             _3: {
-              id: '818-ult-1-1',
+              id: '10148-ult-1-1',
               name: '受到水屬性傷害增加(最多2層)',
               stack: 1,
               maxStack: 2,
@@ -637,7 +721,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: '818-ult-2',
+          id: '10148-ult-2',
           name: '普攻時，追加『以自身攻擊力110/125/140/155/170%對目標造成傷害』',
           type: 101,
           condition: Condition.BASIC_ATTACK,
