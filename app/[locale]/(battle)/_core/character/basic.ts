@@ -222,6 +222,17 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
+    case '10149': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10150": "勇者兔女郎 神田綾音",
     case '10150': {
       dealBasicDamage(

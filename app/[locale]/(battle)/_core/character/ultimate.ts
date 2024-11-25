@@ -12,7 +12,11 @@ import { heal } from '../heal';
 import { parseCondition } from '../parseCondition';
 import { triggerSkill } from '../triggerSkill';
 import { GameState } from '../GameState';
-import { CharacterAction } from '@/types/Character';
+import {
+  CharacterAction,
+  CharacterAttribute,
+  CharacterClass,
+} from '@/types/Character';
 import { dealUltDamage } from '../dealUltDamage';
 
 export function ultimateAttack(gameState: GameState, position: number) {
@@ -154,78 +158,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
-          {
-            id: '10044-ult-1',
-            name: '「必殺時，觸發『使自身必殺技傷害增加20/22.5/25/27.5/30%(最多2層)』(1回合)」',
-            type: 4,
-            condition: Condition.ULTIMATE,
-            duration: 1,
-            _4: {
-              increaseStack: 1,
-              targetSkill: '10044-ult-1-1',
-              target: Target.SELF,
-              applySkill: {
-                id: '10044-ult-1-1',
-                name: '自身必殺技傷害增加',
-                type: 3,
-                condition: Condition.NONE,
-                duration: 100,
-                _3: {
-                  id: '10044-ult-1-1',
-                  name: '自身必殺技傷害增加',
-                  stack: 1,
-                  maxStack: 2,
-                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
-                  value:
-                    bond === 1
-                      ? 0.2
-                      : bond === 2
-                        ? 0.225
-                        : bond === 3
-                          ? 0.25
-                          : bond === 4
-                            ? 0.275
-                            : 0.3,
-                },
-              },
-            },
-          },
-          {
-            id: '10044-ult-2',
-            name: '普攻時，觸發『使自身普攻傷害增加20/25/30/35/40%(最多2層)』(2回合)',
-            type: 4,
-            condition: Condition.BASIC_ATTACK,
-            duration: 2,
-            _4: {
-              increaseStack: 1,
-              targetSkill: '10044-ult-2-1',
-              target: Target.SELF,
-              applySkill: {
-                id: '10044-ult-2-1',
-                name: '普攻傷害增加',
-                type: 3,
-                condition: Condition.NONE,
-                duration: 100,
-                _3: {
-                  id: '10044-ult-2-1',
-                  name: '自身必殺技傷害增加',
-                  stack: 1,
-                  maxStack: 2,
-                  affectType: AffectType.INCREASE_BASIC_DMG,
-                  value:
-                    bond === 1
-                      ? 0.2
-                      : bond === 2
-                        ? 0.25
-                        : bond === 3
-                          ? 0.3
-                          : bond === 4
-                            ? 0.35
-                            : 0.4,
-                },
-              },
-            },
-          },
           {
             id: '10044-ult-3',
             name: '造成傷害增加',
@@ -665,6 +597,80 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
+    case '10149': {
+      gameState.characters.forEach((character, index) => {
+        if (character.attribute === CharacterAttribute.FIRE) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10149-ult-1',
+              name: '必殺技傷害增加30%(4回合)',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 4,
+              _0: {
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                value:
+                  bond === 1
+                    ? 0.2
+                    : bond === 2
+                      ? 0.3
+                      : bond === 3
+                        ? 0.4
+                        : bond === 4
+                          ? 0.5
+                          : 0.6,
+              },
+            },
+          ];
+        }
+      });
+      gameState.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.OBSTRUCTER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10149-ult-1',
+              name: '造成傷害增加(4回合)',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 4,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value:
+                  bond === 1
+                    ? 0.15
+                    : bond === 2
+                      ? 0.2
+                      : bond === 3
+                        ? 0.3
+                        : bond === 4
+                          ? 0.4
+                          : 0.5,
+              },
+            },
+          ];
+        }
+      });
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.86
+                : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10150": "勇者兔女郎 神田綾音",
     case '10150': {
       const buff: Skill = {

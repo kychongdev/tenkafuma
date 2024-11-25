@@ -1332,11 +1332,11 @@
   "10149": {
     "id": 10149,
     "name": "千年靈狐 椿",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3528,
+    "initAtk": 998.4,
     "attribute": 5,
-    "class": 11,
-    "available": false,
+    "class": 14,
+    "available": true,
     "cd": 4
   },
   "10150": {

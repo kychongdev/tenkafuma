@@ -66,12 +66,12 @@ export function applyExtra(gameState: GameState, position: number) {
         ];
       }
       break;
-    case '820': {
+    case '10044': {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '820-ult-1',
+            id: '10044-ult-1',
             name: `必殺時，觸發『使自身必殺技傷害增加${
               bond === 1
                 ? 20
@@ -88,16 +88,16 @@ export function applyExtra(gameState: GameState, position: number) {
             duration: 1,
             _4: {
               increaseStack: 1,
-              targetSkill: '820-ult-1-1',
+              targetSkill: '10044-ult-1-1',
               target: Target.SELF,
               applySkill: {
-                id: '820-ult-1-1',
+                id: '10044-ult-1-1',
                 name: '受到風屬性傷害增加',
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: '820-ult-1-1',
+                  id: '10044-ult-1-1',
                   name: '必殺技傷害增加',
                   value:
                     bond === 1
@@ -117,7 +117,7 @@ export function applyExtra(gameState: GameState, position: number) {
             },
           },
           {
-            id: '820-ult-2',
+            id: '10044-ult-2',
             name: `普攻時，觸發『使自身普攻傷害增加${
               bond === 1
                 ? 20
@@ -134,16 +134,16 @@ export function applyExtra(gameState: GameState, position: number) {
             duration: 2,
             _4: {
               increaseStack: 1,
-              targetSkill: '820-ult-2-1',
+              targetSkill: '10044-ult-2-1',
               target: Target.SELF,
               applySkill: {
-                id: '820-ult-2-1',
+                id: '10044-ult-2-1',
                 name: '普攻傷害增加',
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: '820-ult-2-1',
+                  id: '10044-ult-2-1',
                   name: '普攻傷害增加',
                   value:
                     bond === 1

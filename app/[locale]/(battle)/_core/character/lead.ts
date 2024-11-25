@@ -1,10 +1,4 @@
-import {
-  AffectType,
-  Condition,
-  DamageType,
-  SkillStackCondition,
-  Target,
-} from '@/types/Skill';
+import { AffectType, Condition, DamageType, Target } from '@/types/Skill';
 import {
   CharacterAction,
   CharacterAttribute,
@@ -59,6 +53,346 @@ export function triggerLead(gameState: GameState) {
     // "10042": "夏日 伊布力斯",
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
+    case '10044': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '820-Lead-1',
+            name: '最大HP增加30%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+          {
+            id: '820-Lead-2',
+            name: '必殺技傷害增加20%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value: 0.2,
+            },
+          },
+          {
+            id: '820-Lead-3',
+            name: '普攻傷害增加30%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_BASIC_DMG,
+              value: 0.3,
+            },
+          },
+        ];
+      });
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: '820-Lead-4',
+          name: '攻擊力增加350%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value: 3.5,
+          },
+        },
+        {
+          id: '820-Lead-5',
+          name: '必殺時，觸發「使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」',
+          type: 21,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: '820-Lead-5-1',
+                name: '使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」',
+                type: 11,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _11: {
+                  target: Target.ALL_EXCEPT_SELF,
+                  applySkill: [
+                    {
+                      id: '820-Lead-5-1-1',
+                      name: '必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)',
+                      type: 101,
+                      condition: Condition.ULTIMATE,
+                      duration: 1,
+                      _101: {
+                        value: 1,
+                        target: Target.ENEMY,
+                        damageType: DamageType.ULTIMATE_ADDON,
+                        action: CharacterAction.ULTIMATE,
+                      },
+                    },
+                    {
+                      id: '820-Lead-5-1-2',
+                      name: '普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)',
+                      type: 101,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 2,
+                      _101: {
+                        value: 0.25,
+                        target: Target.ENEMY,
+                        damageType: DamageType.BASIC_ADDON,
+                        action: CharacterAction.BASIC,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '820-Lead-6',
+          name: '每經過4回合，觸發「使敵方全體受到火、水、風、光、闇屬性傷害增加70%(2回合)」',
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 4,
+          duration: 100,
+          _11: {
+            //TODO this is for Enemies
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: '820-Lead-6-1',
+                name: '受到火屬性傷害增加70%(2回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                  value: 0.7,
+                },
+              },
+              {
+                id: '820-Lead-6-2',
+                name: '受到水屬性傷害增加70%(2回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                  value: 0.7,
+                },
+              },
+              {
+                id: '820-Lead-6-3',
+                name: '受到風屬性傷害增加70%(2回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+                  value: 0.7,
+                },
+              },
+              {
+                id: '820-Lead-6-4',
+                name: '受到光屬性傷害增加70%(2回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                  value: 0.7,
+                },
+              },
+              {
+                id: '820-Lead-6-5',
+                name: '受到闇屬性傷害增加70%(2回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                  value: 0.7,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      const twoAttackerCondition = [
+        CharacterClass.ATTACKER,
+        CharacterClass.ATTACKER,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (twoAttackerCondition.includes(character.class)) {
+          const index = twoAttackerCondition.indexOf(character.class);
+          if (index !== -1) {
+            twoAttackerCondition.splice(
+              twoAttackerCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+
+      if (twoAttackerCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: '820-Lead-7',
+            name: '攻擊力減少350%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_ATK,
+              value: 3.5,
+            },
+          },
+        ];
+      }
+
+      const twoHealerCondition = [CharacterClass.HEALER, CharacterClass.HEALER];
+
+      gameState.characters.forEach((character) => {
+        if (twoHealerCondition.includes(character.class)) {
+          const index = twoAttackerCondition.indexOf(character.class);
+          if (index !== -1) {
+            twoHealerCondition.splice(
+              twoHealerCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+
+      if (twoHealerCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: '820-Lead-8',
+            name: '攻擊力減少350%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_ATK,
+              value: 3.5,
+            },
+          },
+        ];
+      }
+
+      const twoSupportCondition = [
+        CharacterClass.SUPPORT,
+        CharacterClass.SUPPORT,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (twoSupportCondition.includes(character.class)) {
+          const index = twoSupportCondition.indexOf(character.class);
+          if (index !== -1) {
+            twoSupportCondition.splice(
+              twoSupportCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+
+      if (twoSupportCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: '820-Lead-9',
+            name: '攻擊力減少350%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_ATK,
+              value: 3.5,
+            },
+          },
+        ];
+      }
+
+      const twoObstructerCondition = [
+        CharacterClass.OBSTRUCTER,
+        CharacterClass.OBSTRUCTER,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (twoObstructerCondition.includes(character.class)) {
+          const index = twoObstructerCondition.indexOf(character.class);
+          if (index !== -1) {
+            twoObstructerCondition.splice(
+              twoObstructerCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+
+      if (twoObstructerCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: '820-Lead-10',
+            name: '攻擊力減少350%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_ATK,
+              value: 3.5,
+            },
+          },
+        ];
+      }
+
+      const twoProtectorCondition = [
+        CharacterClass.PROTECTOR,
+        CharacterClass.PROTECTOR,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (twoProtectorCondition.includes(character.class)) {
+          const index = twoProtectorCondition.indexOf(character.class);
+          if (index !== -1) {
+            twoProtectorCondition.splice(
+              twoProtectorCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+
+      if (twoProtectorCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: '820-Lead-11',
+            name: '攻擊力減少350%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_ATK,
+              value: 3.5,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10045": "極樂之鬼 伊吹朱點",
     // "10046": "刺針 嘉維爾",
     // "10047": "夜星 狄",
@@ -271,11 +605,399 @@ export function triggerLead(gameState: GameState) {
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
-    // "10150": "勇者兔女郎 神田綾音",
-    case '10150': {
+    case '10149': {
+      // 使我方全體妨礙者免疫必殺技CD變動效果 NO IMPLEMENT
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '819-Lead-1',
+            name: '最大HP增加30%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+          {
+            id: '819-Lead-2',
+            name: '攻擊力增加40%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.4,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: '819-Lead-3',
+          name: '必殺時，觸發「使目標受到火屬性傷害增加100%(最多1層)」',
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: '819-Lead-3-1',
+            target: Target.ENEMY,
+            applySkill: {
+              id: '819-Lead-3-1',
+              name: '受到火屬性傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '819-Lead-3-1',
+                name: '受到火屬性傷害增加',
+                stack: 1,
+                maxStack: 1,
+                affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                value: 1,
+              },
+            },
+          },
+        },
+        {
+          id: '819-Lead-4',
+          name: '必殺時，觸發「使目標受到妨礙者傷害增加50%(最多1層)」',
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: '819-Lead-4-1',
+            target: Target.ENEMY,
+            applySkill: {
+              id: '819-Lead-4-1',
+              name: '受到妨礙者傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '819-Lead-4-1',
+                name: '受到妨礙者傷害增加',
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_OBSTRUCTER_DMG_RECEIVED,
+                value: 0.5,
+              },
+            },
+          },
+        },
+      ];
+      gameState.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.OBSTRUCTER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+
+            {
+              id: '819-Lead-5',
+              name: '防禦時，觸發《妖術達人》',
+              type: 11,
+              condition: Condition.GUARD,
+              duration: 100,
+              _11: {
+                target: Target.SELF,
+                applySkill: [
+                  {
+                    id: '819-Lead-5-1',
+                    name: '攻擊力增加50%',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      affectType: AffectType.INCREASE_ATK,
+                      value: 0.5,
+                    },
+                  },
+                  {
+                    id: '819-Lead-5-2',
+                    name: '必殺技傷害增加60%',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                      value: 0.6,
+                    },
+                  },
+                  {
+                    id: '819-Lead-5-3',
+                    name: '必殺時，追加「以自身攻擊力100%對目標造成傷害」',
+                    type: 101,
+                    condition: Condition.ULTIMATE,
+                    duration: 2,
+                    _101: {
+                      value: 1,
+                      target: Target.ENEMY,
+                      damageType: DamageType.ULTIMATE_ADDON,
+                      action: CharacterAction.ULTIMATE,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+
+      const twoFireCondition = [
+        CharacterAttribute.FIRE,
+        CharacterAttribute.FIRE,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (twoFireCondition.includes(character.attribute)) {
+          const index = twoFireCondition.indexOf(character.attribute);
+          if (index !== -1) {
+            twoFireCondition.splice(
+              twoFireCondition.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (twoFireCondition.length === 0) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '819-Lead-6',
+              name: '攻擊力減少250%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.DECREASE_ATK,
+                value: 2.5,
+              },
+            },
+            {
+              id: '819-Lead-7',
+              name: '必殺技傷害減少250%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.DECREASE_ULTIMATE_DMG,
+                value: 2.5,
+              },
+            },
+            // 使自身被治療時回復量減少250%
+          ];
+        });
+      }
       break;
     }
-    // "10151": "性感兔女郎 伊布力斯",
+    // "10150": "勇者兔女郎 神田綾音",
+    case '10150': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10150-Lead-1',
+            name: '最大HP增加40%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: '10150-Lead-2',
+            name: '攻擊力增加80%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.8,
+            },
+          },
+        ];
+      });
+
+      const fourLightCondition = [
+        CharacterAttribute.LIGHT,
+        CharacterAttribute.LIGHT,
+        CharacterAttribute.LIGHT,
+        CharacterAttribute.LIGHT,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (fourLightCondition.includes(character.attribute)) {
+          const index = fourLightCondition.indexOf(character.attribute);
+          if (index !== -1) {
+            fourLightCondition.splice(
+              fourLightCondition.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+      if (fourLightCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: '10150-Lead-3',
+            name: '攻擊力增加80%',
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _11: {
+              target: Target.DARK_ENEMY,
+              applySkill: [
+                {
+                  id: '10150-Lead-3-1',
+                  name: '受到光屬性傷害增加50%',
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 50,
+                  _0: {
+                    affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                    value: 0.5,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: '10150-Lead-4',
+            name: '必殺傷害增加',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value: 0.4,
+            },
+          },
+          {
+            id: '10150-lead-5',
+            name: '必殺時，追加『以自身攻擊力66.6%對目標造成傷害』',
+            type: 101,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _101: {
+              value: 0.666,
+              target: Target.ENEMY,
+              damageType: DamageType.ULTIMATE_ADDON,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+        ];
+
+        gameState.characters.forEach((character, index) => {
+          if (character.attribute === CharacterAttribute.LIGHT) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: '10150-Lead-6',
+                name: '造成傷害增加30%',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  affectType: AffectType.INCREASE_DMG,
+                  value: 0.3,
+                },
+              },
+              {
+                id: '10150-Lead-7',
+                name: '普攻傷害增加50%',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                  value: 0.5,
+                },
+              },
+              {
+                id: '10150-lead-8',
+                name: '普攻時，追加「以自身攻擊力18%對目標造成傷害」',
+                type: 101,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _101: {
+                  value: 0.18,
+                  target: Target.ENEMY,
+                  damageType: DamageType.BASIC_ADDON,
+                  action: CharacterAction.BASIC,
+                },
+              },
+              // 攻擊時，觸發「使目標受到傷害增加0.4%(最多50層)，再使目標受到光屬性傷害增加0.6%(最多50層)」
+              {
+                id: '10150-lead-9',
+                name: '攻擊時，觸發「使目標受到傷害增加0.4%(最多50層)」',
+                type: 4,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: '10150-lead-9-1',
+                  target: Target.ENEMY,
+                  applySkill: {
+                    id: '10150-lead-9-1',
+                    name: '受到傷害增加',
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: '10150-lead-9-1',
+                      name: '受到傷害增加',
+                      stack: 1,
+                      maxStack: 50,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                      value: 0.004,
+                    },
+                  },
+                },
+              },
+              {
+                id: '10150-lead-10',
+                name: '攻擊時，觸發「使目標受到光屬性傷害增加0.6%(最多50層)」',
+                type: 4,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: '10150-lead-10-1',
+                  target: Target.ENEMY,
+                  applySkill: {
+                    id: '10150-lead-10-1',
+                    name: '受到傷害增加',
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: '10150-lead-10-1',
+                      name: '受到傷害增加',
+                      stack: 1,
+                      maxStack: 50,
+                      affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                      value: 0.006,
+                    },
+                  },
+                },
+              },
+            ];
+          }
+        });
+      }
+      break;
+    } // "10151": "性感兔女郎 伊布力斯",
     case '10151': {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [

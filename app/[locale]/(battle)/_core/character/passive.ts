@@ -1217,6 +1217,77 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
+    case '10149': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10149-passive-1',
+          name: '每經過4回合，觸發「以自身攻擊力60%使自身攻擊力增加(1回合)」',
+          type: 6,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 4,
+          duration: 100,
+          _6: {
+            value: 0.6,
+            target: Target.SELF,
+            affectType: AffectType.RAW_ATK,
+            duration: 1,
+            base: false,
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10149-passive-2',
+            name: '必殺時，觸發「使目標受到傷害增加30%(最多2層)」',
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: '10149-passive-2-1',
+              target: Target.ENEMY,
+              applySkill: {
+                id: '10149-passive-2-1',
+                name: '受到傷害增加30%',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10149-passive-2-1',
+                  name: '受到傷害增加30%',
+                  value: 0.3,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10149-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
 
     // "10150": "勇者兔女郎 神田綾音",
     case '10150': {
