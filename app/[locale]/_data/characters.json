@@ -432,11 +432,11 @@
   "10044": {
     "id": 10044,
     "name": "占星師 亞美西思特",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3302.4,
+    "initAtk": 1067.2,
+    "attribute": 9,
+    "class": 15,
+    "available": true,
     "cd": 4
   },
   "10045": {

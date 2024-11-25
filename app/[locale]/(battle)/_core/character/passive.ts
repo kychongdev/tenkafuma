@@ -399,6 +399,115 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10042": "夏日 伊布力斯",
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
+    case '10044': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10044-passive-1',
+          name: '必殺時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」',
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            value: 0.3,
+            target: Target.ALL_ALLIES,
+            affectType: AffectType.RAW_ATK,
+            duration: 1,
+            base: false,
+          },
+        },
+        {
+          id: '10044-passive-2',
+          name: '每經過4回合時，觸發「使目標受到傷害增加25%(2回合)」',
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 4,
+          duration: 100,
+          _11: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: '10044-passive-2-1',
+                name: '受到傷害增加',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  value: 0.25,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10044-passive-3',
+            name: '防禦時，觸發「使自身攻擊力增加30%(最多3層)」',
+            type: 4,
+            condition: Condition.GUARD,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: '10044-passive-3-1',
+              target: Target.SELF,
+              applySkill: {
+                id: '10044-passive-3-1',
+                name: '攻擊力增加',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10044-passive-3-1',
+                  name: '攻擊力增加',
+                  stack: 1,
+                  maxStack: 3,
+                  affectType: AffectType.INCREASE_ATK,
+                  value: 0.3,
+                },
+              },
+            },
+          },
+          {
+            id: '10044-passive-4',
+            name: '每經過1回合時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」',
+            type: 6,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _6: {
+              value: 0.05,
+              target: Target.ALL_ALLIES,
+              affectType: AffectType.RAW_ATK,
+              duration: 1,
+              base: false,
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10044-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10045": "極樂之鬼 伊吹朱點",
     // "10046": "刺針 嘉維爾",
     // "10047": "夜星 狄",
@@ -1108,6 +1217,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
+
     // "10150": "勇者兔女郎 神田綾音",
     case '10150': {
       gameState.characters[position].buff = [
@@ -1386,8 +1496,11 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ];
       }
       break;
-    } // "10152": "治癒之星 蘇珊",
+    }
+    // "10152": "治癒之星 蘇珊",
     // "10153": "純真殺意 撒旦",
+    // "10154": "魔法少女 艾琳",
+    // "10155": "魔法少女 艾琳",
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

@@ -150,6 +150,106 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10042": "夏日 伊布力斯",
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
+    case '10044': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10044-ult-1',
+            name: '「必殺時，觸發『使自身必殺技傷害增加20/22.5/25/27.5/30%(最多2層)』(1回合)」',
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 1,
+            _4: {
+              increaseStack: 1,
+              targetSkill: '10044-ult-1-1',
+              target: Target.SELF,
+              applySkill: {
+                id: '10044-ult-1-1',
+                name: '自身必殺技傷害增加',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10044-ult-1-1',
+                  name: '自身必殺技傷害增加',
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                  value:
+                    bond === 1
+                      ? 0.2
+                      : bond === 2
+                        ? 0.225
+                        : bond === 3
+                          ? 0.25
+                          : bond === 4
+                            ? 0.275
+                            : 0.3,
+                },
+              },
+            },
+          },
+          {
+            id: '10044-ult-2',
+            name: '普攻時，觸發『使自身普攻傷害增加20/25/30/35/40%(最多2層)』(2回合)',
+            type: 4,
+            condition: Condition.BASIC_ATTACK,
+            duration: 2,
+            _4: {
+              increaseStack: 1,
+              targetSkill: '10044-ult-2-1',
+              target: Target.SELF,
+              applySkill: {
+                id: '10044-ult-2-1',
+                name: '普攻傷害增加',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10044-ult-2-1',
+                  name: '自身必殺技傷害增加',
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                  value:
+                    bond === 1
+                      ? 0.2
+                      : bond === 2
+                        ? 0.25
+                        : bond === 3
+                          ? 0.3
+                          : bond === 4
+                            ? 0.35
+                            : 0.4,
+                },
+              },
+            },
+          },
+          {
+            id: '10044-ult-3',
+            name: '造成傷害增加',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.1
+                    : bond === 3
+                      ? 0.15
+                      : bond === 4
+                        ? 0.15
+                        : 0.2,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10045": "極樂之鬼 伊吹朱點",
     // "10046": "刺針 嘉維爾",
     // "10047": "夜星 狄",

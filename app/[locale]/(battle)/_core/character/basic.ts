@@ -72,6 +72,25 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10042": "夏日 伊布力斯",
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
+    case '10044': {
+      gameState.characters.forEach((character) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
+        character.buff = [
+          ...character.buff,
+          {
+            id: 'RAWATTACK',
+            name: '攻擊力',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+    }
     // "10045": "極樂之鬼 伊吹朱點",
     // "10046": "刺針 嘉維爾",
     // "10047": "夜星 狄",
