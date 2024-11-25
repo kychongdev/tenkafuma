@@ -1232,12 +1232,12 @@
   "10139": {
     "id": 10139,
     "name": "不健全遐想 托特拉",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3320,
+    "initAtk": 1062.4,
+    "attribute": 8,
     "class": 11,
-    "available": false,
-    "cd": 4
+    "available": true,
+    "cd": 5
   },
   "10140": {
     "id": 10140,

@@ -452,6 +452,109 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10137": "春情白兔 鈴蘭",
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
+    case '10139': {
+      const buff: Skill = {
+        id: '10139-ult-1',
+        name: '受到光屬性傷害增加(最多1層)',
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: '10139-ult-1-1',
+          target: Target.ENEMY,
+          applySkill: {
+            id: '10139-ult-1-1',
+            name: '受到光屬性傷害增加(最多1層)',
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: '10139-ult-1-1',
+              name: '受到光屬性傷害增加(最多1層)',
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.2
+                        : 0.2,
+            },
+          },
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      const buff2: Skill = {
+        id: '10139-ult-2',
+        name: '受到傷害增加(最多1層)',
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: '10139-ult-2-1',
+          target: Target.ENEMY,
+          applySkill: {
+            id: '10139-ult-2-1',
+            name: '受到傷害增加(最多1層)',
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: '10139-ult-2-1',
+              name: '受到傷害增加(最多1層)',
+              stack: 1,
+              maxStack: bond === 1 ? 1 : bond === 2 ? 2 : 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value: bond === 1 ? 0.1 : bond === 2 ? 0.1 : 0.1,
+            },
+          },
+        },
+      };
+      triggerSkill(buff2, gameState, position);
+      if (bond > 1) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10139-ult-3',
+              name: '攻擊力',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 0.1,
+              },
+            },
+          ];
+        });
+      }
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 5.2
+          : bond === 2
+            ? 5.5
+            : bond === 3
+              ? 5.8
+              : bond === 4
+                ? 6.1
+                : 6.4,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
@@ -669,7 +772,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10803": "龍女 伊維絲",
     // "10804": "犬人族 朵拉",
     // "10805": "魅魔 撒芭絲",
-    // "10806": "美人魚 瑪蓮",
+    // "1010139": "美人魚 瑪蓮",
     // "10807": "流浪魔法師 尤依",
     // "10808": "黑暗精靈 索拉卡",
     // "10809": "怪盜 米雅",

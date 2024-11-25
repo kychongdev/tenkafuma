@@ -182,6 +182,17 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10137": "春情白兔 鈴蘭",
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
+    case '10139': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",

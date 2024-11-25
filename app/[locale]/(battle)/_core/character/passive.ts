@@ -990,6 +990,114 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10137": "春情白兔 鈴蘭",
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
+    case '10139': {
+      {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10139-passive-2',
+            // 必殺時，觸發「使自身當前必殺技CD減少2回合」
+            name: '必殺時，觸發「使自身當前必殺技CD減少2回合」',
+            type: 14,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _14: {
+              reduceCD: 2,
+              target: Target.SELF,
+            },
+          },
+          {
+            id: '10139-passive-3',
+            name: '必殺時，觸發「使自身造成傷害增加15%(最多2層)」',
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: '10139-passive-3-1',
+              target: Target.SELF,
+              applySkill: {
+                id: '10139-passive-3-1',
+                name: '造成傷害增加',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10139-passive-3-1',
+                  name: '造成傷害增加15%',
+                  value: 0.15,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10139-passive-4',
+            name: '第一回合時，觸發「使自身當前必殺技CD減少2回合」',
+            type: 14,
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            _14: {
+              reduceCD: 2,
+              target: Target.SELF,
+            },
+          },
+          {
+            id: '10139-passive-5',
+            name: '必殺時，觸發「使目標受到光屬性傷害增加20%(最多1層)」',
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: '10139-passive-5-1',
+              target: Target.ENEMY,
+              applySkill: {
+                id: '10139-passive-5-1',
+                name: '受到光屬性傷害增加',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10139-passive-5-1',
+                  name: '受到光屬性傷害增加20%',
+                  value: 0.2,
+                  stack: 1,
+                  maxStack: 1,
+                  affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10139-passive4',
+            name: '使自身必殺技傷害增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
