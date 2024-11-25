@@ -136,7 +136,7 @@ export function parseSkillName(buff: Skill) {
           return `屬性相剋減傷效果減少${buff._0.value * 100}%`;
         case AffectType.SUCK_HP_ON_DMG:
           return `造成傷害時會以傷害值${buff._0.value * 100}%回復自身HP`;
-        case AffectType.IMMUNE_DECREASE_HEAL:
+        case AffectType.IMMUNE_DECREASE_HEAL_RECEIVED:
           return buff.name;
       }
     }

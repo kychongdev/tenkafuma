@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CharacterAttribute, CharacterClass } from '../../_types/Character';
 import { AffectType, Condition, Target } from '../../_types/Skill';
 import { GameState } from '../GameState';

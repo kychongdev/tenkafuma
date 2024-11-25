@@ -6,7 +6,7 @@ import { routing } from '@/app/i18n/routing';
 
 type Props = {
   children: ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export function generateStaticParams() {
