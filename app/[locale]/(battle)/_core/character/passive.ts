@@ -1216,6 +1216,224 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10146": "魔獸獵手 神無雪",
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
+    case '10148': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '818-passive-1',
+          name: '被治療時，觸發「使我方全體攻擊者攻擊力增加2.5%(4回合)」',
+          type: 11,
+          condition: Condition.GET_HEAL,
+          duration: 100,
+          _11: {
+            target: Target.ATTACKER,
+            applySkill: [
+              {
+                id: '818-passive-1-1',
+                name: '攻擊力增加',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 4,
+                _0: {
+                  value: 0.025,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '818-passive-2',
+          name: '被治療時，觸發「使我方全體妨礙者攻擊力增加2.5%(4回合)」',
+          type: 11,
+          condition: Condition.GET_HEAL,
+          duration: 100,
+          _11: {
+            target: Target.OBSTRUCTER,
+            applySkill: [
+              {
+                id: '818-passive-2-1',
+                name: '攻擊力增加',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 4,
+                _0: {
+                  value: 0.025,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '818-passive-3',
+          name: '攻擊時，觸發「使自身普攻傷害增加10%(最多10層)」',
+          type: 4,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: '818-passive-3-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '818-passive-3-1',
+              name: '普攻傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '818-passive-3-1',
+                name: '普攻傷害增加',
+                stack: 1,
+                maxStack: 10,
+                value: 0.1,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '818-passive-4',
+            name: '第1回合時，觸發「使我方全體治療者的必殺技當前CD減少4回合」',
+            type: 14,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _14: {
+              target: Target.HEALER,
+              reduceCD: 4,
+            },
+          },
+        ];
+
+        gameState.characters.forEach((character, index) => {
+          if (character.class === CharacterClass.HEALER) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: '818-passive-5',
+                name: '攻擊時，觸發「使我方全體攻擊者造成傷害增加10%(1回合)」',
+                type: 11,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _11: {
+                  target: Target.ATTACKER,
+                  applySkill: [
+                    {
+                      id: '818-passive-5-1',
+                      name: '攻擊力增加',
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.1,
+                        affectType: AffectType.INCREASE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: '818-passive-6',
+                name: '攻擊時，觸發「使我方全體妨礙者造成傷害增加10%(1回合)」',
+                type: 11,
+                condition: Condition.GET_HEAL,
+                duration: 100,
+                _11: {
+                  target: Target.OBSTRUCTER,
+                  applySkill: [
+                    {
+                      id: '818-passive-6-1',
+                      name: '造成傷害增加',
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.1,
+                        affectType: AffectType.INCREASE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: '818-passive-6',
+                name: '攻擊時，使我方全體攻擊者、妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」',
+                type: 11,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _11: {
+                  target: Target.ATTACKER,
+                  applySkill: [
+                    {
+                      id: '818-passive-6-1',
+                      name: '普攻時，追加『以自身攻擊力10%對目標造成傷害』',
+                      type: 101,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _101: {
+                        value: 0.1,
+                        target: Target.ENEMY,
+                        damageType: DamageType.BASIC_ADDON,
+                        action: CharacterAction.BASIC,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: '818-passive-7',
+                name: '攻擊時，使我方全體妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」',
+                type: 11,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _11: {
+                  target: Target.OBSTRUCTER,
+                  applySkill: [
+                    {
+                      id: '818-passive-7-1',
+                      name: '普攻時，追加『以自身攻擊力10%對目標造成傷害』',
+                      type: 101,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _101: {
+                        value: 0.1,
+                        target: Target.ENEMY,
+                        damageType: DamageType.BASIC_ADDON,
+                        action: CharacterAction.BASIC,
+                      },
+                    },
+                  ],
+                },
+              },
+            ];
+          }
+        });
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '818-passive4',
+            name: '使自身普攻傷害增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10149": "千年靈狐 椿",
     case '10149': {
       gameState.characters[position].buff = [

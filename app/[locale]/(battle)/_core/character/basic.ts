@@ -219,8 +219,41 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10144": "夏日 凱薩",
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
+    case '10146': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10147": "魔物終結 鬼醉木",
+    case '10147': {
+      dealBasicHpDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10148": "酩酊狂歡 靜",
+    case '10148': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10149": "千年靈狐 椿",
     case '10149': {
       dealBasicDamage(

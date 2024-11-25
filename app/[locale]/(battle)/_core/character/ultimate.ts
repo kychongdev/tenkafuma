@@ -596,6 +596,87 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10146": "魔獸獵手 神無雪",
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
+    case '10148': {
+      const buff: Skill = {
+        id: '818-ult-1',
+        name: '受到水屬性傷害增加(最多2層)',
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: '818-ult-1-1',
+          target: Target.ENEMY,
+          applySkill: {
+            id: '818-ult-1-1',
+            name: '受到水屬性傷害增加(最多2層)',
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: '818-ult-1-1',
+              name: '受到水屬性傷害增加(最多2層)',
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.125
+                    : bond === 3
+                      ? 0.15
+                      : bond === 4
+                        ? 0.175
+                        : 0.2,
+            },
+          },
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '818-ult-2',
+          name: '普攻時，追加『以自身攻擊力110/125/140/155/170%對目標造成傷害』',
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 1.1
+                : bond === 2
+                  ? 1.25
+                  : bond === 3
+                    ? 1.4
+                    : bond === 4
+                      ? 1.55
+                      : 1.7,
+            target: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            action: CharacterAction.BASIC,
+          },
+        },
+      ];
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1
+          : bond === 2
+            ? 1.25
+            : bond === 3
+              ? 1.5
+              : bond === 4
+                ? 1.75
+                : 2,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10149": "千年靈狐 椿",
     case '10149': {
       gameState.characters.forEach((character, index) => {
