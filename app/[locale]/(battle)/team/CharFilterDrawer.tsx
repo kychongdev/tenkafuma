@@ -12,6 +12,8 @@ import { useState } from 'react';
 import characters from '@/data/characters.json';
 import _ from 'lodash';
 import { CharacterTeam } from '@/types/Select';
+import { CharacterAttribute, CharacterClass } from '../_types/Character';
+import { Toggle } from '@/components/ui/toggle';
 
 interface CharFilterDrawerProps {
   position: 0 | 1 | 2 | 3 | 4;
@@ -30,7 +32,17 @@ export const CharFilterDrawer = ({
     return value.available;
   });
 
-  const c = _.values(charList);
+  const [charClass, setCharClass] = useState<CharacterClass[]>([]);
+  const [attribute, setAttribute] = useState<CharacterAttribute[]>([]);
+
+  const charListFiltered = _.pickBy(charList, (value) => {
+    if (charClass.length === 0 && attribute.length === 0) return true;
+    return (
+      charClass.includes(value.class) || attribute.includes(value.attribute)
+    );
+  });
+
+  const c = _.values(charListFiltered);
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
@@ -56,12 +68,193 @@ export const CharFilterDrawer = ({
         </div>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-sm ">
+        <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle className="mb-2 flex items-center justify-center">
+            <DrawerTitle className="flex items-center justify-center">
               Select Character
             </DrawerTitle>
-            <div className="flex flex-row gap-2 flex-wrap">
+            <div className="grid grid-cols-5 w-full gap-2">
+              <Toggle
+                pressed={attribute.includes(CharacterAttribute.FIRE)}
+                onPressedChange={() => {
+                  setAttribute((prev) =>
+                    prev.includes(CharacterAttribute.FIRE)
+                      ? prev.filter((x) => x !== CharacterAttribute.FIRE)
+                      : [...prev, CharacterAttribute.FIRE],
+                  );
+                }}
+                className=""
+              >
+                <Image
+                  src="/icons/fire.jpg"
+                  width={30}
+                  height={30}
+                  alt="fire"
+                />
+              </Toggle>
+              <Toggle
+                pressed={attribute.includes(CharacterAttribute.WATER)}
+                onPressedChange={() => {
+                  setAttribute((prev) =>
+                    prev.includes(CharacterAttribute.WATER)
+                      ? prev.filter((x) => x !== CharacterAttribute.WATER)
+                      : [...prev, CharacterAttribute.WATER],
+                  );
+                }}
+              >
+                <Image
+                  src="/icons/water.jpg"
+                  width={30}
+                  height={30}
+                  alt="water"
+                />
+              </Toggle>
+              <Toggle
+                pressed={attribute.includes(CharacterAttribute.WIND)}
+                onPressedChange={() => {
+                  setAttribute((prev) =>
+                    prev.includes(CharacterAttribute.WIND)
+                      ? prev.filter((x) => x !== CharacterAttribute.WIND)
+                      : [...prev, CharacterAttribute.WIND],
+                  );
+                }}
+              >
+                <Image
+                  src="/icons/wind.jpg"
+                  width={30}
+                  height={30}
+                  alt="wind"
+                />
+              </Toggle>
+              <Toggle
+                pressed={attribute.includes(CharacterAttribute.DARK)}
+                onPressedChange={() => {
+                  setAttribute((prev) =>
+                    prev.includes(CharacterAttribute.DARK)
+                      ? prev.filter((x) => x !== CharacterAttribute.DARK)
+                      : [...prev, CharacterAttribute.DARK],
+                  );
+                }}
+              >
+                <Image
+                  src="/icons/dark.jpg"
+                  width={30}
+                  height={30}
+                  alt="dark"
+                />
+              </Toggle>
+              <Toggle
+                pressed={attribute.includes(CharacterAttribute.LIGHT)}
+                onPressedChange={() => {
+                  setAttribute((prev) =>
+                    prev.includes(CharacterAttribute.LIGHT)
+                      ? prev.filter((x) => x !== CharacterAttribute.LIGHT)
+                      : [...prev, CharacterAttribute.LIGHT],
+                  );
+                }}
+              >
+                <Image
+                  src="/icons/light.jpg"
+                  width={30}
+                  height={30}
+                  alt="light"
+                />
+              </Toggle>
+            </div>
+
+            <div className="grid grid-cols-5 w-full gap-2">
+              <Toggle
+                pressed={charClass.includes(CharacterClass.ATTACKER)}
+                onPressedChange={() => {
+                  setCharClass((prev) =>
+                    prev.includes(CharacterClass.ATTACKER)
+                      ? prev.filter((x) => x !== CharacterClass.ATTACKER)
+                      : [...prev, CharacterClass.ATTACKER],
+                  );
+                }}
+                className=""
+              >
+                <Image
+                  src="/icons/ui_attacker.png"
+                  width={30}
+                  height={30}
+                  alt="attacker"
+                />
+              </Toggle>
+              <Toggle
+                pressed={charClass.includes(CharacterClass.OBSTRUCTER)}
+                onPressedChange={() => {
+                  setCharClass((prev) =>
+                    prev.includes(CharacterClass.OBSTRUCTER)
+                      ? prev.filter((x) => x !== CharacterClass.OBSTRUCTER)
+                      : [...prev, CharacterClass.OBSTRUCTER],
+                  );
+                }}
+                className=""
+              >
+                <Image
+                  src="/icons/ui_obsructer.png"
+                  width={30}
+                  height={30}
+                  alt="obsructer"
+                />
+              </Toggle>
+              <Toggle
+                pressed={charClass.includes(CharacterClass.PROTECTOR)}
+                onPressedChange={() => {
+                  setCharClass((prev) =>
+                    prev.includes(CharacterClass.PROTECTOR)
+                      ? prev.filter((x) => x !== CharacterClass.PROTECTOR)
+                      : [...prev, CharacterClass.PROTECTOR],
+                  );
+                }}
+                className=""
+              >
+                <Image
+                  src="/icons/ui_protector.png"
+                  width={30}
+                  height={30}
+                  alt="protector"
+                />
+              </Toggle>
+              <Toggle
+                pressed={charClass.includes(CharacterClass.HEALER)}
+                onPressedChange={() => {
+                  setCharClass((prev) =>
+                    prev.includes(CharacterClass.HEALER)
+                      ? prev.filter((x) => x !== CharacterClass.HEALER)
+                      : [...prev, CharacterClass.HEALER],
+                  );
+                }}
+                className=""
+              >
+                <Image
+                  src="/icons/ui_healer.png"
+                  width={30}
+                  height={30}
+                  alt="healer"
+                />
+              </Toggle>
+              <Toggle
+                pressed={charClass.includes(CharacterClass.SUPPORT)}
+                onPressedChange={() => {
+                  setCharClass((prev) =>
+                    prev.includes(CharacterClass.SUPPORT)
+                      ? prev.filter((x) => x !== CharacterClass.SUPPORT)
+                      : [...prev, CharacterClass.SUPPORT],
+                  );
+                }}
+                className=""
+              >
+                <Image
+                  src="/icons/ui_supporter.png"
+                  width={30}
+                  height={30}
+                  alt="supporter"
+                />
+              </Toggle>
+            </div>
+            <div className="flex flex-row gap-2 flex-wrap my-4">
               {c.map((char) => {
                 return (
                   <Avatar
