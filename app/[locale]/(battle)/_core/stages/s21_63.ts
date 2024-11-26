@@ -728,99 +728,100 @@ export function s21_63_action(gameState: GameState) {
   // [触发条件：3n+2 回合，n≥0]
   //
 
-  if (gameState.turn !== 0 && (gameState.turn - 2) % 3 === 0) {
-    console.log('1 turn');
-    const hpSorted = hpSort(gameState.characters);
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[0],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[1],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[2],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[3],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[4],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
-  }
-  // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
-  // [触发条件：玩家位置9 存活]
-  else {
-    console.log('2 turn');
-    const hpSorted = hpSort(gameState.characters);
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[0],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[1],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[2],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[3],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealBasicDamage(
-      Target.ENEMY_1,
-      0.5,
-      gameState,
-      hpSorted[4],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
-    gameState.stage_state.last_turn_hp = gameState.enemies[0].hp;
-    return;
+  if (gameState.turn !== 0) {
+    if ((gameState.turn - 2) % 3 === 0) {
+      const hpSorted = hpSort(gameState.characters);
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[0],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[1],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[2],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[3],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[4],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
+    }
+    // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
+    // [触发条件：玩家位置9 存活]
+    else {
+      console.log('2 turn');
+      const hpSorted = hpSort(gameState.characters);
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[0],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[1],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[2],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[3],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      dealBasicDamage(
+        Target.ENEMY_1,
+        0.5,
+        gameState,
+        hpSorted[4],
+        DamageType.ULTIMATE,
+        CharacterAction.SKILL,
+      );
+      parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
+      gameState.stage_state.last_turn_hp = gameState.enemies[0].hp;
+      return;
+    }
   }
 
   // [Act12]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：玩家最大HP最高者]  [优先级：10]
