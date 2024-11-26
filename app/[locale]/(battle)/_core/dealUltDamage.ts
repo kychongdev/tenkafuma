@@ -49,7 +49,7 @@ export function dealUltDamage(
   let defenderAttribute = CharacterAttribute.NONE;
   let defenderId = '';
   let defenderisGuard = false;
-  let defenderDefEffect = 1;
+  let defenderDefEffect = 0.5;
 
   // const attributeNum = parseAttribute(attackerAttribute, defenderAttribute);
 
@@ -749,28 +749,28 @@ export function dealUltDamage(
         buff.type === 0 &&
         buff._0?.affectType === AffectType.DECREASE_GUARD_EFFECT
       ) {
-        defenderDefEffect -= buff._0?.value;
+        defenderDefEffect += buff._0?.value;
       }
 
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.DECREASE_GUARD_EFFECT
       ) {
-        defenderDefEffect -= buff._3?.value * buff._3?.stack;
+        defenderDefEffect += buff._3?.value * buff._3?.stack;
       }
 
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.INCREASE_GUARD_EFFECT
       ) {
-        defenderDefEffect += buff._0?.value;
+        defenderDefEffect -= buff._0?.value;
       }
 
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.INCREASE_GUARD_EFFECT
       ) {
-        defenderDefEffect += buff._3?.value * buff._3?.stack;
+        defenderDefEffect -= buff._3?.value * buff._3?.stack;
       }
     }
 
@@ -783,7 +783,6 @@ export function dealUltDamage(
             attributeDamage *
             // attributeNum *
             value *
-            0.5 *
             defenderDefEffect
         : (Math.floor(attackerAtk * atkPercentage) + rawAtk) *
             ultBuff *
@@ -803,7 +802,6 @@ export function dealUltDamage(
             attributeDamage *
             // attributeNum *
             value *
-            0.5 *
             defenderDefEffect
         : (Math.floor(attackerAtk * atkPercentage) + rawAtk) *
             ultBuff *
