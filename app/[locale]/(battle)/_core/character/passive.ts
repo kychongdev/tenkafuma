@@ -1214,6 +1214,191 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10144": "夏日 凱薩",
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
+    case '10146': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10146-passive-1',
+          name: '普攻時，觸發「使自身攻擊力增加40%(最多2層)」',
+          type: 4,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: '10146-passive-1-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10146-passive-1-1',
+              name: '攻擊力增加40%',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10146-passive-1-1',
+                name: '攻擊力增加',
+                stack: 1,
+                maxStack: 2,
+                value: 0.4,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: '10146-passive-2',
+          name: '必殺時，觸發「清除自身《屏氣凝神》的攻擊力增加效果」',
+          type: 20,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _20: {
+            target: Target.ALL_ALLIES,
+            targetChar: '10146',
+            targetSkill: '10146-passive-1-1',
+            clearAll: true,
+          },
+        },
+        {
+          id: '10146-passive-3',
+          name: '造成傷害增加15%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.15,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+      ];
+      gameState.characters.forEach((character, index) => {
+        if (
+          index !== position &&
+          (character.class === CharacterClass.ATTACKER ||
+            character.class === CharacterClass.OBSTRUCTER)
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10146-passive-4',
+              name: '第一回合時，觸發「使自身造成傷害增加15%(50回合)」',
+              type: 12,
+              condition: Condition.ON_TURN_START,
+              duration: 100,
+              _12: {
+                position: index,
+                applySkill: {
+                  id: '10146-passive-4-1',
+                  name: '造成傷害增加15%',
+                  type: 0,
+                  duration: 50,
+                  condition: Condition.NONE,
+                  _0: {
+                    value: 0.15,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              },
+            },
+            {
+              id: '10146-passive-5',
+              name: '第一回合時，觸發「使『魔獸獵手 神無雪』造成傷害增加15%(50回合)」',
+              type: 13,
+              condition: Condition.ON_TURN_START,
+              duration: 100,
+              _13: {
+                target: '10146',
+                applySkill: [
+                  {
+                    id: '10146-passive-5-1',
+                    name: '造成傷害增加15%',
+                    type: 0,
+                    duration: 50,
+                    condition: Condition.NONE,
+                    _0: {
+                      value: 0.15,
+                      affectType: AffectType.INCREASE_DMG,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10146-passive-6',
+            name: '每經過一回合時，觸發「使自身獲得『摒除雜念(最多8層)』」',
+            type: 19,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _19: {
+              target: Target.SELF,
+              increaseStack: 1,
+              targetSkill: '10146-passive-6-1',
+              applySkill: {
+                id: '10146-passive-6-1',
+                name: '摒除雜念',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10146-passive-6-1',
+                  name: '摒除雜念',
+                  stack: 1,
+                  maxStack: 8,
+                  affectType: AffectType.NONE,
+                  value: 0,
+                },
+              },
+              checkActivation: [
+                {
+                  characterId: '10146',
+                  checkSkillId: '10146-passive-6-1',
+                  skillStackCondition: SkillStackCondition.HIGHER,
+                  activateIfStack: 7,
+                  activateSkillId: '10146-passive-7',
+                },
+              ],
+            },
+          },
+          {
+            id: '10146-passive-7',
+            name: '必殺時，追加『以自身攻擊力220%對目標造成傷害',
+            type: 101,
+            condition: Condition.ULTIMATE,
+            deactivated: true,
+            duration: 100,
+            _101: {
+              value: 2.2,
+              target: Target.ENEMY,
+              damageType: DamageType.ULTIMATE,
+              action: CharacterAction.BASIC,
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10146-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10147": "魔物終結 鬼醉木",
     case '10147': {
       gameState.characters[position].buff = [

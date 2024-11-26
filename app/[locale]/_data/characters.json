@@ -1302,9 +1302,9 @@
   "10146": {
     "id": 10146,
     "name": "魔獸獵手 神無雪",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3852.8,
+    "initAtk": 915.2,
+    "attribute": 9,
     "class": 11,
     "available": false,
     "cd": 4

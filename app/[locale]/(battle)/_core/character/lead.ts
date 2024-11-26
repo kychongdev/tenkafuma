@@ -602,6 +602,145 @@ export function triggerLead(gameState: GameState) {
     // "10144": "夏日 凱薩",
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
+    case '10146': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10146-Lead-1',
+            name: '最大HP增加30%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+          {
+            id: '10146-Lead-2',
+            name: '攻擊力增加50%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: '10146-Lead-3',
+          name: '必殺時，追加『以自身攻擊力80%對目標造成傷害',
+          type: 101,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _101: {
+            value: 0.8,
+            action: CharacterAction.BASIC,
+            target: Target.ENEMY,
+            damageType: 1,
+          },
+        },
+      ];
+
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10146-Lead-4',
+              name: '第一回合時，觸發「以自身基礎攻擊力10%使我方全體攻擊力增加(50回合)」',
+              type: 6,
+              condition: Condition.ON_TURN_START,
+              conditionTurn: 1,
+              duration: 100,
+              _6: {
+                value: 0.1,
+                affectType: AffectType.RAW_ATK,
+                target: Target.ALL_ALLIES,
+                duration: 50,
+                base: true,
+              },
+            },
+            {
+              id: '10146-Lead-5',
+              name: '第五回合時，觸發「使自身必殺技傷害增加50%(最多1層)」',
+              type: 11,
+              condition: Condition.ON_SPECIFIC_TURN,
+              conditionTurn: 5,
+              duration: 100,
+              _11: {
+                target: Target.SELF,
+                applySkill: [
+                  {
+                    id: '10146-Lead-5-1',
+                    name: '「必殺技傷害增加50%(最多1層)」',
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: '10146-Lead-5-1',
+                      name: '「必殺技傷害增加50%(最多1層)」',
+                      stack: 1,
+                      maxStack: 1,
+                      value: 0.5,
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: '10146-Lead-6',
+              name: '第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」',
+              type: 21,
+              condition: Condition.ON_SPECIFIC_TURN,
+              conditionTurn: 9,
+              duration: 100,
+              _21: {
+                trigger: [
+                  {
+                    id: '10146-Lead-6-1',
+                    name: '第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」',
+                    type: 4,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _4: {
+                      increaseStack: 1,
+                      target: Target.ENEMY,
+                      targetSkill: '10146-Lead-6-1-1',
+                      applySkill: {
+                        id: '10146-Lead-6-1-1',
+                        name: '受到傷害增加33%(最多3層)',
+                        type: 3,
+                        condition: Condition.NONE,
+                        duration: 100,
+                        _3: {
+                          id: '10146-Lead-6-1-1',
+                          name: '受到傷害增加33%(最多3層)',
+                          stack: 1,
+                          maxStack: 3,
+                          value: 0.33,
+                          affectType: AffectType.INCREASE_DMG_RECEIVED,
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     case '10148': {

@@ -1582,10 +1582,8 @@ export function triggerSkill(
             if (!buffIndex || buffIndex == -1) {
               break;
             }
-            console.log('buffIndex', buffIndex);
             const clone = [...gameState.enemies[charIndex].buff];
             clone.splice(buffIndex, 1);
-            console.log('clone', clone);
             gameState.enemies[charIndex].buff = clone;
           }
 
