@@ -293,14 +293,14 @@ export const CharStatsSelect = ({
                   render={({ field }) => (
                     <Toggle
                       type="button"
-                      // className="bg-red-300 data-[state=on]:bg-green-300"
+                      className="data-[state=off]:bg-red-300 data-[state=on]:bg-green-300 "
                       variant="outline"
                       aria-label="Toggle passive4"
                       pressed={field.value}
                       onPressedChange={field.onChange}
                       // {...register(`${position}.isPot6`)}
                     >
-                      {t('PASSIVE4')}
+                      <div className="text-black">{t('PASSIVE4')}</div>
                     </Toggle>
                   )}
                 />
