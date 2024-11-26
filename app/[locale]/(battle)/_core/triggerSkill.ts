@@ -928,7 +928,6 @@ export function triggerSkill(
             break;
           }
           for (let i = 0; i < skillStackNum._3.stack; i++) {
-            console.log(i);
             triggerSkill(buff._8.triggerSkill, gameState, buff._8.target);
           }
         }
@@ -1027,7 +1026,6 @@ export function triggerSkill(
               console.log("_11 Apply buff don't exist");
               return;
             }
-            console.log(p(buff._11.applySkill));
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               ...buff._11.applySkill,

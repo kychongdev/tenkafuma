@@ -652,9 +652,10 @@ export function s21_63_action(gameState: GameState) {
   // 以自身攻击力400%对敌方最大HP最高者造成伤害
   // 以自身攻击力250%对敌方最大HP第四高者造成伤害
   if (
-    gameState.turn !== 0 &&
-    (gameState.turn - 1) % 3 === 0 &&
-    (gameState.turn - 1) % 5 !== 0
+    (gameState.turn !== 0 &&
+      (gameState.turn - 1) % 3 === 0 &&
+      (gameState.turn - 1) % 5 !== 0) ||
+    gameState.turn === 1
   ) {
     const hpSorted = maxHpSort(gameState.characters);
     dealUltDamage(
@@ -829,8 +830,6 @@ export function s21_63_action(gameState: GameState) {
   // [台词]  在时间到之前可不能射出来喔～
   // [技能]：自控力测试
   // 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
-  console.log('gameState.turn', gameState.turn);
-  console.log('gameState.turn % 3', (gameState.turn - 2) % 3);
   if ((gameState.turn - 2) % 3 === 0) {
     const randomPos = Math.floor(Math.random() * 4);
     const hpSorted = maxHpSort(gameState.characters);
