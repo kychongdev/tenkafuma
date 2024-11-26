@@ -73,7 +73,7 @@ export const CharFilterDrawer = ({
             <DrawerTitle className="flex items-center justify-center">
               Select Character
             </DrawerTitle>
-            <div className="grid grid-cols-5 w-full gap-2">
+            <div className="grid grid-cols-5 w-full gap-2 ">
               <Toggle
                 pressed={attribute.includes(CharacterAttribute.FIRE)}
                 onPressedChange={() => {
@@ -83,7 +83,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.FIRE],
                   );
                 }}
-                className=""
+                className="border-white border-solid border-2 rounded"
               >
                 <Image
                   src="/icons/fire.jpg"
@@ -101,6 +101,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.WATER],
                   );
                 }}
+                className="border-white border-solid border-2 rounded"
               >
                 <Image
                   src="/icons/water.jpg"
@@ -118,6 +119,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.WIND],
                   );
                 }}
+                className="border-white border-solid border-2 rounded"
               >
                 <Image
                   src="/icons/wind.jpg"
@@ -135,6 +137,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.DARK],
                   );
                 }}
+                className="border-white border-solid border-2 rounded"
               >
                 <Image
                   src="/icons/dark.jpg"
@@ -152,6 +155,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.LIGHT],
                   );
                 }}
+                className="border-white border-solid border-2 rounded "
               >
                 <Image
                   src="/icons/light.jpg"

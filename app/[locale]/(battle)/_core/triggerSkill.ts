@@ -928,6 +928,7 @@ export function triggerSkill(
             break;
           }
           for (let i = 0; i < skillStackNum._3.stack; i++) {
+            console.log(i);
             triggerSkill(buff._8.triggerSkill, gameState, buff._8.target);
           }
         }
@@ -1583,9 +1584,11 @@ export function triggerSkill(
             if (!buffIndex || buffIndex == -1) {
               break;
             }
+            console.log('buffIndex', buffIndex);
             const clone = [...gameState.enemies[charIndex].buff];
             clone.splice(buffIndex, 1);
-            gameState.enemies[position].buff = clone;
+            console.log('clone', clone);
+            gameState.enemies[charIndex].buff = clone;
           }
 
           if (buff._20.clearStack && buff._20.clearStack > 0) {

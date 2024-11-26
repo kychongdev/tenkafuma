@@ -607,7 +607,61 @@ export function triggerLead(gameState: GameState) {
     case '10148': {
       // 我方全體最大HP增加40%
       // 我方全體攻擊力增加50%
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10148-Lead-1',
+            name: '最大HP增加40%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: '10148-Lead-2',
+            name: '攻擊力增加50%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
       // 我方全體攻擊者、妨礙者獲得「我方隊伍治療者角色有2人以上時，發動《再來一杯～》」
+      //
+
+      const twoHealerCondition = [CharacterClass.HEALER, CharacterClass.HEALER];
+
+      gameState.characters.forEach((character) => {
+        if (twoHealerCondition.includes(character.class)) {
+          const index = twoHealerCondition.indexOf(character.class);
+          if (index !== -1) {
+            twoHealerCondition.splice(
+              twoHealerCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+      if (twoHealerCondition.length === 0) {
+        gameState.characters.forEach((character, index) => {
+          if (
+            character.class === CharacterClass.ATTACKER ||
+            character.class === CharacterClass.OBSTRUCTER
+          ) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+            ];
+          }
+        });
+      }
       // 我方全體治療者獲得「我方隊伍治療者角色有2人以上時，發動《調皮狐娘》」
       //
       // 《再來一杯～》

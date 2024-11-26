@@ -63,7 +63,7 @@ export function onTurnStart(gameState: GameState) {
 export function endTurn(state: GameState) {
   state.enemies.forEach((enemy, index) => {
     enemy.buff.forEach((buff) => {
-      if (buff.duration && buff.type === 0 && buff.duration !== 100) {
+      if (buff.duration && buff.duration !== 100) {
         buff.duration -= 1;
       }
     });

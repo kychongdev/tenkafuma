@@ -615,10 +615,10 @@ export function s21_63_action(gameState: GameState) {
           triggerSkill: {
             id: '42228-act06-1-1',
             name: '以自身攻击力50%对敌方全体造成伤害',
-            type: 101,
+            type: 1,
             condition: Condition.NONE,
             duration: 100,
-            _101: {
+            _1: {
               target: Target.ALL_ALLIES,
               value: 0.5,
               damageType: DamageType.TRIGGER,
@@ -632,10 +632,10 @@ export function s21_63_action(gameState: GameState) {
         name: '普攻时，触发『清除自身《精力补充》的所有层数』(1回合)',
         type: 20,
         condition: Condition.ENEMY_BASIC_ATTACK,
-        duration: 100,
+        duration: 1,
         _20: {
           target: Target.ENEMY,
-          targetSkill: '42228-act06-2-1',
+          targetSkill: '42228-passive-8-1',
           targetChar: '42228',
           clearAll: true,
         },
