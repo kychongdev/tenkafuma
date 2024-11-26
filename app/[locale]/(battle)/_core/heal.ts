@@ -134,7 +134,7 @@ function parseHealTarget(
         }
 
         console.log('heal', heal * healReceived);
-        character.hp += heal * healReceived;
+        character.hp = Math.floor(character.hp + heal * healReceived);
         if (character.hp > character.maxHp) {
           character.hp = character.maxHp;
         }
