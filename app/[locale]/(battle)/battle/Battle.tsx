@@ -139,7 +139,7 @@ export default function Battle() {
 
           <Button
             onClick={() => {
-              router.push('/stats');
+              router.push('/battle/stats');
             }}
           >
             Stats
