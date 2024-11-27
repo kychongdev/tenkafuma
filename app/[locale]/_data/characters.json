@@ -1212,11 +1212,11 @@
   "10137": {
     "id": 10137,
     "name": "春情白兔 鈴蘭",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3683.2,
+    "initAtk": 956.8,
+    "attribute": 7,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4
   },
   "10138": {

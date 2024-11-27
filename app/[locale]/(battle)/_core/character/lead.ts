@@ -849,6 +849,116 @@ export function triggerLead(gameState: GameState) {
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
+    case '10137': {
+      gameState.characters.forEach((character, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10137-Lead-1',
+            name: '最大HP增加30%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+        ];
+        if (
+          character.attribute === CharacterAttribute.WIND &&
+          (character.class === CharacterClass.ATTACKER ||
+            character.class === CharacterClass.PROTECTOR ||
+            character.class === CharacterClass.OBSTRUCTER)
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10137-Lead-2',
+              name: '普攻時，觸發「使我方全體攻擊力增加6%(最多18層)」',
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                target: Target.ALL_ALLIES,
+                increaseStack: 1,
+                targetSkill: '10137-Lead-2-1',
+                applySkill: {
+                  id: '10137-Lead-2-1',
+                  name: '攻擊力增加6%',
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: '10137-Lead-2-1',
+                    name: '攻擊力增加6%',
+                    value: 0.06,
+                    stack: 1,
+                    maxStack: 18,
+                    affectType: AffectType.INCREASE_ATK,
+                  },
+                },
+              },
+            },
+            {
+              id: '10137-Lead-3',
+              name: '普攻時，觸發「使我方全體普攻傷害增加6%(最多18層)」',
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                target: Target.ALL_ALLIES,
+                increaseStack: 1,
+                targetSkill: '10137-Lead-3-1',
+                applySkill: {
+                  id: '10137-Lead-3-1',
+                  name: '普攻傷害增加6%',
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: '10137-Lead-3-1',
+                    name: '普攻傷害增加6%',
+                    stack: 1,
+                    maxStack: 18,
+                    value: 0.06,
+                    affectType: AffectType.INCREASE_BASIC_DMG,
+                  },
+                },
+              },
+            },
+            {
+              id: '10137-Lead-4',
+              name: '普攻時，觸發「使我方全體造成傷害增加2%(最多18層)」',
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                target: Target.ALL_ALLIES,
+                increaseStack: 1,
+                targetSkill: '10137-Lead-4-1',
+                applySkill: {
+                  id: '10137-Lead-4-1',
+                  name: '造成傷害增加2%',
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: '10137-Lead-4-1',
+                    name: '造成傷害增加2%',
+                    stack: 1,
+                    maxStack: 18,
+                    value: 0.02,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
     // "10140": "真神化身 菈萊亞 菈萊亞",

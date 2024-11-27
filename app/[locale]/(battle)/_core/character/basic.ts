@@ -210,6 +210,30 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
+    case '10137': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '805-basic-1',
+          name: '攻擊力',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value: 0.5,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+      dealBasicDamage(
+        position,
+        0.7,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+    }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
     case '10139': {

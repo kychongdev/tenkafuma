@@ -519,6 +519,111 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
+    case '10137': {
+      gameState.enemies[gameState.targeting].buff = [
+        ...gameState.enemies[gameState.targeting].buff,
+        {
+          id: '10137-ult-1',
+          name: '受到傷害增加(4回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.2
+                : bond === 2
+                  ? 0.25
+                  : bond === 3
+                    ? 0.3
+                    : bond === 4
+                      ? 0.35
+                      : 0.4,
+          },
+        },
+      ];
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER ||
+          character.class === CharacterClass.PROTECTOR
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10137-ult-2',
+              name: `普攻時，追加『以自身攻擊力${
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.3
+              }%對目標造成傷害』`,
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 4,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.1
+                    : bond === 2
+                      ? 0.15
+                      : bond === 3
+                        ? 0.2
+                        : bond === 4
+                          ? 0.25
+                          : 0.3,
+                target: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                action: CharacterAction.BASIC,
+              },
+            },
+          ];
+        }
+      });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10137-ult-3',
+          name: `普攻時，追加『以自身攻擊力${
+            bond === 1
+              ? 20
+              : bond === 2
+                ? 30
+                : bond === 3
+                  ? 40
+                  : bond === 4
+                    ? 50
+                    : 60
+          }%對目標造成傷害』`,
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 0.2
+                : bond === 2
+                  ? 0.3
+                  : bond === 3
+                    ? 0.4
+                    : bond === 4
+                      ? 0.5
+                      : 0.6,
+            damageType: DamageType.BASIC_ADDON,
+            action: CharacterAction.BASIC,
+            target: Target.ENEMY,
+          },
+        },
+      ];
+      break;
+    }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
     case '10139': {
@@ -1487,7 +1592,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10803": "龍女 伊維絲",
     // "10804": "犬人族 朵拉",
     // "10805": "魅魔 撒芭絲",
-    // "1010139": "美人魚 瑪蓮",
+    // "10806": "美人魚 瑪蓮",
     // "10807": "流浪魔法師 尤依",
     // "10808": "黑暗精靈 索拉卡",
     // "10809": "怪盜 米雅",
