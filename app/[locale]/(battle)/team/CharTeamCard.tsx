@@ -33,6 +33,7 @@ export const CharTeamCard = ({
                 width={70}
                 height={70}
                 alt=""
+                priority
               />
               <Image
                 className="h-full rounded-md"
@@ -40,6 +41,7 @@ export const CharTeamCard = ({
                 width={70}
                 height={70}
                 alt=""
+                priority
               />
               <Image
                 className="h-full rounded-md"
@@ -47,6 +49,7 @@ export const CharTeamCard = ({
                 width={70}
                 height={70}
                 alt=""
+                priority
               />
               <Image
                 className="h-full rounded-md"
@@ -54,6 +57,7 @@ export const CharTeamCard = ({
                 width={70}
                 height={70}
                 alt=""
+                priority
               />
               <Image
                 className="h-full rounded-md"
@@ -61,6 +65,7 @@ export const CharTeamCard = ({
                 width={70}
                 height={70}
                 alt=""
+                priority
               />
             </div>
           </CardContent>

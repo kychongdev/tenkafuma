@@ -139,6 +139,13 @@ export default function Battle() {
 
           <Button
             onClick={() => {
+              router.push('/stats');
+            }}
+          >
+            Stats
+          </Button>
+          <Button
+            onClick={() => {
               debug();
             }}
           >

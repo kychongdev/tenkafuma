@@ -16,7 +16,7 @@ export const CharacterButton = ({ position }: { position: number }) => {
     <div>
       <Progress
         value={(character.hp / character.maxHp) * 100}
-        className="w-full rounded-none"
+        className="w-full rounded-none [&>*]:bg-green-500"
       />
       <Image
         className={`border-solid border-2 border-white ${isMoveable(character) ? '' : 'opacity-50'}`}
