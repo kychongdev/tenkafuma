@@ -258,7 +258,10 @@ export const useGameState = create<GameState>()(
             stage_state: p(state.stage_state),
           };
           state.undo.push(prevState);
-          state.action.push({ position, targeting: state.targeting });
+          state.action.push({
+            position: position + 5,
+            targeting: state.targeting,
+          });
           state.characters[position].isMoved = true;
           state.characters[position].cd = state.characters[position].maxCd;
 
@@ -308,7 +311,10 @@ export const useGameState = create<GameState>()(
             stage_state: p(state.stage_state),
           };
           state.undo.push(prevState);
-          state.action.push({ position, targeting: state.targeting });
+          state.action.push({
+            position: position + 10,
+            targeting: state.targeting,
+          });
           state.characters[position].isGuard = true;
           parseConditionAddon(
             position,

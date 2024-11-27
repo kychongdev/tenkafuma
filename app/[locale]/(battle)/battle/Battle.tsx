@@ -15,10 +15,11 @@ import { CharacterButton } from './CharacterButton';
 import { Button } from '@/components/ui/button';
 import { useRouter } from '@/app/i18n/routing';
 import { useEffect, useState } from 'react';
-import { f } from '../_core/utils';
+import { f, p } from '../_core/utils';
 import { BattleControlDrawer } from './BattleControlDrawer';
 import { BattleLog } from './BattleLog';
 import { EnemyStatus } from './EnemyStatus';
+import { useSimulateTeamState } from '../_core/SimulateTeamState';
 
 export default function Battle() {
   const t = useTranslations('Battle');
@@ -36,7 +37,15 @@ export default function Battle() {
     select,
     undoLastAction,
     debug,
+    action,
+    damage_log_1,
+    damage_log_2,
+    damage_log_3,
+    damage_log_4,
+    damage_log_5,
   } = useGameState((state) => state);
+
+  const { saveToTeam } = useSimulateTeamState((state) => state);
 
   useEffect(() => {
     if (!api) {
@@ -136,7 +145,6 @@ export default function Battle() {
           >
             Undo
           </Button>
-
           <Button
             onClick={() => {
               router.push('/battle/stats');
@@ -150,6 +158,31 @@ export default function Battle() {
             }}
           >
             Debug
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 mt-2">
+          <Button
+            onClick={() => {
+              if (select) {
+                saveToTeam(
+                  p(select),
+                  p(action),
+                  p({
+                    damage_log_1,
+                    damage_log_2,
+                    damage_log_3,
+                    damage_log_4,
+                    damage_log_5,
+                  }),
+                  p(turn),
+                );
+              } else {
+                console.log('no team selected');
+              }
+            }}
+          >
+            Save To Analysis
           </Button>
         </div>
       </div>

@@ -1,12 +1,12 @@
 'use client';
 
 import { ClientOnly } from '@/components/ClientOnly';
-import Simulate from './Simulate';
+import SimulateTeam from './SimulateTeam';
 
 export default function SimulatePage() {
   return (
     <ClientOnly>
-      <Simulate />
+      <SimulateTeam />
     </ClientOnly>
   );
 }

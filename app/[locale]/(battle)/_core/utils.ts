@@ -119,8 +119,8 @@ export function parseSkillName(buff: Skill) {
           const char = buff._0.specificCharId;
           if (char) {
             //@ts-ignore
-            const charName = characterJson.name[char];
-            return `受到${charName}傷害增加${buff._0.value * 100}%`;
+            const charName = characterJson[char];
+            return `受到${charName.name}傷害增加${buff._0.value * 100}%`;
           } else {
             return '受到特定角色傷害增加';
           }
@@ -248,8 +248,8 @@ export function parseSkillName(buff: Skill) {
           const char = buff._3.specificCharId;
           if (char) {
             //@ts-ignore
-            const charName = characterJson.name[char];
-            return `受到「${charName}」傷害增加${
+            const charName = characterJson[char];
+            return `受到「${charName.name}」傷害增加${
               buff._3.value * buff._3.stack * 100
             }%`;
           } else {
