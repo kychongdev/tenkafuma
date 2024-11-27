@@ -6,7 +6,7 @@ import {
 } from '@/types/Character';
 import { GameState } from '../GameState';
 
-export function triggerlead(gameState: GameState) {
+export function triggerLead(gameState: GameState) {
   const leader = gameState.characters[0].id;
   switch (leader) {
     // "10001": "魔王 巴爾",
