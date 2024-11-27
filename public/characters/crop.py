@@ -2,7 +2,7 @@ from PIL import Image
 import os
 
 # Define the input and output folder paths
-input_folder = "./full"
+input_folder = "./new"
 output_folder = "./square"
 
 # Create the output folder if it doesn't exist
