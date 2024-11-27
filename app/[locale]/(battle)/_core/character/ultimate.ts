@@ -327,6 +327,42 @@ export function ultimateAttack(gameState: GameState, position: number) {
     }
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
+    case '10117': {
+      dealUltDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10117-ult-1',
+          name: '普攻時，追加『以自身攻擊力96/115/135/154/173%對目標造成傷害』(4回合)',
+          type: 1,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _1: {
+            value:
+              bond === 1
+                ? 0.96
+                : bond === 2
+                  ? 1.15
+                  : bond === 3
+                    ? 1.35
+                    : bond === 4
+                      ? 1.54
+                      : 1.73,
+            target: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            action: CharacterAction.BASIC,
+          },
+        },
+      ];
+      break;
+    }
     // "10118": "夏日 菲歐菈",
     case '10118': {
       gameState.characters[position].buff = [

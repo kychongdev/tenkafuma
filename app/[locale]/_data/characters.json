@@ -1012,11 +1012,11 @@
   "10117": {
     "id": 10117,
     "name": "夏日 巴爾",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3299.2,
+    "initAtk": 1068.8,
+    "attribute": 6,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4
   },
   "10118": {
