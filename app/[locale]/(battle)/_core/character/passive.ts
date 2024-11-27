@@ -1105,7 +1105,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: '10139-passive-2',
-            // 必殺時，觸發「使自身當前必殺技CD減少2回合」
             name: '必殺時，觸發「使自身當前必殺技CD減少2回合」',
             type: 14,
             condition: Condition.ULTIMATE,
@@ -1213,6 +1212,9 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
     // "10145": "夏日 撒旦",
+    case '10145': {
+      break;
+    }
     // "10146": "魔獸獵手 神無雪",
     case '10146': {
       gameState.characters[position].buff = [
@@ -1404,7 +1406,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: '817-passive-1',
+          id: '10147-passive-1',
           name: '必殺時，觸發「使自身以外的我方全體獲得《享受大餐》」',
           type: 11,
           condition: Condition.ULTIMATE,
@@ -1413,7 +1415,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.ALL_EXCEPT_SELF,
             applySkill: [
               {
-                id: '817-passive-1-1',
+                id: '10147-passive-1-1',
                 name: '攻擊力增加100%',
                 type: 0,
                 condition: Condition.NONE,
@@ -1424,7 +1426,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 },
               },
               {
-                id: '817-passive-1-2',
+                id: '10147-passive-1-2',
                 name: '普攻傷害增加100%',
                 type: 0,
                 condition: Condition.NONE,
@@ -1435,16 +1437,16 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 },
               },
               {
-                id: '817-passive-1-3',
+                id: '10147-passive-1-3',
                 name: '行動後，觸發「清除自身以外的我方全體《享受大餐》的所有效果」(2回合)(觸發1次後解除)',
                 type: 24,
                 condition: Condition.MOVE,
                 duration: 2,
                 _24: {
                   clearSkill: [
-                    '817-passive-1-1',
-                    '817-passive-1-2',
-                    '817-passive-1-3',
+                    '10147-passive-1-1',
+                    '10147-passive-1-2',
+                    '10147-passive-1-3',
                   ],
                   target: Target.ALL_EXCEPT_SELF,
                 },
@@ -1454,18 +1456,10 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
         },
       ];
-
-      // 《醃製內臟乾》
-      // 行動後，觸發「使自身受到傷害減少20%(1回合)，並清除自身以外的我方全體《醃製內臟乾》的效果」(1回合)(觸發1次後解除)
-
-      // 使我方站位2獲得「必殺時，觸發『《魔物肢解》』」
-      // 《魔物肢解》
-      // 使目標受到必殺技傷害增加100%(1回合)
-      // 使目標被治療時回復量減少20%(4回合)
       if (gameState.characters[position].stars === 5) {
         {
           const buff: Skill = {
-            id: '817-passive-3',
+            id: '10147-passive-3',
             name: '《魔物肢解》',
             type: 12,
             duration: 100,
@@ -1473,7 +1467,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             _12: {
               position: 1,
               applySkill: {
-                id: '817-passive-3',
+                id: '10147-passive-3',
                 name: '使目標受到必殺技傷害增加100%(1回合)',
                 type: 11,
                 condition: Condition.ULTIMATE,
@@ -1482,7 +1476,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ENEMY,
                   applySkill: [
                     {
-                      id: '817-passive-3-1',
+                      id: '10147-passive-3-1',
                       name: '受到必殺技傷害增加',
                       type: 0,
                       condition: Condition.NONE,
@@ -1505,7 +1499,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: '817-passive4',
+            id: '10147-passive4',
             name: '使自身攻擊力增加10%',
             type: 0,
             condition: Condition.NONE,
@@ -1524,7 +1518,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: '818-passive-1',
+          id: '10148-passive-1',
           name: '被治療時，觸發「使我方全體攻擊者攻擊力增加2.5%(4回合)」',
           type: 11,
           condition: Condition.GET_HEAL,
@@ -1533,7 +1527,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.ATTACKER,
             applySkill: [
               {
-                id: '818-passive-1-1',
+                id: '10148-passive-1-1',
                 name: '攻擊力增加',
                 type: 0,
                 condition: Condition.NONE,
@@ -1547,7 +1541,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
         },
         {
-          id: '818-passive-2',
+          id: '10148-passive-2',
           name: '被治療時，觸發「使我方全體妨礙者攻擊力增加2.5%(4回合)」',
           type: 11,
           condition: Condition.GET_HEAL,
@@ -1556,7 +1550,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.OBSTRUCTER,
             applySkill: [
               {
-                id: '818-passive-2-1',
+                id: '10148-passive-2-1',
                 name: '攻擊力增加',
                 type: 0,
                 condition: Condition.NONE,
@@ -1570,23 +1564,23 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
         },
         {
-          id: '818-passive-3',
+          id: '10148-passive-3',
           name: '攻擊時，觸發「使自身普攻傷害增加10%(最多10層)」',
           type: 4,
           condition: Condition.ATTACK,
           duration: 100,
           _4: {
             increaseStack: 1,
-            targetSkill: '818-passive-3-1',
+            targetSkill: '10148-passive-3-1',
             target: Target.SELF,
             applySkill: {
-              id: '818-passive-3-1',
+              id: '10148-passive-3-1',
               name: '普攻傷害增加',
               type: 3,
               condition: Condition.NONE,
               duration: 100,
               _3: {
-                id: '818-passive-3-1',
+                id: '10148-passive-3-1',
                 name: '普攻傷害增加',
                 stack: 1,
                 maxStack: 10,
@@ -1602,7 +1596,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: '818-passive-4',
+            id: '10148-passive-4',
             name: '第1回合時，觸發「使我方全體治療者的必殺技當前CD減少4回合」',
             type: 14,
             condition: Condition.ON_SPECIFIC_TURN,
@@ -1620,7 +1614,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               {
-                id: '818-passive-5',
+                id: '10148-passive-5',
                 name: '攻擊時，觸發「使我方全體攻擊者造成傷害增加10%(1回合)」',
                 type: 11,
                 condition: Condition.ATTACK,
@@ -1629,7 +1623,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ATTACKER,
                   applySkill: [
                     {
-                      id: '818-passive-5-1',
+                      id: '10148-passive-5-1',
                       name: '攻擊力增加',
                       type: 0,
                       condition: Condition.NONE,
@@ -1643,7 +1637,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 },
               },
               {
-                id: '818-passive-6',
+                id: '10148-passive-6',
                 name: '攻擊時，觸發「使我方全體妨礙者造成傷害增加10%(1回合)」',
                 type: 11,
                 condition: Condition.GET_HEAL,
@@ -1652,7 +1646,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.OBSTRUCTER,
                   applySkill: [
                     {
-                      id: '818-passive-6-1',
+                      id: '10148-passive-6-1',
                       name: '造成傷害增加',
                       type: 0,
                       condition: Condition.NONE,
@@ -1666,7 +1660,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 },
               },
               {
-                id: '818-passive-6',
+                id: '10148-passive-6',
                 name: '攻擊時，使我方全體攻擊者、妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」',
                 type: 11,
                 condition: Condition.ATTACK,
@@ -1675,7 +1669,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ATTACKER,
                   applySkill: [
                     {
-                      id: '818-passive-6-1',
+                      id: '10148-passive-6-1',
                       name: '普攻時，追加『以自身攻擊力10%對目標造成傷害』',
                       type: 101,
                       condition: Condition.NONE,
@@ -1691,7 +1685,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 },
               },
               {
-                id: '818-passive-7',
+                id: '10148-passive-7',
                 name: '攻擊時，使我方全體妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」',
                 type: 11,
                 condition: Condition.ATTACK,
@@ -1700,7 +1694,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.OBSTRUCTER,
                   applySkill: [
                     {
-                      id: '818-passive-7-1',
+                      id: '10148-passive-7-1',
                       name: '普攻時，追加『以自身攻擊力10%對目標造成傷害』',
                       type: 101,
                       condition: Condition.NONE,
@@ -1724,7 +1718,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: '818-passive4',
+            id: '10148-passive4',
             name: '使自身普攻傷害增加10%',
             type: 0,
             condition: Condition.NONE,

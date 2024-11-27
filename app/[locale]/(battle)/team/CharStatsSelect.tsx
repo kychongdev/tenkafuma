@@ -76,7 +76,6 @@ export const CharStatsSelect = ({
     }
     e.preventDefault();
   };
-  console.log('CharStatsSelect', useForm.getValues('0.isPot6'));
 
   return (
     <Card className="w-full">
