@@ -1306,7 +1306,7 @@
     "initAtk": 915.2,
     "attribute": 9,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4
   },
   "10147": {

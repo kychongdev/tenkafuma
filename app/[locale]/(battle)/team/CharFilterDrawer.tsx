@@ -73,7 +73,7 @@ export const CharFilterDrawer = ({
             <DrawerTitle className="flex items-center justify-center">
               Select Character
             </DrawerTitle>
-            <div className="grid grid-cols-5 w-full gap-2 ">
+            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-2 rounded">
               <Toggle
                 pressed={attribute.includes(CharacterAttribute.FIRE)}
                 onPressedChange={() => {
@@ -83,7 +83,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.FIRE],
                   );
                 }}
-                className="border-white border-solid border-2 rounded"
+                className="data-[state=on]:bg-red-500"
               >
                 <Image
                   src="/icons/fire.jpg"
@@ -101,7 +101,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.WATER],
                   );
                 }}
-                className="border-white border-solid border-2 rounded"
+                className="data-[state=on]:bg-blue-500"
               >
                 <Image
                   src="/icons/water.jpg"
@@ -119,7 +119,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.WIND],
                   );
                 }}
-                className="border-white border-solid border-2 rounded"
+                className="data-[state=on]:bg-green-500"
               >
                 <Image
                   src="/icons/wind.jpg"
@@ -137,7 +137,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.DARK],
                   );
                 }}
-                className="border-white border-solid border-2 rounded"
+                className="data-[state=on]:bg-purple-500"
               >
                 <Image
                   src="/icons/dark.jpg"
@@ -155,7 +155,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterAttribute.LIGHT],
                   );
                 }}
-                className="border-white border-solid border-2 rounded "
+                className="data-[state=on]:bg-yellow-500"
               >
                 <Image
                   src="/icons/light.jpg"
@@ -166,7 +166,7 @@ export const CharFilterDrawer = ({
               </Toggle>
             </div>
 
-            <div className="grid grid-cols-5 w-full gap-2">
+            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-2 rounded">
               <Toggle
                 pressed={charClass.includes(CharacterClass.ATTACKER)}
                 onPressedChange={() => {
@@ -176,7 +176,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterClass.ATTACKER],
                   );
                 }}
-                className=""
+                className="data-[state=on]:bg-zinc-50"
               >
                 <Image
                   src="/icons/ui_attacker.png"
@@ -194,7 +194,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterClass.OBSTRUCTER],
                   );
                 }}
-                className=""
+                className="data-[state=on]:bg-zinc-50"
               >
                 <Image
                   src="/icons/ui_obsructer.png"
@@ -212,7 +212,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterClass.PROTECTOR],
                   );
                 }}
-                className=""
+                className="data-[state=on]:bg-zinc-50"
               >
                 <Image
                   src="/icons/ui_protector.png"
@@ -230,7 +230,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterClass.HEALER],
                   );
                 }}
-                className=""
+                className="data-[state=on]:bg-zinc-50"
               >
                 <Image
                   src="/icons/ui_healer.png"
@@ -248,7 +248,7 @@ export const CharFilterDrawer = ({
                       : [...prev, CharacterClass.SUPPORT],
                   );
                 }}
-                className=""
+                className="data-[state=on]:bg-zinc-50"
               >
                 <Image
                   src="/icons/ui_supporter.png"
