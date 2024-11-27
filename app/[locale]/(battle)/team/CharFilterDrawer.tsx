@@ -73,7 +73,7 @@ export const CharFilterDrawer = ({
             <DrawerTitle className="flex items-center justify-center">
               Select Character
             </DrawerTitle>
-            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-2 rounded">
+            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-1 rounded">
               <Toggle
                 pressed={attribute.includes(CharacterAttribute.FIRE)}
                 onPressedChange={() => {
@@ -166,7 +166,7 @@ export const CharFilterDrawer = ({
               </Toggle>
             </div>
 
-            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-2 rounded">
+            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-1 rounded">
               <Toggle
                 pressed={charClass.includes(CharacterClass.ATTACKER)}
                 onPressedChange={() => {
@@ -258,7 +258,7 @@ export const CharFilterDrawer = ({
                 />
               </Toggle>
             </div>
-            <div className="flex flex-row gap-2 flex-wrap my-4">
+            <div className="flex flex-row gap-2 flex-wrap my-2">
               {c.map((char) => {
                 return (
                   <Avatar

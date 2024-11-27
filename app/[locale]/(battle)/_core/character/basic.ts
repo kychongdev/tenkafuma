@@ -215,9 +215,53 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
+    case '10142': {
+      dealBasicDamage(
+        position,
+        1.25,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10143": "夏日 賽露西亞",
+    case '10143': {
+      // 以自身攻擊力37.5%對我方全體進行治療(4回合)
+      break;
+    }
     // "10144": "夏日 凱薩",
+    case '10144': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      dealBasicHpDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+    }
     // "10145": "夏日 撒旦",
+    case '10145': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10146": "魔獸獵手 神無雪",
     case '10146': {
       dealBasicDamage(

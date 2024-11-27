@@ -47,6 +47,7 @@ export function dealUltHpDamage(
   let defenderAttribute = CharacterAttribute.NONE;
   let defenderId = '';
   let defenderisGuard = false;
+  let defenderDefEffect = 0.5;
 
   const attributeNum = parseAttribute(attackerAttribute, defenderAttribute);
 
@@ -635,6 +636,34 @@ export function dealUltHpDamage(
     ) {
       ultBuff += buff._0?.value;
     }
+
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.DECREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect += buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.DECREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect += buff._3?.value * buff._3?.stack;
+    }
+
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.INCREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect -= buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.INCREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect -= buff._3?.value * buff._3?.stack;
+    }
   }
   if (ultBuff < 0) {
     ultBuff = 0;
@@ -704,28 +733,31 @@ export function dealUltHpDamage(
         ultBuff -= buff._3?.value * buff._3?.stack;
       }
     }
-
-    res = Math.floor(
-      maxHp *
-        ultBuff *
-        increaseDamage *
-        enemyDamageReceivedIncrease *
-        attributeDamage *
-        attributeNum *
-        value,
-    );
-    return;
-  } else {
-    res = Math.floor(
-      maxHp *
-        ultBuff *
-        increaseDamage *
-        enemyDamageReceivedIncrease *
-        attributeDamage *
-        attributeNum *
-        value,
-    );
   }
+
+  res = Math.floor(
+    defenderisGuard
+      ? Math.floor(
+          maxHp *
+            ultBuff *
+            increaseDamage *
+            enemyDamageReceivedIncrease *
+            attributeDamage *
+            // attributeNum *
+            value *
+            defenderDefEffect,
+        )
+      : Math.floor(
+          maxHp *
+            ultBuff *
+            increaseDamage *
+            enemyDamageReceivedIncrease *
+            attributeDamage *
+            // attributeNum *
+            value,
+        ),
+  );
+
   console.log(
     maxHp,
     ultBuff,

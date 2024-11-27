@@ -1209,10 +1209,497 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
+    case '10142': {
+      gameState.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10142-passive-1',
+              name: '每經過1回合，使目標受到普攻傷害增加30%',
+              type: 11,
+              condition: Condition.EVERY_X_TURN,
+              conditionTurn: 1,
+              duration: 100,
+              _11: {
+                target: Target.ENEMY,
+                applySkill: [
+                  {
+                    id: '10142-passive-1-1',
+                    name: '受到普攻傷害增加',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.3,
+                      affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: '10142-passive-2',
+              name: '必殺時，觸發「使我方『夏日 千鶴』攻擊力增加20%(4回合)」',
+              type: 13,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _13: {
+                target: '10142',
+                applySkill: [
+                  {
+                    id: '10142-passive-2-1',
+                    name: '攻擊力增加',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 4,
+                    _0: {
+                      value: 0.2,
+                      affectType: AffectType.INCREASE_ATK,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10142-passive-3',
+            name: '使自身當前必殺技CD減少4回合',
+            type: 14,
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            _14: {
+              reduceCD: 4,
+              target: Target.SELF,
+            },
+          },
+          {
+            id: '10142-passive-4',
+            name: '必殺時，觸發「使目標受到傷害增加20%(最多2層)」',
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: '10142-passive-4-1',
+              target: Target.ENEMY,
+              applySkill: {
+                id: '10142-passive-4-1',
+                name: '受到傷害增加20%',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10142-passive-4-1',
+                  name: '受到傷害增加20%',
+                  value: 0.2,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10142-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10143": "夏日 賽露西亞",
+    case '10143': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10143-passive-1',
+          name: '攻擊力增加30%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.3,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10143-passive-2',
+            name: '每Wave的第9回合時，觸發「使敵方全體受到傷害增加50%(50回合)」',
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            duration: 100,
+            conditionTurn: 9,
+            _11: {
+              target: Target.ENEMY,
+              applySkill: [
+                {
+                  id: '10143-passive-2-1',
+                  name: '受到傷害增加',
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 50,
+                  _0: {
+                    value: 0.5,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10143-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10144": "夏日 凱薩",
+    case '10144': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10144-passive-1',
+          name: '攻擊力增加50%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.5,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: '10144-passive-2',
+          name: '必殺技傷害增加30%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.3,
+            affectType: AffectType.INCREASE_ULTIMATE_DMG,
+          },
+        },
+        {
+          id: '10144-passive-3',
+          name: '每經過1回合時，觸發「使自身攻擊力增加5%(最多20層)」',
+          type: 4,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: '10144-passive-3-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10144-passive-3-1',
+              name: '攻擊力增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10144-passive-3-1',
+                name: '攻擊力增加5%',
+                value: 0.05,
+                stack: 1,
+                maxStack: 20,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: '10144-passive-4',
+          name: '普攻時，觸發「使敵方全體受到『夏日 凱薩』傷害增加4%(最多15層)」',
+          type: 4,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: '10144-passive-4-1',
+            target: Target.ENEMY,
+            applySkill: {
+              id: '10144-passive-4-1',
+              name: '受到傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10144-passive-4-1',
+                name: '受到X角色的傷害增加4%',
+                value: 0.04,
+                stack: 1,
+                maxStack: 15,
+                specificCharId: '10144',
+                affectType: AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED,
+              },
+            },
+          },
+        },
+        {
+          id: '10144-passive-5',
+          name: '必殺時，觸發「使自身造成傷害增加20%(最多4層)」',
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: '10144-passive-5-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10144-passive-5-1',
+              name: '造成傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10144-passive-5-1',
+                name: '造成傷害增加20%',
+                value: 0.2,
+                stack: 1,
+                maxStack: 4,
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10144-passive-6',
+            name: '必殺時，追加「以自身攻擊力150%對目標造成傷害」',
+            type: 101,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _101: {
+              value: 1.5,
+              target: Target.ENEMY,
+              damageType: DamageType.ULTIMATE_ADDON,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+          {
+            id: '10144-passive-7',
+            name: '每經過1回合時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」',
+            type: 6,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.05,
+              target: Target.ALL_ALLIES,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10144-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10145": "夏日 撒旦",
     case '10145': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10145-passive-1',
+          name: '普攻時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」',
+          condition: Condition.BASIC_ATTACK,
+          type: 105,
+          duration: 100,
+        },
+        {
+          id: '10145-passive-2',
+          name: '普攻時，追加「並使我方全體普攻傷害增加5%(最多10層)」)',
+          condition: Condition.BASIC_ATTACK,
+          type: 104,
+          duration: 100,
+          _104: {
+            increaseStack: 1,
+            targetSkill: '10145-passive-2-1',
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: '10145-passive-2-1',
+              name: '普攻傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10145-passive-2-1',
+                name: '普攻傷害增加5%',
+                value: 0.05,
+                stack: 1,
+                maxStack: 10,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: '10145-passive-3',
+          name: '必殺時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」',
+          condition: Condition.ULTIMATE,
+          type: 105,
+          duration: 100,
+        },
+        {
+          id: '10145-passive-4',
+          name: '必殺時，追加「並使我方全體必殺傷害增加10%(最多3層)」)',
+          condition: Condition.ULTIMATE,
+          type: 104,
+          duration: 100,
+          _104: {
+            increaseStack: 1,
+            targetSkill: '10145-passive-4-1',
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: '10145-passive-4-1',
+              name: '普攻傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10145-passive-4-1',
+                name: '普攻傷害增加5%',
+                value: 0.1,
+                stack: 1,
+                maxStack: 3,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: '10145-passive-5',
+          name: '被攻擊時，觸發「使我方全體造成傷害增加1.33%(最多15層)」',
+          type: 4,
+          condition: Condition.RECEIVED_ATTACK,
+          duration: 100,
+          _4: {
+            target: Target.ALL_ALLIES,
+            increaseStack: 1,
+            targetSkill: '10145-passive-5-1',
+            applySkill: {
+              id: '10145-passive-5-1',
+              name: '造成傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10145-passive-5-1',
+                stack: 1,
+                maxStack: 15,
+                value: 0.0133,
+                name: '造成傷害增加1.33%',
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10145-passive-6',
+            name: '被攻擊時，觸發「使敵方全體受到傷害增加1.33%(最多15層)」',
+            type: 4,
+            condition: Condition.RECEIVED_ATTACK,
+            duration: 100,
+            _4: {
+              target: Target.ENEMY,
+              increaseStack: 1,
+              targetSkill: '10145-passive-6-1',
+              applySkill: {
+                id: '10145-passive-6-1',
+                name: '造成傷害增加',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10145-passive-6-1',
+                  stack: 1,
+                  maxStack: 15,
+                  value: 0.0133,
+                  name: '受到傷害',
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10145-passive4',
+            name: '使自身造成傷害增加7.5%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.075,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      }
       break;
     }
     // "10146": "魔獸獵手 神無雪",

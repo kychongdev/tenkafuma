@@ -18,6 +18,7 @@ import {
   CharacterClass,
 } from '@/types/Character';
 import { dealUltDamage } from '../dealUltDamage';
+import { dealUltHpDamage } from '../dealUltHpDamage';
 
 export function ultimateAttack(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;
@@ -590,10 +591,417 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
+    case '10142': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10142-ult-1',
+          name: '普攻傷害增加(4回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_BASIC_DMG,
+            value:
+              bond === 1
+                ? 0.5
+                : bond === 2
+                  ? 0.7
+                  : bond === 3
+                    ? 0.9
+                    : bond === 4
+                      ? 1.1
+                      : 1.3,
+          },
+        },
+        {
+          id: '10142-ult-2',
+          name: '造成傷害增加(4回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_DMG,
+            value:
+              bond === 1
+                ? 0.2
+                : bond === 2
+                  ? 0.25
+                  : bond === 3
+                    ? 0.3
+                    : bond === 4
+                      ? 0.35
+                      : 0.4,
+          },
+        },
+      ];
+
+      gameState.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10142-ult-3',
+              name: `普攻時，追加『以自身攻擊力${
+                bond === 1
+                  ? 20
+                  : bond === 2
+                    ? 30
+                    : bond === 3
+                      ? 30
+                      : bond === 4
+                        ? 40
+                        : 60
+              }%對目標造成傷害』(4回合)`,
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 4,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.2
+                    : bond === 2
+                      ? 0.3
+                      : bond === 3
+                        ? 0.3
+                        : bond === 4
+                          ? 0.4
+                          : 0.6,
+                target: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                action: CharacterAction.BASIC,
+              },
+            },
+            {
+              id: '10142-ult-4',
+              name: '必殺時，觸發『使我方夏日 千鶴攻擊力增加10/10/20/20/30%(1回合)』(4回合)',
+              type: 13,
+              condition: Condition.ATTACK,
+              duration: 4,
+              _13: {
+                target: '10142',
+                applySkill: [
+                  {
+                    id: '10142-ult-4',
+                    name: '攻擊力增加(1回合)',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      affectType: AffectType.INCREASE_ATK,
+                      value:
+                        bond === 1
+                          ? 0.1
+                          : bond === 2
+                            ? 0.1
+                            : bond === 3
+                              ? 0.2
+                              : bond === 4
+                                ? 0.2
+                                : 0.3,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      dealUltDamage(
+        position,
+        2,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10143": "夏日 賽露西亞",
+    case '10143': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10143-ult-1',
+            name: '普攻傷害增加(4回合)',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_BASIC_DMG,
+              value:
+                bond === 1
+                  ? 0.3
+                  : bond === 2
+                    ? 0.45
+                    : bond === 3
+                      ? 0.6
+                      : bond === 4
+                        ? 0.75
+                        : 0.9,
+            },
+          },
+        ];
+      });
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10143-ult-2',
+          name: '普攻時，追加『以自身攻擊力60/80/100/120/140%對目標造成傷害』',
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 0.6
+                : bond === 2
+                  ? 0.8
+                  : bond === 3
+                    ? 1
+                    : bond === 4
+                      ? 1.2
+                      : 1.4,
+            target: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            action: CharacterAction.BASIC,
+          },
+        },
+        {
+          id: '10143-ult-3',
+          name: '攻擊力',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value:
+              bond === 1
+                ? 0
+                : bond === 2
+                  ? 0
+                  : bond === 3
+                    ? 0.3
+                    : bond === 4
+                      ? 0.6
+                      : 0.9,
+          },
+        },
+      ];
+      break;
+    }
     // "10144": "夏日 凱薩",
+    case '10144': {
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 2.95
+          : bond === 2
+            ? 3.64
+            : bond === 3
+              ? 4.33
+              : bond === 4
+                ? 5.02
+                : 5.71,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      dealUltHpDamage(
+        position,
+        bond === 1
+          ? 0.89
+          : bond === 2
+            ? 1.07
+            : bond === 3
+              ? 1.25
+              : bond === 4
+                ? 1.43
+                : 1.61,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10145": "夏日 撒旦",
+    case '10145': {
+      if (bond < 3) {
+        dealUltDamage(
+          position,
+          bond === 1 ? 3.3 : 3.76,
+          gameState,
+          Target.ENEMY,
+          DamageType.ULTIMATE,
+          CharacterAction.ULTIMATE,
+        );
+        const buff: Skill = {
+          id: '10145-ult-1',
+          name: '以自身最大HP5/6.25%使我方全體攻擊力增加(5回合)',
+          type: 16,
+          condition: Condition.ULTIMATE,
+          duration: 1,
+          _16: {
+            value: bond === 1 ? 0.05 : 0.0625,
+            affectType: AffectType.RAW_ATK,
+            target: Target.ALL_ALLIES,
+            duration: 5,
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      } else {
+        const buff: Skill = {
+          id: '10145-ult-1',
+          name: '以自身最大HP5/6.25%使我方全體攻擊力增加(5回合)',
+          type: 16,
+          condition: Condition.ULTIMATE,
+          duration: 1,
+          _16: {
+            value: bond === 3 ? 0.075 : bond === 4 ? 0.0875 : 0.1,
+            affectType: AffectType.RAW_ATK,
+            target: Target.ALL_ALLIES,
+            duration: 5,
+          },
+        };
+        triggerSkill(buff, gameState, position);
+        dealUltDamage(
+          position,
+          bond === 3 ? 4.2 : bond === 4 ? 4.68 : 5.14,
+          gameState,
+          Target.ENEMY,
+          DamageType.ULTIMATE,
+          CharacterAction.ULTIMATE,
+        );
+      }
+      break;
+    }
     // "10146": "魔獸獵手 神無雪",
+    case '10146': {
+      const buff: Skill = {
+        id: '10146-ultimate-1',
+        name: '普攻傷害減少',
+        condition: Condition.NONE,
+        type: 4,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: '10146-ultimate-1-1',
+          target: Target.SELF,
+          applySkill: {
+            id: '10146-ultimate-1-1',
+            name: '普攻傷害減少',
+            condition: Condition.NONE,
+            type: 3,
+            duration: 100,
+            _3: {
+              id: '10146-ultimate-1-1',
+              name: '普攻傷害減少',
+              stack: 1,
+              maxStack: 1,
+              value: 1.5,
+              affectType: AffectType.DECREASE_BASIC_DMG,
+            },
+          },
+        },
+      };
+      const buff2: Skill = {
+        id: '10146-ultimate-2',
+        name: '必殺技傷害增加',
+        condition: Condition.NONE,
+        type: 4,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: '10146-ultimate-2-1',
+          target: Target.SELF,
+          applySkill: {
+            id: '10146-ultimate-2-1',
+            name: '必殺技傷害增加',
+            condition: Condition.NONE,
+            type: 3,
+            duration: 100,
+            _3: {
+              id: '10146-ultimate-2-1',
+              name: '必殺技傷害增加',
+              stack: 1,
+              maxStack: 1,
+              value:
+                bond === 1
+                  ? 0.6
+                  : bond === 2
+                    ? 0.7
+                    : bond === 3
+                      ? 0.8
+                      : bond === 4
+                        ? 0.9
+                        : 1,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        },
+      };
+
+      const buff3: Skill = {
+        id: '10146-ultimate-3',
+        name: '受到暗屬性傷害增加',
+        condition: Condition.NONE,
+        type: 4,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: '10146-ultimate-3-1',
+          target: Target.ENEMY,
+          applySkill: {
+            id: '10146-ultimate-3-1',
+            name: '受到暗屬性傷害增加',
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: '10146-ultimate-3-1',
+              name: '受到暗屬性傷害增加',
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.3
+                        : 0.4,
+            },
+          },
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      triggerSkill(buff2, gameState, position);
+      triggerSkill(buff3, gameState, position);
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.86
+                : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10147": "魔物終結 鬼醉木",
     case '10147': {
       if (bond < 3) {

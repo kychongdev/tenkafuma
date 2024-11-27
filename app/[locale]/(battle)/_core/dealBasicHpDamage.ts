@@ -46,6 +46,7 @@ export function dealBasicHpDamage(
   let defenderAttribute = CharacterAttribute.NONE;
   let defenderId = '';
   let defenderisGuard = false;
+  let defenderDefEffect = 0.5;
 
   // you need to specify the enemy position
   switch (position) {
@@ -640,6 +641,34 @@ export function dealBasicHpDamage(
     ) {
       basicBuff += buff._0?.value;
     }
+
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.DECREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect += buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.DECREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect += buff._3?.value * buff._3?.stack;
+    }
+
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.INCREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect -= buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.INCREASE_GUARD_EFFECT
+    ) {
+      defenderDefEffect -= buff._3?.value * buff._3?.stack;
+    }
   }
   if (basicBuff < 0) {
     basicBuff = 0;
@@ -666,14 +695,14 @@ export function dealBasicHpDamage(
   const res =
     defenderisGuard && !isTrueDamage
       ? Math.floor(
-          (maxHp *
+          maxHp *
             basicBuff *
             increaseDamage *
             enemyDamageReceivedIncrease *
             attributeDamage *
             attributeNum *
-            value) /
-            2,
+            value *
+            defenderDefEffect,
         )
       : Math.floor(
           maxHp *

@@ -598,9 +598,516 @@ export function triggerLead(gameState: GameState) {
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
+    case '10142': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10142-Lead-1',
+            name: '最大HP增加40%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: '10142-Lead-2',
+            name: '攻擊力增加50%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+      const threeAttackerCondition = [
+        CharacterClass.ATTACKER,
+        CharacterClass.ATTACKER,
+        CharacterClass.ATTACKER,
+      ];
+      gameState.characters.forEach((character) => {
+        if (threeAttackerCondition.includes(character.class)) {
+          const index = threeAttackerCondition.indexOf(character.class);
+          if (index !== -1) {
+            threeAttackerCondition.splice(
+              threeAttackerCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+      if (threeAttackerCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: '10142-Lead-3',
+            name: '自身必殺時，觸發「使敵方全體受到傷害增加20%(4回合)」',
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ENEMY,
+              applySkill: [
+                {
+                  id: '10142-Lead-3-1',
+                  name: '受到傷害增加20%',
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: '10142-Lead-4',
+            name: '自身必殺時，觸發「使我方全體攻擊者造成傷害增加20%(4回合)」',
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ATTACKER,
+              applySkill: [
+                {
+                  id: '10142-Lead-4-1',
+                  name: '造成傷害增加20%',
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: '10142-Lead-5',
+            name: '自身必殺時，觸發「使我方全體攻擊者普攻傷害增加110%(4回合)」',
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ATTACKER,
+              applySkill: [
+                {
+                  id: '10142-Lead-5-1',
+                  name: '普攻傷害增加110%',
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 1.1,
+                    affectType: AffectType.INCREASE_BASIC_DMG,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10143": "夏日 賽露西亞",
+    case '10143': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10143-Lead-1',
+            name: '最大HP增加30%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+        ];
+      });
+      const threeDifferentClassCondition = [
+        CharacterClass.ATTACKER,
+        CharacterClass.OBSTRUCTER,
+        CharacterClass.SUPPORT,
+        CharacterClass.PROTECTOR,
+        CharacterClass.HEALER,
+      ];
+      gameState.characters.forEach((character) => {
+        if (threeDifferentClassCondition.includes(character.class)) {
+          const index = threeDifferentClassCondition.indexOf(character.class);
+          if (index !== -1) {
+            threeDifferentClassCondition.splice(
+              threeDifferentClassCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+      if (threeDifferentClassCondition.length == 2) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10143-Lead-2',
+              name: '攻擊力增加100%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 1,
+              },
+            },
+            {
+              id: '10143-Lead-3',
+              name: '造成傷害增加20%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.2,
+              },
+            },
+            {
+              id: '10143-Lead-4',
+              name: '普攻傷害110%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_BASIC_DMG,
+                value: 1.1,
+              },
+            },
+            {
+              id: '10143-Lead-5',
+              name: '普攻時，追加「以自身攻擊力30%對目標造成傷害」',
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _101: {
+                value: 0.3,
+                target: Target.ENEMY,
+                damageType: 0,
+                action: CharacterAction.BASIC,
+              },
+            },
+          ];
+        });
+      }
+      break;
+    }
     // "10144": "夏日 凱薩",
+    case '10144': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10144-Lead-1',
+            name: '最大HP增加20%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.2,
+            },
+          },
+          {
+            id: '10144-Lead-2',
+            name: '攻擊力增加50%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: '10144-Lead-3',
+          name: '最大HP增加20%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.MAX_HP,
+            value: 0.2,
+          },
+        },
+        {
+          id: '10144-passive-3-1',
+          name: '攻擊力增加',
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: '10144-passive-3-1',
+            name: '攻擊力增加5%',
+            value: 0.05,
+            stack: 20,
+            maxStack: 20,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: '10144-passive-5-1',
+          name: '造成傷害增加',
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: '10144-passive-5-1',
+            name: '造成傷害增加20%',
+            value: 0.2,
+            stack: 4,
+            maxStack: 4,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+      ];
+      gameState.enemies[0].buff = [
+        ...gameState.enemies[0].buff,
+        {
+          id: '10144-passive-4-1',
+          name: '受到夏日凱撒的傷害增加4%',
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: '10144-passive-4-1',
+            name: '受到夏日凱撒的傷害增加4%',
+            value: 0.04,
+            stack: 15,
+            maxStack: 15,
+            specificCharId: '10144',
+            affectType: AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED,
+          },
+        },
+      ];
+
+      gameState.characters.forEach((_, index) => {
+        if (index !== 0) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10144-lead-4',
+              name: '防禦時，觸發「使目標受到傷害增加9%（2回合）」',
+              type: 11,
+              condition: Condition.GUARD,
+              duration: 100,
+              _11: {
+                target: Target.ENEMY,
+                applySkill: [
+                  {
+                    id: '10144-lead-4-1',
+                    name: '受到傷害增加9%',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      value: 0.09,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: '10144-lead-5',
+              name: '防禦時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)',
+              type: 6,
+              condition: Condition.GUARD,
+              duration: 100,
+              _6: {
+                value: 0.75,
+                target: Target.POSITION_1,
+                base: true,
+                affectType: AffectType.RAW_ATK,
+                duration: 1,
+              },
+            },
+            {
+              id: '10144-lead-6',
+              name: '必殺時，觸發「使目標受到傷害增加9%（2回合）」',
+              type: 11,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _11: {
+                target: Target.ENEMY,
+                applySkill: [
+                  {
+                    id: '10144-lead-4-1',
+                    name: '受到傷害增加9%',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      value: 0.09,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: '10144-lead-7',
+              name: '必殺時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)',
+              type: 6,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _6: {
+                value: 0.75,
+                target: Target.POSITION_1,
+                base: true,
+                affectType: AffectType.RAW_ATK,
+                duration: 1,
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10145": "夏日 撒旦",
+    case '10145': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10145-Lead-1',
+            name: '最大HP增加40%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: '10145-Lead-2',
+            name: '攻擊力增加70%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.7,
+            },
+          },
+          {
+            id: '10145-Lead-3',
+            name: '普攻傷害增加60%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_BASIC_DMG,
+              value: 0.6,
+            },
+          },
+          {
+            id: '10145-Lead-4',
+            name: '必殺傷害增加20%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value: 0.2,
+            },
+          },
+        ];
+      });
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: '10145-Lead-5',
+          name: '攻擊時，觸發「以自身最大HP5%使我方全體攻擊力增加(2回合)」',
+          type: 16,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _16: {
+            value: 0.05,
+            affectType: AffectType.RAW_ATK,
+            target: Target.ALL_ALLIES,
+            duration: 2,
+          },
+        },
+        {
+          id: '10145-lead-6',
+          name: '被攻擊時，觸發「使我方全體造成傷害增加1.33%(最多15層)」',
+          type: 4,
+          condition: Condition.RECEIVED_ATTACK,
+          duration: 100,
+          _4: {
+            target: Target.ALL_ALLIES,
+            increaseStack: 1,
+            targetSkill: '10145-lead-6-1',
+            applySkill: {
+              id: '10145-lead-6-1',
+              name: '造成傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10145-lead-6-1',
+                stack: 1,
+                maxStack: 15,
+                value: 0.0133,
+                name: '造成傷害增加1.33%',
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: '10145-lead-7',
+          name: '被攻擊時，觸發「使敵方全體受到傷害增加1.33%(最多15層)」',
+          type: 4,
+          condition: Condition.RECEIVED_ATTACK,
+          duration: 100,
+          _4: {
+            target: Target.ENEMY,
+            increaseStack: 1,
+            targetSkill: '10145-lead-7-1',
+            applySkill: {
+              id: '10145-lead-7-1',
+              name: '造成傷害增加',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10145-lead-7-1',
+                stack: 1,
+                maxStack: 15,
+                value: 0.0133,
+                name: '受到傷害',
+                affectType: AffectType.INCREASE_DMG_RECEIVED,
+              },
+            },
+          },
+        },
+      ];
+      break;
+    }
     // "10146": "魔獸獵手 神無雪",
     case '10146': {
       gameState.characters.forEach((_, index) => {
@@ -744,8 +1251,6 @@ export function triggerLead(gameState: GameState) {
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     case '10148': {
-      // 我方全體最大HP增加40%
-      // 我方全體攻擊力增加50%
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
@@ -773,9 +1278,6 @@ export function triggerLead(gameState: GameState) {
           },
         ];
       });
-      // 我方全體攻擊者、妨礙者獲得「我方隊伍治療者角色有2人以上時，發動《再來一杯～》」
-      //
-
       const twoHealerCondition = [CharacterClass.HEALER, CharacterClass.HEALER];
 
       gameState.characters.forEach((character) => {
