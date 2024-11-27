@@ -43,7 +43,8 @@
     "header-title": "Tenkafuma Web",
     "menu-title": "Tenkafuma",
     "menu1": "Create Team",
-    "menu2": "Battle Simulator"
+    "menu2": "Battle Simulator",
+    "menu3": "Create Analysis"
   },
   "Battle": {
     "turn": "Turn {turn}"

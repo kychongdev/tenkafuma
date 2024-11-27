@@ -79,7 +79,7 @@ export const CharStatsSelect = ({
 
   return (
     <Card className="w-full">
-      <CardContent className="p-2">
+      <CardContent className="p-3">
         <div className="grid grid-cols-4">
           <div className="col-span-1">
             <CharFilterDrawer

@@ -43,7 +43,8 @@
     "header-title": "天下布魔",
     "menu-title": "天下布魔工具網",
     "menu1": "创建队伍",
-    "menu2": "战斗模拟"
+    "menu2": "战斗开始",
+    "menu3": "模拟战斗"
   },
   "Battle": {
     "turn": "第 {turn} 回合"

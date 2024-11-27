@@ -47,7 +47,7 @@ export default function Edit() {
     <div className="w-full max-w-[420px] mx-auto p-2 font-[family-name:var(--font-geist-sans)]">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
             <CharStatsSelect useForm={form} position={0} char={watch('0.id')} />
             <CharStatsSelect useForm={form} position={1} char={watch('1.id')} />
             <CharStatsSelect useForm={form} position={2} char={watch('2.id')} />

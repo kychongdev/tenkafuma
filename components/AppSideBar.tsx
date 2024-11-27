@@ -37,6 +37,12 @@ export function AppSidebar() {
                     <span>{t('menu2')}</span>
                   </NavigationLink>
                 </SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <NavigationLink href="/simulate">
+                    <SwordsIcon />
+                    <span>{t('menu3')}</span>
+                  </NavigationLink>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
