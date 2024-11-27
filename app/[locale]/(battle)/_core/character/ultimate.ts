@@ -1587,6 +1587,81 @@ export function ultimateAttack(gameState: GameState, position: number) {
     }
     // "10152": "治癒之星 蘇珊",
     // "10153": "純真殺意 撒旦",
+    // "10154": "星空奈奈美",
+    case '10154': {
+      break;
+    }
+    // "10155": "甜蜜女僕",
+    case '10155': {
+      // 使自身攻擊力增加100/125/150/175/200%(1回合)、再使自身造成觸發技效果增加100/150/200/250/300%(3回合)、再使目標受到觸發技傷害增加60/70/80/90/100%(3回合)，CD:3
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10155-ultimate-1',
+          name: '攻擊力增加',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value:
+              bond === 1
+                ? 1
+                : bond === 2
+                  ? 1.25
+                  : bond === 3
+                    ? 1.5
+                    : bond === 4
+                      ? 1.75
+                      : 2,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: '10155-ultimate-2',
+          name: '觸發技效果增加',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 3,
+          _0: {
+            value:
+              bond === 1
+                ? 1
+                : bond === 2
+                  ? 1.5
+                  : bond === 3
+                    ? 2
+                    : bond === 4
+                      ? 2.5
+                      : 3,
+            affectType: AffectType.INCREASE_TRIGGER_DMG,
+          },
+        },
+      ];
+      gameState.enemies[gameState.targeting].buff = [
+        ...gameState.enemies[gameState.targeting].buff,
+        {
+          id: '10155-ultimate-3',
+          name: '觸發技效果增加',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 3,
+          _0: {
+            value:
+              bond === 1
+                ? 1
+                : bond === 2
+                  ? 1.5
+                  : bond === 3
+                    ? 2
+                    : bond === 4
+                      ? 2.5
+                      : 3,
+            affectType: AffectType.INCREASE_TRIGGER_DMG_RECEIVED,
+          },
+        },
+      ];
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

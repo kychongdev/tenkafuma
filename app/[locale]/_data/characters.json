@@ -1379,6 +1379,26 @@
     "available": false,
     "cd": 4
   },
+  "10154": {
+    "id": 10154,
+    "name": "星空奈奈美",
+    "initHp": 5270.4,
+    "initAtk": 668.8,
+    "attribute": 6,
+    "class": 12,
+    "available": false,
+    "cd": 4
+  },
+  "10155": {
+    "id": 10155,
+    "name": "甜蜜女僕",
+    "initHp": 4000,
+    "initAtk": 881.6,
+    "attribute": 5,
+    "class": 11,
+    "available": true,
+    "cd": 3
+  },
   "10801": {
     "id": 10801,
     "name": "法斯帝國士兵 賽蓮",

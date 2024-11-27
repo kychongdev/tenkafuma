@@ -78,7 +78,7 @@ export function basicAttack(gameState: GameState, position: number) {
         character.buff = [
           ...character.buff,
           {
-            id: 'RAWATTACK',
+            id: '10044-basic-1',
             name: '攻擊力',
             type: 0,
             condition: Condition.NONE,
@@ -379,6 +379,28 @@ export function basicAttack(gameState: GameState, position: number) {
     }
     // "10152": "治癒之星 蘇珊",
     // "10153": "純真殺意 撒旦",
+    // "10154": "星空奈奈美",
+    case '10154': {
+      break;
+    }
+    // "10155": "甜蜜女僕",
+    case '10155': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10155-basic-1',
+          name: '攻擊力',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value: 1,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

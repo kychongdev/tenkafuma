@@ -840,7 +840,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
 
         if (fourWaterCondition.length === 0) {
           gameState.characters.forEach((character, index) => {
-            // 使我方全體攻擊者和妨礙者獲得
             if (
               character.class === CharacterClass.ATTACKER ||
               character.class === CharacterClass.OBSTRUCTER
@@ -850,10 +849,10 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 {
                   id: '10117-passive-3',
                   name: '普攻時，追加『以自身攻擊力15%對目標造成傷害』',
-                  type: 1,
+                  type: 101,
                   condition: Condition.BASIC_ATTACK,
                   duration: 100,
-                  _1: {
+                  _101: {
                     value: 0.15,
                     target: Target.ENEMY,
                     damageType: DamageType.BASIC_ADDON,
@@ -876,10 +875,10 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 {
                   id: '10117-passive-4',
                   name: '普攻時，追加『以自身攻擊力15%對目標造成傷害』',
-                  type: 1,
+                  type: 101,
                   condition: Condition.BASIC_ATTACK,
                   duration: 100,
-                  _1: {
+                  _101: {
                     value: 0.15,
                     target: Target.ENEMY,
                     damageType: DamageType.BASIC_ADDON,
@@ -2954,8 +2953,140 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     }
     // "10152": "治癒之星 蘇珊",
     // "10153": "純真殺意 撒旦",
-    // "10154": "魔法少女 艾琳",
-    // "10155": "魔法少女 艾琳",
+    // "10154": "星空奈奈美",
+    case '10154': {
+      break;
+    }
+    // "10155": "甜蜜女僕",
+    case '10155': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10155-passive-1',
+          name: '普攻時，觸發「以自身攻擊力100%對目標造成傷害',
+          type: 1,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _1: {
+            value: 1,
+            target: Target.ENEMY,
+            damageType: DamageType.TRIGGER,
+            action: CharacterAction.BASIC,
+          },
+        },
+      ];
+
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10155-passive-2',
+            name: '攻擊力增加',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.3,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10155-passive-3',
+          name: '必殺時，觸發「以自身攻擊力300%對目標造成傷害」',
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 3,
+            target: Target.ENEMY,
+            damageType: DamageType.TRIGGER,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10155-passive-4',
+            name: '造成傷害增加',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.3,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: '10155-passive-5',
+            name: '防禦時，觸發「以自身攻擊力50%對目標造成傷害」',
+            type: 1,
+            condition: Condition.GUARD,
+            duration: 100,
+            _1: {
+              value: 0.5,
+              target: Target.ENEMY,
+              damageType: DamageType.TRIGGER,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+          {
+            id: '10155-passive-6',
+            name: '第7回合時，觸發「使自身必殺技傷害增加100%(最多1層)」',
+            type: 4,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 7,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              target: Target.SELF,
+              targetSkill: '10004-passive-3-1',
+              applySkill: {
+                id: '10155-passive-6',
+                name: '必殺技傷害增加100%',
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: '10155-passive-6',
+                  name: '必殺技傷害增加100%',
+                  stack: 1,
+                  maxStack: 1,
+                  value: 1,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      //
+      if (passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10154-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",
