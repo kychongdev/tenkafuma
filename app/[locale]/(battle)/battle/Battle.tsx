@@ -16,16 +16,17 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from '@/app/i18n/routing';
 import { useEffect, useState } from 'react';
 import { f, p } from '../_core/utils';
-import { BattleControlDrawer } from './BattleControlDrawer';
 import { BattleLog } from './BattleLog';
 import { EnemyStatus } from './EnemyStatus';
 import { useSimulateTeamState } from '../_core/SimulateTeamState';
 import { ChartPie, Info, Power, Save, Sword, Undo } from 'lucide-react';
+import { useStore } from 'zustand';
 
 export default function Battle() {
   const t = useTranslations('Battle');
   const [api, setApi] = useState<CarouselApi>();
   const router = useRouter();
+
   const {
     ready,
     wave,
@@ -44,9 +45,9 @@ export default function Battle() {
     damage_log_3,
     damage_log_4,
     damage_log_5,
-  } = useGameState((state) => state);
+  } = useStore(useGameState, (state) => state);
 
-  const { saveToTeam } = useSimulateTeamState((state) => state);
+  const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
 
   useEffect(() => {
     if (!api) {
