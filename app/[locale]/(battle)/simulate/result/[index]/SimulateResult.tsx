@@ -23,6 +23,7 @@ export function SimulateResult() {
   const params = useParams();
   const index = parseInt(params.index as string);
   const result = useSimulateTeamState((state) => state.teams[index]);
+  const deleteAnalysis = useSimulateTeamState((state) => state.deleteAnalysis);
   const baseEachTurnResult = calculateDamageEachTurn(
     result.baseResult.damage_log_1,
     result.baseResult.damage_log_2,
@@ -254,7 +255,11 @@ export function SimulateResult() {
             <Card className="p-2">
               <div className="flex items-center justify-between space-x-4 px-1">
                 {parseBond(value.select)}
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => deleteAnalysis(index, i)}
+                >
                   <Trash2 className="h-4 w-4" />
                   <span className="sr-only">Toggle</span>
                 </Button>

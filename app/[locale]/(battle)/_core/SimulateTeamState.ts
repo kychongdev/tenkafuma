@@ -15,6 +15,7 @@ interface SimulateTeamState {
   ) => void;
   saveToAnalysis: (position: number, analysis: SimulationResult) => void;
   deleteTeam: (position: number) => void;
+  deleteAnalysis: (position: number, index: number) => void;
   // _hasHydrated: boolean;
   // setHasHydrated: (value: boolean) => void;
 }
@@ -68,6 +69,11 @@ export const useSimulateTeamState = create<SimulateTeamState>()(
       deleteTeam: (position) => {
         set((state) => {
           state.teams.splice(position, 1);
+        });
+      },
+      deleteAnalysis: (position, index) => {
+        set((state) => {
+          state.teams[position].analysis.splice(index, 1);
         });
       },
     })),
