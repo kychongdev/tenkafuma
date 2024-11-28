@@ -87,7 +87,7 @@ interface UndoLog {
   stage_state: any;
 }
 
-interface ActionLog {
+export interface ActionLog {
   position: number;
   targeting: number;
 }
