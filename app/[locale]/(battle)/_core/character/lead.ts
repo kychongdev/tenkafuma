@@ -1,4 +1,10 @@
-import { AffectType, Condition, DamageType, Target } from '@/types/Skill';
+import {
+  AffectType,
+  Condition,
+  DamageType,
+  SkillStackCondition,
+  Target,
+} from '@/types/Skill';
 import {
   CharacterAction,
   CharacterAttribute,
@@ -32,6 +38,269 @@ export function triggerLead(gameState: GameState) {
     // "10021": "賢者 白",
     // "10022": "狂犬 諾蕾蒂",
     // "10023": "副手 貝蕾朵",
+    case '10023': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10023-Lead-1',
+            name: '最大HP增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.1,
+            },
+          },
+          {
+            id: '10023-Lead-2',
+            name: '攻擊力增加100%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 1,
+            },
+          },
+        ];
+      });
+      gameState.characters.forEach((_, index) => {
+        if (index !== 0) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10023-Lead-3',
+              name: '防禦時，觸發「使我方站位1獲得1層《編制重整》(最多4層)」(50回合)',
+              type: 19,
+              condition: Condition.GUARD,
+              duration: 50,
+              _19: {
+                target: Target.POSITION_1,
+                targetSkill: '10023-Lead-3-1',
+                increaseStack: 1,
+                applySkill: {
+                  id: '10023-Lead-3-1',
+                  name: '編制重整',
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: '10023-Lead-3-1',
+                    name: '編制重整',
+                    stack: 1,
+                    maxStack: 4,
+                    value: 0,
+                    affectType: AffectType.NONE,
+                  },
+                },
+                checkActivation: [
+                  {
+                    characterId: '10023',
+                    checkSkillId: '10023-Lead-3-1',
+                    skillStackCondition: SkillStackCondition.HIGHER,
+                    activateIfStack: 3,
+                    activateSkillId: '10023-Lead-5',
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: '10023-Lead-4',
+          name: '每經過1回合時，觸發「清除自身《編制重整》的所有層數」',
+          type: 20,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _20: {
+            target: Target.ALL_ALLIES,
+            targetChar: '10023',
+            targetSkill: '10023-Lead-3-1',
+            clearAll: true,
+          },
+        },
+        {
+          id: '10023-Lead-5',
+          name: '防禦時，觸發『使自身獲得1層《轉進》(最多1層)』',
+          type: 19,
+          condition: Condition.GUARD,
+          duration: 100,
+          deactivated: true,
+          _19: {
+            target: Target.SELF,
+            targetSkill: '10023-Lead-5-1',
+            increaseStack: 1,
+            applySkill: {
+              id: '10023-Lead-5-1',
+              name: '轉進',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10023-Lead-5-1',
+                name: '轉進',
+                stack: 1,
+                maxStack: 1,
+                value: 0,
+                affectType: AffectType.NONE,
+              },
+            },
+            checkActivation: [
+              {
+                characterId: '10023',
+                checkSkillId: '10023-Lead-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-Lead-6',
+              },
+              {
+                characterId: '10023',
+                checkSkillId: '10023-Lead-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-Lead-7',
+              },
+              {
+                characterId: '10023',
+                checkSkillId: '10023-Lead-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-Lead-8',
+              },
+              {
+                characterId: '10023',
+                checkSkillId: '10023-Lead-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-Lead-9',
+              },
+              {
+                characterId: '10023',
+                checkSkillId: '10023-Lead-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-Lead-10',
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-Lead-6',
+          name: '(反噬的犬嚎) 必殺時，追加「以自身攻擊力25%使自身以外的我方全體攻擊力增加(1回合)」',
+          type: 106,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deactivated: true,
+          _106: {
+            value: 0.25,
+            affectType: AffectType.RAW_ATK,
+            target: Target.ALL_EXCEPT_SELF,
+            duration: 1,
+            base: false,
+          },
+        },
+        {
+          id: '10023-Lead-7',
+          name: '(反噬的犬嚎) 必殺時，追加「使我方全體造成傷害增加50%(1回合)」',
+          type: 111,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deactivated: true,
+          _111: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: '10023-Lead-7-1',
+                name: '我方全體造成傷害增加50%(1回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  affectType: AffectType.INCREASE_DMG,
+                  value: 0.5,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-Lead-8',
+          name: '(反噬的犬嚎) 必殺時，追加「使我方全體必殺技傷害增加50%(1回合)」',
+          type: 111,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deactivated: true,
+          _111: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: '10023-Lead-8-1',
+                name: '必殺技傷害增加50%(1回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                  value: 0.5,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-Lead-9',
+          name: '(反噬的犬嚎) 必殺時，追加「使目標受到傷害增加50%(1回合)」',
+          type: 111,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deactivated: true,
+          _111: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: '10023-Lead-9-1',
+                name: '受到傷害增加50%(1回合)',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  value: 0.5,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-Lead-10',
+          name: '(反噬的犬嚎) 必殺時，觸發「清除自身《轉進》的所有層數」',
+          type: 23,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deactivated: true,
+          _23: {
+            targetChar: '10023',
+            clearSkill: ['10023-Lead-5-1'],
+            targetSkill: [
+              '10023-Lead-5',
+              '10023-Lead-6',
+              '10023-Lead-7',
+              '10023-Lead-8',
+              '10023-Lead-9',
+              '10023-Lead-10',
+            ],
+          },
+        },
+      ];
+
+      break;
+    }
     // "10024": "死靈女王 艾莉莎白",
     // "10025": "偶像 伊布力斯",
     // "10026": "偶像 黑白諾艾莉",

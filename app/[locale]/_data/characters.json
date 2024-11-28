@@ -222,11 +222,11 @@
   "10023": {
     "id": 10023,
     "name": "副手 貝蕾朵",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 4409.6,
+    "initAtk": 800,
     "attribute": 5,
-    "class": 11,
-    "available": false,
+    "class": 12,
+    "available": true,
     "cd": 4
   },
   "10024": {

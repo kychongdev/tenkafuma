@@ -4,6 +4,7 @@ import {
   Condition,
   Target,
   DamageType,
+  SkillStackCondition,
 } from '@/types/Skill';
 import { applyRawAttBuff } from '../applyRawAtk';
 import { dealBasicDamage } from '../dealBasisDamage';
@@ -135,6 +136,285 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10021": "賢者 白",
     // "10022": "狂犬 諾蕾蒂",
     // "10023": "副手 貝蕾朵",
+    case '10023': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10023-passive-1',
+          name: '第1回合，觸發「使自身獲得1層《孱弱的假象》(最多1層)」',
+          type: 19,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _19: {
+            increaseStack: 1,
+            targetSkill: '10023-passive-1-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10023-passive-1-1',
+              name: '孱弱的假象',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10023-passive-1-1',
+                name: '孱弱的假象',
+                stack: 1,
+                maxStack: 1,
+                value: 0,
+                affectType: AffectType.NONE,
+              },
+            },
+            checkActivation: [
+              {
+                characterId: '10023',
+                checkSkillId: '10023-passive-1-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-passive-3',
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-passive-2',
+          name: '必殺時，觸發「使自身獲得1層《孱弱的假象》(最多1層)」',
+          type: 19,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _19: {
+            increaseStack: 1,
+            targetSkill: '10023-passive-1-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10023-passive-1-1',
+              name: '孱弱的假象',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10023-passive-1-1',
+                name: '孱弱的假象',
+                stack: 1,
+                maxStack: 1,
+                value: 0,
+                affectType: AffectType.NONE,
+              },
+            },
+            checkActivation: [
+              {
+                characterId: '10023',
+                checkSkillId: '10023-passive-1-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-passive-3',
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-passive-3',
+          name: '防禦時，觸發「使自身獲得嘲諷(1回合)」且獲得《反擊》效果」',
+          type: 22,
+          condition: Condition.GUARD,
+          duration: 100,
+          deactivated: true,
+          _22: {
+            increaseStack: 1,
+            targetSkill: '10023-passive-3-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10023-passive-3-1',
+              name: '反擊',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10023-passive-3-1',
+                name: '反擊',
+                stack: 1,
+                maxStack: 1,
+                value: 0,
+                affectType: AffectType.NONE,
+              },
+            },
+            checkActivation: [
+              {
+                characterId: '10023',
+                checkSkillId: '10023-passive-1-1',
+                skillStackCondition: SkillStackCondition.EQUAL,
+                activateIfStack: 1,
+                applySkills: [
+                  {
+                    id: '10023-passive-3-2',
+                    //
+                    name: '被攻擊時，觸發「使我方全體造成傷害增加35%(4回合)(1回合)(觸發1次後解除)',
+                    type: 11,
+                    condition: Condition.RECEIVED_ATTACK,
+                    duration: 2,
+                    deleteSelf: true,
+                    _11: {
+                      target: Target.ALL_ALLIES,
+                      applySkill: [
+                        {
+                          id: '10023-passive-3-2',
+                          name: '造成傷害增加',
+                          type: 0,
+                          condition: Condition.NONE,
+                          duration: 4,
+                          _0: {
+                            value: 0.35,
+                            affectType: AffectType.INCREASE_DMG,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    id: '10023-passive-4',
+                    name: '被攻擊時，清除自身的《孱弱的假象》的所有層數」(1回合)(觸發1次後解除)',
+                    type: 20,
+                    condition: Condition.RECEIVED_ATTACK,
+                    duration: 2,
+                    deleteSelf: true,
+                    _20: {
+                      target: Target.ALL_ALLIES,
+                      targetChar: '10023',
+                      targetSkill: '10023-passive-1-1',
+                      clearAll: true,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-passive-5',
+          name: '防禦時，觸發「使自身獲得1層《反攻的時機》(最多1層)」',
+          type: 19,
+          condition: Condition.GUARD,
+          duration: 100,
+          _19: {
+            increaseStack: 1,
+            targetSkill: '10023-passive-5-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10023-passive-5-1',
+              name: '反攻的時機',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10023-passive-5-1',
+                name: '反攻的時機',
+                stack: 1,
+                maxStack: 1,
+                value: 0,
+                affectType: AffectType.NONE,
+              },
+            },
+            checkActivation: [
+              {
+                characterId: '10023',
+                checkSkillId: '10023-passive-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-passive-6',
+              },
+              {
+                characterId: '10023',
+                checkSkillId: '10023-passive-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-passive-7',
+              },
+              {
+                characterId: '10023',
+                checkSkillId: '10023-passive-5-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 0,
+                activateSkillId: '10023-passive-8',
+              },
+            ],
+          },
+        },
+        {
+          id: '10023-passive-6',
+          name: '必殺時，追加「以自身攻擊力75%對目標造成傷害2次」',
+          type: 101,
+          condition: Condition.ULTIMATE,
+          deactivated: true,
+          duration: 100,
+          _101: {
+            value: 0.75,
+            target: Target.ENEMY,
+            damageType: DamageType.ULTIMATE_ADDON,
+            action: CharacterAction.ULTIMATE,
+            multiple: 2,
+          },
+        },
+        {
+          id: '10023-passive-7',
+          name: '必殺時，觸發「清除自身《反攻的時機》的所有層數」',
+          type: 23,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deactivated: true,
+          _23: {
+            clearSkill: ['10023-passive-5-1'],
+            targetChar: '10023',
+            targetSkill: [
+              '10023-passive-6',
+              '10023-passive-7',
+              '10023-passive-8',
+            ],
+          },
+        },
+      ];
+      // 當自身《反攻的時機》層數=1層時，發動「《逆襲的彈雨》」
+      //
+      // 《逆襲的彈雨》
+      // 必殺時，追加「以自身攻擊力45.5%對目標造成傷害8次」
+      //
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10023-passive-8',
+            name: '必殺時，追加「以自身攻擊力45.5%對目標造成傷害8次」',
+            type: 101,
+            condition: Condition.ULTIMATE,
+            deactivated: true,
+            duration: 100,
+            _101: {
+              value: 0.455,
+              target: Target.ENEMY,
+              damageType: DamageType.ULTIMATE_ADDON,
+              action: CharacterAction.ULTIMATE,
+              multiple: 8,
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10023-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10024": "死靈女王 艾莉莎白",
     // "10025": "偶像 伊布力斯",
     // "10026": "偶像 黑白諾艾莉",

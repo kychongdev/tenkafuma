@@ -51,6 +51,33 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10021": "賢者 白",
     // "10022": "狂犬 諾蕾蒂",
     // "10023": "副手 貝蕾朵",
+    case '10023': {
+      gameState.characters.forEach((character) => {
+        character.buff = [
+          ...character.buff,
+          {
+            id: '10023-basic-1',
+            name: '攻擊力',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.25,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+      dealBasicDamage(
+        position,
+        0.75,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10024": "死靈女王 艾莉莎白",
     // "10025": "偶像 伊布力斯",
     // "10026": "偶像 黑白諾艾莉",
