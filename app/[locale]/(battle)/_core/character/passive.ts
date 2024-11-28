@@ -1353,6 +1353,145 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10134": "閃耀歌姬 黑白諾艾莉",
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
+    case '10136': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10136-passive-1',
+          name: '普攻傷害增加70%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.7,
+            affectType: AffectType.INCREASE_BASIC_DMG,
+          },
+        },
+      ];
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10136-passive-1',
+          name: '必殺時，觸發「使我方全體水屬性的攻擊者、守護者、妨礙者獲得《傳遞飛刀》」',
+          type: 17,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _17: {
+            includeSelf: true,
+            target: [
+              CharacterClass.ATTACKER,
+              CharacterClass.PROTECTOR,
+              CharacterClass.OBSTRUCTER,
+            ],
+            attributeTarget: CharacterAttribute.WATER,
+            applySkill: [
+              {
+                id: '10136-passive-1-1',
+                name: '普攻時，追加「以自身攻擊力30%對目標造成傷害」(1回合)',
+                type: 101,
+                condition: Condition.BASIC_ATTACK,
+                duration: 1,
+                _101: {
+                  value: 0.3,
+                  target: Target.ENEMY,
+                  damageType: DamageType.BASIC_ADDON,
+                  action: CharacterAction.BASIC,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10136-passive-2',
+          name: '必殺時，觸發「使我方全體水屬性的攻擊者、守護者、妨礙者獲得「必殺時，觸發『使我方賞金獵人安潔娜爾』獲得《傳遞飛刀》』」',
+          type: 17,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _17: {
+            includeSelf: false,
+            target: [
+              CharacterClass.ATTACKER,
+              CharacterClass.PROTECTOR,
+              CharacterClass.OBSTRUCTER,
+            ],
+            attributeTarget: CharacterAttribute.WATER,
+            applySkill: [
+              {
+                id: '10136-passive-2-1',
+                name: '必殺時，觸發「使我方賞金獵人安潔娜爾獲得《傳遞飛刀》」',
+                type: 13,
+                condition: Condition.ULTIMATE,
+                duration: 4,
+                _13: {
+                  target: '10136',
+                  applySkill: [
+                    {
+                      id: '10136-passive-2-2',
+                      name: '普攻時，追加「以自身攻擊力30%對目標造成傷害」(1回合)',
+                      type: 101,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 1,
+                      _101: {
+                        value: 0.3,
+                        target: Target.ENEMY,
+                        damageType: DamageType.BASIC_ADDON,
+                        action: CharacterAction.BASIC,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10136-passive-3',
+            name: '第一回合時，使自身當前必殺技CD減少4回合',
+            type: 14,
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            _14: {
+              reduceCD: 4,
+              target: Target.SELF,
+            },
+          },
+          {
+            id: '10136-passive-4',
+            name: '第一回合時，使自身以外的我方全體水屬性隊員當前必殺技CD減少1回合',
+            type: 18,
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            _18: {
+              reduceCD: 1,
+              attribute: CharacterAttribute.WATER,
+              includeSelf: false,
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10136-passive4',
+            name: '普攻傷害增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10137": "春情白兔 鈴蘭",
     case '10137': {
       gameState.characters[position].buff = [

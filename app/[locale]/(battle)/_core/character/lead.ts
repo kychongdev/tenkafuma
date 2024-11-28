@@ -848,6 +848,101 @@ export function triggerLead(gameState: GameState) {
     // "10134": "閃耀歌姬 黑白諾艾莉",
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
+    case '10136': {
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.attribute === CharacterAttribute.WATER ||
+          character.attribute === CharacterAttribute.WIND
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10136-Lead-1',
+              name: '最大HP增加20%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.MAX_HP,
+                value: 0.2,
+              },
+            },
+            {
+              id: '10136-Lead-2',
+              name: '攻擊力增加100%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 1,
+              },
+            },
+          ];
+        }
+        if (character.attribute === CharacterAttribute.WATER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10136-Lead-3',
+              name: '普攻傷害增加80%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_BASIC_DMG,
+                value: 0.8,
+              },
+            },
+            {
+              id: '10136-Lead-4',
+              name: '造成傷害增加50%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.5,
+              },
+            },
+          ];
+        }
+        if (
+          character.attribute === CharacterAttribute.WIND &&
+          (character.class === CharacterClass.HEALER ||
+            character.class === CharacterClass.SUPPORT)
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10136-Lead-5',
+              // 攻擊時，觸發「使我方水屬性的角色造成傷害增加30%(1回合)」
+              name: '《集團追獵》',
+              type: 11,
+              condition: Condition.NONE,
+              duration: 100,
+              _11: {
+                target: Target.WATER,
+                applySkill: [
+                  {
+                    id: '10136-Lead-5-1',
+                    name: '造成傷害增加30%',
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.3,
+                      affectType: AffectType.INCREASE_DMG,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10137": "春情白兔 鈴蘭",
     case '10137': {
       gameState.characters.forEach((character, index) => {

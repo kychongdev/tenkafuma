@@ -1202,11 +1202,11 @@
   "10136": {
     "id": 10136,
     "name": "賞金獵人 安潔娜爾",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3924.8,
+    "initAtk": 897.6,
+    "attribute": 6,
+    "class": 14,
+    "available": true,
     "cd": 4
   },
   "10137": {

@@ -209,6 +209,17 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10134": "閃耀歌姬 黑白諾艾莉",
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
+    case '10136': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10137": "春情白兔 鈴蘭",
     case '10137': {
       gameState.characters[position].buff = [
