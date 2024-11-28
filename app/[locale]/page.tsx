@@ -1,5 +1,37 @@
-import Image from 'next/image';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 export default function Home() {
-  return <></>;
+  return (
+    <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)] p-4">
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>免責聲明</AccordionTrigger>
+          <AccordionContent>
+            本站工具所提供的數據與實際情形發生差異而導致的利害一概不負責，最終請以官方及遊戲內數據為主。
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>注意事項</AccordionTrigger>
+          <AccordionContent>
+            數值因小數點關係，每次數值結算會有1～9的偏差。
+            <br />
+            未實裝：
+            <br />
+            免疫類效果
+            <br />
+            負面效果如睡眠，麻痹等
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>更新日誌</AccordionTrigger>
+          <AccordionContent></AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </div>
+  );
 }
