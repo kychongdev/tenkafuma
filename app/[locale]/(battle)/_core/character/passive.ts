@@ -1351,6 +1351,73 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10132": "幽夜女爵 卡蒂雅",
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
+    case '10134': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10134-passive-1',
+          name: '攻擊力增加35%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.35,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: '10134-passive-2',
+          name: '必殺時，觸發「以自身攻擊力15使自身以外我方全體攻擊力增加(1回合)」',
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            base: false,
+            duration: 1,
+            value: 0.15,
+            target: Target.ALL_EXCEPT_SELF,
+            affectType: AffectType.RAW_ATK,
+          },
+        },
+      ];
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10134-passive-5',
+            name: '必殺時，觸發「以自身攻擊力15使自身以外我方全體攻擊力增加(1回合)」',
+            type: 6,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.15,
+              target: Target.ALL_EXCEPT_SELF,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10134-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
+
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     case '10136': {

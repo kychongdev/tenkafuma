@@ -1182,11 +1182,11 @@
   "10134": {
     "id": 10134,
     "name": "閃耀歌姬 黑白諾艾莉",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3372.8,
+    "initAtk": 1044.8,
+    "attribute": 7,
+    "class": 13,
+    "available": true,
     "cd": 4
   },
   "10135": {

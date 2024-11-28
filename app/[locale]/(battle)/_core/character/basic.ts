@@ -207,6 +207,10 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10132": "幽夜女爵 卡蒂雅",
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
+    case '10134': {
+      heal(position, 0.75, gameState, true, Target.ALL_ALLIES);
+      break;
+    }
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     case '10136': {
