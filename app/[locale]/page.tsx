@@ -18,6 +18,8 @@ export default function Home() {
         <AccordionItem value="item-2">
           <AccordionTrigger>注意事項</AccordionTrigger>
           <AccordionContent>
+            目前功能極其不穩定，因為實裝了敵人還要加護盾/治療/站位等等，如要使用請自行承擔風險。
+            <br />
             數值因小數點關係，每次數值結算會有1～9的偏差。
             <br />
             未實裝：

@@ -49,6 +49,7 @@ export function SimulateResult({ index }: { index: number }) {
     (acc, cur) => acc + cur.damage,
     0,
   );
+  console.log('Base Action:', baseEachTurnResult);
   const total =
     totalDamage + totalDamage2 + totalDamage3 + totalDamage4 + totalDamage5;
   const baseEachTurnTotal = baseEachTurnResult.map((value) => {
@@ -221,6 +222,7 @@ export function SimulateResult({ index }: { index: number }) {
           value.damage_log_5,
           result.turn,
         );
+        console.log('Ult Action:', eachTurnDmg);
 
         const dmg1 = value.damage_log_1.reduce(
           (acc, cur) => acc + cur.damage,
@@ -309,6 +311,7 @@ export function SimulateResult({ index }: { index: number }) {
                   {eachTurnDmg.map((value, i) => {
                     const total =
                       value[0] + value[1] + value[2] + value[3] + value[4];
+                    console.log(i);
                     return (
                       <div key={'baseTeam' + i}>
                         {total !== 0 ? (

@@ -15,6 +15,24 @@ export function calculateDamageEachTurn(
   const groupByTurn3 = groupBy(damageLog3, 'turn');
   const groupByTurn4 = groupBy(damageLog4, 'turn');
 
+  for (let i = 1; i < turns; i++) {
+    if (!groupByTurn[i]) {
+      groupByTurn[i] = [];
+    }
+    if (!groupByTurn1[i]) {
+      groupByTurn1[i] = [];
+    }
+    if (!groupByTurn2[i]) {
+      groupByTurn2[i] = [];
+    }
+    if (!groupByTurn3[i]) {
+      groupByTurn3[i] = [];
+    }
+    if (!groupByTurn4[i]) {
+      groupByTurn4[i] = [];
+    }
+  }
+
   const damageArr = [];
   for (const key in groupByTurn) {
     const sum = groupByTurn[key].reduce((acc, curr) => acc + curr.damage, 0);
