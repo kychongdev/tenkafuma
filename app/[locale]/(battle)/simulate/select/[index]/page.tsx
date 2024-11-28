@@ -4,7 +4,7 @@ import { ClientOnly } from '@/components/ClientOnly';
 import SelectSimulateTeam from './SelectSimulateTeam';
 import { useParams } from 'next/navigation';
 import { isString } from 'lodash';
-import { useSimulateTeamState } from '../../../_core/SimulateTeamState';
+import { useSimulateTeamState } from '@/core/SimulateTeamState';
 export default function SimulateSelect() {
   const { index } = useParams();
   if (!index || !isString(index)) {

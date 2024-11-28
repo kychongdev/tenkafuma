@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { createJSONStorage, persist, StateStorage } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { CharacterTeam } from '@/types/Select';
 import { DamageLog } from '@/types/Game';
@@ -43,6 +43,20 @@ interface BaseSimulationResult {
 interface SimulationResult extends BaseSimulationResult {
   select: CharacterTeam;
 }
+const storage: StateStorage = {
+  getItem: async (name: string): Promise<string | null> => {
+    console.log(name, 'has been retrieved');
+    return (await localforage.getItem(name)) || null;
+  },
+  setItem: async (name: string, value: string): Promise<void> => {
+    console.log(name, 'with value', value, 'has been saved');
+    await localforage.setItem(name, value);
+  },
+  removeItem: async (name: string): Promise<void> => {
+    console.log(name, 'has been deleted');
+    await localforage.removeItem(name);
+  },
+};
 
 export const useSimulateTeamState = create<SimulateTeamState>()(
   persist(
@@ -78,7 +92,7 @@ export const useSimulateTeamState = create<SimulateTeamState>()(
     })),
     {
       name: 'simulate-team',
-      storage: createJSONStorage(() => localforage),
+      storage: createJSONStorage(() => storage),
       // ...
       onRehydrateStorage: (state) => {
         return () => state.setHasHydrated(true);
