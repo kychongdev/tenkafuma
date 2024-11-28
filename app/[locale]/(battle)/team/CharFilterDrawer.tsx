@@ -258,7 +258,7 @@ export const CharFilterDrawer = ({
                 />
               </Toggle>
             </div>
-            <div className="flex flex-row gap-2 flex-wrap my-2">
+            <div className="grid grid-cols-6 gap-1 my-2 gap-y-3">
               {c.map((char) => {
                 return (
                   <Avatar
