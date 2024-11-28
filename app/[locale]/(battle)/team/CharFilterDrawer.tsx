@@ -37,8 +37,10 @@ export const CharFilterDrawer = ({
 
   const charListFiltered = _.pickBy(charList, (value) => {
     if (charClass.length === 0 && attribute.length === 0) return true;
+    if (charClass.length === 0) return attribute.includes(value.attribute);
+    if (attribute.length === 0) return charClass.includes(value.class);
     return (
-      charClass.includes(value.class) || attribute.includes(value.attribute)
+      charClass.includes(value.class) && attribute.includes(value.attribute)
     );
   });
 
