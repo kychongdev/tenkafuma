@@ -17,8 +17,11 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, Trash2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { CharacterTeam } from '@/types/Select';
+import { useParams } from 'next/navigation';
 
-export function SimulateResult({ index }: { index: number }) {
+export function SimulateResult() {
+  const params = useParams();
+  const index = parseInt(params.index as string);
   const result = useSimulateTeamState((state) => state.teams[index]);
   const baseEachTurnResult = calculateDamageEachTurn(
     result.baseResult.damage_log_1,
