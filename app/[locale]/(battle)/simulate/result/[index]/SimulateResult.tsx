@@ -14,10 +14,9 @@ import {
 } from '@/components/ui/collapsible';
 import { DisplaySelect } from './DisplaySelect';
 import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Trash2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { CharacterTeam } from '../../../_types/Select';
-import { ActionLog } from '../../../_core/Analysis';
+import { CharacterTeam } from '@/types/Select';
 
 export function SimulateResult({ index }: { index: number }) {
   const result = useSimulateTeamState((state) => state.teams[index]);
@@ -247,7 +246,15 @@ export function SimulateResult({ index }: { index: number }) {
         return (
           <div key={'analysis' + i}>
             <Separator className="my-2" />
-            <Card className="p-2">{parseBond(value.select)}</Card>
+            <Card className="p-2">
+              <div className="flex items-center justify-between space-x-4 px-1">
+                {parseBond(value.select)}
+                <Button variant="ghost" size="sm">
+                  <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">Toggle</span>
+                </Button>
+              </div>
+            </Card>
             <Card className="p-1">
               <Collapsible>
                 <div className="flex items-center justify-between space-x-4 px-1">

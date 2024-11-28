@@ -10,11 +10,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useGameState } from '@/core/GameState';
-import { parseSkillName } from '../_core/utils';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TabsContent } from '@radix-ui/react-tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { CharacterStats } from './CharacterStats';
+import { BookA } from 'lucide-react';
 
 export function BattleLog() {
   const battleLog = useGameState((state) => state.battle_log);
@@ -22,7 +19,9 @@ export function BattleLog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full">Battle Log</Button>
+        <Button className="w-full">
+          <BookA />
+        </Button>
       </DialogTrigger>
       <DialogContent className="p-3 sm:max-w-[425px]">
         <DialogHeader hidden>

@@ -20,6 +20,7 @@ import { BattleControlDrawer } from './BattleControlDrawer';
 import { BattleLog } from './BattleLog';
 import { EnemyStatus } from './EnemyStatus';
 import { useSimulateTeamState } from '../_core/SimulateTeamState';
+import { ChartPie, Info, Power, Save, Sword, Undo } from 'lucide-react';
 
 export default function Battle() {
   const t = useTranslations('Battle');
@@ -118,50 +119,47 @@ export default function Battle() {
           <CharacterButton position={4} />
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-7 gap-2">
+          <Button
+            onClick={() => {
+              debug();
+            }}
+          >
+            <Info />
+          </Button>
+          <BattleLog />
+
+          <Button
+            onClick={() => {
+              router.push('/battle/stats');
+            }}
+          >
+            <ChartPie />
+          </Button>
           <Button
             onClick={() => {
               if (select) initBattle(select);
             }}
           >
-            Reset
+            <Power />
           </Button>
-          <BattleLog />
 
           <Button
             onClick={() => {
               router.push('/stage');
             }}
           >
-            Stage
+            <Sword />
           </Button>
-        </div>
 
-        <div className="grid grid-cols-3 gap-2 mt-2">
           <Button
             onClick={() => {
               undoLastAction();
             }}
           >
-            Undo
+            <Undo />
           </Button>
-          <Button
-            onClick={() => {
-              router.push('/battle/stats');
-            }}
-          >
-            Stats
-          </Button>
-          <Button
-            onClick={() => {
-              debug();
-            }}
-          >
-            Debug
-          </Button>
-        </div>
 
-        <div className="grid grid-cols-3 gap-2 mt-2">
           <Button
             onClick={() => {
               if (select) {
@@ -182,7 +180,7 @@ export default function Battle() {
               }
             }}
           >
-            Save To Analysis
+            <Save />
           </Button>
         </div>
       </div>

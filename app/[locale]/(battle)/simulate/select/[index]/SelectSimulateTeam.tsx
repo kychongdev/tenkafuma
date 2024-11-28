@@ -8,12 +8,14 @@ import { Form } from '@/components/ui/form';
 import { SimulateCharStatsSelect } from '../SimulateCharStatsSelect';
 import { useSimulateTeamState } from '@/core/SimulateTeamState';
 import { useAnalysisState } from '@/core/Analysis';
+import { useRouter } from '@/app/i18n/routing';
 
 export default function SelectSimulateTeam({ index }: { index: number }) {
   const t = useTranslations('Team');
   const teams = useSimulateTeamState((state) => state.teams);
   const { initBattle, basicAction, ultAction, guardAction, analysis } =
     useAnalysisState((state) => state);
+  const router = useRouter();
 
   const form = useForm<CharacterTeam>({
     values: teams[index].team,
@@ -59,6 +61,7 @@ export default function SelectSimulateTeam({ index }: { index: number }) {
       }
     });
     analysis(index);
+    router.push(`/simulate/result/${index}`);
   }
 
   return (

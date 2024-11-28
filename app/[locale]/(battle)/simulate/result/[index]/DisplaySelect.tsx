@@ -73,7 +73,15 @@ export const DisplaySelect = ({ index }: { index: number }) => {
               router.push(`/simulate/select/${index}`);
             }}
           >
-            {t('Battle')}
+            調整練度模擬
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => {
+              router.push(`/simulate/select/${index}`);
+            }}
+          >
+            刪除所有紀錄
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

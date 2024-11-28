@@ -74,7 +74,15 @@ export const SimulateTeamSelect = ({ index }: { index: number }) => {
               router.push(`/simulate/select/${index}`);
             }}
           >
-            {t('Battle')}
+            調整練度模擬
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => {
+              router.push(`/simulate/result/${index}`);
+            }}
+          >
+            查看紀錄
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
