@@ -15,8 +15,8 @@ interface SimulateTeamState {
   ) => void;
   saveToAnalysis: (position: number, analysis: SimulationResult) => void;
   deleteTeam: (position: number) => void;
-  _hasHydrated: boolean;
-  setHasHydrated: (value: boolean) => void;
+  // _hasHydrated: boolean;
+  // setHasHydrated: (value: boolean) => void;
 }
 
 export interface SimulateTeam {
@@ -43,20 +43,6 @@ interface BaseSimulationResult {
 interface SimulationResult extends BaseSimulationResult {
   select: CharacterTeam;
 }
-const storage: StateStorage = {
-  getItem: async (name: string): Promise<string | null> => {
-    console.log(name, 'has been retrieved');
-    return (await localforage.getItem(name)) || null;
-  },
-  setItem: async (name: string, value: string): Promise<void> => {
-    console.log(name, 'with value', value, 'has been saved');
-    await localforage.setItem(name, value);
-  },
-  removeItem: async (name: string): Promise<void> => {
-    console.log(name, 'has been deleted');
-    await localforage.removeItem(name);
-  },
-};
 
 export const useSimulateTeamState = create<SimulateTeamState>()(
   persist(
@@ -92,11 +78,20 @@ export const useSimulateTeamState = create<SimulateTeamState>()(
     })),
     {
       name: 'simulate-team',
-      storage: createJSONStorage(() => storage),
+      storage: createJSONStorage(() => {
+        console.log('creating storage');
+        try {
+          return localforage.createInstance({
+            name: 'simulate-team',
+          });
+        } catch (e) {
+          return localStorage;
+        }
+      }),
       // ...
-      onRehydrateStorage: (state) => {
-        return () => state.setHasHydrated(true);
-      },
+      // onRehydrateStorage: (state) => {
+      //   return () => state.setHasHydrated(true);
+      // },
 
       // ...
     },

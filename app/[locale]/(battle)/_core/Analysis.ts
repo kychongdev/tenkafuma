@@ -114,21 +114,7 @@ function resetBattle(state: GameState) {
   state.undo = [];
 }
 
-const storage: StateStorage = {
-  getItem: async (name: string): Promise<string | null> => {
-    console.log(name, 'has been retrieved');
-    return (await localforage.getItem(name)) || null;
-  },
-  setItem: async (name: string, value: string): Promise<void> => {
-    console.log(name, 'with value', value, 'has been saved');
-    await localforage.setItem(name, value);
-  },
-  removeItem: async (name: string): Promise<void> => {
-    console.log(name, 'has been deleted');
-    await localforage.removeItem(name);
-  },
-};
-
+localforage.setDriver([localforage.WEBSQL, localforage.INDEXEDDB]);
 export const useAnalysisState = create<GameState>()(
   persist(
     immer((set) => ({
@@ -303,7 +289,7 @@ export const useAnalysisState = create<GameState>()(
     })),
     {
       name: 'simulation',
-      storage: createJSONStorage(() => storage),
+      storage: createJSONStorage(() => localforage),
     },
   ),
 );

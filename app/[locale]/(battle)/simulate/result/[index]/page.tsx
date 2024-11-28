@@ -10,11 +10,11 @@ export default function SimulateSelect() {
   if (!index || !isString(index)) {
     return <div>Wrong Parameter</div>;
   }
-  const hasHydrated = useSimulateTeamState((state) => state._hasHydrated);
-
-  if (!hasHydrated) {
-    return <p>Loading...</p>;
-  }
+  // const hasHydrated = useSimulateTeamState((state) => state._hasHydrated);
+  //
+  // if (!hasHydrated) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <ClientOnly>
