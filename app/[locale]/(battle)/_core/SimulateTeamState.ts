@@ -70,24 +70,10 @@ export const useSimulateTeamState = create<SimulateTeamState>()(
           state.teams.splice(position, 1);
         });
       },
-      setHasHydrated: (value) => {
-        set((state) => {
-          state._hasHydrated = value;
-        });
-      },
     })),
     {
       name: 'simulate-team',
-      storage: createJSONStorage(() => {
-        console.log('creating storage');
-        try {
-          return localforage.createInstance({
-            name: 'simulate-team',
-          });
-        } catch (e) {
-          return localStorage;
-        }
-      }),
+      storage: createJSONStorage(() => localforage),
       // ...
       // onRehydrateStorage: (state) => {
       //   return () => state.setHasHydrated(true);
