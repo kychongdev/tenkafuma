@@ -9,8 +9,11 @@ import { SimulateCharStatsSelect } from '../SimulateCharStatsSelect';
 import { useSimulateTeamState } from '@/core/SimulateTeamState';
 import { useAnalysisState } from '@/core/Analysis';
 import { useRouter } from '@/app/i18n/routing';
+import { useParams } from 'next/navigation';
 
-export default function SelectSimulateTeam({ index }: { index: number }) {
+export default function SelectSimulateTeam() {
+  const param = useParams();
+  const index = parseInt(param.index as string);
   const t = useTranslations('Team');
   const teams = useSimulateTeamState((state) => state.teams);
   const { initBattle, basicAction, ultAction, guardAction, analysis } =
