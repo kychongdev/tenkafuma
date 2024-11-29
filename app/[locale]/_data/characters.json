@@ -1142,11 +1142,11 @@
   "10130": {
     "id": 10130,
     "name": "聖夜喧嘩 莎琳娜",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 4158.4,
+    "initAtk": 848,
+    "attribute": 7,
+    "class": 12,
+    "available": true,
     "cd": 4
   },
   "10131": {
