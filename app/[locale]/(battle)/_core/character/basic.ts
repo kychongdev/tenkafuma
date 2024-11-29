@@ -215,6 +215,25 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
     // "10126": "調皮搗蛋 白",
+    case '10126': {
+      gameState.characters.forEach((character) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
+        character.buff = [
+          ...character.buff,
+          {
+            id: '10126-basic-1',
+            name: '攻擊力',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+    }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
     case '10128': {

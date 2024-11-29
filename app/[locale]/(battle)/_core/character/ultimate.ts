@@ -705,6 +705,84 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
     // "10126": "調皮搗蛋 白",
+    case '10126': {
+      gameState.enemies[gameState.targeting].buff = [
+        ...gameState.enemies[gameState.targeting].buff,
+        {
+          id: '10126-ult-1',
+          name: '受到傷害增加30%(4回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.3
+                : bond === 2
+                  ? 0.3
+                  : bond === 3
+                    ? 0.4
+                    : bond === 4
+                      ? 0.4
+                      : 0.45,
+          },
+        },
+      ];
+      if (bond > 1) {
+        const stack = gameState.enemies[gameState.targeting].buff.find(
+          (buff) => buff.id === '10126-ult-2',
+        )?._3?.stack;
+        if (stack !== 1 || !stack) {
+          gameState.enemies[gameState.targeting].buff = [
+            ...gameState.enemies[gameState.targeting].buff,
+            {
+              id: '10126-ult-2',
+              name: '受到傷害增加10%(最多1層)',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 4,
+              _3: {
+                id: '10126-ult-2',
+                name: '受到傷害增加10%(最多1層)',
+                stack: 1,
+                maxStack: 1,
+                affectType: AffectType.INCREASE_DMG_RECEIVED,
+                value:
+                  bond === 2 ? 0.1 : bond === 3 ? 0.1 : bond === 4 ? 0.2 : 0.2,
+              },
+            },
+          ];
+        }
+      }
+
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10126-ult-3',
+            name: '必殺技傷害增加30%(4回合)',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.3,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
     case '10128': {

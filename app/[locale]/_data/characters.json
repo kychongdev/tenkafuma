@@ -1102,11 +1102,11 @@
   "10126": {
     "id": 10126,
     "name": "調皮搗蛋 白",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3427.2,
+    "initAtk": 1028.8,
     "attribute": 5,
-    "class": 11,
-    "available": false,
+    "class": 15,
+    "available": true,
     "cd": 4
   },
   "10127": {

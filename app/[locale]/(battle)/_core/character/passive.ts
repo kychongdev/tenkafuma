@@ -1501,6 +1501,201 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
     // "10126": "調皮搗蛋 白",
+    case '10126': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10126-1',
+          name: '當前HP≤99%時，發動「自身受到傷害減少10%」',
+          type: 5,
+          condition: Condition.NONE,
+          duration: 100,
+          _5: {
+            condition: SpecialCondition.HP_LOWER_THAN,
+            conditionValue: 99,
+            value: 0.1,
+            affectType: AffectType.DECREASE_DMG_RECEIVED,
+            target: Target.ATTACKER,
+          },
+        },
+        {
+          id: '10126-passive-2',
+          name: '每經過1回合時，觸發「給予自身『連環陷阱(最多9層)』」',
+          type: 19,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _19: {
+            increaseStack: 1,
+            targetSkill: '10126-passive-2-1',
+            target: Target.SELF,
+            applySkill: {
+              id: '10126-passive-2-1',
+              name: '『連環陷阱』',
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: '10126-passive-2-1',
+                name: '連環陷阱',
+                stack: 1,
+                maxStack: 9,
+                value: 0,
+                affectType: AffectType.NONE,
+              },
+            },
+            checkActivation: [
+              {
+                characterId: '10126',
+                checkSkillId: '10126-passive-2-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 6,
+                activateSkillId: '10126-passive-6',
+              },
+              {
+                characterId: '10126',
+                checkSkillId: '10126-passive-2-1',
+                skillStackCondition: SkillStackCondition.HIGHER,
+                activateIfStack: 8,
+                activateSkillId: '10126-passive-7',
+              },
+            ],
+          },
+        },
+        {
+          id: '10126-passive-3',
+          name: '必殺時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」',
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            base: false,
+            duration: 1,
+            value: 0.3,
+            target: Target.ALL_ALLIES,
+            affectType: AffectType.RAW_ATK,
+          },
+        },
+        {
+          id: '10126-passive-6',
+          name: '當自身「連環陷阱」層數>6層時，開啟「攻擊力增加20%」',
+          type: 0,
+          deactivated: true,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.2,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: '10126-passive-7',
+          name: '當自身「連環陷阱」層數>9層時，開啟「攻擊力增加20%」',
+          type: 0,
+          deactivated: true,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.2,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+
+          {
+            id: '10126-7',
+            name: '必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到火屬性傷害增加3%(1回合)』」',
+            type: 8,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _8: {
+              value: 0.03,
+              target: Target.SELF,
+              targetSkill: '10126-passive-2-1',
+              triggerSkill: {
+                id: '10126-7-1',
+                name: '受到火屬性傷害增加3%',
+                type: 11,
+                condition: Condition.NONE,
+                duration: 1,
+                _11: {
+                  target: Target.ENEMY,
+                  applySkill: [
+                    {
+                      id: '10126-7-1-1',
+                      name: '受到火屬性傷害增加3%',
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.03,
+                        affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          {
+            id: '10126-8',
+            name: '必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到水屬性傷害增加3%(1回合)』」',
+            type: 8,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _8: {
+              value: 0.03,
+              target: Target.SELF,
+              targetSkill: '10126-passive-2-1',
+              triggerSkill: {
+                id: '10126-8-1',
+                name: '受到水屬性傷害增加3%',
+                type: 11,
+                condition: Condition.NONE,
+                duration: 1,
+                _11: {
+                  target: Target.ENEMY,
+                  applySkill: [
+                    {
+                      id: '10126-8-1-1',
+                      name: '受到水屬性傷害增加3%',
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.03,
+                        affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10126-9',
+            name: '使自身受到傷害減少5%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.05,
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
     case '10128': {
