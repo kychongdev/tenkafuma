@@ -1110,6 +1110,121 @@ export function triggerLead(gameState: GameState) {
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
     // "10129": "性誕馴鹿 希依",
+    case '10129': {
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: '10129-Lead-1',
+          name: '最大HP增加30%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.MAX_HP,
+            value: 0.3,
+          },
+        },
+        // 自身護盾效果增加50%
+        {
+          id: '10129-Lead-2',
+          name: '每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」',
+          type: 21,
+          condition: Condition.ON_TURN_START,
+          conditionTurn: 1,
+          duration: 1,
+          _21: {
+            trigger: [
+              {
+                id: '10129-lead-2-1',
+                name: '每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」',
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: '10129-lead-2-1-1',
+                  target: Target.ENEMY,
+                  applySkill: {
+                    id: '10129-lead-2-1-1',
+                    name: '受到傷害增加50%',
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: '10129-lead-2-1-1',
+                      name: '受到傷害增加50%',
+                      value: 0.5,
+                      stack: 1,
+                      maxStack: 1,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      const fourWindCondition = [
+        CharacterAttribute.WIND,
+        CharacterAttribute.WIND,
+        CharacterAttribute.WIND,
+        CharacterAttribute.WIND,
+      ];
+      gameState.characters.forEach((character) => {
+        if (fourWindCondition.includes(character.attribute)) {
+          const index = fourWindCondition.indexOf(character.attribute);
+          if (index !== -1) {
+            fourWindCondition.splice(
+              fourWindCondition.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+      if (fourWindCondition.length === 0) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10129-Lead-3',
+              name: '攻擊力增加130%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 1.3,
+              },
+            },
+            {
+              id: '10129-Lead-4',
+              name: '必殺技傷害增加50%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                value: 0.5,
+              },
+            },
+            {
+              id: '10129-Lead-5',
+              name: '造成傷害增加20%',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.2,
+              },
+            },
+          ];
+        });
+      }
+      break;
+    }
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",
@@ -2705,6 +2820,46 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10152": "治癒之星 蘇珊",
+    case '10152': {
+      // 使我方全體最大HP增加50%
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '101522-lead-1',
+            name: '最大HP增加50%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.5,
+            },
+          },
+          {
+            id: '101522-lead-2',
+            name: '使我方全體受到護盾效果減少200%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_SHIELD_RATE_RECEIVED,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+
+      // 我方全體獲得「當我方隊伍恰好為1種角色屬性時，開啟《英雄召喚》」
+      // 我方全體獲得「當我方隊伍恰好為2種角色屬性時，開啟《英雄召喚》」
+      //
+      // 《英雄召喚》
+      // 攻擊力增加75%
+      // 必殺時，觸發「使目標受到光屬性、闇屬性傷害增加3%(最多15層)」
+      // 必殺時，追加「以自身攻擊力200%對目標造成傷害」
+      // 普攻時，追加「以自身攻擊力100%對目標造成傷害」
+      break;
+    }
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     case '10154': {

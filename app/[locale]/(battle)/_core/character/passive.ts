@@ -1625,6 +1625,133 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10129": "性誕馴鹿 希依",
+    case '10129': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10129-passive-1',
+          name: '每經過1回合，觸發「使我方全體必殺技傷害增加3%(最多15層)」',
+          type: 21,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: '10129-passive-1-1',
+                name: '每經過1回合，觸發「使我方全體必殺技傷害增加3%(最多15層)」',
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: '10129-passive-1-1-1',
+                  target: Target.ALL_ALLIES,
+                  applySkill: {
+                    id: '10129-passive-1-1-1',
+                    name: '受到傷害增加20%',
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: '10129-passive-1-1-1',
+                      name: '受到傷害增加20%',
+                      value: 0.03,
+                      stack: 1,
+                      maxStack: 15,
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+
+        // TODO
+        {
+          id: '10129-passive-2',
+          name: '被攻擊時，觸發「使《油門當剎車踩》的我方全體必殺技傷害增加效果增加1層」',
+          type: 21,
+          condition: Condition.RECEIVED_ATTACK,
+          conditionTurn: 1,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: '10129-passive-1-1',
+                name: '每經過1回合，觸發「使我方全體必殺技傷害增加3%(最多15層)」',
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: '10129-passive-1-1-1',
+                  target: Target.ALL_ALLIES,
+                  applySkill: {
+                    id: '10129-passive-1-1-1',
+                    name: '必殺技傷害增加3%',
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: '10129-passive-1-1-1',
+                      name: '必殺技傷害增加3%',
+                      value: 0.03,
+                      stack: 1,
+                      maxStack: 15,
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10129-passive-3',
+          name: '被攻擊時，觸發「使自身造成傷害增加10%(最多4層)」',
+          type: 21,
+          condition: Condition.RECEIVED_ATTACK,
+          conditionTurn: 1,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: '10129-passive-3-1',
+                name: '被攻擊時，觸發「使自身造成傷害增加10%(最多4層)」',
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: '10129-passive-3-1-1',
+                  target: Target.ALL_ALLIES,
+                  applySkill: {
+                    id: '10129-passive-3-1-1',
+                    name: '造成傷害增加10%(最多4層)',
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: '10129-passive-3-1-1',
+                      name: '造成傷害增加10%(最多4層)',
+                      value: 0.1,
+                      stack: 1,
+                      maxStack: 4,
+                      affectType: AffectType.INCREASE_DMG,
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      // 被攻擊時，觸發「以自身最大HP23%對自身施放護盾(1回合)
+      break;
+    }
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",

@@ -29,9 +29,20 @@ export default function Home() {
             負面效果如睡眠，麻痹等
           </AccordionContent>
         </AccordionItem>
+
         <AccordionItem value="item-3">
           <AccordionTrigger>更新日誌</AccordionTrigger>
-          <AccordionContent></AccordionContent>
+          <AccordionContent>脫離BETA才寫</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>開發路線</AccordionTrigger>
+          <AccordionContent>
+            支援全角色包含R和SR角色
+            <br />
+            增加更多遊戲關卡（SP，魔塔）
+            <br />
+            玩家分享功能
+          </AccordionContent>
         </AccordionItem>
       </Accordion>
     </div>

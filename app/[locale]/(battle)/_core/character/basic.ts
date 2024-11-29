@@ -229,6 +229,17 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10129": "性誕馴鹿 希依",
+    case '10129': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",

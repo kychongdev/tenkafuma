@@ -792,6 +792,52 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10129": "性誕馴鹿 希依",
+    case '10129': {
+      // 自身獲得嘲諷效果(2回合)並變為防禦狀態，CD :4
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10129-ult-1',
+            name: '造成傷害增加(4回合)',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.3,
+            },
+          },
+        ];
+      });
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.88
+          : bond === 2
+            ? 4.45
+            : bond === 3
+              ? 5.03
+              : bond === 4
+                ? 5.6
+                : 6.18,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
+
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",

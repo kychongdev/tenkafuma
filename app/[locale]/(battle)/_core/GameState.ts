@@ -110,7 +110,6 @@ function resetBattle(state: GameState) {
   state.undo = [];
 }
 
-localforage.setDriver([localforage.WEBSQL, localforage.INDEXEDDB]);
 export const useGameState = create<GameState>()(
   persist(
     immer((set) => ({
