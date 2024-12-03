@@ -932,11 +932,11 @@
   "10108": {
     "id": 10108,
     "name": "甜心可可 巴爾",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 4409.6,
+    "initAtk": 800,
     "attribute": 5,
-    "class": 11,
-    "available": false,
+    "class": 13,
+    "available": true,
     "cd": 4
   },
   "10109": {
@@ -1132,11 +1132,11 @@
   "10129": {
     "id": 10129,
     "name": "性誕馴鹿 希依",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 4158.4,
+    "initAtk": 848,
+    "attribute": 7,
+    "class": 12,
+    "available": true,
     "cd": 4
   },
   "10130": {
@@ -1146,7 +1146,7 @@
     "initAtk": 848,
     "attribute": 7,
     "class": 12,
-    "available": true,
+    "available": false,
     "cd": 4
   },
   "10131": {
