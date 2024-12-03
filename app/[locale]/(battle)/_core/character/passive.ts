@@ -957,6 +957,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
+
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",
@@ -1725,6 +1726,121 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10123": "惡魔貓娘 杏仁咪嚕",
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
+    case '10125': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10125-passive-1',
+          name: '必殺時，追加「以自身攻擊力250%對目標造成傷害」',
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 2.5,
+            target: Target.ENEMY,
+            damageType: DamageType.ULTIMATE_ADDON,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+        {
+          id: '10125-passive-2',
+          name: '每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方攻擊者攻擊力增加(1回合)』(1回合)」',
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: '10125-passive-2-1',
+                name: '必殺時,觸發 以自身攻擊力25%使我方攻擊者攻擊力增加(1回合)',
+                type: 6,
+                condition: Condition.ULTIMATE,
+                duration: 1,
+                _6: {
+                  base: false,
+                  duration: 1,
+                  value: 0.25,
+                  target: Target.ATTACKER,
+                  affectType: AffectType.RAW_ATK,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10125-passive-3',
+          name: '每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」',
+          type: 2,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: '10125-passive-3-1',
+                name: '必殺時,觸發 『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」',
+                type: 6,
+                duration: 1,
+                condition: Condition.ULTIMATE,
+                _6: {
+                  base: false,
+                  value: 0.25,
+                  duration: 1,
+                  target: Target.OBSTRUCTER,
+                  affectType: AffectType.RAW_ATK,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters.forEach((character, index) => {
+          if (
+            character.class === CharacterClass.ATTACKER ||
+            character.class === CharacterClass.OBSTRUCTER
+          ) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: '10125-passive-4',
+                name: '必殺時，追加『以自身攻擊力100%對目標造成傷害』(50回合)',
+                type: 101,
+                condition: Condition.ULTIMATE,
+                duration: 50,
+                _101: {
+                  value: 1,
+                  target: Target.ENEMY,
+                  damageType: DamageType.ULTIMATE_ADDON,
+                  action: CharacterAction.ULTIMATE,
+                },
+              },
+            ];
+          }
+        });
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10125-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10126": "調皮搗蛋 白",
     case '10126': {
       gameState.characters[position].buff = [

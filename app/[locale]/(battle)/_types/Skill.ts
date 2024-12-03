@@ -178,7 +178,8 @@ enum Condition {
 
 enum SpecialCondition {
   HP_LOWER_THAN = 0,
-  SKILL_STACK = 1,
+  HP_HIGHER_THAN = 1,
+  SKILL_STACK = 2,
 }
 
 enum Target {

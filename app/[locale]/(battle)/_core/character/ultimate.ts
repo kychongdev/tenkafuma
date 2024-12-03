@@ -505,7 +505,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
       gameState.enemies[gameState.targeting].buff = [
         ...gameState.enemies[gameState.targeting].buff,
         {
-          id: '188-ult-1',
+          id: '10088-ult-1',
           name: '受到傷害增加',
           type: 0,
           condition: Condition.NONE,
@@ -788,6 +788,78 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10123": "惡魔貓娘 杏仁咪嚕",
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
+    case '10125': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10125-ult-1',
+          name: '攻擊力增加200%(1回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value:
+              bond === 1
+                ? 2
+                : bond === 2
+                  ? 2
+                  : bond === 3
+                    ? 2.5
+                    : bond === 4
+                      ? 2.5
+                      : 3,
+          },
+        },
+      ];
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10125-ult-2',
+          name: '以自身攻擊力25%使自身攻擊力增加(1回合)',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            affectType: AffectType.RAW_ATK,
+            value: Math.floor(
+              applyRawAttBuff(gameState, position) *
+                (bond === 1
+                  ? 0.25
+                  : bond === 2
+                    ? 0.3
+                    : bond === 3
+                      ? 0.35
+                      : bond === 4
+                        ? 0.4
+                        : 0.45),
+            ),
+          },
+        },
+      ];
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.OBSTRUCTER ||
+          character.class === CharacterClass.ATTACKER
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: '10125-ult-3',
+              name: '以自身攻擊力25%使我方攻擊者、妨礙者攻擊力增加(1回合)',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                affectType: AffectType.RAW_ATK,
+                value: Math.floor(applyRawAttBuff(gameState, position) * 0.25),
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10126": "調皮搗蛋 白",
     case '10126': {
       gameState.enemies[gameState.targeting].buff = [
@@ -1048,7 +1120,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
                     : bond === 3
                       ? 0.45
                       : bond === 4
-                        ? 0.525
+                        ? 0.10125
                         : 0.6,
             },
           },
@@ -2215,7 +2287,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
     }
     // "10155": "甜蜜女僕",
     case '10155': {
-      // 使自身攻擊力增加100/125/150/175/200%(1回合)、再使自身造成觸發技效果增加100/150/200/250/300%(3回合)、再使目標受到觸發技傷害增加60/70/80/90/100%(3回合)，CD:3
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {

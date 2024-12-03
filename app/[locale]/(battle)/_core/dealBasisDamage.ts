@@ -190,6 +190,32 @@ export function dealBasicDamage(
             continue;
           }
         }
+        break;
+      }
+      case SpecialCondition.HP_HIGHER_THAN: {
+        if (!buff.specialConditionValue) {
+          break;
+        }
+        if (position >= 20 && position < 25) {
+          if (
+            (gameState.enemies[position - 20].hp /
+              gameState.enemies[position - 20].maxHp) *
+              100 >
+            buff.specialConditionValue
+          ) {
+            continue;
+          }
+        } else {
+          if (
+            (gameState.characters[position].hp /
+              gameState.characters[position].maxHp) *
+              100 <
+            buff.specialConditionValue
+          ) {
+            continue;
+          }
+        }
+        break;
       }
       default:
         break;

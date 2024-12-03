@@ -230,6 +230,25 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10123": "惡魔貓娘 杏仁咪嚕",
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
+    case '10125': {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10125-basic-1',
+            name: '攻擊力',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.5,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10126": "調皮搗蛋 白",
     case '10126': {
       gameState.characters.forEach((character) => {
