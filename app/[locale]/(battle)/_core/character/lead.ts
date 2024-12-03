@@ -2940,9 +2940,21 @@ export function triggerLead(gameState: GameState) {
                 value: 0.3,
               },
             },
-            // 第10回合時，觸發「使敵方全體受到火屬性傷害增加10%(最多5層)
             {
               id: '10155-lead-5',
+              name: '攻擊時，觸發「以自身攻擊力40%對目標造成傷害」',
+              type: 1,
+              condition: Condition.ATTACK,
+              duration: 100,
+              _1: {
+                value: 0.4,
+                target: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                action: CharacterAction.ATTACK,
+              },
+            },
+            {
+              id: '10155-lead-6',
               name: '第7回合時，觸發「使自身必殺技傷害增加100%(最多1層)」',
               type: 4,
               condition: Condition.ON_SPECIFIC_TURN,

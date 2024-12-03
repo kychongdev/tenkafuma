@@ -99,6 +99,10 @@ export function parseSkillName(buff: Skill) {
           return `觸發傷害增加${buff._0.value * 100}%`;
         case AffectType.INCREASE_TRIGGER_DMG_RECEIVED:
           return `受到觸發傷害增加${buff._0.value * 100}%`;
+        case AffectType.INCREASE_TRIGGER_EFFECT:
+          return `觸發效果增加${buff._0.value * 100}%`;
+        case AffectType.DECREASE_TRIGGER_EFFECT:
+          return `觸發效果減少${buff._0.value * 100}%`;
         case AffectType.DECREASE_TRIGGER_DMG:
           return `觸發傷害減少${buff._0.value * 100}%`;
         case AffectType.DECREASE_TRIGGER_DMG_RECEIVED:
@@ -202,6 +206,14 @@ export function parseSkillName(buff: Skill) {
           )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_TRIGGER_DMG_RECEIVED:
           return `受到觸發傷害增加${formatToTwoDecimal(
+            buff._3.value * buff._3.stack * 100,
+          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+        case AffectType.INCREASE_TRIGGER_EFFECT:
+          return `觸發效果增加${formatToTwoDecimal(
+            buff._3.value * buff._3.stack * 100,
+          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+        case AffectType.DECREASE_TRIGGER_EFFECT:
+          return `觸發效果減少${formatToTwoDecimal(
             buff._3.value * buff._3.stack * 100,
           )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_ULTIMATE_DMG_RECEIVED:

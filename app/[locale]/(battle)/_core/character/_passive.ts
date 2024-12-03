@@ -2426,7 +2426,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                         duration: 4,
                         _0: {
                           value: 0.3,
-                          affectType: AffectType.INCREASE_TRIGGER_DMG,
+                          affectType: AffectType.INCREASE_TRIGGER_EFFECT,
                         },
                       },
                     ],
@@ -4015,15 +4015,15 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           {
             id: '808-passive-7',
             name: '必殺時，觸發「以自身最大HP50%對目標造成傷害」',
-            type: 25,
+            type: 1,
             condition: Condition.ULTIMATE,
             duration: 100,
             deactivated: 'deactivated',
-            _25: {
+            _1: {
               value: 0.5,
-              isTrigger: false,
               target: Target.ENEMY,
-              damageType: 1,
+              damageType: DamageType.ULTIMATE_HP,
+              action: CharacterAction.ULTIMATE,
             },
           },
         ];

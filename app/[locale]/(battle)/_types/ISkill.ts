@@ -225,10 +225,18 @@ export interface _24 {
 // HP攻擊
 export interface _25 {
   value: number;
-  isTrigger: boolean;
   target: Target;
-  // 0 is basic, 1 is ultimat25e
-  damageType: 0 | 1;
+  damageType: DamageType;
+  action: CharacterAction;
+  multiple?: number;
+}
+
+export interface _26 {
+  value: number;
+  target: Target;
+  damageType: DamageType;
+  action: CharacterAction;
+  multiple?: number;
 }
 
 // ---------------------------- ADD ON BUFF ----------------------------

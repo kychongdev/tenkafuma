@@ -45,6 +45,11 @@ export interface GameState {
   damage_log_3: DamageLog[];
   damage_log_4: DamageLog[];
   damage_log_5: DamageLog[];
+  heal_log_1: DamageLog[];
+  heal_log_2: DamageLog[];
+  heal_log_3: DamageLog[];
+  heal_log_4: DamageLog[];
+  heal_log_5: DamageLog[];
   enemy_damage_log_1: DamageLog[];
   enemy_damage_log_2: DamageLog[];
   enemy_damage_log_3: DamageLog[];

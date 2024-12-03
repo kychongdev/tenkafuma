@@ -49,10 +49,14 @@ export function onTurnStart(gameState: GameState) {
         triggerSkill(buff, gameState, position);
       }
 
+      if (buff.id == '10088-passive-4') {
+        console.log('buff', buff.conditionTurn, gameState.turn);
+      }
       if (
         buff.condition === Condition.ON_SPECIFIC_TURN &&
         gameState.turn === buff.conditionTurn
       ) {
+        console.log('triggerSkill', p(buff));
         triggerSkill(buff, gameState, position);
       }
     }

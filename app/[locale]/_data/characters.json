@@ -802,12 +802,12 @@
   "10088": {
     "id": 10088,
     "name": "雙星之紅 安絲蒂",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3420.8,
+    "initAtk": 1030.4,
     "attribute": 5,
     "class": 11,
-    "available": false,
-    "cd": 4
+    "available": true,
+    "cd": 3
   },
   "10089": {
     "id": 10089,
@@ -1032,12 +1032,12 @@
   "10119": {
     "id": 10119,
     "name": "夏日 艾可",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3600,
+    "initAtk": 979.2,
     "attribute": 5,
-    "class": 11,
-    "available": false,
-    "cd": 4
+    "class": 13,
+    "available": true,
+    "cd": 3
   },
   "10120": {
     "id": 10120,

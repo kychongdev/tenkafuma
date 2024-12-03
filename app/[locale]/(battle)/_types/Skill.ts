@@ -25,6 +25,7 @@ import type {
   _23,
   _24,
   _25,
+  _26,
   _101,
   _104,
   _105,
@@ -72,6 +73,7 @@ interface Skill extends ISkill {
   _23?: _23;
   _24?: _24;
   _25?: _25;
+  _26?: _26;
   _101?: _101;
   _104?: _104;
   _105?: _105;
@@ -146,8 +148,8 @@ enum AffectType {
   IMMUNE_PARALYSIS,
   IMMUNE_SLEEP,
   IMMUNE_DECREASE_HEAL_RECEIVED,
-  //INCREASE_TRIGGER_EFFECT
-  //DECREASE_TRIGGER_EFFECT
+  INCREASE_TRIGGER_EFFECT,
+  DECREASE_TRIGGER_EFFECT,
   NONE,
 }
 

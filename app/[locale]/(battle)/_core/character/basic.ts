@@ -155,6 +155,17 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10084": "貓娘Vtuber 杏仁咪嚕",
     // "10085": "花魁 香奈",
     // "10088": "雙星之紅 安絲蒂",
+    case '10088': {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
@@ -208,6 +219,11 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10119": "夏日 艾可",
+    case '10119': {
+      // 以自身攻擊力50%每回合對我方全體進行治療(3回合)
+      break;
+    }
+
     // "10120": "乘風破浪 蘭兒",
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
@@ -233,6 +249,7 @@ export function basicAttack(gameState: GameState, position: number) {
           },
         ];
       });
+      break;
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",

@@ -900,6 +900,7 @@ export function triggerSkill(
         console.log(buff);
         break;
       }
+      console.log(buff.id);
       switch (buff._8.target) {
         case Target.SELF: {
           const skillStackNum = gameState.characters[position].buff.find(
@@ -914,6 +915,7 @@ export function triggerSkill(
           for (let i = 0; i < skillStackNum._3.stack; i++) {
             triggerSkill(buff._8.triggerSkill, gameState, position);
           }
+          break;
         }
         case Target.ENEMY_1:
         case Target.ENEMY_2:
@@ -930,6 +932,7 @@ export function triggerSkill(
           for (let i = 0; i < skillStackNum._3.stack; i++) {
             triggerSkill(buff._8.triggerSkill, gameState, buff._8.target);
           }
+          break;
         }
       }
 
@@ -1883,31 +1886,67 @@ export function triggerSkill(
       break;
     }
 
-    // case 25:
-    //   // 傷害
-    //   if (!buff._25) {
-    //     console.log('Wrong data');
-    //     break;
-    //   }
-    //   if (buff._25.damageType === 0) {
-    //     dealBasicHpDamage(
-    //       position,
-    //       buff._25.value,
-    //       gameState,
-    //       buff._25.target,
-    //       DamageType.BASIC,
-    //     );
-    //   }
-    //   if (buff._25.damageType === 1) {
-    //     dealUltHpDamage(
-    //       position,
-    //       buff._25.value,
-    //       gameState,
-    //       buff._25.isTrigger,
-    //       buff._25.target,
-    //     );
-    //   }
-    //   break;
+    case 25: {
+      // 傷害
+      if (!buff._25) {
+        console.log('Wrong data');
+        break;
+      }
+      switch (buff._25.damageType) {
+        case DamageType.BASIC:
+        case DamageType.BASIC_ADDON: {
+          break;
+        }
+        case DamageType.BASIC_HP: {
+          break;
+        }
+        case DamageType.ULTIMATE:
+        case DamageType.ULTIMATE_ADDON:
+        case DamageType.TRIGGER: {
+          break;
+        }
+        case DamageType.ULTIMATE_HP:
+          break;
+        // TODO
+        case DamageType.DOT: {
+          break;
+        }
+        default:
+          break;
+      }
+      break;
+    }
+
+    case 26: {
+      // 傷害
+      if (!buff._26) {
+        console.log('Wrong data');
+        break;
+      }
+      switch (buff._26.damageType) {
+        case DamageType.BASIC:
+        case DamageType.BASIC_ADDON: {
+          break;
+        }
+        case DamageType.BASIC_HP: {
+          break;
+        }
+        case DamageType.ULTIMATE:
+        case DamageType.ULTIMATE_ADDON:
+        case DamageType.TRIGGER: {
+          break;
+        }
+        case DamageType.ULTIMATE_HP:
+          break;
+        // TODO
+        case DamageType.DOT: {
+          break;
+        }
+        default:
+          break;
+      }
+      break;
+    }
   }
 
   if (buff.deleteSelf) {

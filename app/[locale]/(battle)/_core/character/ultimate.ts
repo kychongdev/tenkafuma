@@ -501,6 +501,48 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10084": "貓娘Vtuber 杏仁咪嚕",
     // "10085": "花魁 香奈",
     // "10088": "雙星之紅 安絲蒂",
+    case '10088': {
+      gameState.enemies[gameState.targeting].buff = [
+        ...gameState.enemies[gameState.targeting].buff,
+        {
+          id: '188-ult-1',
+          name: '受到傷害增加',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 7,
+          _0: {
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.18
+                : bond === 2
+                  ? 0.18
+                  : bond === 3
+                    ? 0.2
+                    : bond === 4
+                      ? 0.2
+                      : 0.2,
+          },
+        },
+      ];
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 2.65
+          : bond === 2
+            ? 2.98
+            : bond === 3
+              ? 3.31
+              : bond === 4
+                ? 3.64
+                : 3.97,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
@@ -698,6 +740,48 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10119": "夏日 艾可",
+    case '10119': {
+      // 使我方全體造成觸發技效果增加50/75/75/100/100%(3回合)，使我方全體造成傷害增加10/10/20/20/30%(3回合)，使我方全體攻擊力增加20/35/35/50/50%(3回合)，CD: 3
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10119-ult-1',
+            name: '觸發技效果增加',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: bond === 1 ? 0.5 : bond === 2 || bond === 3 ? 0.75 : 1,
+              affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+            },
+          },
+          {
+            id: '10119-ult-2',
+            name: '造成傷害增加',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: bond === 1 ? 0.1 : bond === 2 || bond === 3 ? 0.2 : 0.3,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: '10119-ult-3',
+            name: '攻擊力增加',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: bond === 1 ? 0.2 : bond === 2 || bond === 3 ? 0.35 : 0.5,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10120": "乘風破浪 蘭兒",
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
@@ -2171,7 +2255,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
                     : bond === 4
                       ? 2.5
                       : 3,
-            affectType: AffectType.INCREASE_TRIGGER_DMG,
+            affectType: AffectType.INCREASE_TRIGGER_EFFECT,
           },
         },
       ];
@@ -2186,14 +2270,14 @@ export function ultimateAttack(gameState: GameState, position: number) {
           _0: {
             value:
               bond === 1
-                ? 1
+                ? 0.6
                 : bond === 2
-                  ? 1.5
+                  ? 0.7
                   : bond === 3
-                    ? 2
+                    ? 0.8
                     : bond === 4
-                      ? 2.5
-                      : 3,
+                      ? 0.9
+                      : 1,
             affectType: AffectType.INCREASE_TRIGGER_DMG_RECEIVED,
           },
         },

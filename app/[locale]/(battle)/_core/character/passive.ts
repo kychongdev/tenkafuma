@@ -824,6 +824,135 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10084": "貓娘Vtuber 杏仁咪嚕",
     // "10085": "花魁 香奈",
     // "10088": "雙星之紅 安絲蒂",
+    case '10088': {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10088-passive-1',
+          name: '必殺時，觸發「使我方全體造成必殺技傷害增加25%(1回合)」',
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: '10088-passive-1-1',
+                name: '必殺傷害增加',
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.25,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10088-passive-2',
+          name: '使我方全體攻擊者獲得「必殺時，觸發『以攻擊力77%對目標造成傷害』(1回合)」',
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ATTACKER,
+            applySkill: [
+              {
+                id: '10088-passive-2-1',
+                name: '必殺時，觸發『以攻擊力77%對目標造成傷害』(1回合)',
+                type: 1,
+                condition: Condition.ULTIMATE,
+                duration: 1,
+                _1: {
+                  value: 0.77,
+                  target: Target.ENEMY,
+                  damageType: DamageType.TRIGGER,
+                  action: CharacterAction.ULTIMATE,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: '10088-passive-3',
+          name: '使我方全體妨礙者獲得「必殺時，觸發『以攻擊力77%對目標造成傷害』(1回合)」',
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.OBSTRUCTER,
+            applySkill: [
+              {
+                id: '10088-passive-2-1',
+                name: '攻擊',
+                type: 1,
+                condition: Condition.ULTIMATE,
+                duration: 1,
+                _1: {
+                  value: 0.77,
+                  target: Target.ENEMY,
+                  damageType: DamageType.TRIGGER,
+                  action: CharacterAction.ULTIMATE,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10088-passive-4',
+            name: '第7回合時，觸發「使我方全體造成傷害增加30%(最多1層)」',
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 7,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: '10088-passive-4-1',
+                  name: '造成傷害增加',
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: '10088-passive-4-1',
+                    name: '造成傷害增加',
+                    stack: 1,
+                    maxStack: 1,
+                    value: 0.3,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10088-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
@@ -1494,6 +1623,102 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10119": "夏日 艾可",
+    case '10119': {
+      // 必殺時，觸發「以自身攻擊力150%對我方全體進行治療」
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10119-passive-1',
+          name: '必殺時，觸發「以自身攻擊力150%對我方全體進行治療」',
+          type: 25,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _25: {
+            value: 1.5,
+            target: Target.ALL_ALLIES,
+            damageType: DamageType.TRIGGER,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+        {
+          id: '10119-passive-2',
+          name: '必殺時，觸發「以自身攻擊力250%對目標造成傷害」',
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 2.5,
+            target: Target.ENEMY,
+            damageType: DamageType.TRIGGER,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+      ];
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: '10119-passive-3',
+            name: '我方全體受到持續治療量增加20%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.2,
+              affectType: AffectType.INCREASE_HEAL_RATE_OVER_TIME,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10119-passive-4',
+          name: '使自身攻擊力增加50%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.5,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: '10119-passive-5',
+          name: '造成觸發技效果增加75%',
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.75,
+            affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+          },
+        },
+      ];
+      // TODO: 必殺時，觸發「以自身最大HP15%給予我方全體護盾(1回合)」
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: '10119-passive4',
+            name: '使自身攻擊力增加10%',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10120": "乘風破浪 蘭兒",
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
@@ -1505,7 +1730,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: '10126-1',
+          id: '10126-passive-1',
           name: '當前HP≤99%時，發動「自身受到傷害減少10%」',
           type: 5,
           condition: Condition.NONE,
@@ -1605,9 +1830,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       if (gameState.characters[position].stars === 5) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
-
           {
-            id: '10126-7',
+            id: '10126-passive-8',
             name: '必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到火屬性傷害增加3%(1回合)』」',
             type: 8,
             condition: Condition.ULTIMATE,
@@ -1617,7 +1841,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               target: Target.SELF,
               targetSkill: '10126-passive-2-1',
               triggerSkill: {
-                id: '10126-7-1',
+                id: '10126-passive-8-1',
                 name: '受到火屬性傷害增加3%',
                 type: 11,
                 condition: Condition.NONE,
@@ -1626,7 +1850,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ENEMY,
                   applySkill: [
                     {
-                      id: '10126-7-1-1',
+                      id: '10126-passive-8-1-1',
                       name: '受到火屬性傷害增加3%',
                       type: 0,
                       condition: Condition.NONE,
@@ -1642,7 +1866,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             },
           },
           {
-            id: '10126-8',
+            id: '10126-passive-9',
             name: '必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到水屬性傷害增加3%(1回合)』」',
             type: 8,
             condition: Condition.ULTIMATE,
@@ -1652,7 +1876,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               target: Target.SELF,
               targetSkill: '10126-passive-2-1',
               triggerSkill: {
-                id: '10126-8-1',
+                id: '10126-passive-9-1',
                 name: '受到水屬性傷害增加3%',
                 type: 11,
                 condition: Condition.NONE,
@@ -1661,7 +1885,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ENEMY,
                   applySkill: [
                     {
-                      id: '10126-8-1-1',
+                      id: '10126-passive-9-1-1',
                       name: '受到水屬性傷害增加3%',
                       type: 0,
                       condition: Condition.NONE,

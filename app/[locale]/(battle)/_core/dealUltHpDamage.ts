@@ -704,6 +704,30 @@ export function dealUltHpDamage(
       ) {
         ultBuff -= buff._3?.value * buff._3?.stack;
       }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_TRIGGER_EFFECT
+      ) {
+        ultBuff += buff._0?.value;
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_TRIGGER_EFFECT
+      ) {
+        ultBuff -= buff._0?.value;
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_TRIGGER_EFFECT
+      ) {
+        ultBuff += buff._3?.value * buff._3?.stack;
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_TRIGGER_EFFECT
+      ) {
+        ultBuff -= buff._3?.value * buff._3?.stack;
+      }
     }
     for (const buff of defender) {
       if (
