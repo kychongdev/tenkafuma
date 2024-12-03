@@ -190,6 +190,29 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10106": "絕代佳人 賽露西亞",
     // "10107": "龍飛鳳舞 蘭兒",
     // "10108": "甜心可可 巴爾",
+    case '10108': {
+      gameState.characters.forEach((character, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.2);
+        if (index !== position) {
+          character.buff = [
+            ...character.buff,
+            {
+              id: '10108-basic-1',
+              name: '攻擊力',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: attack,
+                affectType: AffectType.RAW_ATK,
+              },
+            },
+          ];
+        }
+      });
+      heal(position, 0.75, gameState, true, Target.ALL_ALLIES);
+      break;
+    }
     // "10109": "純情可可 伊布力斯",
     // "10110": "致命可可 撒旦",
     // "10111": "背德密醫 艾琳",

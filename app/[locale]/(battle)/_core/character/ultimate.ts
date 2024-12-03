@@ -622,6 +622,74 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10106": "絕代佳人 賽露西亞",
     // "10107": "龍飛鳳舞 蘭兒",
     // "10108": "甜心可可 巴爾",
+    case '10108': {
+      gameState.characters.forEach((character, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.2);
+        if (index !== position) {
+          character.buff = [
+            ...character.buff,
+            {
+              id: '10108-ult-1',
+              name: '攻擊力',
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: attack,
+                affectType: AffectType.RAW_ATK,
+              },
+            },
+          ];
+        }
+      });
+      const buff: Skill = {
+        id: '10108-ult-2',
+        name: '受到傷害增加(最多1層)',
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: '10108-ult-2-1',
+          target: Target.ENEMY,
+          applySkill: {
+            id: '10108-ult-2-1',
+            name: '受到傷害增加',
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: '10108-ult-2-1',
+              name: '受到傷害增加',
+              stack: 1,
+              maxStack:
+                bond === 1
+                  ? 3
+                  : bond === 2
+                    ? 3
+                    : bond === 3
+                      ? 2
+                      : bond === 4
+                        ? 2
+                        : 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.15
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.225
+                      : bond === 4
+                        ? 0.225
+                        : 0.3,
+            },
+          },
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      break;
+    }
     // "10109": "純情可可 伊布力斯",
     // "10110": "致命可可 撒旦",
     // "10111": "背德密醫 艾琳",
