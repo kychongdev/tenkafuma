@@ -243,7 +243,22 @@ export function basicAttack(gameState: GameState, position: number) {
     }
     // "10119": "夏日 艾可",
     case '10119': {
-      // 以自身攻擊力50%每回合對我方全體進行治療(3回合)
+      gameState.characters.forEach((character) => {
+        character.buff = [
+          ...character.buff,
+          {
+            id: '10119-basic-1',
+            name: '攻擊力',
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: Math.floor(applyRawAttBuff(gameState, position) * 0.5),
+              affectType: AffectType.RAW_HEAL_OVER_TIME,
+            },
+          },
+        ];
+      });
       break;
     }
 

@@ -65,6 +65,8 @@ export function parseSkillName(buff: Skill) {
       switch (buff._0?.affectType) {
         case AffectType.RAW_ATK:
           return `攻擊增加${formatNumber(buff._0.value)}`;
+        case AffectType.RAW_HEAL_OVER_TIME:
+          return `每回合治療${formatNumber(buff._0.value)}`;
         case AffectType.INCREASE_FIRE_DMG_RECEIVED:
           return `受到火屬性攻擊增加${buff._0.value * 100}%`;
         case AffectType.INCREASE_WATER_DMG_RECEIVED:

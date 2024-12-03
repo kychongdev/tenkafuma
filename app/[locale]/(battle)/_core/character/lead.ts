@@ -2937,7 +2937,7 @@ export function triggerLead(gameState: GameState) {
               duration: 100,
               _0: {
                 affectType: AffectType.INCREASE_HEAL_RECEIVED,
-                value: 0.3,
+                value: 0.5,
               },
             },
             {
