@@ -300,6 +300,39 @@ export const CharacterStats = (props: { character: CharacterState }) => {
     return acc;
   }, 0);
 
+  const triggerEffectAttribute = props.character.buff.reduce((acc, buff) => {
+    if (buff.deactivated) return acc;
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.INCREASE_TRIGGER_EFFECT
+    ) {
+      return acc + buff._0?.value;
+    }
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.INCREASE_TRIGGER_EFFECT
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc + _value;
+    }
+
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.DECREASE_TRIGGER_EFFECT
+    ) {
+      return acc - buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.DECREASE_TRIGGER_EFFECT
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc - _value;
+    }
+    return acc;
+  }, 0);
+
   const ultimateAttribute = props.character.buff.reduce((acc, buff) => {
     if (buff.deactivated) return acc;
     if (
@@ -422,9 +455,14 @@ export const CharacterStats = (props: { character: CharacterState }) => {
           必殺效果加成%: {roundNum(ultimateAttribute)}%
         </Card>
       ) : null}
+      {f(triggerEffectAttribute) !== '0' ? (
+        <Card className="p-2 text-sm ">
+          觸發效果加成%: {roundNum(triggerEffectAttribute)}%
+        </Card>
+      ) : null}
       {f(triggerAttribute) !== '0' ? (
         <Card className="p-2 text-sm ">
-          觸發效果加成%: {roundNum(triggerAttribute)}%
+          觸發傷害加成%: {roundNum(triggerAttribute)}%
         </Card>
       ) : null}
       {f(otherAttribute) !== '0' ? (

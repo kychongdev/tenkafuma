@@ -19,7 +19,7 @@ import { f, p } from '../_core/utils';
 import { BattleLog } from './BattleLog';
 import { EnemyStatus } from './EnemyStatus';
 import { useSimulateTeamState } from '../_core/SimulateTeamState';
-import { ChartPie, Info, Power, Save, Sword, Undo } from 'lucide-react';
+import { ChartPie, Info, RotateCcw, Save, Sword, Undo } from 'lucide-react';
 import { useStore } from 'zustand';
 
 export default function Battle() {
@@ -142,7 +142,7 @@ export default function Battle() {
               if (select) initBattle(select);
             }}
           >
-            <Power />
+            <RotateCcw />
           </Button>
 
           <Button

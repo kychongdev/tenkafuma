@@ -4,7 +4,7 @@ import { triggerSkill } from './triggerSkill';
 import { p } from './utils';
 import { onTurnStart as enemyOnTurnStart } from './stages/enemyTurn';
 import { parseInitstage, parseStageAction } from './stages/parseStage';
-import { calculateRawHeal } from './healOverTime';
+import { healOverTime } from './healOverTime';
 
 export function checkEndTurn(state: GameState) {
   const isEnd = state.characters.every((character) => {
@@ -98,7 +98,7 @@ export function endTurn(state: GameState) {
   });
 
   state.characters.forEach((_, index) => {
-    const heal = calculateRawHeal(state, index);
+    const heal = healOverTime(state, index);
     console.log('heal', heal);
     state.characters[index].hp += heal;
     if (state.characters[index].hp > state.characters[index].maxHp) {
