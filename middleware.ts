@@ -22,6 +22,8 @@ export const config = {
     // Enable redirects that add missing locales
     // (e.g. `/pathnames` -> `/en/pathnames`)
     '/((?!_next|_vercel|.*\\..*).*)',
+
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
 

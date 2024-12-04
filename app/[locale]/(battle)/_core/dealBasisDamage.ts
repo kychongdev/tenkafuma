@@ -934,3 +934,9 @@ function writeDamageLog(
       break;
   }
 }
+
+function randomEnemy(
+  gameState: GameState;
+) {
+
+}

@@ -54,13 +54,12 @@ export function AppSidebar() {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
-
           <SidebarGroupLabel>魔王城</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <NavigationLink href="/team">
+                  <NavigationLink href="/chat">
                     <Podcast />
                     <span>大廳</span>
                   </NavigationLink>
