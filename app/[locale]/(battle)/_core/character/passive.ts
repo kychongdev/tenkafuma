@@ -957,7 +957,25 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
-
+    case "10092": {
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10108-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",

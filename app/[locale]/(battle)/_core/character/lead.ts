@@ -4,13 +4,13 @@ import {
   DamageType,
   SkillStackCondition,
   Target,
-} from '@/types/Skill';
+} from "@/types/Skill";
 import {
   CharacterAction,
   CharacterAttribute,
   CharacterClass,
-} from '@/types/Character';
-import { GameState } from '../GameState';
+} from "@/types/Character";
+import { GameState } from "../GameState";
 
 export function triggerLead(gameState: GameState) {
   const leader = gameState.characters[0].id;
@@ -38,13 +38,13 @@ export function triggerLead(gameState: GameState) {
     // "10021": "賢者 白",
     // "10022": "狂犬 諾蕾蒂",
     // "10023": "副手 貝蕾朵",
-    case '10023': {
+    case "10023": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10023-Lead-1',
-            name: '最大HP增加10%',
+            id: "10023-Lead-1",
+            name: "最大HP增加10%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -54,8 +54,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10023-Lead-2',
-            name: '攻擊力增加100%',
+            id: "10023-Lead-2",
+            name: "攻擊力增加100%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -71,24 +71,24 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10023-Lead-3',
-              name: '防禦時，觸發「使我方站位1獲得1層《編制重整》(最多4層)」(50回合)',
+              id: "10023-Lead-3",
+              name: "防禦時，觸發「使我方站位1獲得1層《編制重整》(最多4層)」(50回合)",
               type: 19,
               condition: Condition.GUARD,
               duration: 50,
               _19: {
                 target: Target.POSITION_1,
-                targetSkill: '10023-Lead-3-1',
+                targetSkill: "10023-Lead-3-1",
                 increaseStack: 1,
                 applySkill: {
-                  id: '10023-Lead-3-1',
-                  name: '編制重整',
+                  id: "10023-Lead-3-1",
+                  name: "編制重整",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
-                    id: '10023-Lead-3-1',
-                    name: '編制重整',
+                    id: "10023-Lead-3-1",
+                    name: "編制重整",
                     stack: 1,
                     maxStack: 4,
                     value: 0,
@@ -97,11 +97,11 @@ export function triggerLead(gameState: GameState) {
                 },
                 checkActivation: [
                   {
-                    characterId: '10023',
-                    checkSkillId: '10023-Lead-3-1',
+                    characterId: "10023",
+                    checkSkillId: "10023-Lead-3-1",
                     skillStackCondition: SkillStackCondition.HIGHER,
                     activateIfStack: 3,
-                    activateSkillId: '10023-Lead-5',
+                    activateSkillId: "10023-Lead-5",
                   },
                 ],
               },
@@ -112,39 +112,39 @@ export function triggerLead(gameState: GameState) {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10023-Lead-4',
-          name: '每經過1回合時，觸發「清除自身《編制重整》的所有層數」',
+          id: "10023-Lead-4",
+          name: "每經過1回合時，觸發「清除自身《編制重整》的所有層數」",
           type: 20,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 1,
           duration: 100,
           _20: {
             target: Target.ALL_ALLIES,
-            targetChar: '10023',
-            targetSkill: '10023-Lead-3-1',
+            targetChar: "10023",
+            targetSkill: "10023-Lead-3-1",
             clearAll: true,
           },
         },
         {
-          id: '10023-Lead-5',
-          name: '防禦時，觸發『使自身獲得1層《轉進》(最多1層)』',
+          id: "10023-Lead-5",
+          name: "防禦時，觸發『使自身獲得1層《轉進》(最多1層)』",
           type: 19,
           condition: Condition.GUARD,
           duration: 100,
           deactivated: true,
           _19: {
             target: Target.SELF,
-            targetSkill: '10023-Lead-5-1',
+            targetSkill: "10023-Lead-5-1",
             increaseStack: 1,
             applySkill: {
-              id: '10023-Lead-5-1',
-              name: '轉進',
+              id: "10023-Lead-5-1",
+              name: "轉進",
               type: 3,
               condition: Condition.NONE,
               duration: 100,
               _3: {
-                id: '10023-Lead-5-1',
-                name: '轉進',
+                id: "10023-Lead-5-1",
+                name: "轉進",
                 stack: 1,
                 maxStack: 1,
                 value: 0,
@@ -153,46 +153,46 @@ export function triggerLead(gameState: GameState) {
             },
             checkActivation: [
               {
-                characterId: '10023',
-                checkSkillId: '10023-Lead-5-1',
+                characterId: "10023",
+                checkSkillId: "10023-Lead-5-1",
                 skillStackCondition: SkillStackCondition.HIGHER,
                 activateIfStack: 0,
-                activateSkillId: '10023-Lead-6',
+                activateSkillId: "10023-Lead-6",
               },
               {
-                characterId: '10023',
-                checkSkillId: '10023-Lead-5-1',
+                characterId: "10023",
+                checkSkillId: "10023-Lead-5-1",
                 skillStackCondition: SkillStackCondition.HIGHER,
                 activateIfStack: 0,
-                activateSkillId: '10023-Lead-7',
+                activateSkillId: "10023-Lead-7",
               },
               {
-                characterId: '10023',
-                checkSkillId: '10023-Lead-5-1',
+                characterId: "10023",
+                checkSkillId: "10023-Lead-5-1",
                 skillStackCondition: SkillStackCondition.HIGHER,
                 activateIfStack: 0,
-                activateSkillId: '10023-Lead-8',
+                activateSkillId: "10023-Lead-8",
               },
               {
-                characterId: '10023',
-                checkSkillId: '10023-Lead-5-1',
+                characterId: "10023",
+                checkSkillId: "10023-Lead-5-1",
                 skillStackCondition: SkillStackCondition.HIGHER,
                 activateIfStack: 0,
-                activateSkillId: '10023-Lead-9',
+                activateSkillId: "10023-Lead-9",
               },
               {
-                characterId: '10023',
-                checkSkillId: '10023-Lead-5-1',
+                characterId: "10023",
+                checkSkillId: "10023-Lead-5-1",
                 skillStackCondition: SkillStackCondition.HIGHER,
                 activateIfStack: 0,
-                activateSkillId: '10023-Lead-10',
+                activateSkillId: "10023-Lead-10",
               },
             ],
           },
         },
         {
-          id: '10023-Lead-6',
-          name: '(反噬的犬嚎) 必殺時，追加「以自身攻擊力25%使自身以外的我方全體攻擊力增加(1回合)」',
+          id: "10023-Lead-6",
+          name: "(反噬的犬嚎) 必殺時，追加「以自身攻擊力25%使自身以外的我方全體攻擊力增加(1回合)」",
           type: 106,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -206,8 +206,8 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10023-Lead-7',
-          name: '(反噬的犬嚎) 必殺時，追加「使我方全體造成傷害增加50%(1回合)」',
+          id: "10023-Lead-7",
+          name: "(反噬的犬嚎) 必殺時，追加「使我方全體造成傷害增加50%(1回合)」",
           type: 111,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -216,8 +216,8 @@ export function triggerLead(gameState: GameState) {
             target: Target.ALL_ALLIES,
             applySkill: [
               {
-                id: '10023-Lead-7-1',
-                name: '我方全體造成傷害增加50%(1回合)',
+                id: "10023-Lead-7-1",
+                name: "我方全體造成傷害增加50%(1回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 1,
@@ -230,8 +230,8 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10023-Lead-8',
-          name: '(反噬的犬嚎) 必殺時，追加「使我方全體必殺技傷害增加50%(1回合)」',
+          id: "10023-Lead-8",
+          name: "(反噬的犬嚎) 必殺時，追加「使我方全體必殺技傷害增加50%(1回合)」",
           type: 111,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -240,8 +240,8 @@ export function triggerLead(gameState: GameState) {
             target: Target.ALL_ALLIES,
             applySkill: [
               {
-                id: '10023-Lead-8-1',
-                name: '必殺技傷害增加50%(1回合)',
+                id: "10023-Lead-8-1",
+                name: "必殺技傷害增加50%(1回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 1,
@@ -254,8 +254,8 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10023-Lead-9',
-          name: '(反噬的犬嚎) 必殺時，追加「使目標受到傷害增加50%(1回合)」',
+          id: "10023-Lead-9",
+          name: "(反噬的犬嚎) 必殺時，追加「使目標受到傷害增加50%(1回合)」",
           type: 111,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -264,8 +264,8 @@ export function triggerLead(gameState: GameState) {
             target: Target.ENEMY,
             applySkill: [
               {
-                id: '10023-Lead-9-1',
-                name: '受到傷害增加50%(1回合)',
+                id: "10023-Lead-9-1",
+                name: "受到傷害增加50%(1回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 1,
@@ -278,22 +278,22 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10023-Lead-10',
-          name: '(反噬的犬嚎) 必殺時，觸發「清除自身《轉進》的所有層數」',
+          id: "10023-Lead-10",
+          name: "(反噬的犬嚎) 必殺時，觸發「清除自身《轉進》的所有層數」",
           type: 23,
           condition: Condition.ULTIMATE,
           duration: 100,
           deactivated: true,
           _23: {
-            targetChar: '10023',
-            clearSkill: ['10023-Lead-5-1'],
+            targetChar: "10023",
+            clearSkill: ["10023-Lead-5-1"],
             targetSkill: [
-              '10023-Lead-5',
-              '10023-Lead-6',
-              '10023-Lead-7',
-              '10023-Lead-8',
-              '10023-Lead-9',
-              '10023-Lead-10',
+              "10023-Lead-5",
+              "10023-Lead-6",
+              "10023-Lead-7",
+              "10023-Lead-8",
+              "10023-Lead-9",
+              "10023-Lead-10",
             ],
           },
         },
@@ -322,13 +322,13 @@ export function triggerLead(gameState: GameState) {
     // "10042": "夏日 伊布力斯",
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
-    case '10044': {
+    case "10044": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10044-lead-1',
-            name: '最大HP增加30%',
+            id: "10044-lead-1",
+            name: "最大HP增加30%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -338,8 +338,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10044-lead-2',
-            name: '必殺技傷害增加20%',
+            id: "10044-lead-2",
+            name: "必殺技傷害增加20%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -349,8 +349,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10044-lead-3',
-            name: '普攻傷害增加30%',
+            id: "10044-lead-3",
+            name: "普攻傷害增加30%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -364,8 +364,8 @@ export function triggerLead(gameState: GameState) {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10044-lead-4',
-          name: '攻擊力增加350%',
+          id: "10044-lead-4",
+          name: "攻擊力增加350%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -375,16 +375,16 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10044-lead-5',
-          name: '必殺時，觸發「使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」',
+          id: "10044-lead-5",
+          name: "必殺時，觸發「使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」",
           type: 21,
           condition: Condition.ULTIMATE,
           duration: 100,
           _21: {
             trigger: [
               {
-                id: '10044-lead-5-1',
-                name: '使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」',
+                id: "10044-lead-5-1",
+                name: "使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」",
                 type: 11,
                 condition: Condition.ULTIMATE,
                 duration: 100,
@@ -392,8 +392,8 @@ export function triggerLead(gameState: GameState) {
                   target: Target.ALL_EXCEPT_SELF,
                   applySkill: [
                     {
-                      id: '10044-lead-5-1-1',
-                      name: '必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)',
+                      id: "10044-lead-5-1-1",
+                      name: "必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)",
                       type: 101,
                       condition: Condition.ULTIMATE,
                       duration: 1,
@@ -405,8 +405,8 @@ export function triggerLead(gameState: GameState) {
                       },
                     },
                     {
-                      id: '10044-lead-5-1-2',
-                      name: '普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)',
+                      id: "10044-lead-5-1-2",
+                      name: "普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)",
                       type: 101,
                       condition: Condition.BASIC_ATTACK,
                       duration: 2,
@@ -424,8 +424,8 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10044-lead-6',
-          name: '每經過4回合，觸發「使敵方全體受到火、水、風、光、闇屬性傷害增加70%(2回合)」',
+          id: "10044-lead-6",
+          name: "每經過4回合，觸發「使敵方全體受到火、水、風、光、闇屬性傷害增加70%(2回合)」",
           type: 11,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 4,
@@ -435,8 +435,8 @@ export function triggerLead(gameState: GameState) {
             target: Target.ENEMY,
             applySkill: [
               {
-                id: '10044-lead-6-1',
-                name: '受到火屬性傷害增加70%(2回合)',
+                id: "10044-lead-6-1",
+                name: "受到火屬性傷害增加70%(2回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 2,
@@ -446,8 +446,8 @@ export function triggerLead(gameState: GameState) {
                 },
               },
               {
-                id: '10044-lead-6-2',
-                name: '受到水屬性傷害增加70%(2回合)',
+                id: "10044-lead-6-2",
+                name: "受到水屬性傷害增加70%(2回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 2,
@@ -457,8 +457,8 @@ export function triggerLead(gameState: GameState) {
                 },
               },
               {
-                id: '10044-lead-6-3',
-                name: '受到風屬性傷害增加70%(2回合)',
+                id: "10044-lead-6-3",
+                name: "受到風屬性傷害增加70%(2回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 2,
@@ -468,8 +468,8 @@ export function triggerLead(gameState: GameState) {
                 },
               },
               {
-                id: '10044-lead-6-4',
-                name: '受到光屬性傷害增加70%(2回合)',
+                id: "10044-lead-6-4",
+                name: "受到光屬性傷害增加70%(2回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 2,
@@ -479,8 +479,8 @@ export function triggerLead(gameState: GameState) {
                 },
               },
               {
-                id: '10044-lead-6-5',
-                name: '受到闇屬性傷害增加70%(2回合)',
+                id: "10044-lead-6-5",
+                name: "受到闇屬性傷害增加70%(2回合)",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 2,
@@ -514,8 +514,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '10044-lead-7',
-            name: '攻擊力減少350%',
+            id: "10044-lead-7",
+            name: "攻擊力減少350%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -545,8 +545,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '10044-lead-8',
-            name: '攻擊力減少350%',
+            id: "10044-lead-8",
+            name: "攻擊力減少350%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -579,8 +579,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '10044-lead-9',
-            name: '攻擊力減少350%',
+            id: "10044-lead-9",
+            name: "攻擊力減少350%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -613,8 +613,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '10044-lead-10',
-            name: '攻擊力減少350%',
+            id: "10044-lead-10",
+            name: "攻擊力減少350%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -647,8 +647,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '10044-lead-11',
-            name: '攻擊力減少350%',
+            id: "10044-lead-11",
+            name: "攻擊力減少350%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -703,6 +703,116 @@ export function triggerLead(gameState: GameState) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
+    case "10092": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10092-lead-1",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+          {
+            id: "10092-lead-2",
+            name: "受到傷害減少15%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+              value: 0.15,
+            },
+          },
+        ];
+      });
+      //《追浪》
+      //每經過3回合，觸發「使自身造成傷害增加125%(1回合)、使敵方全體受到傷害增加50%(1回合)」
+      //
+      //《啟乘》
+      //每經過6回合，觸發「使自身造成必殺技傷害增加125%(1回合)」
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: "10092-lead-3",
+          name: "每經過3回合，觸發「使自身造成傷害增加125%(1回合)",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10092-lead-3-1",
+                name: "使自身造成傷害增加125%(1回合)",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 1.25,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10092-lead-4",
+          name: "每經過3回合，使敵方全體受到傷害增加50%(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ENEMIES,
+            applySkill: [
+              {
+                id: "10092-lead-4-1",
+                name: "使敵方全體受到傷害增加50%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.5,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10092-lead-5",
+          name: "每經過6回合，觸發「使自身造成必殺技傷害增加125%(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 6,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10092-lead-5-1",
+                name: "使自身造成必殺技傷害增加125%(1回合)",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 1.25,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      break;
+    }
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",
@@ -720,12 +830,12 @@ export function triggerLead(gameState: GameState) {
     // "10115": "魔法少女 布蘭妮",
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
-    case '10117': {
+    case "10117": {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10117-lead-1',
-          name: '最大HP增加20%',
+          id: "10117-lead-1",
+          name: "最大HP增加20%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -735,8 +845,8 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10117-lead-2',
-          name: '造成傷害增加20%',
+          id: "10117-lead-2",
+          name: "造成傷害增加20%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -754,8 +864,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10117-lead-1',
-              name: '最大HP增加20%',
+              id: "10117-lead-1",
+              name: "最大HP增加20%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -765,8 +875,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10117-lead-2',
-              name: '造成傷害增加20%',
+              id: "10117-lead-2",
+              name: "造成傷害增加20%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -782,8 +892,8 @@ export function triggerLead(gameState: GameState) {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10117-lead-3',
-          name: '攻擊力增加50%',
+          id: "10117-lead-3",
+          name: "攻擊力增加50%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -793,8 +903,8 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10117-lead-4',
-          name: '普攻傷害增加20%',
+          id: "10117-lead-4",
+          name: "普攻傷害增加20%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -812,8 +922,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10117-lead-5',
-              name: '攻擊力增加80%',
+              id: "10117-lead-5",
+              name: "攻擊力增加80%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -823,8 +933,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10117-lead-6',
-              name: '普攻傷害增加50%',
+              id: "10117-lead-6",
+              name: "普攻傷害增加50%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -877,8 +987,8 @@ export function triggerLead(gameState: GameState) {
               gameState.characters[index].buff = [
                 ...gameState.characters[index].buff,
                 {
-                  id: '10117-lead-7',
-                  name: '普攻時，追加「以自身攻擊力40%對目標造成傷害」',
+                  id: "10117-lead-7",
+                  name: "普攻時，追加「以自身攻擊力40%對目標造成傷害」",
                   type: 101,
                   condition: Condition.BASIC_ATTACK,
                   duration: 100,
@@ -890,24 +1000,24 @@ export function triggerLead(gameState: GameState) {
                   },
                 },
                 {
-                  id: '10117-lead-8',
-                  name: '普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」',
+                  id: "10117-lead-8",
+                  name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
                   type: 104,
                   condition: Condition.BASIC_ATTACK,
                   duration: 100,
                   _104: {
                     increaseStack: 1,
-                    targetSkill: '10117-lead-8-1',
+                    targetSkill: "10117-lead-8-1",
                     target: Target.ENEMY,
                     applySkill: {
-                      id: '10117-lead-8-1',
-                      name: '受到普攻傷害增加18%',
+                      id: "10117-lead-8-1",
+                      name: "受到普攻傷害增加18%",
                       type: 3,
                       condition: Condition.NONE,
                       duration: 100,
                       _3: {
-                        id: '10117-lead-8-1',
-                        name: '普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」',
+                        id: "10117-lead-8-1",
+                        name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
                         stack: 1,
                         maxStack: 5,
                         value: 0.18,
@@ -930,8 +1040,8 @@ export function triggerLead(gameState: GameState) {
               gameState.characters[index].buff = [
                 ...gameState.characters[index].buff,
                 {
-                  id: '10117-lead-9',
-                  name: '普攻時，追加「以自身攻擊力40%對目標造成傷害」',
+                  id: "10117-lead-9",
+                  name: "普攻時，追加「以自身攻擊力40%對目標造成傷害」",
                   type: 101,
                   condition: Condition.BASIC_ATTACK,
                   duration: 100,
@@ -943,24 +1053,24 @@ export function triggerLead(gameState: GameState) {
                   },
                 },
                 {
-                  id: '10117-lead-10',
-                  name: '普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」',
+                  id: "10117-lead-10",
+                  name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
                   type: 104,
                   condition: Condition.BASIC_ATTACK,
                   duration: 100,
                   _104: {
                     increaseStack: 1,
-                    targetSkill: '10117-lead-10-1',
+                    targetSkill: "10117-lead-10-1",
                     target: Target.ENEMY,
                     applySkill: {
-                      id: '10117-lead-10-1',
-                      name: '普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」',
+                      id: "10117-lead-10-1",
+                      name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
                       type: 3,
                       condition: Condition.NONE,
                       duration: 100,
                       _3: {
-                        id: '10117-lead-10-1',
-                        name: '受到普攻傷害增加18%',
+                        id: "10117-lead-10-1",
+                        name: "受到普攻傷害增加18%",
                         stack: 1,
                         maxStack: 5,
                         value: 0.18,
@@ -977,13 +1087,13 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10118": "夏日 菲歐菈",
-    case '10118': {
+    case "10118": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '518-lead-1',
-            name: '最大HP增加20%',
+            id: "518-lead-1",
+            name: "最大HP增加20%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1016,8 +1126,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '518-lead-2',
-              name: '攻擊力增加100%',
+              id: "518-lead-2",
+              name: "攻擊力增加100%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1033,8 +1143,8 @@ export function triggerLead(gameState: GameState) {
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               {
-                id: '518-lead-3',
-                name: '必殺技傷害增加50%',
+                id: "518-lead-3",
+                name: "必殺技傷害增加50%",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 100,
@@ -1049,8 +1159,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '518-lead-4',
-            name: '每經過4回合，觸發「使目標受到傷害增加50%(1回合)」',
+            id: "518-lead-4",
+            name: "每經過4回合，觸發「使目標受到傷害增加50%(1回合)」",
             type: 11,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 4,
@@ -1059,8 +1169,8 @@ export function triggerLead(gameState: GameState) {
               target: Target.ENEMY,
               applySkill: [
                 {
-                  id: '518-lead-4-1',
-                  name: '受到傷害增加50%',
+                  id: "518-lead-4-1",
+                  name: "受到傷害增加50%",
                   type: 0,
                   condition: Condition.NONE,
                   duration: 1,
@@ -1073,8 +1183,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '518-lead-5',
-            name: '被治療時，觸發「使我方全體造成傷害增加15%(1回合)」',
+            id: "518-lead-5",
+            name: "被治療時，觸發「使我方全體造成傷害增加15%(1回合)」",
             type: 11,
             condition: Condition.GET_HEAL,
             duration: 100,
@@ -1082,8 +1192,8 @@ export function triggerLead(gameState: GameState) {
               target: Target.ALL_ALLIES,
               applySkill: [
                 {
-                  id: '518-lead-5-1',
-                  name: '造成傷害增加15%',
+                  id: "518-lead-5-1",
+                  name: "造成傷害增加15%",
                   type: 0,
                   condition: Condition.NONE,
                   duration: 1,
@@ -1110,12 +1220,12 @@ export function triggerLead(gameState: GameState) {
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
     // "10129": "性誕馴鹿 希依",
-    case '10129': {
+    case "10129": {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10129-Lead-1',
-          name: '最大HP增加30%',
+          id: "10129-Lead-1",
+          name: "最大HP增加30%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -1126,8 +1236,8 @@ export function triggerLead(gameState: GameState) {
         },
         // 自身護盾效果增加50%
         {
-          id: '10129-Lead-2',
-          name: '每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」',
+          id: "10129-Lead-2",
+          name: "每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」",
           type: 21,
           condition: Condition.ON_TURN_START,
           conditionTurn: 1,
@@ -1135,24 +1245,24 @@ export function triggerLead(gameState: GameState) {
           _21: {
             trigger: [
               {
-                id: '10129-lead-2-1',
-                name: '每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」',
+                id: "10129-lead-2-1",
+                name: "每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」",
                 type: 4,
                 condition: Condition.NONE,
                 duration: 100,
                 _4: {
                   increaseStack: 1,
-                  targetSkill: '10129-lead-2-1-1',
+                  targetSkill: "10129-lead-2-1-1",
                   target: Target.ENEMY,
                   applySkill: {
-                    id: '10129-lead-2-1-1',
-                    name: '受到傷害增加50%',
+                    id: "10129-lead-2-1-1",
+                    name: "受到傷害增加50%",
                     type: 3,
                     condition: Condition.NONE,
                     duration: 100,
                     _3: {
-                      id: '10129-lead-2-1-1',
-                      name: '受到傷害增加50%',
+                      id: "10129-lead-2-1-1",
+                      name: "受到傷害增加50%",
                       value: 0.5,
                       stack: 1,
                       maxStack: 1,
@@ -1188,8 +1298,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10129-Lead-3',
-              name: '攻擊力增加130%',
+              id: "10129-Lead-3",
+              name: "攻擊力增加130%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1199,8 +1309,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10129-Lead-4',
-              name: '必殺技傷害增加50%',
+              id: "10129-Lead-4",
+              name: "必殺技傷害增加50%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1210,8 +1320,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10129-Lead-5',
-              name: '造成傷害增加20%',
+              id: "10129-Lead-5",
+              name: "造成傷害增加20%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1230,7 +1340,7 @@ export function triggerLead(gameState: GameState) {
     // "10132": "幽夜女爵 卡蒂雅",
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
-    case '10134': {
+    case "10134": {
       // 我方全體最大HP增加35%
       // 自身必殺時，觸發「《驅散悲傷之光☆》」
       // 我方全體獲得「我方隊伍中正好有4種屬性隊員時，發動 《偶像勁舞團》」
@@ -1246,7 +1356,7 @@ export function triggerLead(gameState: GameState) {
     }
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
-    case '10136': {
+    case "10136": {
       gameState.characters.forEach((character, index) => {
         if (
           character.attribute === CharacterAttribute.WATER ||
@@ -1255,8 +1365,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10136-Lead-1',
-              name: '最大HP增加20%',
+              id: "10136-Lead-1",
+              name: "最大HP增加20%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1266,8 +1376,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10136-Lead-2',
-              name: '攻擊力增加100%',
+              id: "10136-Lead-2",
+              name: "攻擊力增加100%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1282,8 +1392,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10136-Lead-3',
-              name: '普攻傷害增加80%',
+              id: "10136-Lead-3",
+              name: "普攻傷害增加80%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1293,8 +1403,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10136-Lead-4',
-              name: '造成傷害增加50%',
+              id: "10136-Lead-4",
+              name: "造成傷害增加50%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1313,9 +1423,9 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10136-Lead-5',
+              id: "10136-Lead-5",
               // 攻擊時，觸發「使我方水屬性的角色造成傷害增加30%(1回合)」
-              name: '《集團追獵》',
+              name: "《集團追獵》",
               type: 11,
               condition: Condition.NONE,
               duration: 100,
@@ -1323,8 +1433,8 @@ export function triggerLead(gameState: GameState) {
                 target: Target.WATER,
                 applySkill: [
                   {
-                    id: '10136-Lead-5-1',
-                    name: '造成傷害增加30%',
+                    id: "10136-Lead-5-1",
+                    name: "造成傷害增加30%",
                     type: 0,
                     condition: Condition.NONE,
                     duration: 1,
@@ -1342,13 +1452,13 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10137": "春情白兔 鈴蘭",
-    case '10137': {
+    case "10137": {
       gameState.characters.forEach((character, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10137-lead-1',
-            name: '最大HP增加30%',
+            id: "10137-lead-1",
+            name: "最大HP增加30%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1367,24 +1477,24 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10137-lead-2',
-              name: '普攻時，觸發「使我方全體攻擊力增加6%(最多18層)」',
+              id: "10137-lead-2",
+              name: "普攻時，觸發「使我方全體攻擊力增加6%(最多18層)」",
               type: 4,
               condition: Condition.BASIC_ATTACK,
               duration: 100,
               _4: {
                 target: Target.ALL_ALLIES,
                 increaseStack: 1,
-                targetSkill: '10137-lead-2-1',
+                targetSkill: "10137-lead-2-1",
                 applySkill: {
-                  id: '10137-lead-2-1',
-                  name: '攻擊力增加6%',
+                  id: "10137-lead-2-1",
+                  name: "攻擊力增加6%",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
-                    id: '10137-lead-2-1',
-                    name: '攻擊力增加6%',
+                    id: "10137-lead-2-1",
+                    name: "攻擊力增加6%",
                     value: 0.06,
                     stack: 1,
                     maxStack: 18,
@@ -1394,24 +1504,24 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10137-lead-3',
-              name: '普攻時，觸發「使我方全體普攻傷害增加6%(最多18層)」',
+              id: "10137-lead-3",
+              name: "普攻時，觸發「使我方全體普攻傷害增加6%(最多18層)」",
               type: 4,
               condition: Condition.BASIC_ATTACK,
               duration: 100,
               _4: {
                 target: Target.ALL_ALLIES,
                 increaseStack: 1,
-                targetSkill: '10137-lead-3-1',
+                targetSkill: "10137-lead-3-1",
                 applySkill: {
-                  id: '10137-lead-3-1',
-                  name: '普攻傷害增加6%',
+                  id: "10137-lead-3-1",
+                  name: "普攻傷害增加6%",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
-                    id: '10137-lead-3-1',
-                    name: '普攻傷害增加6%',
+                    id: "10137-lead-3-1",
+                    name: "普攻傷害增加6%",
                     stack: 1,
                     maxStack: 18,
                     value: 0.06,
@@ -1421,24 +1531,24 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10137-lead-4',
-              name: '普攻時，觸發「使我方全體造成傷害增加2%(最多18層)」',
+              id: "10137-lead-4",
+              name: "普攻時，觸發「使我方全體造成傷害增加2%(最多18層)」",
               type: 4,
               condition: Condition.BASIC_ATTACK,
               duration: 100,
               _4: {
                 target: Target.ALL_ALLIES,
                 increaseStack: 1,
-                targetSkill: '10137-lead-4-1',
+                targetSkill: "10137-lead-4-1",
                 applySkill: {
-                  id: '10137-lead-4-1',
-                  name: '造成傷害增加2%',
+                  id: "10137-lead-4-1",
+                  name: "造成傷害增加2%",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
-                    id: '10137-lead-4-1',
-                    name: '造成傷害增加2%',
+                    id: "10137-lead-4-1",
+                    name: "造成傷害增加2%",
                     stack: 1,
                     maxStack: 18,
                     value: 0.02,
@@ -1457,13 +1567,13 @@ export function triggerLead(gameState: GameState) {
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
-    case '10142': {
+    case "10142": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10142-lead-1',
-            name: '最大HP增加40%',
+            id: "10142-lead-1",
+            name: "最大HP增加40%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1473,8 +1583,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10142-lead-2',
-            name: '攻擊力增加50%',
+            id: "10142-lead-2",
+            name: "攻擊力增加50%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1505,8 +1615,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '10142-lead-3',
-            name: '自身必殺時，觸發「使敵方全體受到傷害增加20%(4回合)」',
+            id: "10142-lead-3",
+            name: "自身必殺時，觸發「使敵方全體受到傷害增加20%(4回合)」",
             type: 11,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -1514,8 +1624,8 @@ export function triggerLead(gameState: GameState) {
               target: Target.ENEMY,
               applySkill: [
                 {
-                  id: '10142-lead-3-1',
-                  name: '受到傷害增加20%',
+                  id: "10142-lead-3-1",
+                  name: "受到傷害增加20%",
                   type: 0,
                   condition: Condition.NONE,
                   duration: 4,
@@ -1528,8 +1638,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10142-lead-4',
-            name: '自身必殺時，觸發「使我方全體攻擊者造成傷害增加20%(4回合)」',
+            id: "10142-lead-4",
+            name: "自身必殺時，觸發「使我方全體攻擊者造成傷害增加20%(4回合)」",
             type: 11,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -1537,8 +1647,8 @@ export function triggerLead(gameState: GameState) {
               target: Target.ATTACKER,
               applySkill: [
                 {
-                  id: '10142-lead-4-1',
-                  name: '造成傷害增加20%',
+                  id: "10142-lead-4-1",
+                  name: "造成傷害增加20%",
                   type: 0,
                   condition: Condition.NONE,
                   duration: 4,
@@ -1551,8 +1661,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10142-lead-5',
-            name: '自身必殺時，觸發「使我方全體攻擊者普攻傷害增加110%(4回合)」',
+            id: "10142-lead-5",
+            name: "自身必殺時，觸發「使我方全體攻擊者普攻傷害增加110%(4回合)」",
             type: 11,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -1560,8 +1670,8 @@ export function triggerLead(gameState: GameState) {
               target: Target.ATTACKER,
               applySkill: [
                 {
-                  id: '10142-lead-5-1',
-                  name: '普攻傷害增加110%',
+                  id: "10142-lead-5-1",
+                  name: "普攻傷害增加110%",
                   type: 0,
                   condition: Condition.NONE,
                   duration: 4,
@@ -1578,13 +1688,13 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10143": "夏日 賽露西亞",
-    case '10143': {
+    case "10143": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10143-lead-1',
-            name: '最大HP增加30%',
+            id: "10143-lead-1",
+            name: "最大HP增加30%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1618,8 +1728,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10143-lead-2',
-              name: '攻擊力增加100%',
+              id: "10143-lead-2",
+              name: "攻擊力增加100%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1629,8 +1739,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10143-lead-3',
-              name: '造成傷害增加20%',
+              id: "10143-lead-3",
+              name: "造成傷害增加20%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1640,8 +1750,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10143-lead-4',
-              name: '普攻傷害110%',
+              id: "10143-lead-4",
+              name: "普攻傷害110%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1651,8 +1761,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10143-lead-5',
-              name: '普攻時，追加「以自身攻擊力30%對目標造成傷害」',
+              id: "10143-lead-5",
+              name: "普攻時，追加「以自身攻擊力30%對目標造成傷害」",
               type: 101,
               condition: Condition.BASIC_ATTACK,
               duration: 100,
@@ -1669,13 +1779,13 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10144": "夏日 凱薩",
-    case '10144': {
+    case "10144": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10144-lead-1',
-            name: '最大HP增加20%',
+            id: "10144-lead-1",
+            name: "最大HP增加20%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1685,8 +1795,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10144-lead-2',
-            name: '攻擊力增加50%',
+            id: "10144-lead-2",
+            name: "攻擊力增加50%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1700,8 +1810,8 @@ export function triggerLead(gameState: GameState) {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10144-lead-3',
-          name: '最大HP增加20%',
+          id: "10144-lead-3",
+          name: "最大HP增加20%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -1711,14 +1821,14 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10144-passive-3-1',
-          name: '攻擊力增加',
+          id: "10144-passive-3-1",
+          name: "攻擊力增加",
           type: 3,
           condition: Condition.NONE,
           duration: 100,
           _3: {
-            id: '10144-passive-3-1',
-            name: '攻擊力增加5%',
+            id: "10144-passive-3-1",
+            name: "攻擊力增加5%",
             value: 0.05,
             stack: 20,
             maxStack: 20,
@@ -1726,14 +1836,14 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10144-passive-5-1',
-          name: '造成傷害增加',
+          id: "10144-passive-5-1",
+          name: "造成傷害增加",
           type: 3,
           condition: Condition.NONE,
           duration: 100,
           _3: {
-            id: '10144-passive-5-1',
-            name: '造成傷害增加20%',
+            id: "10144-passive-5-1",
+            name: "造成傷害增加20%",
             value: 0.2,
             stack: 4,
             maxStack: 4,
@@ -1744,18 +1854,18 @@ export function triggerLead(gameState: GameState) {
       gameState.enemies[0].buff = [
         ...gameState.enemies[0].buff,
         {
-          id: '10144-passive-4-1',
-          name: '受到夏日凱撒的傷害增加4%',
+          id: "10144-passive-4-1",
+          name: "受到夏日凱撒的傷害增加4%",
           type: 3,
           condition: Condition.NONE,
           duration: 100,
           _3: {
-            id: '10144-passive-4-1',
-            name: '受到夏日凱撒的傷害增加4%',
+            id: "10144-passive-4-1",
+            name: "受到夏日凱撒的傷害增加4%",
             value: 0.04,
             stack: 15,
             maxStack: 15,
-            specificCharId: '10144',
+            specificCharId: "10144",
             affectType: AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED,
           },
         },
@@ -1766,8 +1876,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10144-lead-4',
-              name: '防禦時，觸發「使目標受到傷害增加9%（2回合）」',
+              id: "10144-lead-4",
+              name: "防禦時，觸發「使目標受到傷害增加9%（2回合）」",
               type: 11,
               condition: Condition.GUARD,
               duration: 100,
@@ -1775,8 +1885,8 @@ export function triggerLead(gameState: GameState) {
                 target: Target.ENEMY,
                 applySkill: [
                   {
-                    id: '10144-lead-4-1',
-                    name: '受到傷害增加9%',
+                    id: "10144-lead-4-1",
+                    name: "受到傷害增加9%",
                     type: 0,
                     condition: Condition.NONE,
                     duration: 2,
@@ -1789,8 +1899,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10144-lead-5',
-              name: '防禦時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)',
+              id: "10144-lead-5",
+              name: "防禦時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
               type: 6,
               condition: Condition.GUARD,
               duration: 100,
@@ -1803,8 +1913,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10144-lead-6',
-              name: '必殺時，觸發「使目標受到傷害增加9%（2回合）」',
+              id: "10144-lead-6",
+              name: "必殺時，觸發「使目標受到傷害增加9%（2回合）」",
               type: 11,
               condition: Condition.ULTIMATE,
               duration: 100,
@@ -1812,8 +1922,8 @@ export function triggerLead(gameState: GameState) {
                 target: Target.ENEMY,
                 applySkill: [
                   {
-                    id: '10144-lead-4-1',
-                    name: '受到傷害增加9%',
+                    id: "10144-lead-4-1",
+                    name: "受到傷害增加9%",
                     type: 0,
                     condition: Condition.NONE,
                     duration: 2,
@@ -1826,8 +1936,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10144-lead-7',
-              name: '必殺時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)',
+              id: "10144-lead-7",
+              name: "必殺時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
               type: 6,
               condition: Condition.ULTIMATE,
               duration: 100,
@@ -1845,13 +1955,13 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10145": "夏日 撒旦",
-    case '10145': {
+    case "10145": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10145-lead-1',
-            name: '最大HP增加40%',
+            id: "10145-lead-1",
+            name: "最大HP增加40%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1861,8 +1971,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10145-lead-2',
-            name: '攻擊力增加70%',
+            id: "10145-lead-2",
+            name: "攻擊力增加70%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1872,8 +1982,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10145-lead-3',
-            name: '普攻傷害增加60%',
+            id: "10145-lead-3",
+            name: "普攻傷害增加60%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1883,8 +1993,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10145-lead-4',
-            name: '必殺傷害增加20%',
+            id: "10145-lead-4",
+            name: "必殺傷害增加20%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1898,8 +2008,8 @@ export function triggerLead(gameState: GameState) {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10145-lead-5',
-          name: '攻擊時，觸發「以自身最大HP5%使我方全體攻擊力增加(2回合)」',
+          id: "10145-lead-5",
+          name: "攻擊時，觸發「以自身最大HP5%使我方全體攻擊力增加(2回合)」",
           type: 16,
           condition: Condition.ATTACK,
           duration: 100,
@@ -1911,54 +2021,54 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10145-lead-6',
-          name: '被攻擊時，觸發「使我方全體造成傷害增加1.33%(最多15層)」',
+          id: "10145-lead-6",
+          name: "被攻擊時，觸發「使我方全體造成傷害增加1.33%(最多15層)」",
           type: 4,
           condition: Condition.RECEIVED_ATTACK,
           duration: 100,
           _4: {
             target: Target.ALL_ALLIES,
             increaseStack: 1,
-            targetSkill: '10145-lead-6-1',
+            targetSkill: "10145-lead-6-1",
             applySkill: {
-              id: '10145-lead-6-1',
-              name: '造成傷害增加',
+              id: "10145-lead-6-1",
+              name: "造成傷害增加",
               type: 3,
               condition: Condition.NONE,
               duration: 100,
               _3: {
-                id: '10145-lead-6-1',
+                id: "10145-lead-6-1",
                 stack: 1,
                 maxStack: 15,
                 value: 0.0133,
-                name: '造成傷害增加1.33%',
+                name: "造成傷害增加1.33%",
                 affectType: AffectType.INCREASE_DMG,
               },
             },
           },
         },
         {
-          id: '10145-lead-7',
-          name: '被攻擊時，觸發「使敵方全體受到傷害增加1.33%(最多15層)」',
+          id: "10145-lead-7",
+          name: "被攻擊時，觸發「使敵方全體受到傷害增加1.33%(最多15層)」",
           type: 4,
           condition: Condition.RECEIVED_ATTACK,
           duration: 100,
           _4: {
             target: Target.ENEMY,
             increaseStack: 1,
-            targetSkill: '10145-lead-7-1',
+            targetSkill: "10145-lead-7-1",
             applySkill: {
-              id: '10145-lead-7-1',
-              name: '造成傷害增加',
+              id: "10145-lead-7-1",
+              name: "造成傷害增加",
               type: 3,
               condition: Condition.NONE,
               duration: 100,
               _3: {
-                id: '10145-lead-7-1',
+                id: "10145-lead-7-1",
                 stack: 1,
                 maxStack: 15,
                 value: 0.0133,
-                name: '受到傷害',
+                name: "受到傷害",
                 affectType: AffectType.INCREASE_DMG_RECEIVED,
               },
             },
@@ -1968,13 +2078,13 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10146": "魔獸獵手 神無雪",
-    case '10146': {
+    case "10146": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10146-lead-1',
-            name: '最大HP增加30%',
+            id: "10146-lead-1",
+            name: "最大HP增加30%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1984,8 +2094,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10146-lead-2',
-            name: '攻擊力增加50%',
+            id: "10146-lead-2",
+            name: "攻擊力增加50%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -1999,8 +2109,8 @@ export function triggerLead(gameState: GameState) {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10146-lead-3',
-          name: '必殺時，追加『以自身攻擊力80%對目標造成傷害',
+          id: "10146-lead-3",
+          name: "必殺時，追加『以自身攻擊力80%對目標造成傷害",
           type: 101,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -2021,8 +2131,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10146-lead-4',
-              name: '第一回合時，觸發「以自身基礎攻擊力10%使我方全體攻擊力增加(50回合)」',
+              id: "10146-lead-4",
+              name: "第一回合時，觸發「以自身基礎攻擊力10%使我方全體攻擊力增加(50回合)」",
               type: 6,
               condition: Condition.ON_TURN_START,
               conditionTurn: 1,
@@ -2036,8 +2146,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10146-lead-5',
-              name: '第五回合時，觸發「使自身必殺技傷害增加50%(最多1層)」',
+              id: "10146-lead-5",
+              name: "第五回合時，觸發「使自身必殺技傷害增加50%(最多1層)」",
               type: 11,
               condition: Condition.ON_SPECIFIC_TURN,
               conditionTurn: 5,
@@ -2046,14 +2156,14 @@ export function triggerLead(gameState: GameState) {
                 target: Target.SELF,
                 applySkill: [
                   {
-                    id: '10146-lead-5-1',
-                    name: '「必殺技傷害增加50%(最多1層)」',
+                    id: "10146-lead-5-1",
+                    name: "「必殺技傷害增加50%(最多1層)」",
                     type: 3,
                     condition: Condition.NONE,
                     duration: 100,
                     _3: {
-                      id: '10146-lead-5-1',
-                      name: '「必殺技傷害增加50%(最多1層)」',
+                      id: "10146-lead-5-1",
+                      name: "「必殺技傷害增加50%(最多1層)」",
                       stack: 1,
                       maxStack: 1,
                       value: 0.5,
@@ -2064,8 +2174,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10146-lead-6',
-              name: '第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」',
+              id: "10146-lead-6",
+              name: "第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」",
               type: 21,
               condition: Condition.ON_SPECIFIC_TURN,
               conditionTurn: 9,
@@ -2073,24 +2183,24 @@ export function triggerLead(gameState: GameState) {
               _21: {
                 trigger: [
                   {
-                    id: '10146-lead-6-1',
-                    name: '第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」',
+                    id: "10146-lead-6-1",
+                    name: "第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」",
                     type: 4,
                     condition: Condition.NONE,
                     duration: 100,
                     _4: {
                       increaseStack: 1,
                       target: Target.ENEMY,
-                      targetSkill: '10146-lead-6-1-1',
+                      targetSkill: "10146-lead-6-1-1",
                       applySkill: {
-                        id: '10146-lead-6-1-1',
-                        name: '受到傷害增加33%(最多3層)',
+                        id: "10146-lead-6-1-1",
+                        name: "受到傷害增加33%(最多3層)",
                         type: 3,
                         condition: Condition.NONE,
                         duration: 100,
                         _3: {
-                          id: '10146-lead-6-1-1',
-                          name: '受到傷害增加33%(最多3層)',
+                          id: "10146-lead-6-1-1",
+                          name: "受到傷害增加33%(最多3層)",
                           stack: 1,
                           maxStack: 3,
                           value: 0.33,
@@ -2109,13 +2219,13 @@ export function triggerLead(gameState: GameState) {
     }
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
-    case '10148': {
+    case "10148": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10148-lead-1',
-            name: '最大HP增加40%',
+            id: "10148-lead-1",
+            name: "最大HP增加40%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2125,8 +2235,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10148-lead-2',
-            name: '攻擊力增加50%',
+            id: "10148-lead-2",
+            name: "攻擊力增加50%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2180,14 +2290,14 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10149": "千年靈狐 椿",
-    case '10149': {
+    case "10149": {
       // 使我方全體妨礙者免疫必殺技CD變動效果 NO IMPLEMENT
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10149-lead-1',
-            name: '最大HP增加30%',
+            id: "10149-lead-1",
+            name: "最大HP增加30%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2197,8 +2307,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10149-lead-2',
-            name: '攻擊力增加40%',
+            id: "10149-lead-2",
+            name: "攻擊力增加40%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2213,24 +2323,24 @@ export function triggerLead(gameState: GameState) {
       gameState.characters[0].buff = [
         ...gameState.characters[0].buff,
         {
-          id: '10149-lead-3',
-          name: '必殺時，觸發「使目標受到火屬性傷害增加100%(最多1層)」',
+          id: "10149-lead-3",
+          name: "必殺時，觸發「使目標受到火屬性傷害增加100%(最多1層)」",
           type: 4,
           condition: Condition.ULTIMATE,
           duration: 100,
           _4: {
             increaseStack: 1,
-            targetSkill: '10149-lead-3-1',
+            targetSkill: "10149-lead-3-1",
             target: Target.ENEMY,
             applySkill: {
-              id: '10149-lead-3-1',
-              name: '受到火屬性傷害增加',
+              id: "10149-lead-3-1",
+              name: "受到火屬性傷害增加",
               type: 3,
               condition: Condition.NONE,
               duration: 100,
               _3: {
-                id: '10149-lead-3-1',
-                name: '受到火屬性傷害增加',
+                id: "10149-lead-3-1",
+                name: "受到火屬性傷害增加",
                 stack: 1,
                 maxStack: 1,
                 affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
@@ -2240,24 +2350,24 @@ export function triggerLead(gameState: GameState) {
           },
         },
         {
-          id: '10149-lead-4',
-          name: '必殺時，觸發「使目標受到妨礙者傷害增加50%(最多1層)」',
+          id: "10149-lead-4",
+          name: "必殺時，觸發「使目標受到妨礙者傷害增加50%(最多1層)」",
           type: 4,
           condition: Condition.ULTIMATE,
           duration: 100,
           _4: {
             increaseStack: 1,
-            targetSkill: '10149-lead-4-1',
+            targetSkill: "10149-lead-4-1",
             target: Target.ENEMY,
             applySkill: {
-              id: '10149-lead-4-1',
-              name: '受到妨礙者傷害增加',
+              id: "10149-lead-4-1",
+              name: "受到妨礙者傷害增加",
               type: 3,
               condition: Condition.NONE,
               duration: 100,
               _3: {
-                id: '10149-lead-4-1',
-                name: '受到妨礙者傷害增加',
+                id: "10149-lead-4-1",
+                name: "受到妨礙者傷害增加",
                 stack: 1,
                 maxStack: 2,
                 affectType: AffectType.INCREASE_OBSTRUCTER_DMG_RECEIVED,
@@ -2273,8 +2383,8 @@ export function triggerLead(gameState: GameState) {
             ...gameState.characters[index].buff,
 
             {
-              id: '10149-lead-5',
-              name: '防禦時，觸發《妖術達人》',
+              id: "10149-lead-5",
+              name: "防禦時，觸發《妖術達人》",
               type: 11,
               condition: Condition.GUARD,
               duration: 100,
@@ -2282,8 +2392,8 @@ export function triggerLead(gameState: GameState) {
                 target: Target.SELF,
                 applySkill: [
                   {
-                    id: '10149-lead-5-1',
-                    name: '攻擊力增加50%',
+                    id: "10149-lead-5-1",
+                    name: "攻擊力增加50%",
                     type: 0,
                     condition: Condition.NONE,
                     duration: 2,
@@ -2293,8 +2403,8 @@ export function triggerLead(gameState: GameState) {
                     },
                   },
                   {
-                    id: '10149-lead-5-2',
-                    name: '必殺技傷害增加60%',
+                    id: "10149-lead-5-2",
+                    name: "必殺技傷害增加60%",
                     type: 0,
                     condition: Condition.NONE,
                     duration: 2,
@@ -2304,8 +2414,8 @@ export function triggerLead(gameState: GameState) {
                     },
                   },
                   {
-                    id: '10149-lead-5-3',
-                    name: '必殺時，追加「以自身攻擊力100%對目標造成傷害」',
+                    id: "10149-lead-5-3",
+                    name: "必殺時，追加「以自身攻擊力100%對目標造成傷害」",
                     type: 101,
                     condition: Condition.ULTIMATE,
                     duration: 2,
@@ -2345,8 +2455,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10149-lead-6',
-              name: '攻擊力減少250%',
+              id: "10149-lead-6",
+              name: "攻擊力減少250%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -2356,8 +2466,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10149-lead-7',
-              name: '必殺技傷害減少250%',
+              id: "10149-lead-7",
+              name: "必殺技傷害減少250%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -2373,13 +2483,13 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10150": "勇者兔女郎 神田綾音",
-    case '10150': {
+    case "10150": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10150-lead-1',
-            name: '最大HP增加40%',
+            id: "10150-lead-1",
+            name: "最大HP增加40%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2389,8 +2499,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10150-lead-2',
-            name: '攻擊力增加80%',
+            id: "10150-lead-2",
+            name: "攻擊力增加80%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2424,8 +2534,8 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: '10150-lead-3',
-            name: '攻擊力增加80%',
+            id: "10150-lead-3",
+            name: "攻擊力增加80%",
             type: 11,
             condition: Condition.ON_SPECIFIC_TURN,
             conditionTurn: 1,
@@ -2434,8 +2544,8 @@ export function triggerLead(gameState: GameState) {
               target: Target.DARK_ENEMY,
               applySkill: [
                 {
-                  id: '10150-lead-3-1',
-                  name: '受到光屬性傷害增加50%',
+                  id: "10150-lead-3-1",
+                  name: "受到光屬性傷害增加50%",
                   type: 0,
                   condition: Condition.NONE,
                   duration: 50,
@@ -2448,8 +2558,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10150-lead-4',
-            name: '必殺傷害增加',
+            id: "10150-lead-4",
+            name: "必殺傷害增加",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2459,8 +2569,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10150-lead-5',
-            name: '必殺時，追加『以自身攻擊力66.6%對目標造成傷害』',
+            id: "10150-lead-5",
+            name: "必殺時，追加『以自身攻擊力66.6%對目標造成傷害』",
             type: 101,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -2478,8 +2588,8 @@ export function triggerLead(gameState: GameState) {
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               {
-                id: '10150-lead-6',
-                name: '造成傷害增加30%',
+                id: "10150-lead-6",
+                name: "造成傷害增加30%",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 100,
@@ -2489,8 +2599,8 @@ export function triggerLead(gameState: GameState) {
                 },
               },
               {
-                id: '10150-lead-7',
-                name: '普攻傷害增加50%',
+                id: "10150-lead-7",
+                name: "普攻傷害增加50%",
                 type: 0,
                 condition: Condition.NONE,
                 duration: 100,
@@ -2500,8 +2610,8 @@ export function triggerLead(gameState: GameState) {
                 },
               },
               {
-                id: '10150-lead-8',
-                name: '普攻時，追加「以自身攻擊力18%對目標造成傷害」',
+                id: "10150-lead-8",
+                name: "普攻時，追加「以自身攻擊力18%對目標造成傷害」",
                 type: 101,
                 condition: Condition.ULTIMATE,
                 duration: 100,
@@ -2514,24 +2624,24 @@ export function triggerLead(gameState: GameState) {
               },
               // 攻擊時，觸發「使目標受到傷害增加0.4%(最多50層)，再使目標受到光屬性傷害增加0.6%(最多50層)」
               {
-                id: '10150-lead-9',
-                name: '攻擊時，觸發「使目標受到傷害增加0.4%(最多50層)」',
+                id: "10150-lead-9",
+                name: "攻擊時，觸發「使目標受到傷害增加0.4%(最多50層)」",
                 type: 4,
                 condition: Condition.ATTACK,
                 duration: 100,
                 _4: {
                   increaseStack: 1,
-                  targetSkill: '10150-lead-9-1',
+                  targetSkill: "10150-lead-9-1",
                   target: Target.ENEMY,
                   applySkill: {
-                    id: '10150-lead-9-1',
-                    name: '受到傷害增加',
+                    id: "10150-lead-9-1",
+                    name: "受到傷害增加",
                     type: 3,
                     condition: Condition.NONE,
                     duration: 100,
                     _3: {
-                      id: '10150-lead-9-1',
-                      name: '受到傷害增加',
+                      id: "10150-lead-9-1",
+                      name: "受到傷害增加",
                       stack: 1,
                       maxStack: 50,
                       affectType: AffectType.INCREASE_DMG_RECEIVED,
@@ -2541,24 +2651,24 @@ export function triggerLead(gameState: GameState) {
                 },
               },
               {
-                id: '10150-lead-10',
-                name: '攻擊時，觸發「使目標受到光屬性傷害增加0.6%(最多50層)」',
+                id: "10150-lead-10",
+                name: "攻擊時，觸發「使目標受到光屬性傷害增加0.6%(最多50層)」",
                 type: 4,
                 condition: Condition.ATTACK,
                 duration: 100,
                 _4: {
                   increaseStack: 1,
-                  targetSkill: '10150-lead-10-1',
+                  targetSkill: "10150-lead-10-1",
                   target: Target.ENEMY,
                   applySkill: {
-                    id: '10150-lead-10-1',
-                    name: '受到傷害增加',
+                    id: "10150-lead-10-1",
+                    name: "受到傷害增加",
                     type: 3,
                     condition: Condition.NONE,
                     duration: 100,
                     _3: {
-                      id: '10150-lead-10-1',
-                      name: '受到傷害增加',
+                      id: "10150-lead-10-1",
+                      name: "受到傷害增加",
                       stack: 1,
                       maxStack: 50,
                       affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
@@ -2573,13 +2683,13 @@ export function triggerLead(gameState: GameState) {
       }
       break;
     } // "10151": "性感兔女郎 伊布力斯",
-    case '10151': {
+    case "10151": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10151-lead-1',
-            name: '最大HP增加40%',
+            id: "10151-lead-1",
+            name: "最大HP增加40%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2589,8 +2699,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '10151-lead-2',
-            name: '攻擊力增加40%',
+            id: "10151-lead-2",
+            name: "攻擊力增加40%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2628,32 +2738,32 @@ export function triggerLead(gameState: GameState) {
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               {
-                id: '10151-lead-3',
-                name: '當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《本小姐不需要運氣》',
+                id: "10151-lead-3",
+                name: "當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《本小姐不需要運氣》",
                 type: 21,
                 condition: Condition.ON_TURN_START,
                 duration: 100,
                 _21: {
                   trigger: [
                     {
-                      id: '10151-lead-3-1',
-                      name: '使我方全體攻擊力增加25%',
+                      id: "10151-lead-3-1",
+                      name: "使我方全體攻擊力增加25%",
                       type: 4,
                       condition: Condition.NONE,
                       duration: 100,
                       _4: {
                         increaseStack: 1,
-                        targetSkill: '10151-lead-3-1-1',
+                        targetSkill: "10151-lead-3-1-1",
                         target: Target.ALL_ALLIES,
                         applySkill: {
-                          id: '10151-lead-3-1-1',
-                          name: '攻擊力增加',
+                          id: "10151-lead-3-1-1",
+                          name: "攻擊力增加",
                           type: 3,
                           condition: Condition.NONE,
                           duration: 100,
                           _3: {
-                            id: '10151-lead-3-1-1',
-                            name: '攻擊力增加',
+                            id: "10151-lead-3-1-1",
+                            name: "攻擊力增加",
                             stack: 1,
                             maxStack: 3,
                             affectType: AffectType.INCREASE_ATK,
@@ -2663,24 +2773,24 @@ export function triggerLead(gameState: GameState) {
                       },
                     },
                     {
-                      id: '10151-lead-3-2',
-                      name: '使我方全體必殺技傷害增加25%',
+                      id: "10151-lead-3-2",
+                      name: "使我方全體必殺技傷害增加25%",
                       type: 4,
                       condition: Condition.NONE,
                       duration: 100,
                       _4: {
                         increaseStack: 1,
-                        targetSkill: '10151-lead-3-2-1',
+                        targetSkill: "10151-lead-3-2-1",
                         target: Target.ALL_ALLIES,
                         applySkill: {
-                          id: '10151-lead-3-2-1',
-                          name: '使我方全體必殺技傷害增加25%',
+                          id: "10151-lead-3-2-1",
+                          name: "使我方全體必殺技傷害增加25%",
                           type: 3,
                           condition: Condition.NONE,
                           duration: 100,
                           _3: {
-                            id: '10151-lead-3-2-1',
-                            name: '使我方全體必殺技傷害增加25%',
+                            id: "10151-lead-3-2-1",
+                            name: "使我方全體必殺技傷害增加25%",
                             stack: 1,
                             maxStack: 3,
                             affectType: AffectType.INCREASE_ULTIMATE_DMG,
@@ -2690,8 +2800,8 @@ export function triggerLead(gameState: GameState) {
                       },
                     },
                     {
-                      id: '10151-lead-3-3',
-                      name: '使我方全體攻擊者獲得「必殺時，追加『以自身攻擊力25%對目標造成傷害』(50回合)」',
+                      id: "10151-lead-3-3",
+                      name: "使我方全體攻擊者獲得「必殺時，追加『以自身攻擊力25%對目標造成傷害』(50回合)」",
                       type: 11,
                       condition: Condition.NONE,
                       duration: 50,
@@ -2699,8 +2809,8 @@ export function triggerLead(gameState: GameState) {
                         target: Target.ATTACKER,
                         applySkill: [
                           {
-                            id: '10151-lead-3-3-1',
-                            name: '必殺時，追加『以自身攻擊力25%對目標造成傷害』',
+                            id: "10151-lead-3-3-1",
+                            name: "必殺時，追加『以自身攻擊力25%對目標造成傷害』",
                             type: 101,
                             condition: Condition.ULTIMATE,
                             duration: 50,
@@ -2724,32 +2834,32 @@ export function triggerLead(gameState: GameState) {
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               {
-                id: '10151-lead-4',
-                name: '當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《絕對的實力能輾壓一切》',
+                id: "10151-lead-4",
+                name: "當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《絕對的實力能輾壓一切》",
                 type: 21,
                 condition: Condition.ON_TURN_START,
                 duration: 100,
                 _21: {
                   trigger: [
                     {
-                      id: '10151-lead-4-1',
-                      name: '使我方造成傷害增加25%',
+                      id: "10151-lead-4-1",
+                      name: "使我方造成傷害增加25%",
                       type: 4,
                       condition: Condition.NONE,
                       duration: 100,
                       _4: {
                         increaseStack: 1,
-                        targetSkill: '10151-lead-4-1-1',
+                        targetSkill: "10151-lead-4-1-1",
                         target: Target.ALL_ALLIES,
                         applySkill: {
-                          id: '10151-lead-4-1-1',
-                          name: '造成傷害增加',
+                          id: "10151-lead-4-1-1",
+                          name: "造成傷害增加",
                           type: 3,
                           condition: Condition.NONE,
                           duration: 100,
                           _3: {
-                            id: '10151-lead-4-1-1',
-                            name: '造成傷害增加',
+                            id: "10151-lead-4-1-1",
+                            name: "造成傷害增加",
                             stack: 1,
                             maxStack: 3,
                             affectType: AffectType.INCREASE_DMG,
@@ -2759,24 +2869,24 @@ export function triggerLead(gameState: GameState) {
                       },
                     },
                     {
-                      id: '10151-lead-4-2',
-                      name: '使我方全體普攻傷害增加25%',
+                      id: "10151-lead-4-2",
+                      name: "使我方全體普攻傷害增加25%",
                       type: 4,
                       condition: Condition.NONE,
                       duration: 100,
                       _4: {
                         increaseStack: 1,
-                        targetSkill: '10151-lead-4-2-1',
+                        targetSkill: "10151-lead-4-2-1",
                         target: Target.ALL_ALLIES,
                         applySkill: {
-                          id: '10151-lead-4-2-1',
-                          name: '使我方全體普攻傷害增加35%',
+                          id: "10151-lead-4-2-1",
+                          name: "使我方全體普攻傷害增加35%",
                           type: 3,
                           condition: Condition.NONE,
                           duration: 100,
                           _3: {
-                            id: '10151-lead-4-2-1',
-                            name: '使我方全體普攻傷害增加35%',
+                            id: "10151-lead-4-2-1",
+                            name: "使我方全體普攻傷害增加35%",
                             stack: 1,
                             maxStack: 3,
                             affectType: AffectType.INCREASE_BASIC_DMG,
@@ -2786,8 +2896,8 @@ export function triggerLead(gameState: GameState) {
                       },
                     },
                     {
-                      id: '10151-lead-4-3',
-                      name: '使我方全體攻擊者獲得「普攻時，追加『以自身攻擊力20%對目標造成傷害』(50回合)」',
+                      id: "10151-lead-4-3",
+                      name: "使我方全體攻擊者獲得「普攻時，追加『以自身攻擊力20%對目標造成傷害』(50回合)」",
                       type: 11,
                       condition: Condition.NONE,
                       duration: 50,
@@ -2795,8 +2905,8 @@ export function triggerLead(gameState: GameState) {
                         target: Target.ATTACKER,
                         applySkill: [
                           {
-                            id: '10151-lead-4-3-1',
-                            name: '普攻時，追加『以自身攻擊力20%對目標造成傷害』',
+                            id: "10151-lead-4-3-1",
+                            name: "普攻時，追加『以自身攻擊力20%對目標造成傷害』",
                             type: 101,
                             condition: Condition.BASIC_ATTACK,
                             duration: 50,
@@ -2820,14 +2930,14 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10152": "治癒之星 蘇珊",
-    case '10152': {
+    case "10152": {
       // 使我方全體最大HP增加50%
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '101522-lead-1',
-            name: '最大HP增加50%',
+            id: "101522-lead-1",
+            name: "最大HP增加50%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2837,8 +2947,8 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: '101522-lead-2',
-            name: '使我方全體受到護盾效果減少200%',
+            id: "101522-lead-2",
+            name: "使我方全體受到護盾效果減少200%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2862,17 +2972,17 @@ export function triggerLead(gameState: GameState) {
     }
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
-    case '10154': {
+    case "10154": {
       break;
     }
     // "10155": "甜蜜女僕",
-    case '10155': {
+    case "10155": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10155-lead-1',
-            name: '最大HP增加30%',
+            id: "10155-lead-1",
+            name: "最大HP增加30%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
@@ -2908,8 +3018,8 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '10155-lead-2',
-              name: '攻擊力增加40%',
+              id: "10155-lead-2",
+              name: "攻擊力增加40%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -2919,8 +3029,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10155-lead-3',
-              name: '造成增加30%',
+              id: "10155-lead-3",
+              name: "造成增加30%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -2930,8 +3040,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10155-lead-4',
-              name: '被治療時回復量增加50%',
+              id: "10155-lead-4",
+              name: "被治療時回復量增加50%",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -2941,8 +3051,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10155-lead-5',
-              name: '攻擊時，觸發「以自身攻擊力40%對目標造成傷害」',
+              id: "10155-lead-5",
+              name: "攻擊時，觸發「以自身攻擊力40%對目標造成傷害」",
               type: 1,
               condition: Condition.ATTACK,
               duration: 100,
@@ -2954,8 +3064,8 @@ export function triggerLead(gameState: GameState) {
               },
             },
             {
-              id: '10155-lead-6',
-              name: '第7回合時，觸發「使自身必殺技傷害增加100%(最多1層)」',
+              id: "10155-lead-6",
+              name: "第7回合時，觸發「使自身必殺技傷害增加100%(最多1層)」",
               type: 4,
               condition: Condition.ON_SPECIFIC_TURN,
               conditionTurn: 10,
@@ -2963,16 +3073,16 @@ export function triggerLead(gameState: GameState) {
               _4: {
                 increaseStack: 1,
                 target: Target.ALL_ENEMIES,
-                targetSkill: '10155-lead-5-1',
+                targetSkill: "10155-lead-5-1",
                 applySkill: {
-                  id: '10155-lead-5-1',
-                  name: '受到火屬性傷害增加10%',
+                  id: "10155-lead-5-1",
+                  name: "受到火屬性傷害增加10%",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
-                    id: '10155-lead-5-1',
-                    name: '受到火屬性傷害增加10%',
+                    id: "10155-lead-5-1",
+                    name: "受到火屬性傷害增加10%",
                     stack: 1,
                     maxStack: 5,
                     value: 0.1,

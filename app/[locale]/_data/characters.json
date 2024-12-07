@@ -842,12 +842,12 @@
   "10092": {
     "id": 10092,
     "name": "夏日 阿爾蒂雅",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3200,
+    "initAtk": 1068.8,
+    "attribute": 6,
     "class": 11,
-    "available": false,
-    "cd": 4
+    "available": true,
+    "cd": 3
   },
   "10093": {
     "id": 10093,
@@ -1162,12 +1162,12 @@
   "10132": {
     "id": 10132,
     "name": "幽夜女爵 卡蒂雅",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
-    "cd": 4
+    "initHp": 5185.6,
+    "initAtk": 680,
+    "attribute": 6,
+    "class": 14,
+    "available": true,
+    "cd": 3
   },
   "10133": {
     "id": 10133,

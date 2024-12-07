@@ -546,6 +546,9 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
+    case "10092": {
+      break;
+    }
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",

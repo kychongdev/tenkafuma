@@ -4,15 +4,15 @@ import {
   Condition,
   Target,
   DamageType,
-} from '@/types/Skill';
-import { applyRawAttBuff } from '../applyRawAtk';
-import { dealBasicDamage } from '../dealBasicDamage';
-import { dealBasicHpDamage } from '../dealBasicHpDamage';
-import { heal } from '../heal';
-import { parseCondition } from '../parseCondition';
-import { triggerSkill } from '../triggerSkill';
-import { GameState } from '../GameState';
-import { CharacterAction } from '../../_types/Character';
+} from "@/types/Skill";
+import { applyRawAttBuff } from "../applyRawAtk";
+import { dealBasicDamage } from "../dealBasicDamage";
+import { dealBasicHpDamage } from "../dealBasicHpDamage";
+import { heal } from "../heal";
+import { parseCondition } from "../parseCondition";
+import { triggerSkill } from "../triggerSkill";
+import { GameState } from "../GameState";
+import { CharacterAction } from "../../_types/Character";
 
 export function basicAttack(gameState: GameState, position: number) {
   const id = gameState.characters[position].id;
@@ -21,7 +21,7 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10002": "魔王 撒旦",
     // "10003": "魔王 伊布力斯",
     // "10004": "精靈王 賽露西亞",
-    case '10004': {
+    case "10004": {
       dealBasicDamage(
         position,
         1,
@@ -51,13 +51,13 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10021": "賢者 白",
     // "10022": "狂犬 諾蕾蒂",
     // "10023": "副手 貝蕾朵",
-    case '10023': {
+    case "10023": {
       gameState.characters.forEach((character) => {
         character.buff = [
           ...character.buff,
           {
-            id: '10023-basic-1',
-            name: '攻擊力',
+            id: "10023-basic-1",
+            name: "攻擊力",
             type: 0,
             condition: Condition.NONE,
             duration: 1,
@@ -99,14 +99,14 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10042": "夏日 伊布力斯",
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
-    case '10044': {
+    case "10044": {
       gameState.characters.forEach((character) => {
         const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
         character.buff = [
           ...character.buff,
           {
-            id: '10044-basic-1',
-            name: '攻擊力',
+            id: "10044-basic-1",
+            name: "攻擊力",
             type: 0,
             condition: Condition.NONE,
             duration: 1,
@@ -155,7 +155,7 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10084": "貓娘Vtuber 杏仁咪嚕",
     // "10085": "花魁 香奈",
     // "10088": "雙星之紅 安絲蒂",
-    case '10088': {
+    case "10088": {
       dealBasicDamage(
         position,
         1,
@@ -170,8 +170,31 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
-    case '10092': {
-      // 以攻擊力40%對敵方站位2、3、4的目標造成傷害
+    case "10092": {
+      dealBasicDamage(
+        position,
+        0.4,
+        gameState,
+        Target.ENEMY_2,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      dealBasicDamage(
+        position,
+        0.4,
+        gameState,
+        Target.ENEMY_3,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      dealBasicDamage(
+        position,
+        0.4,
+        gameState,
+        Target.ENEMY_4,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
       break;
     }
     // "10093": "適格者 娜娜",
@@ -179,7 +202,7 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10096": "鮮血魔王 洛緹亞",
     // "10097": "性誕兔女郎 艾可",
     // "10098": "聖誕雪狐 靜",
-    case '10098': {
+    case "10098": {
       dealBasicDamage(
         position,
         1,
@@ -194,15 +217,15 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10106": "絕代佳人 賽露西亞",
     // "10107": "龍飛鳳舞 蘭兒",
     // "10108": "甜心可可 巴爾",
-    case '10108': {
+    case "10108": {
       gameState.characters.forEach((character, index) => {
         const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.2);
         if (index !== position) {
           character.buff = [
             ...character.buff,
             {
-              id: '10108-basic-1',
-              name: '攻擊力',
+              id: "10108-basic-1",
+              name: "攻擊力",
               type: 0,
               condition: Condition.NONE,
               duration: 1,
@@ -223,13 +246,13 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10113": "嬌蠻兇護 凱薩",
     // "10114": "魔法少女 朱諾安",
     // "10115": "魔法少女 布蘭妮",
-    case '10115': {
+    case "10115": {
       heal(position, 0.75, gameState, true, Target.ALL_ALLIES);
       break;
     }
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
-    case '10117': {
+    case "10117": {
       dealBasicDamage(
         position,
         1,
@@ -241,18 +264,18 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10118": "夏日 菲歐菈",
-    case '10118': {
+    case "10118": {
       heal(position, 0.75, gameState, true, Target.ALL_ALLIES);
       break;
     }
     // "10119": "夏日 艾可",
-    case '10119': {
+    case "10119": {
       gameState.characters.forEach((character) => {
         character.buff = [
           ...character.buff,
           {
-            id: '10119-basic-1',
-            name: '攻擊力',
+            id: "10119-basic-1",
+            name: "攻擊力",
             type: 0,
             condition: Condition.NONE,
             duration: 3,
@@ -272,13 +295,13 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10123": "惡魔貓娘 杏仁咪嚕",
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
-    case '10125': {
+    case "10125": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10125-basic-1',
-            name: '攻擊力',
+            id: "10125-basic-1",
+            name: "攻擊力",
             type: 0,
             condition: Condition.NONE,
             duration: 1,
@@ -292,14 +315,14 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10126": "調皮搗蛋 白",
-    case '10126': {
+    case "10126": {
       gameState.characters.forEach((character) => {
         const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
         character.buff = [
           ...character.buff,
           {
-            id: '10126-basic-1',
-            name: '攻擊力',
+            id: "10126-basic-1",
+            name: "攻擊力",
             type: 0,
             condition: Condition.NONE,
             duration: 1,
@@ -314,7 +337,7 @@ export function basicAttack(gameState: GameState, position: number) {
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
-    case '10128': {
+    case "10128": {
       dealBasicDamage(
         position,
         1,
@@ -326,7 +349,7 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10129": "性誕馴鹿 希依",
-    case '10129': {
+    case "10129": {
       dealBasicDamage(
         position,
         1,
@@ -342,13 +365,13 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10132": "幽夜女爵 卡蒂雅",
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
-    case '10134': {
+    case "10134": {
       heal(position, 0.75, gameState, true, Target.ALL_ALLIES);
       break;
     }
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
-    case '10136': {
+    case "10136": {
       dealBasicDamage(
         position,
         1,
@@ -360,12 +383,12 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10137": "春情白兔 鈴蘭",
-    case '10137': {
+    case "10137": {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: '805-basic-1',
-          name: '攻擊力',
+          id: "805-basic-1",
+          name: "攻擊力",
           type: 0,
           condition: Condition.NONE,
           duration: 1,
@@ -386,7 +409,7 @@ export function basicAttack(gameState: GameState, position: number) {
     }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
-    case '10139': {
+    case "10139": {
       dealBasicDamage(
         position,
         1,
@@ -400,7 +423,7 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
-    case '10142': {
+    case "10142": {
       dealBasicDamage(
         position,
         1.25,
@@ -412,12 +435,12 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10143": "夏日 賽露西亞",
-    case '10143': {
+    case "10143": {
       // 以自身攻擊力37.5%對我方全體進行治療(4回合)
       break;
     }
     // "10144": "夏日 凱薩",
-    case '10144': {
+    case "10144": {
       dealBasicDamage(
         position,
         1,
@@ -436,7 +459,7 @@ export function basicAttack(gameState: GameState, position: number) {
       );
     }
     // "10145": "夏日 撒旦",
-    case '10145': {
+    case "10145": {
       dealBasicDamage(
         position,
         1,
@@ -448,7 +471,7 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10146": "魔獸獵手 神無雪",
-    case '10146': {
+    case "10146": {
       dealBasicDamage(
         position,
         1,
@@ -460,7 +483,7 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10147": "魔物終結 鬼醉木",
-    case '10147': {
+    case "10147": {
       dealBasicHpDamage(
         position,
         1,
@@ -472,7 +495,7 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10148": "酩酊狂歡 靜",
-    case '10148': {
+    case "10148": {
       dealBasicDamage(
         position,
         1,
@@ -484,7 +507,7 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10149": "千年靈狐 椿",
-    case '10149': {
+    case "10149": {
       dealBasicDamage(
         position,
         1,
@@ -496,7 +519,7 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10150": "勇者兔女郎 神田綾音",
-    case '10150': {
+    case "10150": {
       dealBasicDamage(
         position,
         1,
@@ -508,13 +531,13 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10151": "性感兔女郎 伊布力斯",
-    case '10151': {
+    case "10151": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '525-basic-1',
-            name: '攻擊力',
+            id: "525-basic-1",
+            name: "攻擊力",
             type: 0,
             condition: Condition.NONE,
             duration: 1,
@@ -530,16 +553,16 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10152": "治癒之星 蘇珊",
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
-    case '10154': {
+    case "10154": {
       break;
     }
     // "10155": "甜蜜女僕",
-    case '10155': {
+    case "10155": {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: '10155-basic-1',
-          name: '攻擊力',
+          id: "10155-basic-1",
+          name: "攻擊力",
           type: 0,
           condition: Condition.NONE,
           duration: 1,

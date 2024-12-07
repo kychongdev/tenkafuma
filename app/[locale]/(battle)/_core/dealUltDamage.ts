@@ -945,6 +945,7 @@ export function dealUltDamage(
           .minus(res.round(0, Big.roundDown))
           .toNumber(),
       );
+      break;
     }
     case Target.ENEMY_2: {
       gameState.enemies[1].hp = Math.floor(
@@ -952,6 +953,7 @@ export function dealUltDamage(
           .minus(res.round(0, Big.roundDown))
           .toNumber(),
       );
+      break;
     }
     case Target.ENEMY_3: {
       gameState.enemies[2].hp = Math.floor(
@@ -959,6 +961,7 @@ export function dealUltDamage(
           .minus(res.round(0, Big.roundDown))
           .toNumber(),
       );
+      break;
     }
     case Target.ENEMY_4: {
       gameState.enemies[3].hp = Math.floor(
@@ -966,6 +969,7 @@ export function dealUltDamage(
           .minus(res.round(0, Big.roundDown))
           .toNumber(),
       );
+      break;
     }
     case Target.ENEMY_5: {
       gameState.enemies[4].hp = Math.floor(
@@ -973,6 +977,7 @@ export function dealUltDamage(
           .minus(res.round(0, Big.roundDown))
           .toNumber(),
       );
+      break;
     }
 
     case Target.POSITION_1:
