@@ -1144,4 +1144,3 @@ function writeDamageLog(
       break;
   }
 }
-
