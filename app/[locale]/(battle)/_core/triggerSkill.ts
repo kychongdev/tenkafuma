@@ -15,6 +15,7 @@ import { dealUltHpDamage } from "./dealUltHpDamage";
 import { GameState } from "./GameState";
 import { p, parseTargetToNum } from "./utils";
 import { checkSpecialCondition } from "./checkSpecialCondition";
+import { healUltDamage } from "./healUltDamage";
 
 export function triggerSkill(
   buff: Skill,
@@ -1923,6 +1924,7 @@ export function triggerSkill(
         console.log("Wrong data");
         break;
       }
+      console.log("run");
       switch (buff._26.damageType) {
         case DamageType.BASIC:
         case DamageType.BASIC_ADDON: {
@@ -1934,6 +1936,57 @@ export function triggerSkill(
         case DamageType.ULTIMATE:
         case DamageType.ULTIMATE_ADDON:
         case DamageType.TRIGGER: {
+          if (buff._26.target === Target.ALL_ALLIES) {
+            healUltDamage(
+              position,
+              buff._26.value,
+              gameState,
+              Target.POSITION_1,
+              buff._26.damageType,
+              buff._26.action,
+            );
+            healUltDamage(
+              position,
+              buff._26.value,
+              gameState,
+              Target.POSITION_2,
+              buff._26.damageType,
+              buff._26.action,
+            );
+            healUltDamage(
+              position,
+              buff._26.value,
+              gameState,
+              Target.POSITION_3,
+              buff._26.damageType,
+              buff._26.action,
+            );
+            healUltDamage(
+              position,
+              buff._26.value,
+              gameState,
+              Target.POSITION_4,
+              buff._26.damageType,
+              buff._26.action,
+            );
+            healUltDamage(
+              position,
+              buff._26.value,
+              gameState,
+              Target.POSITION_5,
+              buff._26.damageType,
+              buff._26.action,
+            );
+          } else {
+            healUltDamage(
+              position,
+              buff._26.value,
+              gameState,
+              buff._26.target,
+              buff._26.damageType,
+              buff._26.action,
+            );
+          }
           break;
         }
         case DamageType.ULTIMATE_HP:

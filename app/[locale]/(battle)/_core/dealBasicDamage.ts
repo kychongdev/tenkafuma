@@ -4,21 +4,21 @@ import {
   Skill,
   SpecialCondition,
   Target,
-} from '@/types/Skill';
+} from "@/types/Skill";
 import {
   CharacterAction,
   CharacterAttribute,
   CharacterClass,
-} from '@/types/Character';
+} from "@/types/Character";
 import {
   formatNumber,
   parseActionName,
   parseAttribute,
   parseDamageTypeName,
-} from './utils';
-import { GameState } from './GameState';
-import { DamageLog } from '@/types/Game';
-import Big from 'big.js';
+} from "./utils";
+import { GameState } from "./GameState";
+import { DamageLog } from "@/types/Game";
+import Big from "big.js";
 
 export function dealBasicDamage(
   position: Target,
@@ -40,14 +40,14 @@ export function dealBasicDamage(
 
   let attackerClass = CharacterClass.NONE;
   let attackerAttribute = CharacterAttribute.NONE;
-  let attackerId = '';
+  let attackerId = "";
   let attackerAtk = Big(0);
 
   let attackSuckHpPercentage = Big(0);
 
   let defenderClass = CharacterClass.NONE;
   let defenderAttribute = CharacterAttribute.NONE;
-  let defenderId = '';
+  let defenderId = "";
   let defenderisGuard = false;
   let defenderDefEffect = Big(0.5);
 
@@ -899,11 +899,12 @@ export function dealBasicDamage(
   }
   if (attackSuckHpPercentage.gt(0)) {
     //const suckHp = Math.floor(res * attackSuckHpPercentage);
+    //TODO 攻擊回血 = 傷害公式 x (1+進行治療時回復量±%) x (1+被治療時獲得回復量±%)
     const suckHp = res.mul(attackSuckHpPercentage);
     const suckHp1 = suckHp.toNumber();
     switch (position) {
       case Target.ENEMY: {
-        console.log('You must specify the enemy position');
+        console.log("You must specify the enemy position");
         break;
       }
       case Target.ENEMY_1: {

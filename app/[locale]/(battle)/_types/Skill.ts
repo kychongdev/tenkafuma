@@ -31,7 +31,7 @@ import type {
   _105,
   _106,
   _111,
-} from './ISkill';
+} from "./ISkill";
 
 interface ISkill {
   id: string;

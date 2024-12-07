@@ -27,6 +27,8 @@ export function healUltDamage(
   let enemyDamageReceivedIncrease = Big(1);
   let attributeDamage = Big(1);
   let ultBuff = Big(1);
+  let healReceived = Big(1);
+  let healIncrease = Big(1);
   let attacker = [] as Skill[];
   let defender = [] as Skill[];
 
@@ -236,6 +238,36 @@ export function healUltDamage(
       ) {
         ultBuff = ultBuff.minus(Big(buff._3?.value).mul(buff._3?.stack));
       }
+
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_HEAL_RATE
+      ) {
+        healIncrease = healIncrease.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_HEAL_RATE
+      ) {
+        healIncrease = healIncrease.minus(buff._0?.value);
+      }
+
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_HEAL_RATE
+      ) {
+        healIncrease = healIncrease.add(
+          Big(buff._3?.value).mul(buff._3?.stack),
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_HEAL_RATE
+      ) {
+        healIncrease = healIncrease.minus(
+          Big(buff._3?.value).mul(buff._3?.stack),
+        );
+      }
     }
   }
 
@@ -269,20 +301,38 @@ export function healUltDamage(
       default:
         break;
     }
+    //治癒公式 = 攻擊力 x 招式倍率 x (1+進行治療時回復量±%) x (1+被治療時獲得回復量±%+受到持續型治療±%) x (1+造成持續型治療±%) x (1+其他±%)
+    if (!buff.deactivated) {
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_HEAL_RECEIVED
+      ) {
+        healReceived = healReceived.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_HEAL_RECEIVED
+      ) {
+        healReceived = healReceived.minus(buff._0?.value);
+      }
 
-    //if (
-    //  buff.type === 0 &&
-    //  buff._0?.affectType === AffectType.DECREASE_GUARD_EFFECT
-    //) {
-    //  defenderDefEffect += buff._0?.value;
-    //}
-    //
-    //if (
-    //  buff.type === 3 &&
-    //  buff._3?.affectType === AffectType.DECREASE_GUARD_EFFECT
-    //) {
-    //  defenderDefEffect += buff._3?.value * buff._3?.stack;
-    //}
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_HEAL_RECEIVED
+      ) {
+        healReceived = healReceived.add(
+          Big(buff._3?.value).mul(buff._3?.stack),
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_HEAL_RECEIVED
+      ) {
+        healReceived = healReceived.minus(
+          Big(buff._3?.value).mul(buff._3?.stack),
+        );
+      }
+    }
   }
   if (ultBuff.lt(0)) {
     ultBuff = Big(0);
@@ -332,32 +382,44 @@ export function healUltDamage(
       .round(0, Big.roundDown)
       .add(rawAtk)
       .round(0, Big.roundDown);
-    res = Big(0).add(finalAtk).mul(ultBuff).mul(value);
+    res = Big(0)
+      .add(finalAtk)
+      .mul(ultBuff)
+      .mul(healIncrease)
+      .mul(healReceived)
+      .mul(value);
   } else {
     const finalAtk = Big(attackerAtk)
       .mul(atkPercentage)
       .round(0, Big.roundDown)
       .add(rawAtk)
       .round(0, Big.roundDown);
-    res = Big(0).add(finalAtk).mul(ultBuff).mul(value);
+    res = Big(0)
+      .add(finalAtk)
+      .mul(ultBuff)
+      .mul(healIncrease)
+      .mul(healReceived)
+      .mul(value);
   }
   console.log(
-    attackerAtk,
-    atkPercentage,
-    rawAtk,
-    ultBuff,
-    increaseDamage,
-    enemyDamageReceivedIncrease,
-    attributeDamage,
-    // attributeNum,
+    attackerAtk.toNumber(),
+    atkPercentage.toNumber(),
+    rawAtk.toNumber(),
+    ultBuff.toNumber(),
+    increaseDamage.toNumber(),
+    enemyDamageReceivedIncrease.toNumber(),
+    attributeDamage.toNumber(),
+    healReceived.toNumber(),
+    healIncrease.toNumber(),
     value,
   );
 
+  console.log("heal", res.round(0, Big.roundDown).toNumber());
   switch (target) {
     case Target.ENEMY: {
       gameState.enemies[gameState.targeting].hp = Math.floor(
         Big(gameState.enemies[gameState.targeting].hp)
-          .minus(res.round(0, Big.roundDown))
+          .add(res.round(0, Big.roundDown))
           .toNumber(),
       );
       if (
@@ -372,7 +434,7 @@ export function healUltDamage(
     case Target.ENEMY_1: {
       gameState.enemies[0].hp = Math.floor(
         Big(gameState.enemies[0].hp)
-          .minus(res.round(0, Big.roundDown))
+          .add(res.round(0, Big.roundDown))
           .toNumber(),
       );
 
@@ -384,7 +446,7 @@ export function healUltDamage(
     case Target.ENEMY_2: {
       gameState.enemies[1].hp = Math.floor(
         Big(gameState.enemies[1].hp)
-          .minus(res.round(0, Big.roundDown))
+          .add(res.round(0, Big.roundDown))
           .toNumber(),
       );
       if (gameState.enemies[1].hp > gameState.enemies[1].maxHp) {
@@ -395,7 +457,7 @@ export function healUltDamage(
     case Target.ENEMY_3: {
       gameState.enemies[2].hp = Math.floor(
         Big(gameState.enemies[2].hp)
-          .minus(res.round(0, Big.roundDown))
+          .add(res.round(0, Big.roundDown))
           .toNumber(),
       );
       if (gameState.enemies[2].hp > gameState.enemies[2].maxHp) {
@@ -406,7 +468,7 @@ export function healUltDamage(
     case Target.ENEMY_4: {
       gameState.enemies[3].hp = Math.floor(
         Big(gameState.enemies[3].hp)
-          .minus(res.round(0, Big.roundDown))
+          .add(res.round(0, Big.roundDown))
           .toNumber(),
       );
       if (gameState.enemies[3].hp > gameState.enemies[3].maxHp) {
@@ -417,7 +479,7 @@ export function healUltDamage(
     case Target.ENEMY_5: {
       gameState.enemies[4].hp = Math.floor(
         Big(gameState.enemies[4].hp)
-          .minus(res.round(0, Big.roundDown))
+          .add(res.round(0, Big.roundDown))
           .toNumber(),
       );
       if (gameState.enemies[4].hp > gameState.enemies[4].maxHp) {
@@ -433,7 +495,7 @@ export function healUltDamage(
     case Target.POSITION_5:
       gameState.characters[target].hp = Math.floor(
         Big(gameState.characters[target].hp)
-          .minus(res.round(0, Big.roundDown))
+          .add(res.round(0, Big.roundDown))
           .toNumber(),
       );
 

@@ -4,21 +4,21 @@ import {
   Skill,
   SpecialCondition,
   Target,
-} from '@/types/Skill';
+} from "@/types/Skill";
 import {
   CharacterAction,
   CharacterAttribute,
   CharacterClass,
-} from '@/types/Character';
-import { GameState } from './GameState';
+} from "@/types/Character";
+import { GameState } from "./GameState";
 import {
   formatNumber,
   parseActionName,
   parseAttribute,
   parseDamageTypeName,
-} from './utils';
-import { DamageLog } from '../_types/Game';
-import Big from 'big.js';
+} from "./utils";
+import { DamageLog } from "../_types/Game";
+import Big from "big.js";
 
 export function dealUltDamage(
   position: Target,
@@ -42,14 +42,14 @@ export function dealUltDamage(
 
   let attackerClass = CharacterClass.NONE;
   let attackerAttribute = CharacterAttribute.NONE;
-  let attackerId = '';
+  let attackerId = "";
   let attackerAtk = Big(0);
 
   let attackSuckHpPercentage = Big(0);
 
   let defenderClass = CharacterClass.NONE;
   let defenderAttribute = CharacterAttribute.NONE;
-  let defenderId = '';
+  let defenderId = "";
   let defenderisGuard = false;
   let defenderDefEffect = Big(0.5);
 
@@ -1042,7 +1042,7 @@ export function dealUltDamage(
         break;
       }
       case Target.ENEMY_1: {
-        console.log('hp is recovered');
+        console.log("hp is recovered");
         gameState.enemies[0].hp += Math.floor(
           Big(gameState.enemies[0].hp).add(suckHp).toNumber(),
         );
@@ -1144,3 +1144,4 @@ function writeDamageLog(
       break;
   }
 }
+
