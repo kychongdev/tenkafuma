@@ -4365,6 +4365,23 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     case "10154": {
+      //使自身受到傷害減少5%
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10154-passive4",
+            name: "使自身受到傷害減少5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.05,
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+            },
+          },
+        ];
+      }
       break;
     }
     // "10155": "甜蜜女僕",
