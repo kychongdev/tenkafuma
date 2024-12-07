@@ -16,7 +16,7 @@ import {
 import { triggerSkill } from '../triggerSkill';
 import { dealUltDamage } from '../dealUltDamage';
 import { hpSort, maxHpSort, p } from '../utils';
-import { dealBasicDamage } from '../dealBasisDamage';
+import { dealBasicDamage } from '../dealBasicDamage';
 import { parseCondition } from '../parseCondition';
 import { randomizePos } from '../randomizePos';
 

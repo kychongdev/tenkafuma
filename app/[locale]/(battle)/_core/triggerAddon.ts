@@ -2,7 +2,7 @@ import { Skill, Condition, Target, DamageType } from '@/types/Skill';
 import { CharacterAttribute, CharacterClass } from '@/types/Character';
 import { GameState } from './GameState';
 import { applyRawAttBuff } from './applyRawAtk';
-import { dealBasicDamage } from './dealBasisDamage';
+import { dealBasicDamage } from './dealBasicDamage';
 import { dealUltDamage } from './dealUltDamage';
 import { parseCondition } from './parseCondition';
 import { dealBasicHpDamage } from './dealBasicHpDamage';

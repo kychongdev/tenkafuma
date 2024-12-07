@@ -8,7 +8,7 @@ import {
 } from '@/types/Skill';
 import { CharacterAttribute, CharacterClass } from '@/types/Character';
 import { applyRawAttBuff } from './applyRawAtk';
-import { dealBasicDamage } from './dealBasisDamage';
+import { dealBasicDamage } from './dealBasicDamage';
 import { dealBasicHpDamage } from './dealBasicHpDamage';
 import { dealUltDamage } from './dealUltDamage';
 import { dealUltHpDamage } from './dealUltHpDamage';

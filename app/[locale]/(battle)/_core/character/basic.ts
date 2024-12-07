@@ -6,7 +6,7 @@ import {
   DamageType,
 } from '@/types/Skill';
 import { applyRawAttBuff } from '../applyRawAtk';
-import { dealBasicDamage } from '../dealBasisDamage';
+import { dealBasicDamage } from '../dealBasicDamage';
 import { dealBasicHpDamage } from '../dealBasicHpDamage';
 import { heal } from '../heal';
 import { parseCondition } from '../parseCondition';
