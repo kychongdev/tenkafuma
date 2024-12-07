@@ -20,7 +20,7 @@ import {
 import { DamageLog } from "../_types/Game";
 import Big from "big.js";
 
-export function dealUltDamage(
+export function dealUltHpDamage(
   position: Target,
   value: number,
   gameState: GameState,

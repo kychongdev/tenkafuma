@@ -20,7 +20,7 @@ import { GameState } from "./GameState";
 import { DamageLog } from "@/types/Game";
 import Big from "big.js";
 
-export function dealBasicDamage(
+export function dealBasicHpDamage(
   position: Target,
   value: number,
   gameState: GameState,
