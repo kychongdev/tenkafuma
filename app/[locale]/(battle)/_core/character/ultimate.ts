@@ -20,7 +20,6 @@ import {
 } from '@/types/Character';
 import { dealUltDamage } from '../dealUltDamage';
 import { dealUltHpDamage } from '../dealUltHpDamage';
-import { Dam } from 'lucide-react';
 
 export function ultimateAttack(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;

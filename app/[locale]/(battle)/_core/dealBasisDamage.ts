@@ -18,6 +18,7 @@ import {
 } from './utils';
 import { GameState } from './GameState';
 import { DamageLog } from '@/types/Game';
+import Big from 'big.js';
 
 export function dealBasicDamage(
   position: Target,
@@ -28,27 +29,29 @@ export function dealBasicDamage(
   action: CharacterAction,
   isTrueDamage?: boolean,
 ) {
-  let rawAtk = 0;
-  let atkPercentage = 1;
-  let basicBuff = 1;
-  let increaseDamage = 1;
-  let enemyDamageReceivedIncrease = 1;
-  let attributeDamage = 1;
+  let rawAtk = Big(0);
+  let atkPercentage = Big(1);
+  let basicBuff = Big(1);
+  let increaseDamage = Big(1);
+  let enemyDamageReceivedIncrease = Big(1);
+  let attributeDamage = Big(1);
   let attacker = [] as Skill[];
   let defender = [] as Skill[];
 
   let attackerClass = CharacterClass.NONE;
   let attackerAttribute = CharacterAttribute.NONE;
   let attackerId = '';
-  let attackerAtk = 0;
+  let attackerAtk = Big(0);
 
-  let attackSuckHpPercentage = 0;
+  let attackSuckHpPercentage = Big(0);
 
   let defenderClass = CharacterClass.NONE;
   let defenderAttribute = CharacterAttribute.NONE;
   let defenderId = '';
   let defenderisGuard = false;
-  let defenderDefEffect = 0.5;
+  let defenderDefEffect = Big(0.5);
+
+  const test = Big(1.5);
 
   // you need to specify the enemy position
   switch (position) {
@@ -57,7 +60,7 @@ export function dealBasicDamage(
       attackerClass = gameState.enemies[0].class;
       attackerAttribute = gameState.enemies[0].attribute;
       attackerId = gameState.enemies[0].id;
-      attackerAtk = gameState.enemies[0].atk;
+      attackerAtk = Big(gameState.enemies[0].atk);
       break;
     }
     case Target.ENEMY_2: {
@@ -65,7 +68,7 @@ export function dealBasicDamage(
       attackerClass = gameState.enemies[1].class;
       attackerAttribute = gameState.enemies[1].attribute;
       attackerId = gameState.enemies[1].id;
-      attackerAtk = gameState.enemies[1].atk;
+      attackerAtk = Big(gameState.enemies[1].atk);
       break;
     }
     case Target.ENEMY_3: {
@@ -73,7 +76,7 @@ export function dealBasicDamage(
       attackerClass = gameState.enemies[2].class;
       attackerAttribute = gameState.enemies[2].attribute;
       attackerId = gameState.enemies[2].id;
-      attackerAtk = gameState.enemies[2].atk;
+      attackerAtk = Big(gameState.enemies[2].atk);
       break;
     }
     case Target.ENEMY_4: {
@@ -81,7 +84,7 @@ export function dealBasicDamage(
       attackerClass = gameState.enemies[3].class;
       attackerAttribute = gameState.enemies[3].attribute;
       attackerId = gameState.enemies[3].id;
-      attackerAtk = gameState.enemies[3].atk;
+      attackerAtk = Big(gameState.enemies[3].atk);
       break;
     }
     case Target.ENEMY_5: {
@@ -89,7 +92,7 @@ export function dealBasicDamage(
       attackerClass = gameState.enemies[4].class;
       attackerAttribute = gameState.enemies[4].attribute;
       attackerId = gameState.enemies[4].id;
-      attackerAtk = gameState.enemies[4].atk;
+      attackerAtk = Big(gameState.enemies[4].atk);
       break;
     }
     case Target.POSITION_1:
@@ -101,7 +104,7 @@ export function dealBasicDamage(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
-      attackerAtk = gameState.characters[position].atk;
+      attackerAtk = Big(gameState.characters[position].atk);
 
       break;
   }
@@ -222,61 +225,61 @@ export function dealBasicDamage(
     }
     if (!buff.deactivated) {
       if (buff.type === 0 && buff._0?.affectType === AffectType.INCREASE_ATK) {
-        atkPercentage += buff._0?.value;
+        atkPercentage = atkPercentage.add(buff._0.value);
       }
       if (buff.type === 0 && buff._0?.affectType === AffectType.DECREASE_ATK) {
-        atkPercentage -= buff._0?.value;
+        atkPercentage = atkPercentage.minus(buff._0.value);
       }
 
       if (buff.type === 3 && buff._3?.affectType === AffectType.INCREASE_ATK) {
-        atkPercentage += buff._3?.value * buff._3?.stack;
+        atkPercentage = atkPercentage.add(buff._3?.value * buff._3?.stack);
       }
       if (buff.type === 3 && buff._3?.affectType === AffectType.DECREASE_ATK) {
-        atkPercentage -= buff._3?.value * buff._3?.stack;
+        atkPercentage = atkPercentage.minus(buff._3?.value * buff._3?.stack);
       }
 
       if (buff.type === 0 && buff._0?.affectType === AffectType.RAW_ATK) {
-        rawAtk += buff._0?.value;
+        rawAtk = rawAtk.add(buff._0?.value);
       }
 
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.INCREASE_BASIC_DMG
       ) {
-        basicBuff += buff._0?.value;
+        basicBuff = basicBuff.add(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.DECREASE_BASIC_DMG
       ) {
-        basicBuff -= buff._0?.value;
+        basicBuff = basicBuff.minus(buff._0?.value);
       }
 
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.INCREASE_BASIC_DMG
       ) {
-        basicBuff += buff._3?.value * buff._3?.stack;
+        basicBuff = basicBuff.add(buff._3?.value * buff._3?.stack);
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.DECREASE_BASIC_DMG
       ) {
-        basicBuff -= buff._3?.value * buff._3?.stack;
+        basicBuff = basicBuff.minus(buff._3?.value * buff._3?.stack);
       }
 
       if (buff.type === 0 && buff._0?.affectType === AffectType.INCREASE_DMG) {
-        increaseDamage += buff._0?.value;
+        increaseDamage = increaseDamage.add(buff._0?.value);
       }
       if (buff.type === 0 && buff._0?.affectType === AffectType.DECREASE_DMG) {
-        increaseDamage -= buff._0?.value;
+        increaseDamage = increaseDamage.minus(buff._0?.value);
       }
 
       if (buff.type === 3 && buff._3?.affectType === AffectType.INCREASE_DMG) {
-        increaseDamage += buff._3?.value * buff._3?.stack;
+        increaseDamage = increaseDamage.add(buff._3?.value * buff._3?.stack);
       }
       if (buff.type === 3 && buff._3?.affectType === AffectType.DECREASE_DMG) {
-        increaseDamage -= buff._3?.value * buff._3?.stack;
+        increaseDamage = increaseDamage.minus(buff._3?.value * buff._3?.stack);
       }
 
       if (
@@ -284,35 +287,35 @@ export function dealBasicDamage(
         buff._0?.affectType === AffectType.INCREASE_FIRE_DMG &&
         attackerAttribute === CharacterAttribute.FIRE
       ) {
-        attributeDamage += buff._0?.value;
+        attributeDamage = attributeDamage.add(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.INCREASE_WATER_DMG &&
         attackerAttribute === CharacterAttribute.WATER
       ) {
-        attributeDamage += buff._0?.value;
+        attributeDamage = attributeDamage.add(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.INCREASE_WIND_DMG &&
         attackerAttribute === CharacterAttribute.WIND
       ) {
-        attributeDamage += buff._0?.value;
+        attributeDamage = attributeDamage.add(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.INCREASE_LIGHT_DMG &&
         attackerAttribute === CharacterAttribute.LIGHT
       ) {
-        attributeDamage += buff._0?.value;
+        attributeDamage = attributeDamage.add(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.INCREASE_DARK_DMG &&
         attackerAttribute === CharacterAttribute.DARK
       ) {
-        attributeDamage += buff._0?.value;
+        attributeDamage = attributeDamage.add(buff._0?.value);
       }
 
       if (
@@ -320,35 +323,35 @@ export function dealBasicDamage(
         buff._3?.affectType === AffectType.INCREASE_DARK_DMG &&
         attackerAttribute === CharacterAttribute.DARK
       ) {
-        attributeDamage += buff._3?.value;
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.INCREASE_FIRE_DMG &&
         attackerAttribute === CharacterAttribute.FIRE
       ) {
-        attributeDamage += buff._3?.value;
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.INCREASE_WATER_DMG &&
         attackerAttribute === CharacterAttribute.WATER
       ) {
-        attributeDamage += buff._3?.value;
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.INCREASE_WIND_DMG &&
         attackerAttribute === CharacterAttribute.WIND
       ) {
-        attributeDamage += buff._3?.value;
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.INCREASE_LIGHT_DMG &&
         attackerAttribute === CharacterAttribute.LIGHT
       ) {
-        attributeDamage += buff._3?.value;
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
       }
 
       if (
@@ -356,35 +359,45 @@ export function dealBasicDamage(
         buff._3?.affectType === AffectType.DECREASE_DARK_DMG &&
         attackerAttribute === CharacterAttribute.DARK
       ) {
-        attributeDamage -= buff._3?.value * buff._3?.stack;
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.DECREASE_FIRE_DMG &&
         attackerAttribute === CharacterAttribute.FIRE
       ) {
-        attributeDamage -= buff._3?.value * buff._3?.stack;
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.DECREASE_WATER_DMG &&
         attackerAttribute === CharacterAttribute.WATER
       ) {
-        attributeDamage -= buff._3?.value * buff._3?.stack;
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.DECREASE_WIND_DMG &&
         attackerAttribute === CharacterAttribute.WIND
       ) {
-        attributeDamage -= buff._3?.value * buff._3?.stack;
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
       }
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.DECREASE_LIGHT_DMG &&
         attackerAttribute === CharacterAttribute.LIGHT
       ) {
-        attributeDamage -= buff._3?.value * buff._3?.stack;
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
       }
 
       if (
@@ -392,48 +405,50 @@ export function dealBasicDamage(
         buff._0?.affectType === AffectType.DECREASE_LIGHT_DMG &&
         attackerAttribute === CharacterAttribute.LIGHT
       ) {
-        attributeDamage -= buff._0?.value;
+        attributeDamage = attributeDamage.minus(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.DECREASE_DARK_DMG &&
         attackerAttribute === CharacterAttribute.DARK
       ) {
-        attributeDamage -= buff._0?.value;
+        attributeDamage = attributeDamage.minus(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.DECREASE_FIRE_DMG &&
         attackerAttribute === CharacterAttribute.FIRE
       ) {
-        attributeDamage -= buff._0?.value;
+        attributeDamage = attributeDamage.minus(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.DECREASE_WATER_DMG &&
         attackerAttribute === CharacterAttribute.WATER
       ) {
-        attributeDamage -= buff._0?.value;
+        attributeDamage = attributeDamage.minus(buff._0?.value);
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.DECREASE_WIND_DMG &&
         attackerAttribute === CharacterAttribute.WIND
       ) {
-        attributeDamage -= buff._0?.value;
+        attributeDamage = attributeDamage.minus(buff._0?.value);
       }
 
       if (
         buff.type === 3 &&
         buff._3?.affectType === AffectType.SUCK_HP_ON_DMG
       ) {
-        attackSuckHpPercentage += buff._3?.value * buff._3?.stack;
+        attackSuckHpPercentage = attackSuckHpPercentage.add(
+          buff._3?.value * buff._3?.stack,
+        );
       }
       if (
         buff.type === 0 &&
         buff._0?.affectType === AffectType.SUCK_HP_ON_DMG
       ) {
-        attackSuckHpPercentage += buff._0?.value;
+        attackSuckHpPercentage = attackSuckHpPercentage.add(buff._0?.value);
       }
     }
   }
@@ -467,328 +482,368 @@ export function dealBasicDamage(
       default:
         break;
     }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_DMG_RECEIVED
-    ) {
-      enemyDamageReceivedIncrease += buff._0?.value;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.value &&
-      buff._3?.affectType === AffectType.INCREASE_DMG_RECEIVED
-    ) {
-      enemyDamageReceivedIncrease += buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_DMG_RECEIVED
-    ) {
-      enemyDamageReceivedIncrease += buff._0?.value;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.value &&
-      buff._3?.affectType === AffectType.DECREASE_DMG_RECEIVED
-    ) {
-      enemyDamageReceivedIncrease += buff._3?.value * buff._3?.stack;
-    }
 
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_LIGHT_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.LIGHT
-    ) {
-      attributeDamage += buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_DARK_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.DARK
-    ) {
-      attributeDamage += buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_FIRE_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.FIRE
-    ) {
-      attributeDamage += buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_WATER_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WATER
-    ) {
-      attributeDamage += buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_WIND_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WIND
-    ) {
-      attributeDamage += buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_WIND_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WIND
-    ) {
-      attributeDamage -= buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_LIGHT_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.LIGHT
-    ) {
-      attributeDamage -= buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_DARK_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.DARK
-    ) {
-      attributeDamage -= buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_FIRE_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.FIRE
-    ) {
-      attributeDamage -= buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_WATER_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WATER
-    ) {
-      attributeDamage -= buff._0?.value;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_LIGHT_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.LIGHT
-    ) {
-      attributeDamage += buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_DARK_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.DARK
-    ) {
-      attributeDamage += buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_FIRE_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.FIRE
-    ) {
-      attributeDamage += buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_WATER_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WATER
-    ) {
-      attributeDamage += buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_WIND_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WIND
-    ) {
-      attributeDamage += buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.DECREASE_WIND_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WIND
-    ) {
-      attributeDamage -= buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.DECREASE_LIGHT_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.LIGHT
-    ) {
-      attributeDamage -= buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.DECREASE_DARK_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.DARK
-    ) {
-      attributeDamage -= buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.DECREASE_FIRE_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.FIRE
-    ) {
-      attributeDamage -= buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.DECREASE_WATER_DMG_RECEIVED &&
-      attackerAttribute === CharacterAttribute.WATER
-    ) {
-      attributeDamage -= buff._3?.value * buff._3?.stack;
-    }
+    if (!buff.deactivated) {
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_DMG_RECEIVED
+      ) {
+        enemyDamageReceivedIncrease = enemyDamageReceivedIncrease.add(
+          buff._0?.value,
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.value &&
+        buff._3?.affectType === AffectType.INCREASE_DMG_RECEIVED
+      ) {
+        enemyDamageReceivedIncrease = enemyDamageReceivedIncrease.add(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_DMG_RECEIVED
+      ) {
+        enemyDamageReceivedIncrease = enemyDamageReceivedIncrease.minus(
+          buff._0?.value,
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.value &&
+        buff._3?.affectType === AffectType.DECREASE_DMG_RECEIVED
+      ) {
+        enemyDamageReceivedIncrease = enemyDamageReceivedIncrease.minus(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
 
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_BASIC_DMG_RECEIVED
-    ) {
-      basicBuff += buff._0?.value;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_BASIC_DMG_RECEIVED
-    ) {
-      basicBuff -= buff._0?.value;
-    }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_LIGHT_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.LIGHT
+      ) {
+        attributeDamage = attributeDamage.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_DARK_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.DARK
+      ) {
+        attributeDamage = attributeDamage.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_FIRE_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.FIRE
+      ) {
+        attributeDamage = attributeDamage.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_WATER_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WATER
+      ) {
+        attributeDamage = attributeDamage.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_WIND_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WIND
+      ) {
+        attributeDamage = attributeDamage.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_WIND_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WIND
+      ) {
+        attributeDamage = attributeDamage.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_LIGHT_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.LIGHT
+      ) {
+        attributeDamage = attributeDamage.minus(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_DARK_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.DARK
+      ) {
+        attributeDamage = attributeDamage.minus(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_FIRE_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.FIRE
+      ) {
+        attributeDamage = attributeDamage.minus(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_WATER_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WATER
+      ) {
+        attributeDamage = attributeDamage.minus(buff._0?.value);
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_LIGHT_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.LIGHT
+      ) {
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_DARK_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.DARK
+      ) {
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_FIRE_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.FIRE
+      ) {
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_WATER_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WATER
+      ) {
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_WIND_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WIND
+      ) {
+        attributeDamage = attributeDamage.add(buff._3?.value * buff._3?.stack);
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_WIND_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WIND
+      ) {
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_LIGHT_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.LIGHT
+      ) {
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_DARK_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.DARK
+      ) {
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_FIRE_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.FIRE
+      ) {
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_WATER_DMG_RECEIVED &&
+        attackerAttribute === CharacterAttribute.WATER
+      ) {
+        attributeDamage = attributeDamage.minus(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
 
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_BASIC_DMG_RECEIVED
-    ) {
-      basicBuff += buff._3?.value * buff._3?.stack;
-    }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_BASIC_DMG_RECEIVED
+      ) {
+        basicBuff = basicBuff.add(buff._0?.value);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_BASIC_DMG_RECEIVED
+      ) {
+        basicBuff = basicBuff.minus(buff._0?.value);
+      }
 
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.DECREASE_BASIC_DMG_RECEIVED
-    ) {
-      basicBuff -= buff._3?.value * buff._3?.stack;
-    }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_BASIC_DMG_RECEIVED
+      ) {
+        basicBuff = basicBuff.add(buff._3?.value * buff._3?.stack);
+      }
 
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_ATTACKER_DMG_RECEIVED &&
-      attackerClass === CharacterClass.ATTACKER
-    ) {
-      basicBuff += buff._3?.value * buff._3?.stack;
-    }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_BASIC_DMG_RECEIVED
+      ) {
+        basicBuff = basicBuff.minus(buff._3?.value * buff._3?.stack);
+      }
 
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_OBSTRUCTER_DMG_RECEIVED &&
-      attackerClass === CharacterClass.OBSTRUCTER
-    ) {
-      basicBuff += buff._3?.value * buff._3?.stack;
-    }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_ATTACKER_DMG_RECEIVED &&
+        attackerClass === CharacterClass.ATTACKER
+      ) {
+        basicBuff = basicBuff.add(buff._3?.value * buff._3?.stack);
+      }
 
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType ===
-        AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED &&
-      attackerId === buff._3?.specificCharId
-    ) {
-      basicBuff += buff._3?.value * buff._3?.stack;
-    }
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType ===
-        AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED &&
-      buff._0?.specificCharId === attackerId
-    ) {
-      basicBuff += buff._0?.value;
-    }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_OBSTRUCTER_DMG_RECEIVED &&
+        attackerClass === CharacterClass.OBSTRUCTER
+      ) {
+        basicBuff = basicBuff.add(buff._3?.value * buff._3?.stack);
+      }
 
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.DECREASE_GUARD_EFFECT
-    ) {
-      defenderDefEffect += buff._0?.value;
-    }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType ===
+          AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED &&
+        attackerId === buff._3?.specificCharId
+      ) {
+        basicBuff = basicBuff.add(buff._3?.value * buff._3?.stack);
+      }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType ===
+          AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED &&
+        buff._0?.specificCharId === attackerId
+      ) {
+        basicBuff = basicBuff.add(buff._0?.value);
+      }
 
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.DECREASE_GUARD_EFFECT
-    ) {
-      defenderDefEffect += buff._3?.value * buff._3?.stack;
-    }
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.DECREASE_GUARD_EFFECT
+      ) {
+        defenderDefEffect = defenderDefEffect.add(buff._0?.value);
+      }
 
-    if (
-      buff.type === 0 &&
-      buff._0?.affectType === AffectType.INCREASE_GUARD_EFFECT
-    ) {
-      defenderDefEffect -= buff._0?.value;
-    }
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.DECREASE_GUARD_EFFECT
+      ) {
+        defenderDefEffect = defenderDefEffect.add(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
 
-    if (
-      buff.type === 3 &&
-      buff._3?.affectType === AffectType.INCREASE_GUARD_EFFECT
-    ) {
-      defenderDefEffect -= buff._3?.value * buff._3?.stack;
+      if (
+        buff.type === 0 &&
+        buff._0?.affectType === AffectType.INCREASE_GUARD_EFFECT
+      ) {
+        defenderDefEffect = defenderDefEffect.minus(buff._0?.value);
+      }
+
+      if (
+        buff.type === 3 &&
+        buff._3?.affectType === AffectType.INCREASE_GUARD_EFFECT
+      ) {
+        defenderDefEffect = defenderDefEffect.minus(
+          buff._3?.value * buff._3?.stack,
+        );
+      }
     }
   }
-  if (basicBuff < 0) {
-    basicBuff = 0;
+  if (basicBuff.lt(0)) {
+    basicBuff = Big(0);
   }
-  if (increaseDamage < 0) {
-    increaseDamage = 0;
+  if (increaseDamage.lt(0)) {
+    increaseDamage = Big(0);
   }
-  if (enemyDamageReceivedIncrease < 0) {
-    enemyDamageReceivedIncrease = 0;
+  if (enemyDamageReceivedIncrease.lt(0)) {
+    enemyDamageReceivedIncrease = Big(0);
   }
-  if (attributeDamage < 0) {
-    attributeDamage = 0;
+  if (attributeDamage.lt(0)) {
+    attributeDamage = Big(0);
   }
+
+  const finalAtk = Big(attackerAtk)
+    .mul(atkPercentage)
+    .round(0, Big.roundDown)
+    .add(rawAtk)
+    .round(0, Big.roundDown);
 
   console.log(
-    attackerAtk,
-    atkPercentage,
-    rawAtk,
-    basicBuff,
-    increaseDamage,
-    enemyDamageReceivedIncrease,
-    attributeDamage,
+    attackerAtk.toNumber(),
+    atkPercentage.toNumber(),
+    rawAtk.toNumber(),
+    basicBuff.toNumber(),
+    increaseDamage.toNumber(),
+    enemyDamageReceivedIncrease.toNumber(),
+    attributeDamage.toNumber(),
     value,
-    defenderDefEffect,
+    defenderDefEffect.toNumber(),
   );
-
   const res =
     defenderisGuard && !isTrueDamage
-      ? Math.floor(
-          (attackerAtk * atkPercentage + rawAtk) *
-            basicBuff *
-            increaseDamage *
-            enemyDamageReceivedIncrease *
-            attributeDamage *
-            // attributeNum *
-            value *
-            defenderDefEffect,
-        )
-      : Math.floor(
-          (attackerAtk * atkPercentage + rawAtk) *
-            basicBuff *
-            increaseDamage *
-            enemyDamageReceivedIncrease *
-            attributeDamage *
-            // attributeNum *
-            value,
-        );
+      ? Big(0)
+          .add(finalAtk)
+          .mul(basicBuff)
+          .mul(increaseDamage)
+          .mul(enemyDamageReceivedIncrease)
+          .mul(attributeDamage)
+          .mul(value)
+          .mul(defenderDefEffect)
+      : Big(0)
+          .add(finalAtk)
+          .mul(basicBuff)
+          .mul(increaseDamage)
+          .mul(enemyDamageReceivedIncrease)
+          .mul(attributeDamage)
+          .mul(value);
 
   switch (target) {
     case Target.ENEMY: {
-      gameState.enemies[gameState.targeting].hp -= res;
+      gameState.enemies[gameState.targeting].hp = Math.floor(
+        Big(gameState.enemies[gameState.targeting].hp)
+          .minus(res.round(0, Big.roundDown))
+          .toNumber(),
+      );
       break;
     }
     case Target.ENEMY_1: {
-      gameState.enemies[0].hp -= res;
+      gameState.enemies[0].hp = Math.floor(
+        Big(gameState.enemies[0].hp).minus(res).toNumber(),
+      );
     }
     case Target.ENEMY_2: {
-      gameState.enemies[1].hp -= res;
+      gameState.enemies[1].hp = Math.floor(
+        Big(gameState.enemies[1].hp).minus(res).toNumber(),
+      );
     }
     case Target.ENEMY_3: {
-      gameState.enemies[2].hp -= res;
+      gameState.enemies[2].hp = Math.floor(
+        Big(gameState.enemies[2].hp).minus(res).toNumber(),
+      );
     }
     case Target.ENEMY_4: {
-      gameState.enemies[3].hp -= res;
+      gameState.enemies[3].hp = Math.floor(
+        Big(gameState.enemies[3].hp).minus(res).toNumber(),
+      );
     }
     case Target.ENEMY_5: {
-      gameState.enemies[4].hp -= res;
+      gameState.enemies[4].hp = Math.floor(
+        Big(gameState.enemies[4].hp).minus(res).toNumber(),
+      );
     }
 
     case Target.POSITION_1:
@@ -796,12 +851,15 @@ export function dealBasicDamage(
     case Target.POSITION_3:
     case Target.POSITION_4:
     case Target.POSITION_5:
-      gameState.characters[target].hp -= res;
+      gameState.characters[target].hp = Math.floor(
+        Big(gameState.characters[target].hp).minus(res).toNumber(),
+      );
       break;
   }
 
+  const res1 = Math.floor(res.toNumber());
   writeDamageLog(gameState, position, {
-    damage: res,
+    damage: res1,
     type: damageType,
     turn: gameState.turn,
     attacker: position,
@@ -815,13 +873,13 @@ export function dealBasicDamage(
       gameState.battle_log.push(
         `[${parseActionName(action)}]${character.name}對敵${
           gameState.targeting + 1
-        }造成${formatNumber(res)}(${parseDamageTypeName(damageType)})`,
+        }造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
       );
     } else {
       const character = gameState.characters[position];
       gameState.battle_log.push(
         `[${parseActionName(action)}]${character.name}對敵${target - 19}造成${formatNumber(
-          res,
+          res1,
         )}(${parseDamageTypeName(damageType)})`,
       );
     }
@@ -830,54 +888,66 @@ export function dealBasicDamage(
       const enemy = gameState.enemies[position - 20];
       const character = gameState.characters[target];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對${character.name}造成${formatNumber(res)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對${character.name}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
       );
     } else {
       const enemy = gameState.enemies[position - 20];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${target - 19}造成${formatNumber(res)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${target - 19}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
       );
     }
   }
-  if (attackSuckHpPercentage > 0) {
-    const suckHp = Math.floor(res * attackSuckHpPercentage);
+  if (attackSuckHpPercentage.gt(0)) {
+    //const suckHp = Math.floor(res * attackSuckHpPercentage);
+    const suckHp = res.mul(attackSuckHpPercentage);
+    const suckHp1 = suckHp.toNumber();
     switch (position) {
       case Target.ENEMY: {
         console.log('You must specify the enemy position');
         break;
       }
       case Target.ENEMY_1: {
-        gameState.enemies[0].hp += suckHp;
+        gameState.enemies[0].hp += Math.floor(
+          Big(gameState.enemies[0].hp).add(suckHp).toNumber(),
+        );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[0].name}回復${formatNumber(suckHp)}點生命`,
+          `[吸血]${gameState.enemies[0].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_2: {
-        gameState.enemies[1].hp += suckHp;
+        gameState.enemies[1].hp += Math.floor(
+          Big(gameState.enemies[1].hp).add(suckHp).toNumber(),
+        );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[1].name}回復${formatNumber(suckHp)}點生命`,
+          `[吸血]${gameState.enemies[1].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_3: {
-        gameState.enemies[2].hp += suckHp;
+        gameState.enemies[2].hp += Math.floor(
+          Big(gameState.enemies[2].hp).add(suckHp).toNumber(),
+        );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[2].name}回復${formatNumber(suckHp)}點生命`,
+          `[吸血]${gameState.enemies[2].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_4: {
-        gameState.enemies[3].hp += suckHp;
+        gameState.enemies[3].hp += Math.floor(
+          Big(gameState.enemies[3].hp).add(suckHp).toNumber(),
+        );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[3].name}回復${formatNumber(suckHp)}點生命`,
+          `[吸血]${gameState.enemies[3].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_5: {
-        gameState.enemies[4].hp += suckHp;
+        gameState.enemies[4].hp += Math.floor(
+          Big(gameState.enemies[4].hp).add(suckHp).toNumber(),
+        );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[4].name}回復${formatNumber(suckHp)}點生命`,
+          `[吸血]${gameState.enemies[4].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
@@ -887,9 +957,13 @@ export function dealBasicDamage(
       case Target.POSITION_3:
       case Target.POSITION_4:
       case Target.POSITION_5:
-        gameState.characters[target].hp += suckHp;
+        gameState.characters[target].hp = Math.floor(
+          Big(gameState.characters[target].hp)
+            .add(attackSuckHpPercentage)
+            .toNumber(),
+        );
         gameState.battle_log.push(
-          `[吸血]${gameState.characters[position].name}回復${formatNumber(suckHp)}點生命`,
+          `[吸血]${gameState.characters[position].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
     }
@@ -935,8 +1009,8 @@ function writeDamageLog(
   }
 }
 
-function randomEnemy(
-  gameState: GameState;
-) {
-
-}
+//function randomEnemy(
+//  gameState: GameState;
+//) {
+//
+//}

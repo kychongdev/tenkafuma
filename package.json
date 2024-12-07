@@ -45,6 +45,7 @@
     "@supabase/supabase-js": "^2.46.1",
     "@types/lodash": "^4.17.13",
     "@uidotdev/usehooks": "^2.4.1",
+    "big.js": "^6.2.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
@@ -73,6 +74,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@types/big.js": "^6.2.2",
     "@types/node": "^20",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
