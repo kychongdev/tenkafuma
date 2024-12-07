@@ -5,16 +5,16 @@ import {
   SkillStackCondition,
   Target,
   AffectType,
-} from '@/types/Skill';
-import { CharacterAttribute, CharacterClass } from '@/types/Character';
-import { applyRawAttBuff } from './applyRawAtk';
-import { dealBasicDamage } from './dealBasicDamage';
-import { dealBasicHpDamage } from './dealBasicHpDamage';
-import { dealUltDamage } from './dealUltDamage';
-import { dealUltHpDamage } from './dealUltHpDamage';
-import { GameState } from './GameState';
-import { p, parseTargetToNum } from './utils';
-import { checkSpecialCondition } from './checkSpecialCondition';
+} from "@/types/Skill";
+import { CharacterAttribute, CharacterClass } from "@/types/Character";
+import { applyRawAttBuff } from "./applyRawAtk";
+import { dealBasicDamage } from "./dealBasicDamage";
+import { dealBasicHpDamage } from "./dealBasicHpDamage";
+import { dealUltDamage } from "./dealUltDamage";
+import { dealUltHpDamage } from "./dealUltHpDamage";
+import { GameState } from "./GameState";
+import { p, parseTargetToNum } from "./utils";
+import { checkSpecialCondition } from "./checkSpecialCondition";
 
 export function triggerSkill(
   buff: Skill,
@@ -30,7 +30,7 @@ export function triggerSkill(
     case 1: {
       // 傷害
       if (!buff._1) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
 
@@ -264,7 +264,7 @@ export function triggerSkill(
     }
     case 2:
       if (!buff._2) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
       // 贈與狀態
@@ -324,7 +324,7 @@ export function triggerSkill(
       // 層次型狀態
       // Stack Based Skill
       if (!buff._3) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
       break;
@@ -333,7 +333,7 @@ export function triggerSkill(
       // 如果沒有就會贈與初始層次
       // Increase stack buff,if don't exist then it will apply
       if (!buff._4) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
 
@@ -359,7 +359,7 @@ export function triggerSkill(
                       x._3.stack = x._3.maxStack;
                     }
                   } else {
-                    console.log('Wrong data buff._4');
+                    console.log("Wrong data buff._4");
                   }
                 }
               }
@@ -373,7 +373,7 @@ export function triggerSkill(
                 buff._4.applySkill,
               ];
             } else {
-              console.log('Wrong data buff._4.applySkill');
+              console.log("Wrong data buff._4.applySkill");
             }
           }
           break;
@@ -419,7 +419,7 @@ export function triggerSkill(
                       };
                       return clone;
                     } else {
-                      console.log('Wrong data buff._4');
+                      console.log("Wrong data buff._4");
                     }
                   }
                 }
@@ -434,7 +434,7 @@ export function triggerSkill(
                   buff._4.applySkill,
                 ];
               } else {
-                console.log('Wrong data buff._4.applySkill');
+                console.log("Wrong data buff._4.applySkill");
               }
             }
           });
@@ -456,7 +456,7 @@ export function triggerSkill(
                       x._3.stack = x._3.maxStack;
                     }
                   } else {
-                    console.log('Wrong data buff._4');
+                    console.log("Wrong data buff._4");
                   }
                 }
               }
@@ -469,7 +469,7 @@ export function triggerSkill(
                 buff._4.applySkill,
               ];
             } else {
-              console.log('Wrong data buff._4.applySkill');
+              console.log("Wrong data buff._4.applySkill");
             }
           }
           break;
@@ -498,7 +498,7 @@ export function triggerSkill(
                         };
                         return clone;
                       } else {
-                        console.log('Wrong data buff._4');
+                        console.log("Wrong data buff._4");
                       }
                     }
                   }
@@ -514,7 +514,7 @@ export function triggerSkill(
                   buff._4.applySkill,
                 ];
               } else {
-                console.log('Wrong data buff._4.applySkill');
+                console.log("Wrong data buff._4.applySkill");
               }
             }
           });
@@ -528,7 +528,7 @@ export function triggerSkill(
           const pos = parseTargetToNum(buff._4.target);
           if (pos === -1) {
             console.log(buff.id);
-            console.log('Wrong data buff._4.target');
+            console.log("Wrong data buff._4.target");
             break;
           }
           // x is gameState buff
@@ -545,7 +545,7 @@ export function triggerSkill(
                       x._3.stack = x._3.maxStack;
                     }
                   } else {
-                    console.log('Wrong data buff._4');
+                    console.log("Wrong data buff._4");
                   }
                 }
               }
@@ -559,7 +559,7 @@ export function triggerSkill(
                 buff._4.applySkill,
               ];
             } else {
-              console.log('Wrong data buff._4.applySkill');
+              console.log("Wrong data buff._4.applySkill");
             }
           }
         }
@@ -587,7 +587,7 @@ export function triggerSkill(
                           x._3.stack = x._3.maxStack;
                         }
                       } else {
-                        console.log('Wrong data buff._4');
+                        console.log("Wrong data buff._4");
                       }
                     }
                   }
@@ -600,7 +600,7 @@ export function triggerSkill(
                     buff._4.applySkill,
                   ];
                 } else {
-                  console.log('Wrong data buff._4.applySkill');
+                  console.log("Wrong data buff._4.applySkill");
                 }
               }
             }
@@ -626,7 +626,7 @@ export function triggerSkill(
                       x._3.stack = x._3.maxStack;
                     }
                   } else {
-                    console.log('Wrong data buff._4');
+                    console.log("Wrong data buff._4");
                   }
                 }
               }
@@ -639,26 +639,26 @@ export function triggerSkill(
                 buff._4.applySkill,
               ];
             } else {
-              console.log('Wrong data buff._4.applySkill');
+              console.log("Wrong data buff._4.applySkill");
             }
           }
           break;
         }
         default:
-          console.log('No target found');
+          console.log("No target found");
           break;
       }
       break;
     }
     case 5:
       if (!buff._5) {
-        console.log('Wrong data 5');
+        console.log("Wrong data 5");
         break;
       }
       break;
     case 6: {
       if (!buff._6) {
-        console.log('Wrong data 6');
+        console.log("Wrong data 6");
         break;
       }
       //傳功
@@ -666,7 +666,7 @@ export function triggerSkill(
         case Target.ALL_ALLIES: {
           gameState.characters.forEach((_, index) => {
             if (!buff._6) {
-              console.log('2.Wrong data 6');
+              console.log("2.Wrong data 6");
               return;
             }
 
@@ -696,7 +696,7 @@ export function triggerSkill(
         case Target.SELF: {
           const rawAttSkill = applyRawAttBuff(gameState, position);
           const baseAtk = gameState.characters[position].atk;
-          console.log('test');
+          console.log("test");
           gameState.characters[position].buff = [
             ...gameState.characters[position].buff,
             {
@@ -719,7 +719,7 @@ export function triggerSkill(
         case Target.ALL_EXCEPT_SELF: {
           gameState.characters.forEach((_, index) => {
             if (!buff._6) {
-              console.log('2.Wrong data 6');
+              console.log("2.Wrong data 6");
               return;
             }
             const rawAttSkill = applyRawAttBuff(gameState, position);
@@ -753,7 +753,7 @@ export function triggerSkill(
         case Target.SUPPORT: {
           gameState.characters.forEach((character, index) => {
             if (!buff._6) {
-              console.log('2.Wrong data 6');
+              console.log("2.Wrong data 6");
               return;
             }
 
@@ -791,7 +791,7 @@ export function triggerSkill(
           const pos = parseTargetToNum(buff._6.target);
 
           if (pos === -1) {
-            console.log('Target Parsing is Wrong!');
+            console.log("Target Parsing is Wrong!");
             break;
           }
           gameState.characters[pos].buff = [
@@ -827,11 +827,11 @@ export function triggerSkill(
     }
     case 7:
       if (!buff._7) {
-        console.log('Wrong data 7');
+        console.log("Wrong data 7");
         break;
       }
       if (buff._7.activated) {
-        console.log('Already activated');
+        console.log("Already activated");
         break;
       }
 
@@ -896,7 +896,7 @@ export function triggerSkill(
       break;
     case 8: {
       if (!buff._8) {
-        console.log('Wrong data 8');
+        console.log("Wrong data 8");
         console.log(buff);
         break;
       }
@@ -978,19 +978,19 @@ export function triggerSkill(
     }
     case 9:
       if (!buff._9) {
-        console.log('Wrong data 9');
+        console.log("Wrong data 9");
         break;
       }
       break;
     case 10:
       if (!buff._10) {
-        console.log('Wrong data 10');
+        console.log("Wrong data 10");
         break;
       }
       break;
     case 11:
       if (!buff._11) {
-        console.log('Wrong data 11');
+        console.log("Wrong data 11");
         break;
       }
       switch (buff._11.target) {
@@ -1012,7 +1012,7 @@ export function triggerSkill(
           gameState.enemies.forEach((enemy, index) => {
             if (enemy.attribute === CharacterAttribute.DARK) {
               if (!buff._11) {
-                console.log('Wrong data 11');
+                console.log("Wrong data 11");
                 return;
               }
               gameState.enemies[index].buff = [
@@ -1061,7 +1061,7 @@ export function triggerSkill(
           gameState.characters.forEach((character, index) => {
             if (character.class === buff._11?.target) {
               if (!buff._11) {
-                console.log('Wrong data 11');
+                console.log("Wrong data 11");
                 return;
               }
               gameState.characters[index].buff = [
@@ -1082,7 +1082,7 @@ export function triggerSkill(
             //@ts-ignore
             if (character.attribute === buff._11?.target) {
               if (!buff._11) {
-                console.log('Wrong data 11');
+                console.log("Wrong data 11");
                 return;
               }
               gameState.characters[index].buff = [
@@ -1102,7 +1102,7 @@ export function triggerSkill(
           const pos = parseTargetToNum(buff._11.target);
 
           if (pos === -1) {
-            console.log('Target Parsing is Wrong!');
+            console.log("Target Parsing is Wrong!");
             break;
           }
 
@@ -1151,7 +1151,7 @@ export function triggerSkill(
     case 12:
       //TODO Check bug
       if (!buff._12) {
-        console.log('Wrong data 12');
+        console.log("Wrong data 12");
         break;
       }
       {
@@ -1179,7 +1179,7 @@ export function triggerSkill(
         }
         if (buff._12?.position) {
           if (!buff._12.applySkill) {
-            console.log('Wrong data 12 applySkill');
+            console.log("Wrong data 12 applySkill");
             break;
           }
           if (
@@ -1198,7 +1198,7 @@ export function triggerSkill(
       break;
     case 13:
       if (!buff._13) {
-        console.log('Wrong data 13');
+        console.log("Wrong data 13");
         break;
       }
       gameState.characters.forEach((character, index) => {
@@ -1212,7 +1212,7 @@ export function triggerSkill(
       break;
     case 14:
       if (!buff._14) {
-        console.log('Wrong data 14');
+        console.log("Wrong data 14");
         break;
       }
       switch (buff._14.target) {
@@ -1225,7 +1225,7 @@ export function triggerSkill(
         case Target.ALL_ALLIES:
           gameState.characters.forEach((_, index) => {
             if (!buff._14) {
-              console.log('Wrong data 14');
+              console.log("Wrong data 14");
               return;
             }
             gameState.characters[index].cd -= buff._14.reduceCD;
@@ -1238,7 +1238,7 @@ export function triggerSkill(
           gameState.characters.forEach((character, index) => {
             if (character.class === CharacterClass.ATTACKER) {
               if (!buff._14) {
-                console.log('Wrong data 14');
+                console.log("Wrong data 14");
                 return;
               }
               gameState.characters[index].cd -= buff._14.reduceCD;
@@ -1252,7 +1252,7 @@ export function triggerSkill(
           gameState.characters.forEach((character, index) => {
             if (character.class === CharacterClass.OBSTRUCTER) {
               if (!buff._14) {
-                console.log('Wrong data 14');
+                console.log("Wrong data 14");
                 return;
               }
               gameState.characters[index].cd -= buff._14.reduceCD;
@@ -1266,7 +1266,7 @@ export function triggerSkill(
           gameState.characters.forEach((character, index) => {
             if (character.class === CharacterClass.PROTECTOR) {
               if (!buff._14) {
-                console.log('Wrong data 14');
+                console.log("Wrong data 14");
                 return;
               }
               gameState.characters[index].cd -= buff._14.reduceCD;
@@ -1281,7 +1281,7 @@ export function triggerSkill(
           gameState.characters.forEach((character, index) => {
             if (character.class === CharacterClass.SUPPORT) {
               if (!buff._14) {
-                console.log('Wrong data 14');
+                console.log("Wrong data 14");
                 return;
               }
               gameState.characters[index].cd -= buff._14.reduceCD;
@@ -1295,7 +1295,7 @@ export function triggerSkill(
           gameState.characters.forEach((character, index) => {
             if (character.class === CharacterClass.HEALER) {
               if (!buff._14) {
-                console.log('Wrong data 14');
+                console.log("Wrong data 14");
                 return;
               }
               gameState.characters[index].cd -= buff._14.reduceCD;
@@ -1310,7 +1310,7 @@ export function triggerSkill(
     case 15:
       {
         if (!buff._15) {
-          console.log('Wrong data 15');
+          console.log("Wrong data 15");
           break;
         }
         const positionList = [0, 1, 2, 3, 4];
@@ -1350,7 +1350,7 @@ export function triggerSkill(
       break;
     case 16:
       if (!buff._16) {
-        console.log('Wrong data 16');
+        console.log("Wrong data 16");
         break;
       }
       gameState.characters.forEach((character, index) => {
@@ -1424,7 +1424,7 @@ export function triggerSkill(
       break;
     case 17:
       if (!buff._17) {
-        console.log('Wrong data 17');
+        console.log("Wrong data 17");
         break;
       }
       gameState.characters.forEach((character, index) => {
@@ -1453,7 +1453,7 @@ export function triggerSkill(
       break;
     case 18:
       if (!buff._18) {
-        console.log('Wrong data 18');
+        console.log("Wrong data 18");
         break;
       }
       gameState.characters.forEach((character, index) => {
@@ -1476,13 +1476,13 @@ export function triggerSkill(
       break;
     case 19: {
       if (!buff._19) {
-        console.log('Wrong data 19');
+        console.log("Wrong data 19");
         break;
       }
       {
         const buff2: Skill = {
-          id: '',
-          name: '',
+          id: "",
+          name: "",
           type: 4,
           condition: Condition.NONE,
           duration: 100,
@@ -1519,7 +1519,7 @@ export function triggerSkill(
           );
           console.log(skillStackNum);
           if (!skillStackNum) {
-            console.log('Skill stack not found');
+            console.log("Skill stack not found");
             return;
           }
           if (
@@ -1530,14 +1530,14 @@ export function triggerSkill(
               return x.id === activation.characterId;
             });
             if (char === -1) {
-              console.log('Character not found, 19 error');
+              console.log("Character not found, 19 error");
               return;
             }
             const checkSkill = gameState.characters[char].buff.find((x) => {
               return x.id === activation.checkSkillId;
             });
             if (!checkSkill) {
-              console.log('Skill not found, 19 error');
+              console.log("Skill not found, 19 error");
               return;
             }
             if (
@@ -1556,7 +1556,7 @@ export function triggerSkill(
               gameState.characters[char].buff = activatedSkill;
             }
           } else {
-            console.log('less stack');
+            console.log("less stack");
           }
         }
       });
@@ -1564,7 +1564,7 @@ export function triggerSkill(
     }
     case 20: {
       if (!buff._20) {
-        console.log('Wrong data 20');
+        console.log("Wrong data 20");
         break;
       }
 
@@ -1575,7 +1575,7 @@ export function triggerSkill(
           });
 
           if (charIndex === -1) {
-            console.log('Enemy not found, 20 error');
+            console.log("Enemy not found, 20 error");
             break;
           }
           if (buff._20.clearAll) {
@@ -1619,7 +1619,7 @@ export function triggerSkill(
           });
 
           if (charIndex === -1) {
-            console.log('Character not found, 20 error');
+            console.log("Character not found, 20 error");
             break;
           }
           if (buff._20.clearAll) {
@@ -1665,7 +1665,7 @@ export function triggerSkill(
     }
     case 21:
       if (!buff._21) {
-        console.log('Wrong data 21');
+        console.log("Wrong data 21");
         break;
       }
       buff._21.trigger.forEach((b) => {
@@ -1675,13 +1675,13 @@ export function triggerSkill(
       break;
     case 22:
       if (!buff._22) {
-        console.log('Wrong data 22');
+        console.log("Wrong data 22");
         break;
       }
       {
         const buff2: Skill = {
-          id: '',
-          name: '',
+          id: "",
+          name: "",
           type: 4,
           condition: Condition.NONE,
           duration: 100,
@@ -1719,7 +1719,7 @@ export function triggerSkill(
               },
             );
             if (!skillStackNum) {
-              console.log('Skill stack not found 22');
+              console.log("Skill stack not found 22");
               return;
             }
             if (
@@ -1730,14 +1730,14 @@ export function triggerSkill(
                 return x.id === activation.characterId;
               });
               if (char === -1) {
-                console.log('Character not found, 22 error');
+                console.log("Character not found, 22 error");
                 return;
               }
               const checkSkill = gameState.characters[char].buff.find((x) => {
                 return x.id === activation.checkSkillId;
               });
               if (!checkSkill) {
-                console.log('Skill not found, 22 error');
+                console.log("Skill not found, 22 error");
                 return;
               }
               if (
@@ -1750,7 +1750,7 @@ export function triggerSkill(
                 ];
               }
             } else {
-              console.log('less stack');
+              console.log("less stack");
             }
             break;
           }
@@ -1765,7 +1765,7 @@ export function triggerSkill(
               },
             );
             if (!skillStackNum) {
-              console.log('Skill stack not found 22');
+              console.log("Skill stack not found 22");
               return;
             }
             if (
@@ -1776,14 +1776,14 @@ export function triggerSkill(
                 return x.id === activation.characterId;
               });
               if (char === -1) {
-                console.log('Character not found, 22 error');
+                console.log("Character not found, 22 error");
                 return;
               }
               const checkSkill = gameState.characters[char].buff.find((x) => {
                 return x.id === activation.checkSkillId;
               });
               if (!checkSkill) {
-                console.log('Skill not found, 22 error');
+                console.log("Skill not found, 22 error");
                 return;
               }
               if (
@@ -1796,7 +1796,7 @@ export function triggerSkill(
                 ];
               }
             } else {
-              console.log('less stack');
+              console.log("less stack");
             }
             break;
           }
@@ -1805,7 +1805,7 @@ export function triggerSkill(
       break;
     case 23: {
       if (!buff._23) {
-        console.log('Wrong data 23');
+        console.log("Wrong data 23");
         break;
       }
       const charIndex = gameState.characters.findIndex((x) => {
@@ -1813,7 +1813,7 @@ export function triggerSkill(
       });
 
       if (charIndex === -1) {
-        console.log('Character not found, 23 error');
+        console.log("Character not found, 23 error");
         break;
       }
 
@@ -1844,7 +1844,7 @@ export function triggerSkill(
 
     case 24: {
       if (!buff._24) {
-        console.log('Wrong data 24');
+        console.log("Wrong data 24");
         break;
       }
       function recursiveDeleteSkill(index: string, pos: number) {
@@ -1889,7 +1889,7 @@ export function triggerSkill(
     case 25: {
       // 傷害
       if (!buff._25) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
       switch (buff._25.damageType) {
@@ -1920,7 +1920,7 @@ export function triggerSkill(
     case 26: {
       // 傷害
       if (!buff._26) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
       switch (buff._26.damageType) {
@@ -1954,7 +1954,7 @@ export function triggerSkill(
       (x) => x.id === buff.id,
     );
     if (buffIndex === -1) {
-      console.log('Skill not found, delete self error');
+      console.log("Skill not found, delete self error");
       return;
     }
     const clone = [...gameState.characters[position].buff];
