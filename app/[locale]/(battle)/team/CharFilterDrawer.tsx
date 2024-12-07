@@ -4,16 +4,16 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer';
-import { UseFormReturn } from 'react-hook-form';
-import Image from 'next/image';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useState } from 'react';
-import characters from '@/data/characters.json';
-import _ from 'lodash';
-import { CharacterTeam } from '@/types/Select';
-import { CharacterAttribute, CharacterClass } from '../_types/Character';
-import { Toggle } from '@/components/ui/toggle';
+} from "@/components/ui/drawer";
+import { UseFormReturn } from "react-hook-form";
+import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState } from "react";
+import characters from "@/data/characters.json";
+import _ from "lodash";
+import { CharacterTeam } from "@/types/Select";
+import { CharacterAttribute, CharacterClass } from "../_types/Character";
+import { Toggle } from "@/components/ui/toggle";
 
 interface CharFilterDrawerProps {
   position: 0 | 1 | 2 | 3 | 4;
@@ -52,20 +52,20 @@ export const CharFilterDrawer = ({
         <div className="flex flex-col justify-center items-center">
           <Image
             className="rounded-md"
-            src={`/characters/square/${char !== '' && char !== undefined && char !== null ? char : 'char_nr'}.png`}
+            src={`/characters/square/${char !== "" && char !== undefined && char !== null ? char : "char_nr"}.png`}
             width={120}
             height={120}
             alt=""
           />
 
           <div className="font-bold text-sm text-center dark:text-white">
-            {char !== '' &&
+            {char !== "" &&
             char !== undefined &&
             char !== null &&
             charList[char] !== undefined &&
             charList[char] !== null
               ? charList[char].name
-              : ''}
+              : ""}
           </div>
         </div>
       </DrawerTrigger>
@@ -75,191 +75,6 @@ export const CharFilterDrawer = ({
             <DrawerTitle className="flex items-center justify-center">
               Select Character
             </DrawerTitle>
-            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-1 rounded">
-              <Toggle
-                pressed={attribute.includes(CharacterAttribute.FIRE)}
-                onPressedChange={() => {
-                  setAttribute((prev) =>
-                    prev.includes(CharacterAttribute.FIRE)
-                      ? prev.filter((x) => x !== CharacterAttribute.FIRE)
-                      : [...prev, CharacterAttribute.FIRE],
-                  );
-                }}
-                className="data-[state=on]:bg-red-500"
-              >
-                <Image
-                  src="/icons/fire.jpg"
-                  width={30}
-                  height={30}
-                  alt="fire"
-                />
-              </Toggle>
-              <Toggle
-                pressed={attribute.includes(CharacterAttribute.WATER)}
-                onPressedChange={() => {
-                  setAttribute((prev) =>
-                    prev.includes(CharacterAttribute.WATER)
-                      ? prev.filter((x) => x !== CharacterAttribute.WATER)
-                      : [...prev, CharacterAttribute.WATER],
-                  );
-                }}
-                className="data-[state=on]:bg-blue-500"
-              >
-                <Image
-                  src="/icons/water.jpg"
-                  width={30}
-                  height={30}
-                  alt="water"
-                />
-              </Toggle>
-              <Toggle
-                pressed={attribute.includes(CharacterAttribute.WIND)}
-                onPressedChange={() => {
-                  setAttribute((prev) =>
-                    prev.includes(CharacterAttribute.WIND)
-                      ? prev.filter((x) => x !== CharacterAttribute.WIND)
-                      : [...prev, CharacterAttribute.WIND],
-                  );
-                }}
-                className="data-[state=on]:bg-green-500"
-              >
-                <Image
-                  src="/icons/wind.jpg"
-                  width={30}
-                  height={30}
-                  alt="wind"
-                />
-              </Toggle>
-              <Toggle
-                pressed={attribute.includes(CharacterAttribute.DARK)}
-                onPressedChange={() => {
-                  setAttribute((prev) =>
-                    prev.includes(CharacterAttribute.DARK)
-                      ? prev.filter((x) => x !== CharacterAttribute.DARK)
-                      : [...prev, CharacterAttribute.DARK],
-                  );
-                }}
-                className="data-[state=on]:bg-purple-500"
-              >
-                <Image
-                  src="/icons/dark.jpg"
-                  width={30}
-                  height={30}
-                  alt="dark"
-                />
-              </Toggle>
-              <Toggle
-                pressed={attribute.includes(CharacterAttribute.LIGHT)}
-                onPressedChange={() => {
-                  setAttribute((prev) =>
-                    prev.includes(CharacterAttribute.LIGHT)
-                      ? prev.filter((x) => x !== CharacterAttribute.LIGHT)
-                      : [...prev, CharacterAttribute.LIGHT],
-                  );
-                }}
-                className="data-[state=on]:bg-yellow-500"
-              >
-                <Image
-                  src="/icons/light.jpg"
-                  width={30}
-                  height={30}
-                  alt="light"
-                />
-              </Toggle>
-            </div>
-
-            <div className="grid grid-cols-5 w-full gap-2 border-white border-solid border-2 p-1 rounded">
-              <Toggle
-                pressed={charClass.includes(CharacterClass.ATTACKER)}
-                onPressedChange={() => {
-                  setCharClass((prev) =>
-                    prev.includes(CharacterClass.ATTACKER)
-                      ? prev.filter((x) => x !== CharacterClass.ATTACKER)
-                      : [...prev, CharacterClass.ATTACKER],
-                  );
-                }}
-                className="data-[state=on]:bg-zinc-50"
-              >
-                <Image
-                  src="/icons/ui_attacker.png"
-                  width={30}
-                  height={30}
-                  alt="attacker"
-                />
-              </Toggle>
-              <Toggle
-                pressed={charClass.includes(CharacterClass.OBSTRUCTER)}
-                onPressedChange={() => {
-                  setCharClass((prev) =>
-                    prev.includes(CharacterClass.OBSTRUCTER)
-                      ? prev.filter((x) => x !== CharacterClass.OBSTRUCTER)
-                      : [...prev, CharacterClass.OBSTRUCTER],
-                  );
-                }}
-                className="data-[state=on]:bg-zinc-50"
-              >
-                <Image
-                  src="/icons/ui_obsructer.png"
-                  width={30}
-                  height={30}
-                  alt="obsructer"
-                />
-              </Toggle>
-              <Toggle
-                pressed={charClass.includes(CharacterClass.PROTECTOR)}
-                onPressedChange={() => {
-                  setCharClass((prev) =>
-                    prev.includes(CharacterClass.PROTECTOR)
-                      ? prev.filter((x) => x !== CharacterClass.PROTECTOR)
-                      : [...prev, CharacterClass.PROTECTOR],
-                  );
-                }}
-                className="data-[state=on]:bg-zinc-50"
-              >
-                <Image
-                  src="/icons/ui_protector.png"
-                  width={30}
-                  height={30}
-                  alt="protector"
-                />
-              </Toggle>
-              <Toggle
-                pressed={charClass.includes(CharacterClass.HEALER)}
-                onPressedChange={() => {
-                  setCharClass((prev) =>
-                    prev.includes(CharacterClass.HEALER)
-                      ? prev.filter((x) => x !== CharacterClass.HEALER)
-                      : [...prev, CharacterClass.HEALER],
-                  );
-                }}
-                className="data-[state=on]:bg-zinc-50"
-              >
-                <Image
-                  src="/icons/ui_healer.png"
-                  width={30}
-                  height={30}
-                  alt="healer"
-                />
-              </Toggle>
-              <Toggle
-                pressed={charClass.includes(CharacterClass.SUPPORT)}
-                onPressedChange={() => {
-                  setCharClass((prev) =>
-                    prev.includes(CharacterClass.SUPPORT)
-                      ? prev.filter((x) => x !== CharacterClass.SUPPORT)
-                      : [...prev, CharacterClass.SUPPORT],
-                  );
-                }}
-                className="data-[state=on]:bg-zinc-50"
-              >
-                <Image
-                  src="/icons/ui_supporter.png"
-                  width={30}
-                  height={30}
-                  alt="supporter"
-                />
-              </Toggle>
-            </div>
             <div className="grid grid-cols-6 gap-1 my-2 gap-y-3">
               {c.map((char) => {
                 return (
@@ -281,6 +96,175 @@ export const CharFilterDrawer = ({
               })}
             </div>
           </DrawerHeader>
+
+          <div className="grid grid-cols-10 w-full mb-3">
+            <Toggle
+              pressed={attribute.includes(CharacterAttribute.FIRE)}
+              onPressedChange={() => {
+                setAttribute((prev) =>
+                  prev.includes(CharacterAttribute.FIRE)
+                    ? prev.filter((x) => x !== CharacterAttribute.FIRE)
+                    : [...prev, CharacterAttribute.FIRE],
+                );
+              }}
+              className="data-[state=on]:bg-red-500 border-white border-solid border-y border-l rounded-none p-0"
+            >
+              <Image src="/icons/fire.jpg" width={30} height={30} alt="fire" />
+            </Toggle>
+            <Toggle
+              pressed={attribute.includes(CharacterAttribute.WATER)}
+              onPressedChange={() => {
+                setAttribute((prev) =>
+                  prev.includes(CharacterAttribute.WATER)
+                    ? prev.filter((x) => x !== CharacterAttribute.WATER)
+                    : [...prev, CharacterAttribute.WATER],
+                );
+              }}
+              className="data-[state=on]:bg-blue-500 border-white border-solid border-y rounded-none p-0"
+            >
+              <Image
+                src="/icons/water.jpg"
+                width={30}
+                height={30}
+                alt="water"
+              />
+            </Toggle>
+            <Toggle
+              pressed={attribute.includes(CharacterAttribute.WIND)}
+              onPressedChange={() => {
+                setAttribute((prev) =>
+                  prev.includes(CharacterAttribute.WIND)
+                    ? prev.filter((x) => x !== CharacterAttribute.WIND)
+                    : [...prev, CharacterAttribute.WIND],
+                );
+              }}
+              className="data-[state=on]:bg-green-500 border-white border-solid border-y rounded-none p-0"
+            >
+              <Image src="/icons/wind.jpg" width={30} height={30} alt="wind" />
+            </Toggle>
+            <Toggle
+              pressed={attribute.includes(CharacterAttribute.DARK)}
+              onPressedChange={() => {
+                setAttribute((prev) =>
+                  prev.includes(CharacterAttribute.DARK)
+                    ? prev.filter((x) => x !== CharacterAttribute.DARK)
+                    : [...prev, CharacterAttribute.DARK],
+                );
+              }}
+              className="data-[state=on]:bg-purple-500 border-white border-solid border-y rounded-none p-0"
+            >
+              <Image src="/icons/dark.jpg" width={30} height={30} alt="dark" />
+            </Toggle>
+            <Toggle
+              pressed={attribute.includes(CharacterAttribute.LIGHT)}
+              onPressedChange={() => {
+                setAttribute((prev) =>
+                  prev.includes(CharacterAttribute.LIGHT)
+                    ? prev.filter((x) => x !== CharacterAttribute.LIGHT)
+                    : [...prev, CharacterAttribute.LIGHT],
+                );
+              }}
+              className="data-[state=on]:bg-yellow-500 border-white border-solid border-y border-r rounded-none p-0"
+            >
+              <Image
+                src="/icons/light.jpg"
+                width={30}
+                height={30}
+                alt="light"
+              />
+            </Toggle>
+
+            <Toggle
+              pressed={charClass.includes(CharacterClass.ATTACKER)}
+              onPressedChange={() => {
+                setCharClass((prev) =>
+                  prev.includes(CharacterClass.ATTACKER)
+                    ? prev.filter((x) => x !== CharacterClass.ATTACKER)
+                    : [...prev, CharacterClass.ATTACKER],
+                );
+              }}
+              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-l rounded-none p-0"
+            >
+              <Image
+                src="/icons/ui_attacker.png"
+                width={30}
+                height={30}
+                alt="attacker"
+              />
+            </Toggle>
+            <Toggle
+              pressed={charClass.includes(CharacterClass.OBSTRUCTER)}
+              onPressedChange={() => {
+                setCharClass((prev) =>
+                  prev.includes(CharacterClass.OBSTRUCTER)
+                    ? prev.filter((x) => x !== CharacterClass.OBSTRUCTER)
+                    : [...prev, CharacterClass.OBSTRUCTER],
+                );
+              }}
+              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
+            >
+              <Image
+                src="/icons/ui_obsructer.png"
+                width={30}
+                height={30}
+                alt="obsructer"
+              />
+            </Toggle>
+            <Toggle
+              pressed={charClass.includes(CharacterClass.PROTECTOR)}
+              onPressedChange={() => {
+                setCharClass((prev) =>
+                  prev.includes(CharacterClass.PROTECTOR)
+                    ? prev.filter((x) => x !== CharacterClass.PROTECTOR)
+                    : [...prev, CharacterClass.PROTECTOR],
+                );
+              }}
+              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
+            >
+              <Image
+                src="/icons/ui_protector.png"
+                width={30}
+                height={30}
+                alt="protector"
+              />
+            </Toggle>
+            <Toggle
+              pressed={charClass.includes(CharacterClass.HEALER)}
+              onPressedChange={() => {
+                setCharClass((prev) =>
+                  prev.includes(CharacterClass.HEALER)
+                    ? prev.filter((x) => x !== CharacterClass.HEALER)
+                    : [...prev, CharacterClass.HEALER],
+                );
+              }}
+              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
+            >
+              <Image
+                src="/icons/ui_healer.png"
+                width={30}
+                height={30}
+                alt="healer"
+              />
+            </Toggle>
+            <Toggle
+              pressed={charClass.includes(CharacterClass.SUPPORT)}
+              onPressedChange={() => {
+                setCharClass((prev) =>
+                  prev.includes(CharacterClass.SUPPORT)
+                    ? prev.filter((x) => x !== CharacterClass.SUPPORT)
+                    : [...prev, CharacterClass.SUPPORT],
+                );
+              }}
+              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-r rounded-none p-0"
+            >
+              <Image
+                src="/icons/ui_supporter.png"
+                width={30}
+                height={30}
+                alt="supporter"
+              />
+            </Toggle>
+          </div>
         </div>
       </DrawerContent>
     </Drawer>
