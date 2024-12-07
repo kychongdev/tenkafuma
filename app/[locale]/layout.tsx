@@ -1,8 +1,10 @@
-import { notFound } from 'next/navigation';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ReactNode } from 'react';
-import BaseLayout from '@/components/default/BaseLayout';
-import { routing } from '@/app/i18n/routing';
+import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ReactNode } from "react";
+import BaseLayout from "@/components/default/BaseLayout";
+import { routing } from "@/app/i18n/routing";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 type Props = {
   children: ReactNode;
@@ -13,12 +15,12 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Omit<Props, 'children'>) {
+export async function generateMetadata({ params }: Omit<Props, "children">) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'LocaleLayout' });
+  const t = await getTranslations({ locale, namespace: "LocaleLayout" });
 
   return {
-    title: t('title'),
+    title: t("title"),
   };
 }
 
@@ -32,5 +34,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   // Enable static rendering
   setRequestLocale(locale);
 
-  return <BaseLayout locale={locale}>{children}</BaseLayout>;
+  return (
+    <BaseLayout locale={locale}>
+      <Analytics />
+      <SpeedInsights />
+      {children}
+    </BaseLayout>
+  );
 }
