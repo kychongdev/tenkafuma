@@ -19,6 +19,7 @@ import {
 } from "./utils";
 import { DamageLog } from "../_types/Game";
 import Big from "big.js";
+import { randomizeEnemyPos, randomizePos } from "./randomizePos";
 
 export function dealUltDamage(
   position: Target,
@@ -29,6 +30,11 @@ export function dealUltDamage(
   action: CharacterAction,
   isTrueDamage?: boolean,
 ) {
+  if (target > 0 && target < 5) {
+    target = randomizePos(gameState, target);
+  } else if (target >= 20 && target < 25) {
+    target = randomizeEnemyPos(gameState, target);
+  }
   let rawAtk = Big(0);
   let atkPercentage = Big(1);
   let increaseDamage = Big(1);

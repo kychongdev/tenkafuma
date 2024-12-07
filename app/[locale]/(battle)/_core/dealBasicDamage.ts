@@ -30,6 +30,12 @@ export function dealBasicDamage(
   action: CharacterAction,
   isTrueDamage?: boolean,
 ) {
+  if (target > 0 && target < 5) {
+    target = randomizePos(gameState, target);
+  } else if (target >= 20 && target < 25) {
+    target = randomizeEnemyPos(gameState, target);
+  }
+
   let rawAtk = Big(0);
   let atkPercentage = Big(1);
   let basicBuff = Big(1);
@@ -812,8 +818,6 @@ export function dealBasicDamage(
           .mul(attributeDamage)
           .mul(value);
 
-  const res1 = Math.floor(res.toNumber());
-
   switch (target) {
     case Target.ENEMY: {
       gameState.enemies[gameState.targeting].hp = Math.floor(
@@ -821,145 +825,32 @@ export function dealBasicDamage(
           .minus(res.round(0, Big.roundDown))
           .toNumber(),
       );
-
-      if (position < 5 && position >= 0) {
-        const character = gameState.characters[position];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]${character.name}對敵${
-            gameState.targeting + 1
-          }造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
-        );
-      }
-      // no if else because enemy cannot use gamestate.targeting
       break;
     }
     case Target.ENEMY_1: {
-      const enemyPos = randomizeEnemyPos(gameState, 0);
-      if (enemyPos === -1) {
-        break;
-      }
-      gameState.enemies[enemyPos].hp = Math.floor(
-        Big(gameState.enemies[enemyPos].hp).minus(res).toNumber(),
+      gameState.enemies[0].hp = Math.floor(
+        Big(gameState.enemies[0].hp).minus(res).toNumber(),
       );
-
-      if (position < 5 && position >= 0) {
-        const character = gameState.characters[position];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]${character.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      } else if (position >= 20 && position < 25) {
-        const enemy = gameState.enemies[enemyPos];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      }
-      break;
     }
     case Target.ENEMY_2: {
-      const enemyPos = randomizeEnemyPos(gameState, 1);
-      if (enemyPos === -1) {
-        break;
-      }
       gameState.enemies[1].hp = Math.floor(
         Big(gameState.enemies[1].hp).minus(res).toNumber(),
       );
-
-      if (position < 5 && position >= 0) {
-        const character = gameState.characters[position];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]${character.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      } else if (position >= 20 && position < 25) {
-        const enemy = gameState.enemies[enemyPos];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      }
-      break;
     }
     case Target.ENEMY_3: {
-      const enemyPos = randomizeEnemyPos(gameState, 2);
-      if (enemyPos === -1) {
-        break;
-      }
       gameState.enemies[2].hp = Math.floor(
         Big(gameState.enemies[2].hp).minus(res).toNumber(),
       );
-
-      if (position < 5 && position >= 0) {
-        const character = gameState.characters[position];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]${character.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      } else if (position >= 20 && position < 25) {
-        const enemy = gameState.enemies[enemyPos];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      }
-      break;
     }
     case Target.ENEMY_4: {
-      const enemyPos = randomizeEnemyPos(gameState, 3);
-      if (enemyPos === -1) {
-        break;
-      }
       gameState.enemies[3].hp = Math.floor(
         Big(gameState.enemies[3].hp).minus(res).toNumber(),
       );
-      if (position < 5 && position >= 0) {
-        const character = gameState.characters[position];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]${character.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      } else if (position >= 20 && position < 25) {
-        const enemy = gameState.enemies[enemyPos];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      }
-      break;
     }
     case Target.ENEMY_5: {
-      const enemyPos = randomizeEnemyPos(gameState, 4);
-      if (enemyPos === -1) {
-        break;
-      }
       gameState.enemies[4].hp = Math.floor(
         Big(gameState.enemies[4].hp).minus(res).toNumber(),
       );
-      if (position < 5 && position >= 0) {
-        const character = gameState.characters[position];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]${character.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      } else if (position >= 20 && position < 25) {
-        const enemy = gameState.enemies[enemyPos];
-        gameState.battle_log.push(
-          `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${enemyPos + 1}造成${formatNumber(
-            res1,
-          )}(${parseDamageTypeName(damageType)})`,
-        );
-      }
-      break;
     }
 
     case Target.POSITION_1:
@@ -967,19 +858,13 @@ export function dealBasicDamage(
     case Target.POSITION_3:
     case Target.POSITION_4:
     case Target.POSITION_5:
-      const charPos = randomizePos(gameState, target);
-      gameState.characters[charPos].hp = Math.floor(
-        Big(gameState.characters[charPos].hp).minus(res).toNumber(),
-      );
-
-      const enemy = gameState.enemies[position - 20];
-      const character = gameState.characters[charPos];
-      gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對${character.name}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+      gameState.characters[target].hp = Math.floor(
+        Big(gameState.characters[target].hp).minus(res).toNumber(),
       );
       break;
   }
 
+  const res1 = Math.floor(res.toNumber());
   writeDamageLog(gameState, position, {
     damage: res1,
     type: damageType,
@@ -989,7 +874,23 @@ export function dealBasicDamage(
     action,
   });
 
-  if (position >= 20 && position < 25) {
+  if (position < 5 && position >= 0) {
+    if (target === Target.ENEMY) {
+      const character = gameState.characters[position];
+      gameState.battle_log.push(
+        `[${parseActionName(action)}]${character.name}對敵${
+          gameState.targeting + 1
+        }造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+      );
+    } else {
+      const character = gameState.characters[position];
+      gameState.battle_log.push(
+        `[${parseActionName(action)}]${character.name}對敵${target - 19}造成${formatNumber(
+          res1,
+        )}(${parseDamageTypeName(damageType)})`,
+      );
+    }
+  } else if (position >= 20 && position < 25) {
     if (target < 5 && target >= 0) {
       const enemy = gameState.enemies[position - 20];
       const character = gameState.characters[target];
