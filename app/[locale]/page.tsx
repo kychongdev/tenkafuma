@@ -3,11 +3,12 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from "@/components/ui/accordion";
 
 export default function Home() {
   return (
     <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)] p-4">
+      開發中!! 請勿使用!! 一堆BUG你用來幹什麼!
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger>免責聲明</AccordionTrigger>
@@ -34,7 +35,7 @@ export default function Home() {
           <AccordionTrigger>更新日誌</AccordionTrigger>
           <AccordionContent>脫離BETA才寫</AccordionContent>
         </AccordionItem>
-        <AccordionItem value="item-3">
+        <AccordionItem value="item-4">
           <AccordionTrigger>開發路線</AccordionTrigger>
           <AccordionContent>
             支援全角色包含R和SR角色
