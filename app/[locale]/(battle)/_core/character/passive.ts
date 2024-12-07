@@ -2553,6 +2553,75 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",
+    case "10132": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10132-passive-1",
+          name: "必殺時，追加「使目標受到傷害增加15%(7回合)」",
+          type: 111,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _111: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: "10132-passive-1-1",
+                name: "受到傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 7,
+                _0: {
+                  value: 0.15,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10132-passive-3",
+          name: "必殺時，追加「使目標受到必殺技傷害增加20%(7回合)」",
+          type: 111,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _111: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: "10132-passive-3-1",
+                name: "受到必殺技傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 7,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10132-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {

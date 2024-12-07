@@ -1218,6 +1218,51 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",
+    case "10132": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10132-ult-1",
+            name: "必殺技傷害增加30%(4回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.3
+                    : bond === 3
+                      ? 0.4
+                      : bond === 4
+                        ? 0.5
+                        : 0.6,
+            },
+          },
+        ];
+      });
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 2.65
+          : bond === 2
+            ? 2.98
+            : bond === 3
+              ? 3.31
+              : bond === 4
+                ? 3.64
+                : 3.97,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
