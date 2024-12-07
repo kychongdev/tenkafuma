@@ -30,6 +30,7 @@ export function dealBasicDamage(
   action: CharacterAction,
   isTrueDamage?: boolean,
 ) {
+  // TODO
   if (target > 0 && target < 5) {
     target = randomizePos(gameState, target);
   } else if (target >= 20 && target < 25) {
@@ -831,26 +832,31 @@ export function dealBasicDamage(
       gameState.enemies[0].hp = Math.floor(
         Big(gameState.enemies[0].hp).minus(res).toNumber(),
       );
+      break;
     }
     case Target.ENEMY_2: {
       gameState.enemies[1].hp = Math.floor(
         Big(gameState.enemies[1].hp).minus(res).toNumber(),
       );
+      break;
     }
     case Target.ENEMY_3: {
       gameState.enemies[2].hp = Math.floor(
         Big(gameState.enemies[2].hp).minus(res).toNumber(),
       );
+      break;
     }
     case Target.ENEMY_4: {
       gameState.enemies[3].hp = Math.floor(
         Big(gameState.enemies[3].hp).minus(res).toNumber(),
       );
+      break;
     }
     case Target.ENEMY_5: {
       gameState.enemies[4].hp = Math.floor(
         Big(gameState.enemies[4].hp).minus(res).toNumber(),
       );
+      break;
     }
 
     case Target.POSITION_1:

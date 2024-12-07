@@ -547,6 +547,79 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10092-ult-1",
+          name: "必殺技傷害增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 12,
+          _0: {
+            value:
+              bond === 1
+                ? 0.1
+                : bond === 2
+                  ? 0.1
+                  : bond === 3
+                    ? 0.125
+                    : bond === 4
+                      ? 0.125
+                      : 0.15,
+            affectType: AffectType.INCREASE_ULTIMATE_DMG,
+          },
+        },
+      ];
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1.16
+          : bond === 2
+            ? 1.32
+            : bond === 3
+              ? 1.49
+              : bond === 4
+                ? 1.65
+                : 1.82,
+        gameState,
+        Target.ENEMY_2,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1.16
+          : bond === 2
+            ? 1.32
+            : bond === 3
+              ? 1.49
+              : bond === 4
+                ? 1.65
+                : 1.82,
+        gameState,
+        Target.ENEMY_3,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1.16
+          : bond === 2
+            ? 1.32
+            : bond === 3
+              ? 1.49
+              : bond === 4
+                ? 1.65
+                : 1.82,
+        gameState,
+        Target.ENEMY_4,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
       break;
     }
     // "10093": "適格者 娜娜",

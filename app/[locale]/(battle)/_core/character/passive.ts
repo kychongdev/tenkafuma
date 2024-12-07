@@ -958,6 +958,118 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10092-passive-1",
+          name: "自身HP大於75%時，攻擊力增加50%",
+          type: 0,
+          condition: Condition.NONE,
+          specialCondition: SpecialCondition.HP_HIGHER_THAN,
+          specialConditionValue: 0.75,
+          duration: 100,
+          _0: {
+            value: 0.5,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10092-passive-2",
+          name: "必殺時，以攻擊力30%對敵方站位2的目標造成傷害",
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 0.3,
+            target: Target.ENEMY_2,
+            damageType: DamageType.ULTIMATE,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+        {
+          id: "10092-passive-3",
+          name: "必殺時，以攻擊力30%對敵方站位3的目標造成傷害",
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 0.3,
+            target: Target.ENEMY_3,
+            damageType: DamageType.ULTIMATE,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+        {
+          id: "10092-passive-4",
+          name: "必殺時，以攻擊力30%對敵方站位4的目標造成傷害",
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 0.3,
+            target: Target.ENEMY_4,
+            damageType: DamageType.ULTIMATE,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        //第4回合時，觸發「使自身攻擊力增加40%(50回合)」
+        //第7回合時，觸發「使自身攻擊力增加80%(50回合)」
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10092-passive-5",
+            name: "第4回合時，觸發「使自身攻擊力增加40%(50回合)」",
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 4,
+            duration: 100,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10092-passive-5-1",
+                  name: "攻擊力增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 50,
+                  _0: {
+                    value: 0.4,
+                    affectType: AffectType.INCREASE_ATK,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10092-passive-6",
+            name: "第7回合時，觸發「使自身攻擊力增加80%(50回合)」",
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 7,
+            duration: 100,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10092-passive-6-1",
+                  name: "攻擊力增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 50,
+                  _0: {
+                    value: 0.8,
+                    affectType: AffectType.INCREASE_ATK,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
       if (gameState.characters[position].passive4) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,

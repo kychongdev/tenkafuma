@@ -10,6 +10,8 @@ export function randomizePos(gamestate: GameState, position: number) {
   const pos = [0, 1, 2, 3, 4];
 
   const res = recursive(gamestate, position, pos);
+
+  console.log(res);
   return res ? res : -1;
 }
 
@@ -36,8 +38,9 @@ function recursive(
 
 export function randomizeEnemyPos(gamestate: GameState, position: number) {
   if (
-    gamestate.enemies[position].isExist &&
-    !gamestate.enemies[position].isDead
+    gamestate.enemies[position - 19] !== undefined &&
+    gamestate.enemies[position - 19].isExist &&
+    !gamestate.enemies[position - 19].isDead
   ) {
     return position;
   }
@@ -47,9 +50,11 @@ export function randomizeEnemyPos(gamestate: GameState, position: number) {
     pos.push(i);
   }
   if (pos.length === 1) {
-    return pos[0];
+    return 20;
   }
+
   const res = recursiveEnemy(gamestate, position, pos);
+  console.log(res);
   return res ? res : -1;
 }
 

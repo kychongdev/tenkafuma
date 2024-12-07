@@ -30,6 +30,8 @@ export function dealUltDamage(
   action: CharacterAction,
   isTrueDamage?: boolean,
 ) {
+  // TODO
+  // Need test for this function
   if (target > 0 && target < 5) {
     target = randomizePos(gameState, target);
   } else if (target >= 20 && target < 25) {
