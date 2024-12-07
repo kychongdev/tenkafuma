@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { ClientOnly } from '@/components/ClientOnly';
-import Battle from './Battle';
+import { ClientOnly } from "@/components/ClientOnly";
+import Battle from "./Battle";
 
 export default function BattlePage() {
-        return (
-                <ClientOnly>
-                        <Battle />
-                </ClientOnly>
-        );
+  return (
+    <ClientOnly>
+      <Battle />
+    </ClientOnly>
+  );
 }
