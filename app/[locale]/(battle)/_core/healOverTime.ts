@@ -1,5 +1,5 @@
-import { AffectType } from '@/app/[locale]/(battle)/_types/Skill';
-import { GameState } from './GameState';
+import { AffectType } from "@/app/[locale]/(battle)/_types/Skill";
+import { GameState } from "./GameState";
 
 //傳功
 export function healOverTime(gameState: GameState, position: number) {
@@ -73,6 +73,6 @@ export function healOverTime(gameState: GameState, position: number) {
     }
   }
 
-  console.log('totalHeal', healReceived, totalHeal);
+  //console.log('totalHeal', healReceived, totalHeal);
   return Math.floor(totalHeal * healReceived);
 }

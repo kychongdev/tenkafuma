@@ -913,7 +913,7 @@ export function dealBasicDamage(
   if (attackSuckHpPercentage.gt(0)) {
     //const suckHp = Math.floor(res * attackSuckHpPercentage);
     //TODO 攻擊回血 = 傷害公式 x (1+進行治療時回復量±%) x (1+被治療時獲得回復量±%)
-    const suckHp = res.mul(attackSuckHpPercentage);
+    const suckHp = res.mul(attackSuckHpPercentage).round(0, Big.roundDown);
     const suckHp1 = suckHp.toNumber();
     switch (position) {
       case Target.ENEMY: {
@@ -921,45 +921,60 @@ export function dealBasicDamage(
         break;
       }
       case Target.ENEMY_1: {
-        gameState.enemies[0].hp += Math.floor(
+        gameState.enemies[0].hp = Math.floor(
           Big(gameState.enemies[0].hp).add(suckHp).toNumber(),
         );
+        if (gameState.enemies[0].hp > gameState.enemies[0].maxHp) {
+          gameState.enemies[0].hp = gameState.enemies[0].maxHp;
+        }
         gameState.battle_log.push(
           `[吸血]${gameState.enemies[0].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_2: {
-        gameState.enemies[1].hp += Math.floor(
+        gameState.enemies[1].hp = Math.floor(
           Big(gameState.enemies[1].hp).add(suckHp).toNumber(),
         );
+        if (gameState.enemies[1].hp > gameState.enemies[1].maxHp) {
+          gameState.enemies[1].hp = gameState.enemies[1].maxHp;
+        }
         gameState.battle_log.push(
           `[吸血]${gameState.enemies[1].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_3: {
-        gameState.enemies[2].hp += Math.floor(
+        gameState.enemies[2].hp = Math.floor(
           Big(gameState.enemies[2].hp).add(suckHp).toNumber(),
         );
+        if (gameState.enemies[2].hp > gameState.enemies[2].maxHp) {
+          gameState.enemies[2].hp = gameState.enemies[2].maxHp;
+        }
         gameState.battle_log.push(
           `[吸血]${gameState.enemies[2].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_4: {
-        gameState.enemies[3].hp += Math.floor(
+        gameState.enemies[3].hp = Math.floor(
           Big(gameState.enemies[3].hp).add(suckHp).toNumber(),
         );
+        if (gameState.enemies[3].hp > gameState.enemies[3].maxHp) {
+          gameState.enemies[3].hp = gameState.enemies[3].maxHp;
+        }
         gameState.battle_log.push(
           `[吸血]${gameState.enemies[3].name}回復${formatNumber(suckHp1)}點生命`,
         );
         break;
       }
       case Target.ENEMY_5: {
-        gameState.enemies[4].hp += Math.floor(
+        gameState.enemies[4].hp = Math.floor(
           Big(gameState.enemies[4].hp).add(suckHp).toNumber(),
         );
+        if (gameState.enemies[4].hp > gameState.enemies[4].maxHp) {
+          gameState.enemies[4].hp = gameState.enemies[4].maxHp;
+        }
         gameState.battle_log.push(
           `[吸血]${gameState.enemies[4].name}回復${formatNumber(suckHp1)}點生命`,
         );

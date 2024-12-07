@@ -2,9 +2,9 @@ import {
   CharacterAction,
   CharacterAttribute,
   CharacterClass,
-} from '@/types/Character';
-import { GameState } from '../GameState';
-import { CharacterState } from '@/types/Select';
+} from "@/types/Character";
+import { GameState } from "../GameState";
+import { CharacterState } from "@/types/Select";
 import {
   AffectType,
   Condition,
@@ -12,18 +12,18 @@ import {
   Skill,
   SpecialCondition,
   Target,
-} from '@/types/Skill';
-import { triggerSkill } from '../triggerSkill';
-import { dealUltDamage } from '../dealUltDamage';
-import { hpSort, maxHpSort, p } from '../utils';
-import { dealBasicDamage } from '../dealBasicDamage';
-import { parseCondition } from '../parseCondition';
-import { randomizePos } from '../randomizePos';
+} from "@/types/Skill";
+import { triggerSkill } from "../triggerSkill";
+import { dealUltDamage } from "../dealUltDamage";
+import { hpSort, maxHpSort, p } from "../utils";
+import { dealBasicDamage } from "../dealBasicDamage";
+import { parseCondition } from "../parseCondition";
+import { randomizePos } from "../randomizePos";
 
 export function s21_63(gameState: GameState) {
   const enemy1: CharacterState = {
-    id: '42228',
-    name: '背德密醫 艾琳',
+    id: "42228",
+    name: "背德密醫 艾琳",
     isExist: true,
     baseAtk: 500,
     baseHp: 2500000,
@@ -39,7 +39,7 @@ export function s21_63(gameState: GameState) {
     class: CharacterClass.NONE,
     cd: 5,
     maxCd: 5,
-    ultName: '',
+    ultName: "",
     shield: 0,
     isMoved: false,
     isGuard: false,
@@ -52,8 +52,8 @@ export function s21_63(gameState: GameState) {
     isDead: false,
     buff: [
       {
-        id: '42228-passive-1',
-        name: '免疫沈默',
+        id: "42228-passive-1",
+        name: "免疫沈默",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
@@ -63,8 +63,8 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-2',
-        name: '免疫麻痹',
+        id: "42228-passive-2",
+        name: "免疫麻痹",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
@@ -74,8 +74,8 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-3',
-        name: '免疫睡眠',
+        id: "42228-passive-3",
+        name: "免疫睡眠",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
@@ -85,8 +85,8 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-4',
-        name: '受到属性相剋效果减少100%',
+        id: "42228-passive-4",
+        name: "受到属性相剋效果减少100%",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
@@ -96,25 +96,25 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-5',
-        name: '每经过1回合时，触发「使敌方全体被治疗时回復量减少5%(最多50层)」',
+        id: "42228-passive-5",
+        name: "每经过1回合时，触发「使敌方全体被治疗时回復量减少5%(最多50层)」",
         type: 4,
         condition: Condition.EVERY_X_TURN,
         conditionTurn: 1,
         duration: 100,
         _4: {
           increaseStack: 1,
-          targetSkill: '42228-passive-5-1',
+          targetSkill: "42228-passive-5-1",
           target: Target.ALL_ALLIES,
           applySkill: {
-            id: '42228-passive-5-1',
-            name: '被治疗时回復量',
+            id: "42228-passive-5-1",
+            name: "被治疗时回復量",
             type: 3,
             condition: Condition.NONE,
             duration: 100,
             _3: {
-              id: '42228-passive-5-1',
-              name: '被治疗时回復量',
+              id: "42228-passive-5-1",
+              name: "被治疗时回復量",
               stack: 1,
               maxStack: 50,
               value: 0.05,
@@ -124,25 +124,25 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-6',
-        name: '每经过1回合时，触发「使自身攻击力增加5%(最多50层)」',
+        id: "42228-passive-6",
+        name: "每经过1回合时，触发「使自身攻击力增加5%(最多50层)」",
         type: 4,
         condition: Condition.EVERY_X_TURN,
         conditionTurn: 1,
         duration: 100,
         _4: {
           increaseStack: 1,
-          targetSkill: '42228-passive-6-1',
+          targetSkill: "42228-passive-6-1",
           target: Target.ENEMY_1,
           applySkill: {
-            id: '42228-passive-6-1',
-            name: '使自身攻击力增加5%(最多50层)',
+            id: "42228-passive-6-1",
+            name: "使自身攻击力增加5%(最多50层)",
             type: 3,
             condition: Condition.NONE,
             duration: 100,
             _3: {
-              id: '42228-passive-6-1',
-              name: '使自身攻击力增加5%(最多50层)',
+              id: "42228-passive-6-1",
+              name: "使自身攻击力增加5%(最多50层)",
               stack: 1,
               maxStack: 50,
               value: 0.05,
@@ -152,8 +152,8 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-7',
-        name: '吸血',
+        id: "42228-passive-7",
+        name: "吸血",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
@@ -163,24 +163,24 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-8',
-        name: '敌方必杀时，触发「使自身获得1层《精力补充》(最多10层)」',
+        id: "42228-passive-8",
+        name: "敌方必杀时，触发「使自身获得1层《精力补充》(最多10层)」",
         type: 4,
         condition: Condition.ULTIMATE,
         duration: 100,
         _4: {
           increaseStack: 1,
-          targetSkill: '42228-passive-8-1',
+          targetSkill: "42228-passive-8-1",
           target: Target.ENEMY_1,
           applySkill: {
-            id: '42228-passive-8-1',
-            name: '《精力补充》',
+            id: "42228-passive-8-1",
+            name: "《精力补充》",
             type: 3,
             condition: Condition.NONE,
             duration: 100,
             _3: {
-              id: '42228-passive-8-1',
-              name: '《精力补充》',
+              id: "42228-passive-8-1",
+              name: "《精力补充》",
               stack: 1,
               maxStack: 10,
               value: 0,
@@ -190,8 +190,8 @@ export function s21_63(gameState: GameState) {
         },
       },
       {
-        id: '42228-passive-9',
-        name: '吸血',
+        id: "42228-passive-9",
+        name: "吸血",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
@@ -252,112 +252,112 @@ export function s21_63(gameState: GameState) {
     act_10_target: -1,
     skill_list: [
       {
-        id: '42228-act01',
-        name: '健检开始',
-        description: '使敌方全体护盾效果减少90%(50回合)',
-        requirements: '[触发条件]：0回合时触发',
+        id: "42228-act01",
+        name: "健检开始",
+        description: "使敌方全体护盾效果减少90%(50回合)",
+        requirements: "[触发条件]：0回合时触发",
         available: true,
       },
       {
-        id: '42228-act02',
-        name: '私蜜♡健检开始',
-        description: '使敌方全体护盾效果减少500%(50回合)',
-        requirements: '[触发条件]：0回合时触发',
+        id: "42228-act02",
+        name: "私蜜♡健检开始",
+        description: "使敌方全体护盾效果减少500%(50回合)",
+        requirements: "[触发条件]：0回合时触发",
         available: true,
       },
       {
-        id: '42228-act03',
-        name: '可不能逃喔～',
-        description: '使敌方全体防御减伤效果减少2.5%(最多20层)',
-        requirements: '[触发条件]：回合内玩家防御次数≥2',
+        id: "42228-act03",
+        name: "可不能逃喔～",
+        description: "使敌方全体防御减伤效果减少2.5%(最多20层)",
+        requirements: "[触发条件]：回合内玩家防御次数≥2",
         available: true,
       },
       {
-        id: '42228-act04',
-        name: '再更激烈一点♡',
+        id: "42228-act04",
+        name: "再更激烈一点♡",
         description:
-          '使自身造成伤害增加5%(最多10层) \n使自身受到伤害增加5%(最多10层)',
-        requirements: '自身 HP损伤量<1%『且』玩家位置3 存活',
+          "使自身造成伤害增加5%(最多10层) \n使自身受到伤害增加5%(最多10层)",
+        requirements: "自身 HP损伤量<1%『且』玩家位置3 存活",
         available: true,
       },
       {
-        id: '42228-act05',
-        name: '让人家稍微喘口气',
+        id: "42228-act05",
+        name: "让人家稍微喘口气",
         description:
-          '使自身「造成伤害增加5%(最多10层)」的层数减少1层\n使自身「受到伤害增加5%(最多10层)」的层数减少1层',
-        requirements: '自身 HP损伤量>1%『且』玩家位置3 存活',
+          "使自身「造成伤害增加5%(最多10层)」的层数减少1层\n使自身「受到伤害增加5%(最多10层)」的层数减少1层",
+        requirements: "自身 HP损伤量>1%『且』玩家位置3 存活",
         available: true,
       },
       {
-        id: '42228-act06',
-        name: '还请您使出浑身解数，跟我来一场酣畅淋漓的极限性爱吧♡',
-        description: '必殺',
-        requirements: 'CD=0',
+        id: "42228-act06",
+        name: "还请您使出浑身解数，跟我来一场酣畅淋漓的极限性爱吧♡",
+        description: "必殺",
+        requirements: "CD=0",
         available: true,
       },
       {
-        id: '42228-act07',
-        name: '性器检查',
+        id: "42228-act07",
+        name: "性器检查",
         description:
-          '以自身攻击力400%对敌方最大HP最高者造成伤害\n以自身攻击力250%对敌方最大HP第四高者造成伤害',
-        requirements: '3n+1 回合，n≥0 『且』 玩家位置5 存活',
+          "以自身攻击力400%对敌方最大HP最高者造成伤害\n以自身攻击力250%对敌方最大HP第四高者造成伤害",
+        requirements: "3n+1 回合，n≥0 『且』 玩家位置5 存活",
         available: true,
       },
       {
-        id: '42228-act08',
-        name: '抽插测验',
+        id: "42228-act08",
+        name: "抽插测验",
         description:
-          '以自身攻击力350%对敌方最大HP第二高者造成伤害\n以自身攻击力200%对敌方最大HP最低者造成伤害',
-        requirements: '3n+2 回合，n≥0 『且』 玩家位置5 存活',
+          "以自身攻击力350%对敌方最大HP第二高者造成伤害\n以自身攻击力200%对敌方最大HP最低者造成伤害",
+        requirements: "3n+2 回合，n≥0 『且』 玩家位置5 存活",
         available: true,
       },
       {
-        id: '42228-act09',
-        name: '硬度检测',
-        description: '以自身攻击力300%对敌方最大HP第三高者造成伤害',
-        requirements: '3n 回合，n≥0 『且』 玩家位置5 存活',
+        id: "42228-act09",
+        name: "硬度检测",
+        description: "以自身攻击力300%对敌方最大HP第三高者造成伤害",
+        requirements: "3n 回合，n≥0 『且』 玩家位置5 存活",
         available: true,
       },
       {
-        id: '42228-act10',
-        name: '普攻',
-        description: '玩家当前HP百分比最高者',
-        requirements: '3n+2 回合，n≥0',
+        id: "42228-act10",
+        name: "普攻",
+        description: "玩家当前HP百分比最高者",
+        requirements: "3n+2 回合，n≥0",
         available: true,
       },
       {
-        id: '42228-act11',
-        name: '普攻',
-        description: '玩家当前HP百分比最高者',
-        requirements: '玩家位置9 存活',
+        id: "42228-act11",
+        name: "普攻",
+        description: "玩家当前HP百分比最高者",
+        requirements: "玩家位置9 存活",
         available: true,
       },
       {
-        id: '42228-act12',
-        name: '自控力测试',
-        description: '玩家最大HP最高者',
-        requirements: '3n 回合，n≥0',
+        id: "42228-act12",
+        name: "自控力测试",
+        description: "玩家最大HP最高者",
+        requirements: "3n 回合，n≥0",
         available: true,
       },
       {
-        id: '42228-act13',
-        name: '自控力测试',
-        description: '参数81',
-        requirements: '3n+2 回合，n≥0',
+        id: "42228-act13",
+        name: "自控力测试",
+        description: "参数81",
+        requirements: "3n+2 回合，n≥0",
         available: true,
       },
       {
-        id: '42228-act14',
-        name: '自控力测试',
-        description: '参数81',
-        requirements: '3n+2 回合，n≥0',
+        id: "42228-act14",
+        name: "自控力测试",
+        description: "参数81",
+        requirements: "3n+2 回合，n≥0",
         available: true,
       },
       {
-        id: '42228-act15',
-        name: '自控力测试',
-        description: '玩家最大HP最低者',
-        requirements: '3n+2 回合，n≥0',
+        id: "42228-act15",
+        name: "自控力测试",
+        description: "玩家最大HP最低者",
+        requirements: "3n+2 回合，n≥0",
         available: true,
       },
     ],
@@ -368,8 +368,8 @@ export function s21_63(gameState: GameState) {
     gameState.characters[index].buff = [
       ...gameState.characters[index].buff,
       {
-        id: '42228-passive-10',
-        name: '「当前HP≦99%时，发动『免疫『被治疗时回復量减少』效果』」',
+        id: "42228-passive-10",
+        name: "「当前HP≦99%时，发动『免疫『被治疗时回復量减少』效果』」",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
@@ -389,8 +389,8 @@ export function s21_63_action(gameState: GameState) {
     return;
   }
   const startingHp = gameState.enemies[0].hp;
-  console.log('startingHp', startingHp);
-  console.log('gameState.last turn', gameState.stage_state.last_turn_hp);
+  console.log("startingHp", startingHp);
+  console.log("gameState.last turn", gameState.stage_state.last_turn_hp);
 
   // [模式01]：AI42228  [行动点]：5
   if (gameState.turn === 0) {
@@ -426,8 +426,8 @@ export function s21_63_action(gameState: GameState) {
       gameState.characters[index].buff = [
         ...gameState.characters[index].buff,
         {
-          id: '42228-act02',
-          name: '护盾效果减少500%',
+          id: "42228-act02",
+          name: "护盾效果减少500%",
           type: 0,
           condition: Condition.NONE,
           duration: 100,
@@ -451,24 +451,24 @@ export function s21_63_action(gameState: GameState) {
   }, 0);
   if (guardAmount > 1) {
     const skill: Skill = {
-      id: '42228-act02',
-      name: '使敌方全体防禦减伤效果减少2.5%',
+      id: "42228-act02",
+      name: "使敌方全体防禦减伤效果减少2.5%",
       type: 4,
       condition: Condition.NONE,
       duration: 100,
       _4: {
         increaseStack: 1,
-        targetSkill: '42228-act03-1',
+        targetSkill: "42228-act03-1",
         target: Target.ALL_ALLIES,
         applySkill: {
-          id: '42228-act03-1',
-          name: '防禦减伤效果减少2.5%',
+          id: "42228-act03-1",
+          name: "防禦减伤效果减少2.5%",
           type: 3,
           condition: Condition.NONE,
           duration: 100,
           _3: {
-            id: '42228-act03-1',
-            name: '防禦减伤效果减少2.5%',
+            id: "42228-act03-1",
+            name: "防禦减伤效果减少2.5%",
             stack: 1,
             maxStack: 20,
             affectType: AffectType.DECREASE_GUARD_EFFECT,
@@ -494,26 +494,26 @@ export function s21_63_action(gameState: GameState) {
     ) * 100;
 
   if (gameState.turn !== 0 && hpLossLastTurnPercentage < 1) {
-    console.log('hpLossLastTurnPercentage', hpLossLastTurnPercentage);
+    console.log("hpLossLastTurnPercentage", hpLossLastTurnPercentage);
     const buff: Skill = {
-      id: '42228-act04-1',
-      name: '自身HP损伤量<1%,使自身造成伤害增加5%',
+      id: "42228-act04-1",
+      name: "自身HP损伤量<1%,使自身造成伤害增加5%",
       type: 4,
       condition: Condition.NONE,
       duration: 100,
       _4: {
         increaseStack: 1,
         target: Target.ENEMY_1,
-        targetSkill: '42228-act04-1-1',
+        targetSkill: "42228-act04-1-1",
         applySkill: {
-          id: '42228-act04-1-1',
-          name: '使自身造成伤害增加5%(最多10层)',
+          id: "42228-act04-1-1",
+          name: "使自身造成伤害增加5%(最多10层)",
           type: 3,
           condition: Condition.NONE,
           duration: 100,
           _3: {
-            id: '42228-act04-1-1',
-            name: '使自身造成伤害增加5%(最多10层)',
+            id: "42228-act04-1-1",
+            name: "使自身造成伤害增加5%(最多10层)",
             stack: 1,
             maxStack: 10,
             value: 0.05,
@@ -525,24 +525,24 @@ export function s21_63_action(gameState: GameState) {
     triggerSkill(buff, gameState, Target.ENEMY_1);
 
     const buff2: Skill = {
-      id: '42228-act04-2',
-      name: '自身HP损伤量<1%,使自身造成伤害增加5%',
+      id: "42228-act04-2",
+      name: "自身HP损伤量<1%,使自身造成伤害增加5%",
       type: 4,
       condition: Condition.NONE,
       duration: 100,
       _4: {
         increaseStack: 1,
         target: Target.ENEMY_1,
-        targetSkill: '42228-act04-2-1',
+        targetSkill: "42228-act04-2-1",
         applySkill: {
-          id: '42228-act04-2-1',
-          name: '使自身造成伤害增加5%(最多10层)',
+          id: "42228-act04-2-1",
+          name: "使自身造成伤害增加5%(最多10层)",
           type: 3,
           condition: Condition.NONE,
           duration: 100,
           _3: {
-            id: '42228-act04-2-1',
-            name: '使自身造成伤害增加5%(最多10层)',
+            id: "42228-act04-2-1",
+            name: "使自身造成伤害增加5%(最多10层)",
             stack: 1,
             maxStack: 10,
             value: 0.05,
@@ -562,15 +562,15 @@ export function s21_63_action(gameState: GameState) {
   // 使自身「受到伤害增加5%(最多10层)」的层数减少1层
   if (gameState.turn !== 0 && hpLossLastTurnPercentage >= 1) {
     const buff: Skill = {
-      id: '42228-act04-1',
-      name: '自身HP损伤量>1%,『且』  玩家位置3 存活',
+      id: "42228-act04-1",
+      name: "自身HP损伤量>1%,『且』  玩家位置3 存活",
       type: 20,
       condition: Condition.NONE,
       duration: 100,
       _20: {
         target: Target.ENEMY,
-        targetSkill: '42228-act04-1-1',
-        targetChar: '42228',
+        targetSkill: "42228-act04-1-1",
+        targetChar: "42228",
         clearAll: false,
         clearStack: 1,
       },
@@ -578,15 +578,15 @@ export function s21_63_action(gameState: GameState) {
     triggerSkill(buff, gameState, Target.ENEMY_1);
 
     const buff2: Skill = {
-      id: '42228-act04-2',
-      name: '自身HP损伤量>1%,『且』  玩家位置3 存活',
+      id: "42228-act04-2",
+      name: "自身HP损伤量>1%,『且』  玩家位置3 存活",
       type: 20,
       condition: Condition.NONE,
       duration: 100,
       _20: {
         target: Target.ENEMY,
-        targetSkill: '42228-act04-2-1',
-        targetChar: '42228',
+        targetSkill: "42228-act04-2-1",
+        targetChar: "42228",
         clearAll: false,
         clearStack: 1,
       },
@@ -603,18 +603,18 @@ export function s21_63_action(gameState: GameState) {
     gameState.enemies[0].buff = [
       ...gameState.enemies[0].buff,
       {
-        id: '42228-act06-1',
-        name: '使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」',
+        id: "42228-act06-1",
+        name: "使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」",
         type: 8,
         condition: Condition.ENEMY_BASIC_ATTACK,
         duration: 1,
         _8: {
           value: 0,
           target: Target.ENEMY_1,
-          targetSkill: '42228-passive-8-1',
+          targetSkill: "42228-passive-8-1",
           triggerSkill: {
-            id: '42228-act06-1-1',
-            name: '以自身攻击力50%对敌方全体造成伤害',
+            id: "42228-act06-1-1",
+            name: "以自身攻击力50%对敌方全体造成伤害",
             type: 1,
             condition: Condition.NONE,
             duration: 100,
@@ -628,15 +628,15 @@ export function s21_63_action(gameState: GameState) {
         },
       },
       {
-        id: '42228-act06-2',
-        name: '普攻时，触发『清除自身《精力补充》的所有层数』(1回合)',
+        id: "42228-act06-2",
+        name: "普攻时，触发『清除自身《精力补充》的所有层数』(1回合)",
         type: 20,
         condition: Condition.ENEMY_BASIC_ATTACK,
         duration: 1,
         _20: {
           target: Target.ENEMY,
-          targetSkill: '42228-passive-8-1',
-          targetChar: '42228',
+          targetSkill: "42228-passive-8-1",
+          targetChar: "42228",
           clearAll: true,
         },
       },
@@ -666,6 +666,7 @@ export function s21_63_action(gameState: GameState) {
       DamageType.ULTIMATE,
       CharacterAction.SKILL,
     );
+
     dealUltDamage(
       Target.ENEMY_1,
       2.5,
@@ -713,8 +714,6 @@ export function s21_63_action(gameState: GameState) {
     gameState.turn % 3 === 0 &&
     (gameState.turn - 1) % 5 !== 0
   ) {
-    console.log((gameState.turn - 2) % 3);
-    console.log('3 turn');
     const hpSorted = maxHpSort(gameState.characters);
     dealUltDamage(
       Target.ENEMY_1,
@@ -774,11 +773,12 @@ export function s21_63_action(gameState: GameState) {
       );
       parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
     }
+
     // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
     // [触发条件：玩家位置9 存活]
     else {
-      console.log('2 turn');
       const hpSorted = hpSort(gameState.characters);
+
       dealBasicDamage(
         Target.ENEMY_1,
         0.5,
@@ -820,6 +820,7 @@ export function s21_63_action(gameState: GameState) {
         CharacterAction.SKILL,
       );
       parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
+
       gameState.stage_state.last_turn_hp = gameState.enemies[0].hp;
       return;
     }
@@ -839,8 +840,8 @@ export function s21_63_action(gameState: GameState) {
     gameState.characters[position].buff = [
       ...gameState.characters[position].buff,
       {
-        id: '42228-act06-1-1',
-        name: '以自身攻击力500%对自身全体造成伤害',
+        id: "42228-act06-1-1",
+        name: "以自身攻击力500%对自身全体造成伤害",
         type: 1,
         condition: Condition.ATTACK,
         duration: 2,

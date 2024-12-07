@@ -164,7 +164,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterAttribute.LIGHT],
                 );
               }}
-              className="data-[state=on]:bg-yellow-500 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-yellow-500 border-white border-solid border-y rounded-none p-0"
             >
               <Image
                 src="/icons/light.jpg"
@@ -183,7 +183,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterClass.ATTACKER],
                 );
               }}
-              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-l rounded-none p-0"
+              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
             >
               <Image
                 src="/icons/ui_attacker.png"
