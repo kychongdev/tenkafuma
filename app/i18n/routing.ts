@@ -1,9 +1,10 @@
-import { createNavigation } from 'next-intl/navigation';
-import { defineRouting } from 'next-intl/routing';
+import { createNavigation } from "next-intl/navigation";
+import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
-  locales: ['en', 'cn', 'zh', 'jp', 'kr'],
-  defaultLocale: 'en',
+  locales: ["en", "cn", "zh"],
+  //locales: ['en', 'cn', 'zh', 'jp', 'kr'],
+  defaultLocale: "en",
   // pathnames: {
   //   '/': '/',
   //   '/battle': {
