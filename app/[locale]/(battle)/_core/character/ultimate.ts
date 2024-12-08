@@ -2478,6 +2478,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
         type: 4,
         condition: Condition.ULTIMATE,
         duration: 100,
+        disabledOnSkill: "10154-passive-1",
         _4: {
           increaseStack: 1,
           targetSkill: "10154-ult-1-1",
@@ -2499,6 +2500,63 @@ export function ultimateAttack(gameState: GameState, position: number) {
           },
         },
       };
+      triggerSkill(buff, gameState, position);
+
+      const buff2: Skill = {
+        id: "10154-ult-1",
+        name: "使自身以外我方全體水屬性角色獲得「必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)」",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        disabledOnSkill: "10154-passive-1",
+        _11: {
+          target: Target.WATER,
+          applySkill: [
+            {
+              id: "10154-ult-1-1",
+              name: "必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)",
+              type: 101,
+              condition: Condition.ULTIMATE,
+              duration: 1,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.8
+                    : bond === 2
+                      ? 0.9
+                      : bond === 3
+                        ? 1
+                        : bond === 4
+                          ? 1.1
+                          : 1.2,
+                target: Target.ENEMY,
+                damageType: DamageType.ULTIMATE_ADDON,
+                action: CharacterAction.ULTIMATE,
+              },
+            },
+          ],
+        },
+      };
+
+      triggerSkill(buff2, gameState, position);
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 2.65
+          : bond === 2
+            ? 2.98
+            : bond === 3
+              ? 3.31
+              : bond === 4
+                ? 3.64
+                : 3.97,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
       break;
     }
     // "10155": "甜蜜女僕",

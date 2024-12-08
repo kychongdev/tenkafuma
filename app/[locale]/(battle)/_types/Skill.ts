@@ -44,6 +44,7 @@ interface ISkill {
   deleteSelf?: boolean;
   specialCondition?: SpecialCondition;
   specialConditionValue?: number;
+  disabledOnSkill?: string;
 }
 
 interface Skill extends ISkill {

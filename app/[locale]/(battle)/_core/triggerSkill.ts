@@ -22,6 +22,14 @@ export function triggerSkill(
   gameState: GameState,
   position: number,
 ) {
+  if (buff.disabledOnSkill) {
+    const isExist = gameState.characters[position].buff.some((x) => {
+      return x.id === buff.disabledOnSkill;
+    });
+    if (isExist) {
+      return;
+    }
+  }
   switch (buff.type) {
     case 0: {
       // 回合制狀態
