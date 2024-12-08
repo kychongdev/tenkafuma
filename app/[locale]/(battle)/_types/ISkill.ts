@@ -2,7 +2,7 @@ import type {
   CharacterAction,
   CharacterAttribute,
   CharacterClass,
-} from './Character';
+} from "./Character";
 import type {
   AffectType,
   Skill,
@@ -10,7 +10,7 @@ import type {
   SkillStackCondition,
   SpecialCondition,
   Target,
-} from './Skill';
+} from "./Skill";
 
 // 只是BUFF
 export interface _0 {
@@ -90,7 +90,6 @@ export interface _7 {
 // 白被動3
 // 必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到火、水屬性傷害增加3%(1回合)』」
 export interface _8 {
-  value: number;
   target: Target | CharacterClass;
   targetSkill: string;
   triggerSkill: Skill;
@@ -224,11 +223,12 @@ export interface _24 {
 
 // HP攻擊
 export interface _25 {
-  value: number;
+  //skillId: string;
+  //stack: number;
+  //specialCondition: SpecialCondition;
   target: Target;
-  damageType: DamageType;
-  action: CharacterAction;
-  multiple?: number;
+  disableOnSkillId: string;
+  triggerSkill: Skill;
 }
 
 export interface _26 {

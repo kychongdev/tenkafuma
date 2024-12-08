@@ -9,46 +9,48 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { Hourglass, Podcast, SwordsIcon, TowerControl } from 'lucide-react';
-import NavigationLink from './default/NavigationLink';
-import { useTranslations } from 'next-intl';
-import { NavUser } from './NavUser';
+} from "@/components/ui/sidebar";
+import { Hourglass, Podcast, SwordsIcon, TowerControl } from "lucide-react";
+import NavigationLink from "./default/NavigationLink";
+import { useTranslations } from "next-intl";
+import { NavUser } from "./NavUser";
 
 export function AppSidebar() {
-  const t = useTranslations('AppSidebar');
+  const t = useTranslations("AppSidebar");
   const data = {
     user: {
-      name: 'shadcn',
-      email: 'm@example.com',
-      avatar: '/avatars/shadcn.jpg',
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
     },
   };
+
+  //<NavUser user={data.user} />
   return (
     <Sidebar>
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>{t('menu-title')}</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("menu-title")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <NavigationLink href="/team">
                     <SwordsIcon />
-                    <span>{t('menu1')}</span>
+                    <span>{t("menu1")}</span>
                   </NavigationLink>
                 </SidebarMenuButton>
                 <SidebarMenuButton asChild>
                   <NavigationLink href="/battle">
                     <SwordsIcon />
-                    <span>{t('menu2')}</span>
+                    <span>{t("menu2")}</span>
                   </NavigationLink>
                 </SidebarMenuButton>
                 <SidebarMenuButton asChild>
                   <NavigationLink href="/simulate">
                     <SwordsIcon />
-                    <span>{t('menu3')}</span>
+                    <span>{t("menu3")}</span>
                   </NavigationLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -83,9 +85,7 @@ export function AppSidebar() {
 
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      <SidebarFooter></SidebarFooter>
     </Sidebar>
   );
 }

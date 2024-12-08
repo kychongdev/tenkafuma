@@ -2216,7 +2216,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             condition: Condition.ULTIMATE,
             duration: 100,
             _8: {
-              value: 0.03,
               target: Target.SELF,
               targetSkill: "10126-passive-2-1",
               triggerSkill: {
@@ -2251,7 +2250,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             condition: Condition.ULTIMATE,
             duration: 100,
             _8: {
-              value: 0.03,
               target: Target.SELF,
               targetSkill: "10126-passive-2-1",
               triggerSkill: {
@@ -4434,7 +4432,256 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     case "10154": {
-      //使自身受到傷害減少5%
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10154-passive-1",
+          name: "使自身不受《戀愛的萌系能量》層數變動效果影響",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0,
+            affectType: AffectType.NONE,
+          },
+        },
+        {
+          id: "10154-passive-2",
+          name: "必殺時，觸發「使目標受到水屬性傷害增加7.5%(最多4層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10154-passive-2-1",
+            target: Target.ENEMY,
+            applySkill: {
+              id: "10154-passive-2-1",
+              name: "受到水屬性傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10154-passive-2-1",
+                name: "受到水屬性傷害增加",
+                stack: 1,
+                maxStack: 4,
+                value: 0.075,
+                affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+              },
+            },
+          },
+        },
+
+        {
+          id: "10154-passive-3",
+          name: "每經過3回合，觸發「《只屬於你的偶像》」",
+          type: 21,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _21: {
+            trigger: [
+              //使我方全體必殺技傷害增加50%(1回合)
+              {
+                id: "10154-passive-3-1",
+                name: "使我方全體必殺技傷害增加50%(1回合)",
+                type: 11,
+                condition: Condition.NONE,
+                duration: 1,
+                _11: {
+                  target: Target.ALL_ALLIES,
+                  applySkill: [
+                    {
+                      id: "10154-passive-3-1-1",
+                      name: "必殺傷害增加",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.5,
+                        affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10154-passive-3-2",
+                name: "使自身獲得「防禦時，觸發『使自身當前必殺技CD增加3回合，並使自身獲得嘲諷效果(1回合)』(1回合)",
+                type: 11,
+                condition: Condition.GUARD,
+                duration: 100,
+                _11: {
+                  target: Target.SELF,
+                  applySkill: [
+                    {
+                      id: "10154-passive-3-2-1",
+                      name: "使自身當前必殺技CD增加3回合",
+                      type: 14,
+                      condition: Condition.GUARD,
+                      duration: 100,
+                      _14: {
+                        target: Target.SELF,
+                        reduceCD: 3,
+                      },
+                    },
+                    //TODO: 嘲諷效果
+                  ],
+                },
+              },
+
+              {
+                id: "10154-passive-3-3",
+                name: "使自身獲得「防禦時，根據自身《戀愛的萌系能量》的層數，觸發『《萌耶～萌耶～碰碰碰～♪》』(1回合)」",
+                type: 11,
+                condition: Condition.NONE,
+                duration: 100,
+                _11: {
+                  target: Target.SELF,
+                  applySkill: [
+                    {
+                      id: "10154-passive-3-3-1",
+                      name: "「防禦時，根據自身《戀愛的萌系能量》的層數，觸發『《萌耶～萌耶～碰碰碰～♪》』(1回合)」",
+                      type: 8,
+                      condition: Condition.GUARD,
+                      duration: 100,
+                      _8: {
+                        target: Target.SELF,
+                        targetSkill: "10154-ult-1-1",
+                        triggerSkill: {
+                          id: "10126-passive-4-1",
+                          name: "《萌耶～萌耶～碰碰碰～♪》",
+                          type: 21,
+                          condition: Condition.NONE,
+                          duration: 1,
+                          _21: {
+                            trigger: [
+                              {
+                                id: "10154-passive-4-1-1",
+                                name: "以自身最大HP30%對我方全體進行治療",
+                                type: 26,
+                                condition: Condition.NONE,
+                                duration: 1,
+                                _26: {
+                                  value: 0.3,
+                                  target: Target.ALL_ALLIES,
+                                  damageType: DamageType.TRIGGER_HP,
+                                  action: CharacterAction.GUARD,
+                                },
+                              },
+                              {
+                                id: "10154-passive-4-1-2",
+                                name: "使我方全體受到傷害減少10%(1回合)",
+                                type: 11,
+                                condition: Condition.NONE,
+                                duration: 1,
+                                _11: {
+                                  target: Target.ALL_ALLIES,
+                                  applySkill: [
+                                    {
+                                      id: "10154-passive-4-1-2-1",
+                                      name: "受到傷害減少",
+                                      type: 0,
+                                      condition: Condition.NONE,
+                                      duration: 1,
+                                      _0: {
+                                        value: 0.1,
+                                        affectType:
+                                          AffectType.DECREASE_DMG_RECEIVED,
+                                      },
+                                    },
+                                  ],
+                                },
+                              },
+                              {
+                                id: "10154-passive-4-1-3",
+                                name: "使自身防禦減傷增加5%(1回合)",
+                                type: 0,
+                                condition: Condition.NONE,
+                                duration: 1,
+                                _0: {
+                                  value: 0.05,
+                                  affectType: AffectType.INCREASE_GUARD_EFFECT,
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10154-passive-7",
+            name: "第1回合時，觸發「使自身當前必殺技CD減少3回合」",
+            type: 14,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _14: {
+              target: Target.SELF,
+              reduceCD: 3,
+            },
+          },
+          {
+            id: "10154-passive-8",
+            name: "每經過3回合時，觸發「使我方全體水屬性角色攻擊力增加120%(1回合)，再使我方全體水屬性角色造成傷害增加60%(1回合)」",
+            type: 21,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 3,
+            duration: 100,
+            _21: {
+              trigger: [
+                {
+                  id: "10154-passive-8-1",
+                  name: "使我方全體水屬性角色攻擊力增加120%(1回合)",
+                  type: 11,
+                  condition: Condition.NONE,
+                  duration: 1,
+                  _11: {
+                    target: Target.WATER,
+                    applySkill: [
+                      {
+                        id: "10154-passive-8-1-1",
+                        name: "攻擊力增加",
+                        type: 0,
+                        condition: Condition.NONE,
+                        duration: 1,
+                        _0: {
+                          value: 1.2,
+                          affectType: AffectType.INCREASE_ATK,
+                        },
+                      },
+                      {
+                        id: "10154-passive-8-1-2",
+                        name: "造成傷害增加",
+                        type: 0,
+                        condition: Condition.NONE,
+                        duration: 1,
+                        _0: {
+                          value: 0.6,
+                          affectType: AffectType.INCREASE_DMG,
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
       if (gameState.characters[position].passive4) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,

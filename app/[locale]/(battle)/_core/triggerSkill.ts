@@ -1893,28 +1893,18 @@ export function triggerSkill(
         console.log("Wrong data");
         break;
       }
-      switch (buff._25.damageType) {
-        case DamageType.BASIC:
-        case DamageType.BASIC_ADDON: {
+      switch (buff._25.target) {
+        case Target.SELF: {
+          const isExist = gameState.characters[position].buff.find((x) => {
+            return x.id === buff._25?.disableOnSkillId;
+          });
+          if (!isExist) {
+            triggerSkill(buff._25.triggerSkill, gameState, position);
+          }
           break;
         }
-        case DamageType.BASIC_HP: {
-          break;
-        }
-        case DamageType.ULTIMATE:
-        case DamageType.ULTIMATE_ADDON:
-        case DamageType.TRIGGER: {
-          break;
-        }
-        case DamageType.ULTIMATE_HP:
-          break;
-        // TODO
-        case DamageType.DOT: {
-          break;
-        }
-        default:
-          break;
       }
+
       break;
     }
 

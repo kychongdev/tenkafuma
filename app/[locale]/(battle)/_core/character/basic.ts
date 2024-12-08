@@ -547,7 +547,7 @@ export function basicAttack(gameState: GameState, position: number) {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: "525-basic-1",
+            id: "10151-basic-1",
             name: "攻擊力",
             type: 0,
             condition: Condition.NONE,
@@ -565,6 +565,15 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     case "10154": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      gameState.characters[position].isGuard = true;
       break;
     }
     // "10155": "甜蜜女僕",
