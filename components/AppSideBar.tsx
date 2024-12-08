@@ -67,13 +67,13 @@ export function AppSidebar() {
                   </NavigationLink>
                 </SidebarMenuButton>
                 <SidebarMenuButton asChild>
-                  <NavigationLink href="/battle">
+                  <NavigationLink href="/spire">
                     <TowerControl />
                     <span>魔獄塔</span>
                   </NavigationLink>
                 </SidebarMenuButton>
                 <SidebarMenuButton asChild>
-                  <NavigationLink href="/simulate">
+                  <NavigationLink href="/rift">
                     <Hourglass />
                     <span>時裂</span>
                   </NavigationLink>

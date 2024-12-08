@@ -2471,7 +2471,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     case "10154": {
-      //使自身獲得1/1/2/2/3層《戀愛的萌系能量》(最多3層)(每場戰鬥僅生效1次)，並使自身以外我方全體水屬性角色獲得「必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)」，再以自身攻擊力265/298/331/364/397%對目標造成傷害。CD:3
       const buff: Skill = {
         id: "10154-ult-1",
         name: "戀愛的萌系能量",
@@ -2539,7 +2538,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
       };
 
       triggerSkill(buff2, gameState, position);
-
       dealUltDamage(
         position,
         bond === 1
@@ -2556,7 +2554,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
         DamageType.ULTIMATE,
         CharacterAction.ULTIMATE,
       );
-
       break;
     }
     // "10155": "甜蜜女僕",
