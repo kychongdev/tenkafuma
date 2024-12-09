@@ -2506,14 +2506,23 @@ export function ultimateAttack(gameState: GameState, position: number) {
         name: "使自身以外我方全體水屬性角色獲得「必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)」",
         type: 11,
         condition: Condition.ULTIMATE,
-        duration: 100,
-        disabledOnSkill: "10154-passive-1",
+        duration: 1,
         _11: {
-          target: Target.WATER,
+          target: Target.ALL_WATER_EXCEPT_SELF,
           applySkill: [
             {
               id: "10154-ult-1-1",
-              name: "必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)",
+              name: `必殺時，追加『以自身攻擊力${
+                bond === 1
+                  ? 80
+                  : bond === 2
+                    ? 90
+                    : bond === 3
+                      ? 100
+                      : bond === 4
+                        ? 110
+                        : 120
+              }%對目標造成傷害』(1回合)`,
               type: 101,
               condition: Condition.ULTIMATE,
               duration: 1,

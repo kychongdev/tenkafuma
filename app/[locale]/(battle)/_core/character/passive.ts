@@ -1995,10 +1995,10 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         {
           id: "10125-passive-1",
           name: "必殺時，追加「以自身攻擊力250%對目標造成傷害」",
-          type: 1,
+          type: 101,
           condition: Condition.ULTIMATE,
           duration: 100,
-          _1: {
+          _101: {
             value: 2.5,
             target: Target.ENEMY,
             damageType: DamageType.ULTIMATE_ADDON,
@@ -2035,7 +2035,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         {
           id: "10125-passive-3",
           name: "每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」",
-          type: 2,
+          type: 11,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 3,
           duration: 100,
@@ -4625,8 +4625,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             id: "10154-passive-7",
             name: "第1回合時，觸發「使自身當前必殺技CD減少3回合」",
             type: 14,
-            condition: Condition.ON_SPECIFIC_TURN,
-            conditionTurn: 1,
+            condition: Condition.ON_TURN_START,
             duration: 100,
             _14: {
               target: Target.SELF,

@@ -809,6 +809,7 @@ export function dealBasicDamage(
           .mul(increaseDamage)
           .mul(enemyDamageReceivedIncrease)
           .mul(attributeDamage)
+          .round(0, Big.roundDown)
           .mul(value)
           .mul(defenderDefEffect)
       : Big(0)
@@ -817,6 +818,7 @@ export function dealBasicDamage(
           .mul(increaseDamage)
           .mul(enemyDamageReceivedIncrease)
           .mul(attributeDamage)
+          .round(0, Big.roundDown)
           .mul(value);
 
   switch (target) {

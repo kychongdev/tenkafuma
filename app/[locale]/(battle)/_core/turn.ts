@@ -1,10 +1,10 @@
-import { Condition } from '@/app/[locale]/(battle)/_types/Skill';
-import { GameState } from './GameState';
-import { triggerSkill } from './triggerSkill';
-import { p } from './utils';
-import { onTurnStart as enemyOnTurnStart } from './stages/enemyTurn';
-import { parseInitstage, parseStageAction } from './stages/parseStage';
-import { healOverTime } from './healOverTime';
+import { Condition } from "@/app/[locale]/(battle)/_types/Skill";
+import { GameState } from "./GameState";
+import { triggerSkill } from "./triggerSkill";
+import { p } from "./utils";
+import { onTurnStart as enemyOnTurnStart } from "./stages/enemyTurn";
+import { parseInitstage, parseStageAction } from "./stages/parseStage";
+import { healOverTime } from "./healOverTime";
 
 export function checkEndTurn(state: GameState) {
   const isEnd = state.characters.every((character) => {
@@ -49,15 +49,11 @@ export function onTurnStart(gameState: GameState) {
       if (buff.condition === Condition.ON_TURN_START && gameState.turn === 1) {
         triggerSkill(buff, gameState, position);
       }
-
-      if (buff.id == '10088-passive-4') {
-        console.log('buff', buff.conditionTurn, gameState.turn);
-      }
       if (
         buff.condition === Condition.ON_SPECIFIC_TURN &&
         gameState.turn === buff.conditionTurn
       ) {
-        console.log('triggerSkill', p(buff));
+        console.log("triggerSkill", p(buff));
         triggerSkill(buff, gameState, position);
       }
     }
@@ -99,7 +95,7 @@ export function endTurn(state: GameState) {
 
   state.characters.forEach((_, index) => {
     const heal = healOverTime(state, index);
-    console.log('heal', heal);
+    console.log("heal", heal);
     state.characters[index].hp += heal;
     if (state.characters[index].hp > state.characters[index].maxHp) {
       state.characters[index].hp = state.characters[index].maxHp;

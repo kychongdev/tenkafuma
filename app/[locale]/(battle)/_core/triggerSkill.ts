@@ -273,6 +273,7 @@ export function triggerSkill(
     }
     case 2:
       if (!buff._2) {
+        console.log("buff._2", p(buff));
         console.log("Wrong data");
         break;
       }
@@ -1017,6 +1018,19 @@ export function triggerSkill(
           ];
           break;
         }
+
+        case Target.ALL_ENEMIES: {
+          gameState.enemies.forEach((_, index) => {
+            if (!buff._11) {
+              console.log("_11 Apply buff don't exist");
+              return;
+            }
+            gameState.enemies[index].buff = [
+              ...gameState.enemies[index].buff,
+              ...buff._11.applySkill,
+            ];
+          });
+        }
         case Target.DARK_ENEMY: {
           gameState.enemies.forEach((enemy, index) => {
             if (enemy.attribute === CharacterAttribute.DARK) {
@@ -1090,6 +1104,30 @@ export function triggerSkill(
           gameState.characters.forEach((character, index) => {
             //@ts-ignore
             if (character.attribute === buff._11?.target) {
+              if (!buff._11) {
+                console.log("Wrong data 11");
+                return;
+              }
+              gameState.characters[index].buff = [
+                ...gameState.characters[index].buff,
+                ...buff._11?.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.ALL_FIRE_EXCEPT_SELF:
+        case Target.ALL_WATER_EXCEPT_SELF:
+        case Target.ALL_DARK_EXCEPT_SELF:
+        case Target.ALL_WIND_EXCEPT_SELF:
+        case Target.ALL_LIGHT_EXCEPT_SELF: {
+          gameState.characters.forEach((character, index) => {
+            if (
+              //@ts-ignore
+              character.attribute === buff._11?.target - 20 &&
+              index !== position
+            ) {
               if (!buff._11) {
                 console.log("Wrong data 11");
                 return;

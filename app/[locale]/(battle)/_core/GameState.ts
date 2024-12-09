@@ -1,23 +1,23 @@
-import { createJSONStorage, persist } from 'zustand/middleware';
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-import { initCharacterState } from '@/placeholder/team';
-import localforage from 'localforage';
-import { CharacterState, CharacterTeam } from '@/types/Select';
-import { initTeam } from './init';
-import { initHp } from './initHp';
-import { triggerLead } from './character/lead';
-import { DamageLog } from '@/types/Game';
-import { basicAttack } from './character/basic';
-import { parseConditionAddon } from './triggerAddon';
-import { parseCondition } from './parseCondition';
-import { Condition } from '@/app/[locale]/(battle)/_types/Skill';
-import { p } from './utils';
-import { checkEndTurn, onTurnStart } from './turn';
-import { initPassiveSkill } from './character/passive';
-import { applyExtra } from './character/extra';
-import { ultimateAttack } from './character/ultimate';
-import { parseInitstage, parseStageAction } from './stages/parseStage';
+import { createJSONStorage, persist } from "zustand/middleware";
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import { initCharacterState } from "@/placeholder/team";
+import localforage from "localforage";
+import { CharacterState, CharacterTeam } from "@/types/Select";
+import { initTeam } from "./init";
+import { initHp } from "./initHp";
+import { triggerLead } from "./character/lead";
+import { DamageLog } from "@/types/Game";
+import { basicAttack } from "./character/basic";
+import { parseConditionAddon } from "./triggerAddon";
+import { parseCondition } from "./parseCondition";
+import { Condition } from "@/app/[locale]/(battle)/_types/Skill";
+import { p } from "./utils";
+import { checkEndTurn, onTurnStart } from "./turn";
+import { initPassiveSkill } from "./character/passive";
+import { applyExtra } from "./character/extra";
+import { ultimateAttack } from "./character/ultimate";
+import { parseInitstage, parseStageAction } from "./stages/parseStage";
 
 export enum TurnState {
   ENEMY_TURN,
@@ -45,11 +45,11 @@ export interface GameState {
   damage_log_3: DamageLog[];
   damage_log_4: DamageLog[];
   damage_log_5: DamageLog[];
-  heal_log_1: DamageLog[];
-  heal_log_2: DamageLog[];
-  heal_log_3: DamageLog[];
-  heal_log_4: DamageLog[];
-  heal_log_5: DamageLog[];
+  //heal_log_1: DamageLog[];
+  //heal_log_2: DamageLog[];
+  //heal_log_3: DamageLog[];
+  //heal_log_4: DamageLog[];
+  //heal_log_5: DamageLog[];
   enemy_damage_log_1: DamageLog[];
   enemy_damage_log_2: DamageLog[];
   enemy_damage_log_3: DamageLog[];
@@ -123,7 +123,7 @@ export const useGameState = create<GameState>()(
       turn: 0,
       turn_state: TurnState.PLAYER_TURN,
       enemies: [initCharacterState],
-      stage: 'wood',
+      stage: "wood",
       stage_state: {} as any,
       characters: [
         initCharacterState,
@@ -363,7 +363,7 @@ export const useGameState = create<GameState>()(
       },
     })),
     {
-      name: 'game-state',
+      name: "game-state",
       storage: createJSONStorage(() => localforage),
     },
   ),

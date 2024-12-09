@@ -1,13 +1,13 @@
-import { Skill, Condition, Target, DamageType } from '@/types/Skill';
-import { CharacterAttribute, CharacterClass } from '@/types/Character';
-import { GameState } from './GameState';
-import { applyRawAttBuff } from './applyRawAtk';
-import { dealBasicDamage } from './dealBasicDamage';
-import { dealUltDamage } from './dealUltDamage';
-import { parseCondition } from './parseCondition';
-import { dealBasicHpDamage } from './dealBasicHpDamage';
-import { dealUltHpDamage } from './dealUltHpDamage';
-import { parseTargetToNum } from './utils';
+import { Skill, Condition, Target, DamageType } from "@/types/Skill";
+import { CharacterAttribute, CharacterClass } from "@/types/Character";
+import { GameState } from "./GameState";
+import { applyRawAttBuff } from "./applyRawAtk";
+import { dealBasicDamage } from "./dealBasicDamage";
+import { dealUltDamage } from "./dealUltDamage";
+import { parseCondition } from "./parseCondition";
+import { dealBasicHpDamage } from "./dealBasicHpDamage";
+import { dealUltHpDamage } from "./dealUltHpDamage";
+import { parseTargetToNum } from "./utils";
 
 export function parseConditionAddon(
   position: number,
@@ -43,7 +43,7 @@ export function triggerAddOn(
   switch (buff.type) {
     case 101:
       if (!buff._101) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
 
@@ -144,6 +144,7 @@ export function triggerAddOn(
         case DamageType.ULTIMATE:
         case DamageType.ULTIMATE_ADDON:
         case DamageType.TRIGGER: {
+          console.log("dealUltDamage");
           if (buff._101.multiple) {
             for (let i = 0; i < buff._101.multiple; i++) {
               if (buff._101.target === Target.ALL_ALLIES) {
@@ -243,7 +244,7 @@ export function triggerAddOn(
       break;
     case 104:
       if (!buff._104) {
-        console.log('Wrong data');
+        console.log("Wrong data");
         break;
       }
       switch (buff._104.target) {
@@ -263,7 +264,7 @@ export function triggerAddOn(
                       x._3.stack = x._3.maxStack;
                     }
                   } else {
-                    console.log('Wrong data buff._104');
+                    console.log("Wrong data buff._104");
                   }
                 }
               }
@@ -277,7 +278,7 @@ export function triggerAddOn(
                 buff._104.applySkill,
               ];
             } else {
-              console.log('Wrong data buff._104.applySkill');
+              console.log("Wrong data buff._104.applySkill");
             }
           }
           break;
@@ -307,7 +308,7 @@ export function triggerAddOn(
                       };
                       return clone;
                     } else {
-                      console.log('Wrong data buff._104');
+                      console.log("Wrong data buff._104");
                     }
                   }
                 }
@@ -315,14 +316,14 @@ export function triggerAddOn(
               });
             } else {
               // purely typescript problem
-              console.log('give first buff, suppose only 5');
+              console.log("give first buff, suppose only 5");
               if (buff._104?.applySkill) {
                 gameState.characters[index].buff = [
                   ...gameState.characters[index].buff,
                   buff._104.applySkill,
                 ];
               } else {
-                console.log('Wrong data buff._104.applySkill');
+                console.log("Wrong data buff._104.applySkill");
               }
             }
           });
@@ -343,7 +344,7 @@ export function triggerAddOn(
                       x._3.stack = x._3.maxStack;
                     }
                   } else {
-                    console.log('Wrong data buff._104');
+                    console.log("Wrong data buff._104");
                   }
                 }
               }
@@ -356,7 +357,7 @@ export function triggerAddOn(
                 buff._104.applySkill,
               ];
             } else {
-              console.log('Wrong data buff._104.applySkill');
+              console.log("Wrong data buff._104.applySkill");
             }
           }
         }
@@ -386,7 +387,7 @@ export function triggerAddOn(
                         };
                         return clone;
                       } else {
-                        console.log('Wrong data buff._104');
+                        console.log("Wrong data buff._104");
                       }
                     }
                   }
@@ -394,14 +395,14 @@ export function triggerAddOn(
                 });
               } else {
                 // purely typescript problem
-                console.log('give first buff, suppose only 5');
+                console.log("give first buff, suppose only 5");
                 if (buff._104?.applySkill) {
                   gameState.enemies[index].buff = [
                     ...gameState.enemies[index].buff,
                     buff._104.applySkill,
                   ];
                 } else {
-                  console.log('Wrong data buff._104.applySkill');
+                  console.log("Wrong data buff._104.applySkill");
                 }
               }
             });
@@ -414,7 +415,7 @@ export function triggerAddOn(
         case Target.POSITION_5: {
           const pos = parseTargetToNum(buff._104.target);
           if (pos === -1) {
-            console.log('Wrong data buff._104.target');
+            console.log("Wrong data buff._104.target");
             break;
           }
           // x is gameState buff
@@ -431,7 +432,7 @@ export function triggerAddOn(
                       x._3.stack = x._3.maxStack;
                     }
                   } else {
-                    console.log('Wrong data buff._104');
+                    console.log("Wrong data buff._104");
                   }
                 }
               }
@@ -445,7 +446,7 @@ export function triggerAddOn(
                 buff._104.applySkill,
               ];
             } else {
-              console.log('Wrong data buff._104.applySkill');
+              console.log("Wrong data buff._104.applySkill");
             }
           }
         }
@@ -474,7 +475,7 @@ export function triggerAddOn(
                             x._3.stack = x._3.maxStack;
                           }
                         } else {
-                          console.log('Wrong data buff._104');
+                          console.log("Wrong data buff._104");
                         }
                       }
                     }
@@ -487,7 +488,7 @@ export function triggerAddOn(
                       buff._104.applySkill,
                     ];
                   } else {
-                    console.log('Wrong data buff._104.applySkill');
+                    console.log("Wrong data buff._104.applySkill");
                   }
                 }
               }
@@ -505,7 +506,7 @@ export function triggerAddOn(
       break;
     case 106:
       if (!buff._106) {
-        console.log('Wrong data 106');
+        console.log("Wrong data 106");
         break;
       }
       gameState.characters.forEach((character, index) => {
@@ -614,7 +615,7 @@ export function triggerAddOn(
       break;
     case 111:
       if (!buff._111) {
-        console.log('Wrong data 111');
+        console.log("Wrong data 111");
         break;
       }
       if (buff._111?.target === Target.SELF) {
@@ -642,7 +643,7 @@ export function triggerAddOn(
         gameState.characters.forEach((character, index) => {
           if (character.class === CharacterClass.ATTACKER) {
             if (!buff._111) {
-              console.log('Wrong data 111');
+              console.log("Wrong data 111");
               return;
             }
             gameState.characters[index].buff = [
@@ -655,7 +656,7 @@ export function triggerAddOn(
         gameState.characters.forEach((character, index) => {
           if (character.class === CharacterClass.OBSTRUCTER) {
             if (!buff._111) {
-              console.log('Wrong data 111');
+              console.log("Wrong data 111");
               return;
             }
             gameState.characters[index].buff = [
@@ -668,7 +669,7 @@ export function triggerAddOn(
         gameState.characters.forEach((character, index) => {
           if (character.class === CharacterClass.PROTECTOR) {
             if (!buff._111) {
-              console.log('Wrong data 111');
+              console.log("Wrong data 111");
               return;
             }
             gameState.characters[index].buff = [
@@ -681,7 +682,7 @@ export function triggerAddOn(
         gameState.characters.forEach((character, index) => {
           if (character.class === CharacterClass.SUPPORT) {
             if (!buff._111) {
-              console.log('Wrong data 111');
+              console.log("Wrong data 111");
               return;
             }
             gameState.characters[index].buff = [
@@ -694,7 +695,7 @@ export function triggerAddOn(
         gameState.characters.forEach((character, index) => {
           if (character.class === CharacterClass.HEALER) {
             if (!buff._111) {
-              console.log('Wrong data 111');
+              console.log("Wrong data 111");
               return;
             }
             gameState.characters[index].buff = [
@@ -710,7 +711,7 @@ export function triggerAddOn(
           gameState.characters.forEach((character, index) => {
             if (character.attribute === CharacterAttribute.WATER) {
               if (!buff._111) {
-                console.log('Wrong data 111');
+                console.log("Wrong data 111");
                 return;
               }
               gameState.characters[index].buff = [
