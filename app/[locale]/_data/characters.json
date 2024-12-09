@@ -1372,12 +1372,12 @@
   "10153": {
     "id": 10153,
     "name": "純真殺意 撒旦",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3360,
+    "initAtk": 1059.6,
+    "attribute": 9,
     "class": 11,
-    "available": false,
-    "cd": 4
+    "available": true,
+    "cd": 3
   },
   "10154": {
     "id": 10154,

@@ -660,18 +660,17 @@ export function s21_63_action(gameState: GameState) {
     const hpSorted = maxHpSort(gameState.characters);
     dealUltDamage(
       Target.ENEMY_1,
-      4,
-      gameState,
-      hpSorted[4],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-
-    dealUltDamage(
-      Target.ENEMY_1,
       2.5,
       gameState,
       hpSorted[1],
+      DamageType.ULTIMATE,
+      CharacterAction.SKILL,
+    );
+    dealUltDamage(
+      Target.ENEMY_1,
+      4,
+      gameState,
+      hpSorted[4],
       DamageType.ULTIMATE,
       CharacterAction.SKILL,
     );

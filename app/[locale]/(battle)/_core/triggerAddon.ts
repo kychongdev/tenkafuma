@@ -60,6 +60,7 @@ export function triggerAddOn(
                   Target.POSITION_1,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealBasicDamage(
                   position,
@@ -68,6 +69,7 @@ export function triggerAddOn(
                   Target.POSITION_2,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealBasicDamage(
                   position,
@@ -76,6 +78,7 @@ export function triggerAddOn(
                   Target.POSITION_3,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealBasicDamage(
                   position,
@@ -84,6 +87,7 @@ export function triggerAddOn(
                   Target.POSITION_4,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealBasicDamage(
                   position,
@@ -92,6 +96,7 @@ export function triggerAddOn(
                   Target.POSITION_5,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
               } else {
                 dealBasicDamage(
@@ -101,6 +106,7 @@ export function triggerAddOn(
                   buff._101.target,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
               }
             }
@@ -112,6 +118,7 @@ export function triggerAddOn(
               buff._101.target,
               buff._101.damageType,
               buff._101.action,
+              buff._101.isTrueDamage,
             );
           }
           break;
@@ -126,6 +133,7 @@ export function triggerAddOn(
                 buff._101.target,
                 buff._101.damageType,
                 buff._101.action,
+                buff._101.isTrueDamage,
               );
             }
           } else {
@@ -136,6 +144,7 @@ export function triggerAddOn(
               buff._101.target,
               buff._101.damageType,
               buff._101.action,
+              buff._101.isTrueDamage,
             );
           }
 
@@ -155,6 +164,7 @@ export function triggerAddOn(
                   Target.POSITION_1,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealUltDamage(
                   position,
@@ -163,6 +173,7 @@ export function triggerAddOn(
                   Target.POSITION_2,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealUltDamage(
                   position,
@@ -171,6 +182,7 @@ export function triggerAddOn(
                   Target.POSITION_3,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealUltDamage(
                   position,
@@ -179,6 +191,7 @@ export function triggerAddOn(
                   Target.POSITION_4,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
                 dealUltDamage(
                   position,
@@ -187,6 +200,7 @@ export function triggerAddOn(
                   Target.POSITION_5,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
               } else {
                 dealUltDamage(
@@ -196,6 +210,7 @@ export function triggerAddOn(
                   buff._101.target,
                   buff._101.damageType,
                   buff._101.action,
+                  buff._101.isTrueDamage,
                 );
               }
             }
@@ -207,6 +222,7 @@ export function triggerAddOn(
               buff._101.target,
               buff._101.damageType,
               buff._101.action,
+              buff._101.isTrueDamage,
             );
           }
           break;
@@ -221,6 +237,7 @@ export function triggerAddOn(
                 buff._101.target,
                 buff._101.damageType,
                 buff._101.action,
+                buff._101.isTrueDamage,
               );
             }
           } else {
@@ -231,6 +248,7 @@ export function triggerAddOn(
               buff._101.target,
               buff._101.damageType,
               buff._101.action,
+              buff._101.isTrueDamage,
             );
           }
           break;

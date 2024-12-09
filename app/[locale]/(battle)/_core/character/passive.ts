@@ -1420,7 +1420,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             type: 0,
             condition: Condition.NONE,
             duration: 100,
-            specialCondition: SpecialCondition.HP_LOWER_THAN,
+            specialCondition: SpecialCondition.HP_HIGHER_THAN,
             specialConditionValue: 95,
             _0: {
               affectType: AffectType.INCREASE_DMG,
@@ -4430,6 +4430,244 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     }
     // "10152": "治癒之星 蘇珊",
     // "10153": "純真殺意 撒旦",
+    case "10153": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10153-passive-1",
+          name: "必殺時，觸發「使自身不受《向聖杯祈願》層數變動效果影響(50回合)」(觸發1次後解除)",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deleteSelf: true,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10153-passive-1-1",
+                name: "使自身不受《向聖杯祈願》層數變動效果影響",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10153-passive-2",
+          name: "必殺時，根據自身《向聖杯祈願》的層數，觸發「以自身攻擊力30%對目標造成傷害」",
+          type: 8,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10154-ult-1-1",
+            triggerSkill: {
+              id: "10153-passive-2-1",
+              name: "以自身攻擊力30%對目標造成傷害",
+              type: 1,
+              condition: Condition.ULTIMATE,
+              duration: 1,
+              _1: {
+                value: 0.3,
+                target: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                action: CharacterAction.ULTIMATE,
+              },
+            },
+          },
+        },
+        //
+      ];
+      gameState.characters.forEach((_, index) => {
+        if (index !== position) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10153-passive-3",
+              name: "被攻擊時，觸發「使我方【純真殺意 撒旦】獲得1層《高級萬聖甜點組》(最多6層)」",
+              type: 4,
+              condition: Condition.RECEIVED_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10153-passive-3-1",
+                target: Target.SELF,
+                applySkill: {
+                  id: "10153-passive-3-1",
+                  name: "《高級萬聖甜點組》",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10153-passive-3-1",
+                    name: "《高級萬聖甜點組》",
+                    stack: 1,
+                    maxStack: 6,
+                    value: 0,
+                    affectType: AffectType.NONE,
+                  },
+                },
+              },
+            },
+            {
+              id: "10153-passive-4",
+              name: "行動後，觸發「清除自身《高級萬聖甜點組》的所有層數」",
+              type: 20,
+              condition: Condition.MOVE,
+              duration: 100,
+              _20: {
+                target: Target.ALL_ALLIES,
+                targetChar: "10153",
+                targetSkill: "10153-passive-3-1",
+                clearAll: true,
+              },
+            },
+            {
+              id: "10153-passive-5",
+              name: "普攻時，根據自身《高級萬聖甜點組》的層數，觸發「以自身攻擊力10%對目標造成傷害」",
+              type: 8,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _8: {
+                target: Target.SELF,
+                targetSkill: "10153-passive-3-1",
+                triggerSkill: {
+                  id: "10153-passive-5-1",
+                  name: "以自身攻擊力10%對目標造成傷害",
+                  type: 1,
+                  condition: Condition.BASIC_ATTACK,
+                  duration: 1,
+                  _1: {
+                    value: 0.1,
+                    target: Target.ENEMY,
+                    damageType: DamageType.TRIGGER,
+                    action: CharacterAction.BASIC,
+                  },
+                },
+              },
+            },
+            {
+              id: "10153-passive-6",
+              name: "自身《高級萬聖甜點組》層數≧2時，開啟「造成觸發技效果增加50%」",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+              specialConditionValue: 1,
+              specialConditionSkill: "10153-passive-3-1",
+              _0: {
+                value: 0.5,
+                affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+              },
+            },
+            {
+              id: "10153-passive-7",
+              name: "自身《高級萬聖甜點組》層數≧4時，開啟「攻擊力增加40%」",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+              specialConditionValue: 3,
+              specialConditionSkill: "10153-passive-3-1",
+              _0: {
+                value: 0.4,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+            {
+              id: "10153-passive-8",
+              name: "自身《高級萬聖甜點組》層數=6時，開啟「造成傷害增加30%」",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+              specialConditionValue: 5,
+              specialConditionSkill: "10153-passive-3-1",
+              _0: {
+                value: 0.3,
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          ];
+        }
+      });
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10153-passive-9",
+            name: "第1回合時，觸發「使自身當前必殺技CD減少3回合」",
+            type: 14,
+            duration: 100,
+            condition: Condition.ON_TURN_START,
+            _14: {
+              target: Target.SELF,
+              reduceCD: 3,
+            },
+          },
+        ];
+        gameState.characters.forEach((_, index) => {
+          if (index !== position) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "10153-passive-10",
+                name: "普攻時，追加「以自身當前HP1%對自身造成真實傷害」",
+                type: 101,
+                duration: 100,
+                condition: Condition.BASIC_ATTACK,
+                _101: {
+                  value: 0.01,
+                  target: Target.SELF,
+                  damageType: DamageType.BASIC_ADDON,
+                  action: CharacterAction.BASIC,
+                  isTrueDamage: true,
+                },
+              },
+              {
+                id: "10153-passive-11",
+                name: "必殺時，追加「以自身當前HP1%對自身造成真實傷害」",
+                type: 101,
+                duration: 100,
+                condition: Condition.ULTIMATE,
+                _101: {
+                  value: 0.01,
+                  target: Target.SELF,
+                  damageType: DamageType.ULTIMATE_ADDON,
+                  action: CharacterAction.ULTIMATE,
+                  isTrueDamage: true,
+                },
+              },
+            ];
+          }
+        });
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10153-passive4",
+            name: "使自身造成觸發技效果增加30%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.3,
+              affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10154": "星空奈奈美",
     case "10154": {
       gameState.characters[position].buff = [

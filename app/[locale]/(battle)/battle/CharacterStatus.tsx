@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -8,13 +8,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { useGameState } from '@/core/GameState';
-import { parseSkillName } from '../_core/utils';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TabsContent } from '@radix-ui/react-tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { CharacterStats } from './CharacterStats';
+} from "@/components/ui/dialog";
+import { useGameState } from "@/core/GameState";
+import { parseSkillName } from "../_core/utils";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@radix-ui/react-tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { CharacterStats } from "./CharacterStats";
 
 export function CharacterStatus({ position }: { position: number }) {
   const character = useGameState((state) => state.characters[position]);
@@ -38,7 +38,7 @@ export function CharacterStatus({ position }: { position: number }) {
                       {parseSkillName(buff)}
                     </Card>
                     <Card className="p-2 text-sm text-center">
-                      {buff.duration === 100 ? '-' : buff.duration}
+                      {buff.duration === 100 ? "-" : buff.duration}
                     </Card>
                   </div>
                 );

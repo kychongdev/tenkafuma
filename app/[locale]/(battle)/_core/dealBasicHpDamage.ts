@@ -19,6 +19,7 @@ import {
 import { GameState } from "./GameState";
 import { DamageLog } from "@/types/Game";
 import Big from "big.js";
+import { checkSpecialCondition } from "./checkSpecialCondition";
 
 export function dealBasicHpDamage(
   position: Target,
@@ -56,7 +57,7 @@ export function dealBasicHpDamage(
   // you need to specify the enemy position
   switch (position) {
     case Target.ENEMY_1: {
-      attacker = gameState.enemies[0].buff;
+      attacker = checkSpecialCondition(gameState, position);
       attackerClass = gameState.enemies[0].class;
       attackerAttribute = gameState.enemies[0].attribute;
       attackerId = gameState.enemies[0].id;
@@ -65,7 +66,7 @@ export function dealBasicHpDamage(
       break;
     }
     case Target.ENEMY_2: {
-      attacker = gameState.enemies[1].buff;
+      attacker = checkSpecialCondition(gameState, position);
       attackerClass = gameState.enemies[1].class;
       attackerAttribute = gameState.enemies[1].attribute;
       attackerId = gameState.enemies[1].id;
@@ -74,7 +75,7 @@ export function dealBasicHpDamage(
       break;
     }
     case Target.ENEMY_3: {
-      attacker = gameState.enemies[2].buff;
+      attacker = checkSpecialCondition(gameState, position);
       attackerClass = gameState.enemies[2].class;
       attackerAttribute = gameState.enemies[2].attribute;
       attackerId = gameState.enemies[2].id;
@@ -83,7 +84,7 @@ export function dealBasicHpDamage(
       break;
     }
     case Target.ENEMY_4: {
-      attacker = gameState.enemies[3].buff;
+      attacker = checkSpecialCondition(gameState, position);
       attackerClass = gameState.enemies[3].class;
       attackerAttribute = gameState.enemies[3].attribute;
       attackerId = gameState.enemies[3].id;
@@ -92,7 +93,7 @@ export function dealBasicHpDamage(
       break;
     }
     case Target.ENEMY_5: {
-      attacker = gameState.enemies[4].buff;
+      attacker = checkSpecialCondition(gameState, position);
       attackerClass = gameState.enemies[4].class;
       attackerAttribute = gameState.enemies[4].attribute;
       attackerId = gameState.enemies[4].id;
@@ -105,7 +106,7 @@ export function dealBasicHpDamage(
     case Target.POSITION_3:
     case Target.POSITION_4:
     case Target.POSITION_5:
-      attacker = gameState.characters[position].buff;
+      attacker = checkSpecialCondition(gameState, position);
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
@@ -116,42 +117,42 @@ export function dealBasicHpDamage(
 
   switch (target) {
     case Target.ENEMY:
-      defender = gameState.enemies[gameState.targeting].buff;
+      attacker = checkSpecialCondition(gameState, gameState.targeting + 20);
       defenderClass = gameState.characters[gameState.targeting].class;
       defenderAttribute = gameState.characters[gameState.targeting].attribute;
       defenderId = gameState.characters[gameState.targeting].id;
       defenderisGuard = gameState.characters[gameState.targeting].isGuard;
       break;
     case Target.ENEMY_1:
-      defender = gameState.enemies[0].buff;
+      attacker = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[0].class;
       defenderAttribute = gameState.enemies[0].attribute;
       defenderId = gameState.enemies[0].id;
       defenderisGuard = gameState.characters[0].isGuard;
       break;
     case Target.ENEMY_2:
-      defender = gameState.enemies[1].buff;
+      attacker = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[1].class;
       defenderAttribute = gameState.enemies[1].attribute;
       defenderId = gameState.enemies[1].id;
       defenderisGuard = gameState.characters[1].isGuard;
       break;
     case Target.ENEMY_3:
-      defender = gameState.enemies[2].buff;
+      attacker = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[2].class;
       defenderAttribute = gameState.enemies[2].attribute;
       defenderId = gameState.enemies[2].id;
       defenderisGuard = gameState.characters[2].isGuard;
       break;
     case Target.ENEMY_4:
-      defender = gameState.enemies[3].buff;
+      attacker = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[3].class;
       defenderAttribute = gameState.enemies[3].attribute;
       defenderId = gameState.enemies[3].id;
       defenderisGuard = gameState.characters[3].isGuard;
       break;
     case Target.ENEMY_5:
-      defender = gameState.enemies[4].buff;
+      attacker = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[4].class;
       defenderAttribute = gameState.enemies[4].attribute;
       defenderId = gameState.enemies[4].id;
@@ -162,7 +163,7 @@ export function dealBasicHpDamage(
     case Target.POSITION_3:
     case Target.POSITION_4:
     case Target.POSITION_5:
-      defender = gameState.characters[target].buff;
+      attacker = checkSpecialCondition(gameState, target);
       defenderClass = gameState.characters[target].class;
       defenderAttribute = gameState.characters[target].attribute;
       defenderId = gameState.characters[target].id;
@@ -174,60 +175,6 @@ export function dealBasicHpDamage(
   // const attributeNum = parseAttribute(attackerAttribute, defenderAttribute);
 
   for (const buff of attacker) {
-    switch (buff.specialCondition) {
-      case SpecialCondition.HP_LOWER_THAN: {
-        if (!buff.specialConditionValue) {
-          break;
-        }
-        if (position >= 20 && position < 25) {
-          if (
-            (gameState.enemies[position - 20].hp /
-              gameState.enemies[position - 20].maxHp) *
-              100 <
-            buff.specialConditionValue
-          ) {
-            continue;
-          }
-        } else {
-          if (
-            (gameState.characters[position].hp /
-              gameState.characters[position].maxHp) *
-              100 <
-            buff.specialConditionValue
-          ) {
-            continue;
-          }
-        }
-        break;
-      }
-      case SpecialCondition.HP_HIGHER_THAN: {
-        if (!buff.specialConditionValue) {
-          break;
-        }
-        if (position >= 20 && position < 25) {
-          if (
-            (gameState.enemies[position - 20].hp /
-              gameState.enemies[position - 20].maxHp) *
-              100 >
-            buff.specialConditionValue
-          ) {
-            continue;
-          }
-        } else {
-          if (
-            (gameState.characters[position].hp /
-              gameState.characters[position].maxHp) *
-              100 <
-            buff.specialConditionValue
-          ) {
-            continue;
-          }
-        }
-        break;
-      }
-      default:
-        break;
-    }
     if (!buff.deactivated) {
       if (
         buff.type === 0 &&
@@ -441,35 +388,6 @@ export function dealBasicHpDamage(
   }
 
   for (const buff of defender) {
-    switch (buff.specialCondition) {
-      case SpecialCondition.HP_LOWER_THAN: {
-        if (!buff.specialConditionValue) {
-          break;
-        }
-        if (position >= 20 && position < 25) {
-          if (
-            (gameState.enemies[position - 20].hp /
-              gameState.enemies[position - 20].maxHp) *
-              100 <
-            buff.specialConditionValue
-          ) {
-            continue;
-          }
-        } else {
-          if (
-            (gameState.characters[position].hp /
-              gameState.characters[position].maxHp) *
-              100 <
-            buff.specialConditionValue
-          ) {
-            continue;
-          }
-        }
-      }
-      default:
-        break;
-    }
-
     if (!buff.deactivated) {
       if (
         buff.type === 0 &&

@@ -30,7 +30,7 @@ export interface _1 {
   multiple?: number;
 }
 
-//給予條件式BUFF
+//ADD CD
 export interface _2 {
   increaseCD: number;
   target: Target;
@@ -247,6 +247,7 @@ export interface _101 {
   // 0 is basic, 1 is ultimate
   damageType: DamageType;
   action: CharacterAction;
+  isTrueDamage?: boolean;
   multiple?: number;
 }
 

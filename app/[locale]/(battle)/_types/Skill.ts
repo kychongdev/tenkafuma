@@ -44,6 +44,7 @@ interface ISkill {
   deleteSelf?: boolean;
   specialCondition?: SpecialCondition;
   specialConditionValue?: number;
+  specialConditionSkill?: string;
   disabledOnSkill?: string;
 }
 
@@ -181,7 +182,7 @@ enum Condition {
 enum SpecialCondition {
   HP_LOWER_THAN = 0,
   HP_HIGHER_THAN = 1,
-  SKILL_STACK = 2,
+  SKILL_STACK_MORE_THAN = 2,
 }
 
 enum Target {

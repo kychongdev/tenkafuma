@@ -148,6 +148,9 @@ export function parseSkillName(buff: Skill) {
           return buff.name;
       }
     }
+    //if (buff.specialCondition) {
+    //  return `${buff.name} (特殊條件)`;
+    //}
 
     return `${
       buff.deactivated === true
