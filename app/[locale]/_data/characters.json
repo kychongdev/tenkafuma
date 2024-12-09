@@ -1172,12 +1172,12 @@
   "10133": {
     "id": 10133,
     "name": "甜心偶像 星空奈奈美",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
-    "cd": 4
+    "initHp": 3345.6,
+    "initAtk": 1052.8,
+    "attribute": 9,
+    "class": 15,
+    "available": true,
+    "cd": 3
   },
   "10134": {
     "id": 10134,

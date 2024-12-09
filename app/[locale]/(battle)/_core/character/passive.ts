@@ -2723,6 +2723,46 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10133": "甜心偶像 星空奈奈美",
+    case "10133": {
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10133-passive-4",
+            name: "每經過1回合時，觸發「以自身攻擊力25使我方全體攻擊力增加(1回合)」",
+            type: 6,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.25,
+              target: Target.ALL_ALLIES,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10133-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
+
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
       gameState.characters[position].buff = [
@@ -5196,7 +5236,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10811": "冷豔美醫 嘉莉娜",
     // "10812": "南瓜仙子 帕奈奈",
     // "10813": "白薔薇 伊艾",
-    // "10801": "法斯帝國士兵 賽蓮",
+    // "10901": "法斯帝國士兵 賽蓮",
     // "10902": "法斯帝國法師 佩托拉",
     // "10903": "魔族戰士 芙蕾",
     // "10904": "魔族法師 瑪努艾拉",

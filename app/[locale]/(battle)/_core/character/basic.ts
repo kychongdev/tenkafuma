@@ -293,6 +293,16 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",
+    case "10123": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+    }
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
     case "10125": {
@@ -375,6 +385,10 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10133": "甜心偶像 星空奈奈美",
+    case "10133": {
+      // 以自身攻擊力25給予我方全體護盾(1回合)、以自身最大HP30給予我方全體護盾(1回合)
+      break;
+    }
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
       heal(position, 0.75, gameState, true, Target.ALL_ALLIES);

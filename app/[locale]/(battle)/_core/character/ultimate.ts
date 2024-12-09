@@ -1312,6 +1312,61 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10133": "甜心偶像 星空奈奈美",
+    case "10133": {
+      {
+        const buff: Skill = {
+          id: "10133-ult-1",
+          name: "攻擊力",
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            affectType: AffectType.RAW_ATK,
+            value:
+              bond === 1
+                ? 0.5
+                : bond === 2
+                  ? 0.55
+                  : bond === 3
+                    ? 0.6
+                    : bond === 4
+                      ? 0.65
+                      : 0.7,
+            target: Target.ALL_ALLIES,
+            duration: 4,
+            base: true,
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      }
+
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10133-ult-2",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.25
+                    : bond === 3
+                      ? 0.3
+                      : bond === 4
+                        ? 0.35
+                        : 0.4,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
       gameState.characters.forEach((character, index) => {
@@ -2705,7 +2760,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10811": "冷豔美醫 嘉莉娜",
     // "10812": "南瓜仙子 帕奈奈",
     // "10813": "白薔薇 伊艾",
-    // "10801": "法斯帝國士兵 賽蓮",
+    // "10901": "法斯帝國士兵 賽蓮",
     // "10902": "法斯帝國法師 佩托拉",
     // "10903": "魔族戰士 芙蕾",
     // "10904": "魔族法師 瑪努艾拉",
