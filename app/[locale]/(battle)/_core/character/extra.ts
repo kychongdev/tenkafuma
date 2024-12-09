@@ -3,14 +3,14 @@ import {
   Condition,
   DamageType,
   Target,
-} from '@/app/[locale]/(battle)/_types/Skill';
-import { CharacterAction, CharacterClass } from '@/types/Character';
-import { GameState } from '../GameState';
+} from "@/app/[locale]/(battle)/_types/Skill";
+import { CharacterAction, CharacterClass } from "@/types/Character";
+import { GameState } from "../GameState";
 
 export function applyExtra(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;
   switch (gameState.characters[position].id) {
-    case '523':
+    case "10123":
       gameState.characters.forEach((character, index) => {
         if (
           character.class === CharacterClass.ATTACKER ||
@@ -19,8 +19,8 @@ export function applyExtra(gameState: GameState, position: number) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: '523-ult-2',
-              name: '攻擊時，觸發『以自身攻擊力59%對目標造成傷害』(3回合)',
+              id: "10123-ult-2",
+              name: "攻擊時，觸發『以自身攻擊力59%對目標造成傷害』(3回合)",
               type: 1,
               condition: Condition.ATTACK,
               duration: 3,
@@ -44,14 +44,14 @@ export function applyExtra(gameState: GameState, position: number) {
         }
       });
       break;
-    case '10134':
+    case "10134":
       // 使自身獲得『攻擊時，觸發「以自身攻擊力0/0/10/12.5/15使自身以外我方全體攻擊力增加(1回合)」』(5回合)
       if (gameState.characters[position].bond > 2) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: '10134-ult-1',
-            name: '攻擊時，觸發『以自身攻擊力使自身以外我方全體攻擊力增加』(1回合)',
+            id: "10134-ult-1",
+            name: "攻擊時，觸發『以自身攻擊力使自身以外我方全體攻擊力增加』(1回合)",
             type: 6,
             condition: Condition.ATTACK,
             duration: 5,
@@ -66,12 +66,12 @@ export function applyExtra(gameState: GameState, position: number) {
         ];
       }
       break;
-    case '10044': {
+    case "10044": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: '10044-ult-1',
+            id: "10044-ult-1",
             name: `必殺時，觸發『使自身必殺技傷害增加${
               bond === 1
                 ? 20
@@ -88,17 +88,17 @@ export function applyExtra(gameState: GameState, position: number) {
             duration: 1,
             _4: {
               increaseStack: 1,
-              targetSkill: '10044-ult-1-1',
+              targetSkill: "10044-ult-1-1",
               target: Target.SELF,
               applySkill: {
-                id: '10044-ult-1-1',
-                name: '受到風屬性傷害增加',
+                id: "10044-ult-1-1",
+                name: "受到風屬性傷害增加",
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: '10044-ult-1-1',
-                  name: '必殺技傷害增加',
+                  id: "10044-ult-1-1",
+                  name: "必殺技傷害增加",
                   value:
                     bond === 1
                       ? 0.2
@@ -117,7 +117,7 @@ export function applyExtra(gameState: GameState, position: number) {
             },
           },
           {
-            id: '10044-ult-2',
+            id: "10044-ult-2",
             name: `普攻時，觸發『使自身普攻傷害增加${
               bond === 1
                 ? 20
@@ -134,17 +134,17 @@ export function applyExtra(gameState: GameState, position: number) {
             duration: 2,
             _4: {
               increaseStack: 1,
-              targetSkill: '10044-ult-2-1',
+              targetSkill: "10044-ult-2-1",
               target: Target.SELF,
               applySkill: {
-                id: '10044-ult-2-1',
-                name: '普攻傷害增加',
+                id: "10044-ult-2-1",
+                name: "普攻傷害增加",
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: '10044-ult-2-1',
-                  name: '普攻傷害增加',
+                  id: "10044-ult-2-1",
+                  name: "普攻傷害增加",
                   value:
                     bond === 1
                       ? 0.2

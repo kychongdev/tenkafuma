@@ -1987,6 +1987,108 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",
+    case "10123": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10123-passive-1",
+          name: "必殺時，觸發「使自身攻擊力增加40%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10123-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10123-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10123-1",
+                name: "攻擊力增加40%",
+                value: 0.4,
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: "10123-passive-2",
+          name: "必殺時 ，觸發「使目標受到必殺技傷害增加20%(4回合)」",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: "10123-passive-2-1",
+                name: "受到必殺技傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 4,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10123-passive-3",
+            name: "必殺時 ，觸發「使目標受到傷害增加20%(4回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ENEMY,
+              applySkill: [
+                {
+                  id: "10123-passive-3-1",
+                  name: "受到傷害增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10123-passive-4",
+            name: "使自身必殺技傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
     case "10125": {

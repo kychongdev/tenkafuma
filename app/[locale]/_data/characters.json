@@ -1072,12 +1072,12 @@
   "10123": {
     "id": 10123,
     "name": "惡魔貓娘 杏仁咪嚕",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3360,
+    "initAtk": 1049.6,
+    "attribute": 9,
     "class": 11,
-    "available": false,
-    "cd": 4
+    "available": true,
+    "cd": 3
   },
   "10124": {
     "id": 10124,

@@ -929,6 +929,54 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",
+    case "10123": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10123-ult-1",
+            name: "造成觸發技效果增加(4回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_TRIGGER_DMG,
+              value:
+                bond === 1
+                  ? 0.6
+                  : bond === 2
+                    ? 0.7
+                    : bond === 3
+                      ? 0.8
+                      : bond === 4
+                        ? 0.9
+                        : 1,
+            },
+          },
+        ];
+      });
+      {
+        const ultPercentage =
+          bond === 1
+            ? 2.65
+            : bond === 2
+              ? 2.98
+              : bond === 3
+                ? 3.31
+                : bond === 4
+                  ? 3.64
+                  : 3.97;
+        dealUltDamage(
+          position,
+          ultPercentage,
+          gameState,
+          Target.ENEMY,
+          DamageType.ULTIMATE,
+          CharacterAction.ULTIMATE,
+        );
+      }
+      break;
+    }
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
     case "10125": {
