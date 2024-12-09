@@ -273,60 +273,23 @@ export function triggerSkill(
     }
     case 2:
       if (!buff._2) {
-        console.log("buff._2", p(buff));
         console.log("Wrong data");
         break;
       }
       // 贈與狀態
       // Apply Skill
       switch (buff._2.target) {
-        case Target.SELF:
-          gameState.characters[position].buff = [
-            ...gameState.characters[position].buff,
-            buff._2,
-          ];
+        case Target.SELF: {
+          gameState.characters[position].cd += buff._2.increaseCD;
+          if (
+            gameState.characters[position].cd >
+            gameState.characters[position].maxCd
+          ) {
+            gameState.characters[position].cd =
+              gameState.characters[position].maxCd;
+          }
           break;
-
-        // POSITION_1 = 0,
-        // POSITION_2 = 1,
-        // POSITION_3 = 2,
-        // POSITION_4 = 3,
-        // POSITION_5 = 4,
-        // FIRE = 5,
-        // WATER = 6,
-        // WIND = 7,
-        // LIGHT = 8,
-        // DARK = 9,
-        // ATTACKER = 11,
-        // PROTECTOR = 12,
-        // HEALER = 13,
-        // OBSTRUCTER = 14,
-        // SUPPORT = 15,
-        // SELF = 16,
-        // ENEMY = 17,
-        // ALL_ALLIES = 18,
-        // ALL_EXCEPT_SELF = 19,
-        // ENEMY_1 = 20,
-        // ENEMY_2 = 21,
-        // ENEMY_3 = 22,
-        // ENEMY_4 = 23,
-        // ENEMY_5 = 24,
-        // ALL_LIGHT_EXCEPT_SELF = 25,
-        // ALL_DARK_EXCEPT_SELF = 26,
-        // ALL_FIRE_EXCEPT_SELF = 27,
-        // ALL_WATER_EXCEPT_SELF = 28,
-        // ALL_WIND_EXCEPT_SELF = 29,
-        // ALL_LIGHT = 30,
-        // ALL_DARK = 31,
-        // ALL_FIRE = 32,
-        // ALL_WATER = 33,
-        // ALL_WIND = 34,
-        // ALL_ENEMIES = 35,
-        // DARK_ENEMY = 36,
-        // LIGHT_ENEMY = 37,
-        // FIRE_ENEMY = 38,
-        // WATER_ENEMY = 39,
-        // WIND_ENEMY = 40,
+        }
       }
 
       break;

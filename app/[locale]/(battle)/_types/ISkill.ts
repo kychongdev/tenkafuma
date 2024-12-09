@@ -31,8 +31,9 @@ export interface _1 {
 }
 
 //給予條件式BUFF
-export interface _2 extends Skill {
-  target: Target | CharacterClass;
+export interface _2 {
+  increaseCD: number;
+  target: Target;
 }
 
 // Stack buff 層數BUFF

@@ -2477,7 +2477,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
         type: 4,
         condition: Condition.ULTIMATE,
         duration: 100,
-        disabledOnSkill: "10154-passive-1",
+        disabledOnSkill: "10154-passive-1-1",
         _4: {
           increaseStack: 1,
           targetSkill: "10154-ult-1-1",
@@ -2490,9 +2490,18 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 100,
             _3: {
               id: "10154-ult-1-1",
-              name: "戀愛的萌系能量",
+              name: "《戀愛的萌系能量》",
               value: 0,
-              stack: 1,
+              stack:
+                bond === 1
+                  ? 1
+                  : bond === 2
+                    ? 1
+                    : bond === 3
+                      ? 2
+                      : bond === 4
+                        ? 2
+                        : 3,
               maxStack: 3,
               affectType: AffectType.NONE,
             },

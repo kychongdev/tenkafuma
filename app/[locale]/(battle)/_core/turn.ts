@@ -53,7 +53,6 @@ export function onTurnStart(gameState: GameState) {
         buff.condition === Condition.ON_SPECIFIC_TURN &&
         gameState.turn === buff.conditionTurn
       ) {
-        console.log("triggerSkill", p(buff));
         triggerSkill(buff, gameState, position);
       }
     }

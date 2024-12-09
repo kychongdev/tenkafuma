@@ -1,61 +1,61 @@
-import { AffectType, DamageType, Target, type Skill } from '@/types/Skill';
-import { CharacterAction, CharacterAttribute } from '@/types/Character';
-import characterJson from '@/data/characters.json';
-import { CharacterState } from '../_types/Select';
+import { AffectType, DamageType, Target, type Skill } from "@/types/Skill";
+import { CharacterAction, CharacterAttribute } from "@/types/Character";
+import characterJson from "@/data/characters.json";
+import { CharacterState } from "../_types/Select";
 
 export function formatNumber(number: number) {
-  if (!number) return '0';
+  if (!number) return "0";
 
   //format number to have commas
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export function f(number: number) {
-  if (!number) return '0';
+  if (!number) return "0";
 
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export function parseActionName(action: CharacterAction) {
   switch (action) {
     case CharacterAction.BASIC:
-      return '普攻';
+      return "普攻";
     case CharacterAction.ULTIMATE:
-      return '必殺';
+      return "必殺";
     case CharacterAction.GUARD:
-      return '防禦';
+      return "防禦";
     case CharacterAction.ATTACK:
-      return '攻擊';
+      return "攻擊";
     case CharacterAction.SKILL:
-      return '技能';
+      return "技能";
     case CharacterAction.NONE:
-      return '無';
+      return "無";
     default:
-      return '';
+      return "";
   }
 }
 export function parseDamageTypeName(type: DamageType) {
   switch (type) {
     case DamageType.BASIC:
-      return '普攻';
+      return "普攻";
     case DamageType.BASIC_HP:
-      return '普攻(HP)';
+      return "普攻(HP)";
     case DamageType.ULTIMATE:
-      return '必殺';
+      return "必殺";
     case DamageType.TRIGGER:
-      return '觸發';
+      return "觸發";
     case DamageType.TRIGGER_HP:
-      return '觸發(HP)';
+      return "觸發(HP)";
     case DamageType.BASIC_ADDON:
-      return '普攻(追加)';
+      return "普攻(追加)";
     case DamageType.ULTIMATE_ADDON:
-      return '必殺(追加)';
+      return "必殺(追加)";
     case DamageType.DOT:
-      return '持續傷害';
+      return "持續傷害";
     case DamageType.ULTIMATE_HP:
-      return '必殺(HP)';
+      return "必殺(HP)";
     default:
-      return '不明';
+      return "不明";
   }
 }
 
@@ -89,6 +89,8 @@ export function parseSkillName(buff: Skill) {
           return `必殺技傷害增加${fixDecimal(buff._0.value * 100)}%`;
         case AffectType.INCREASE_DMG_RECEIVED:
           return `受到傷害增加${buff._0.value * 100}%`;
+        case AffectType.DECREASE_DMG_RECEIVED:
+          return `受到傷害減少${buff._0.value * 100}%`;
         case AffectType.INCREASE_ULTIMATE_DMG_RECEIVED:
           return `受到必殺技傷害增加${buff._0.value * 100}%`;
         case AffectType.REDUCE_ATTRIBUTE_EFFECT:
@@ -128,16 +130,16 @@ export function parseSkillName(buff: Skill) {
             const charName = characterJson[char];
             return `受到${charName.name}傷害增加${buff._0.value * 100}%`;
           } else {
-            return '受到特定角色傷害增加';
+            return "受到特定角色傷害增加";
           }
         case AffectType.IMMUNE_SLEEP:
-          return '免疫睡眠';
+          return "免疫睡眠";
         case AffectType.IMMUNE_PARALYSIS:
-          return '免疫麻痺';
+          return "免疫麻痺";
         case AffectType.IMMUNE_SILENCE:
-          return '免疫沉默';
+          return "免疫沉默";
         case AffectType.IMMUNE_CD_CHANGE:
-          return '免疫技能CD變動';
+          return "免疫技能CD變動";
         case AffectType.IMMUNE_ATTRIBUTE_EFFECT:
           return `屬性相剋減傷效果減少${buff._0.value * 100}%`;
         case AffectType.SUCK_HP_ON_DMG:
@@ -149,10 +151,10 @@ export function parseSkillName(buff: Skill) {
 
     return `${
       buff.deactivated === true
-        ? '(未發動)'
+        ? "(未發動)"
         : buff.deactivated === false
-          ? '(發動中)'
-          : ''
+          ? "(發動中)"
+          : ""
     }${buff.name}`;
   }
   if (buff.type === 3 && buff._3) {
@@ -200,6 +202,10 @@ export function parseSkillName(buff: Skill) {
           )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_DMG_RECEIVED:
           return `受到傷害增加${formatToTwoDecimal(
+            buff._3.value * buff._3.stack * 100,
+          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+        case AffectType.DECREASE_DMG_RECEIVED:
+          return `受到傷害減少${formatToTwoDecimal(
             buff._3.value * buff._3.stack * 100,
           )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_ATTACKER_DMG_RECEIVED:
@@ -267,7 +273,7 @@ export function parseSkillName(buff: Skill) {
               buff._3.value * buff._3.stack * 100
             }%`;
           } else {
-            return '受到特定角色傷害增加';
+            return "受到特定角色傷害增加";
           }
         case AffectType.NONE:
           return `${buff.name} ${buff._3.stack}層 (最多${buff._3.maxStack}層)`;
@@ -275,29 +281,29 @@ export function parseSkillName(buff: Skill) {
     }
     return `${
       buff.deactivated === true
-        ? '(未發動)'
+        ? "(未發動)"
         : buff.deactivated === false
-          ? '(發動中)'
-          : ''
+          ? "(發動中)"
+          : ""
     }${buff.name}`;
   }
 
   if (buff.type === 7) {
-    return `${buff.name}[${buff._7?.activated ? '已觸發' : '未觸發'}])`;
+    return `${buff.name}[${buff._7?.activated ? "已觸發" : "未觸發"}])`;
   }
   return `${
     buff.deactivated === true
-      ? '(未發動)'
+      ? "(未發動)"
       : buff.deactivated === false
-        ? '(發動中)'
-        : ''
+        ? "(發動中)"
+        : ""
   }${buff.name}`;
 }
 
 export function fixDecimal(num: number) {
   const test = num.toFixed(2);
   //check if decimal is 00
-  if (test.slice(-2) === '00') {
+  if (test.slice(-2) === "00") {
     return num.toFixed(0);
   }
   return test;
@@ -346,44 +352,44 @@ export function formatToTwoDecimal(num: number) {
 export const validateNumber = (value: string, start: number, end: number) => {
   return (
     (Number.parseInt(value) >= start && Number.parseInt(value) <= end) ||
-    value === ''
+    value === ""
   );
 };
 
 export function parseMoveSet(move: number) {
   switch (move) {
     case 0:
-      return '1普攻';
+      return "1普攻";
     case 1:
-      return '2普攻';
+      return "2普攻";
     case 2:
-      return '3普攻';
+      return "3普攻";
     case 3:
-      return '4普攻';
+      return "4普攻";
     case 4:
-      return '5普攻';
+      return "5普攻";
     case 5:
-      return '1必殺';
+      return "1必殺";
     case 6:
-      return '2必殺';
+      return "2必殺";
     case 7:
-      return '3必殺';
+      return "3必殺";
     case 8:
-      return '4必殺';
+      return "4必殺";
     case 9:
-      return '5必殺';
+      return "5必殺";
     case 10:
-      return '1防禦';
+      return "1防禦";
     case 11:
-      return '2防禦';
+      return "2防禦";
     case 12:
-      return '3防禦';
+      return "3防禦";
     case 13:
-      return '4防禦';
+      return "4防禦";
     case 14:
-      return '5防禦';
+      return "5防禦";
     default:
-      return '無法讀取';
+      return "無法讀取";
   }
 }
 

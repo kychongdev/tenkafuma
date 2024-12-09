@@ -4436,13 +4436,26 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "10154-passive-1",
-          name: "使自身不受《戀愛的萌系能量》層數變動效果影響",
-          type: 0,
-          condition: Condition.NONE,
+          name: "必殺時，觸發「使自身不受《戀愛的萌系能量》層數變動效果影響(50回合)」(觸發1次後清除)",
+          type: 11,
+          condition: Condition.ULTIMATE,
           duration: 100,
-          _0: {
-            value: 0,
-            affectType: AffectType.NONE,
+          deleteSelf: true,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10154-passive-1-1",
+                name: "使自身不受《戀愛的萌系能量》層數變動效果影響",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+            ],
           },
         },
         {
@@ -4517,13 +4530,13 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   applySkill: [
                     {
                       id: "10154-passive-3-2-1",
-                      name: "使自身當前必殺技CD增加3回合",
-                      type: 14,
+                      name: "「防禦時，觸發『使自身當前必殺技CD增加3回合，並使自身獲得嘲諷效果(1回合)』」",
+                      type: 2,
                       condition: Condition.GUARD,
                       duration: 100,
-                      _14: {
+                      _2: {
                         target: Target.SELF,
-                        reduceCD: 3,
+                        increaseCD: 3,
                       },
                     },
                     //TODO: 嘲諷效果
@@ -4591,18 +4604,19 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                                           AffectType.DECREASE_DMG_RECEIVED,
                                       },
                                     },
+                                    {
+                                      id: "10154-passive-4-1-3",
+                                      name: "使自身防禦減傷增加5%(1回合)",
+                                      type: 0,
+                                      condition: Condition.NONE,
+                                      duration: 1,
+                                      _0: {
+                                        value: 0.05,
+                                        affectType:
+                                          AffectType.INCREASE_GUARD_EFFECT,
+                                      },
+                                    },
                                   ],
-                                },
-                              },
-                              {
-                                id: "10154-passive-4-1-3",
-                                name: "使自身防禦減傷增加5%(1回合)",
-                                type: 0,
-                                condition: Condition.NONE,
-                                duration: 1,
-                                _0: {
-                                  value: 0.05,
-                                  affectType: AffectType.INCREASE_GUARD_EFFECT,
                                 },
                               },
                             ],
