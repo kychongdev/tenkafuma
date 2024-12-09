@@ -4656,88 +4656,92 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 },
               },
             },
-            {
-              id: "10153-passive-4",
-              name: "行動後，觸發「清除自身《高級萬聖甜點組》的所有層數」",
-              type: 20,
-              condition: Condition.MOVE,
-              duration: 100,
-              _20: {
-                target: Target.ALL_ALLIES,
-                targetChar: "10153",
-                targetSkill: "10153-passive-3-1",
-                clearAll: true,
-              },
-            },
-            {
-              id: "10153-passive-5",
-              name: "普攻時，根據自身《高級萬聖甜點組》的層數，觸發「以自身攻擊力10%對目標造成傷害」",
-              type: 8,
-              condition: Condition.BASIC_ATTACK,
-              duration: 100,
-              _8: {
-                target: Target.SELF,
-                targetSkill: "10153-passive-3-1",
-                triggerSkill: {
-                  id: "10153-passive-5-1",
-                  name: "以自身攻擊力10%對目標造成傷害",
-                  type: 1,
-                  condition: Condition.BASIC_ATTACK,
-                  duration: 1,
-                  _1: {
-                    value: 0.1,
-                    target: Target.ENEMY,
-                    damageType: DamageType.TRIGGER,
-                    action: CharacterAction.BASIC,
-                  },
-                },
-              },
-            },
-            {
-              id: "10153-passive-6",
-              name: "自身《高級萬聖甜點組》層數≧2時，開啟「造成觸發技效果增加50%」",
-              type: 0,
-              condition: Condition.NONE,
-              duration: 100,
-              specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
-              specialConditionValue: 1,
-              specialConditionSkill: "10153-passive-3-1",
-              _0: {
-                value: 0.5,
-                affectType: AffectType.INCREASE_TRIGGER_EFFECT,
-              },
-            },
-            {
-              id: "10153-passive-7",
-              name: "自身《高級萬聖甜點組》層數≧4時，開啟「攻擊力增加40%」",
-              type: 0,
-              condition: Condition.NONE,
-              duration: 100,
-              specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
-              specialConditionValue: 3,
-              specialConditionSkill: "10153-passive-3-1",
-              _0: {
-                value: 0.4,
-                affectType: AffectType.INCREASE_ATK,
-              },
-            },
-            {
-              id: "10153-passive-8",
-              name: "自身《高級萬聖甜點組》層數=6時，開啟「造成傷害增加30%」",
-              type: 0,
-              condition: Condition.NONE,
-              duration: 100,
-              specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
-              specialConditionValue: 5,
-              specialConditionSkill: "10153-passive-3-1",
-              _0: {
-                value: 0.3,
-                affectType: AffectType.INCREASE_DMG,
-              },
-            },
           ];
         }
       });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10153-passive-4",
+          name: "行動後，觸發「清除自身《高級萬聖甜點組》的所有層數」",
+          type: 20,
+          condition: Condition.MOVE,
+          duration: 100,
+          _20: {
+            target: Target.ALL_ALLIES,
+            targetChar: "10153",
+            targetSkill: "10153-passive-3-1",
+            clearAll: true,
+          },
+        },
+        {
+          id: "10153-passive-5",
+          name: "普攻時，根據自身《高級萬聖甜點組》的層數，觸發「以自身攻擊力10%對目標造成傷害」",
+          type: 8,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10153-passive-3-1",
+            triggerSkill: {
+              id: "10153-passive-5-1",
+              name: "以自身攻擊力10%對目標造成傷害",
+              type: 1,
+              condition: Condition.BASIC_ATTACK,
+              duration: 1,
+              _1: {
+                value: 0.1,
+                target: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                action: CharacterAction.BASIC,
+              },
+            },
+          },
+        },
+        {
+          id: "10153-passive-6",
+          name: "自身《高級萬聖甜點組》層數≧2時，開啟「造成觸發技效果增加50%」",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 1,
+          specialConditionSkill: "10153-passive-3-1",
+          _0: {
+            value: 0.5,
+            affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+          },
+        },
+        {
+          id: "10153-passive-7",
+          name: "自身《高級萬聖甜點組》層數≧4時，開啟「攻擊力增加40%」",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 3,
+          specialConditionSkill: "10153-passive-3-1",
+          _0: {
+            value: 0.4,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10153-passive-8",
+          name: "自身《高級萬聖甜點組》層數=6時，開啟「造成傷害增加30%」",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 5,
+          specialConditionSkill: "10153-passive-3-1",
+          _0: {
+            value: 0.3,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+      ];
 
       if (gameState.characters[position].stars === 5) {
         gameState.characters[position].buff = [

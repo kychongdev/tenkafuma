@@ -38,9 +38,9 @@ function recursive(
 
 export function randomizeEnemyPos(gamestate: GameState, position: number) {
   if (
-    gamestate.enemies[position - 19] !== undefined &&
-    gamestate.enemies[position - 19].isExist &&
-    !gamestate.enemies[position - 19].isDead
+    gamestate.enemies[position - 20] !== undefined &&
+    gamestate.enemies[position - 20].isExist &&
+    !gamestate.enemies[position - 20].isDead
   ) {
     return position;
   }

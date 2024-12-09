@@ -302,6 +302,7 @@ export function basicAttack(gameState: GameState, position: number) {
         DamageType.BASIC,
         CharacterAction.BASIC,
       );
+      break;
     }
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",

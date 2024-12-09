@@ -32,11 +32,12 @@ export function dealBasicDamage(
   action: CharacterAction,
   isTrueDamage?: boolean,
 ) {
-  // TODO
   if (target > 0 && target < 5) {
     target = randomizePos(gameState, target);
   } else if (target >= 20 && target < 25) {
     target = randomizeEnemyPos(gameState, target);
+  } else if (target === Target.SELF) {
+    target = position;
   }
 
   let rawAtk = Big(0);
@@ -797,8 +798,14 @@ export function dealBasicDamage(
     defender: target,
     action,
   });
-
-  if (position < 5 && position >= 0) {
+  if (target === position) {
+    const character = gameState.characters[position];
+    gameState.battle_log.push(
+      `[${parseActionName(action)}]${character.name}對自己造成${formatNumber(
+        res1,
+      )}(${parseDamageTypeName(damageType)})`,
+    );
+  } else if (position < 5 && position >= 0) {
     if (target === Target.ENEMY) {
       const character = gameState.characters[position];
       gameState.battle_log.push(
@@ -807,24 +814,42 @@ export function dealBasicDamage(
         }造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
       );
     } else {
-      const character = gameState.characters[position];
-      gameState.battle_log.push(
-        `[${parseActionName(action)}]${character.name}對敵${target - 19}造成${formatNumber(
-          res1,
-        )}(${parseDamageTypeName(damageType)})`,
-      );
+      if (target < 5 && target >= 0) {
+        const character = gameState.characters[position];
+        const character2 = gameState.characters[target];
+        gameState.battle_log.push(
+          `[${parseActionName(action)}]${character.name}對${character2}造成${formatNumber(
+            res1,
+          )}(${parseDamageTypeName(damageType)})`,
+        );
+      } else {
+        const character = gameState.characters[position];
+        console.log(target);
+        gameState.battle_log.push(
+          `[${parseActionName(action)}]${character.name}對敵${target - 20}造成${formatNumber(
+            res1,
+          )}(${parseDamageTypeName(damageType)})`,
+        );
+      }
     }
   } else if (position >= 20 && position < 25) {
     if (target < 5 && target >= 0) {
       const enemy = gameState.enemies[position - 20];
       const character = gameState.characters[target];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對${character.name}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${position - 20}${enemy.name}對${character.name}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+      );
+    } else if (target === Target.SELF) {
+      const enemy = gameState.enemies[position - 20];
+      gameState.battle_log.push(
+        `[${parseActionName(action)}]敵${position - 20}${enemy.name}對自己造成${formatNumber(
+          res1,
+        )}(${parseDamageTypeName(damageType)})`,
       );
     } else {
       const enemy = gameState.enemies[position - 20];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${target - 19}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${position - 20}${enemy.name}對敵${target - 20}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
       );
     }
   }

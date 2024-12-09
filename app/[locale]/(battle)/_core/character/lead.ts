@@ -3226,6 +3226,157 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10153": "純真殺意 撒旦",
+    case "10153": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10153-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10153-lead-2",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+      const fourDarkCondition = [
+        CharacterAttribute.DARK,
+        CharacterAttribute.DARK,
+        CharacterAttribute.DARK,
+        CharacterAttribute.DARK,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (fourDarkCondition.includes(character.attribute)) {
+          const index = fourDarkCondition.indexOf(character.attribute);
+          if (index !== -1) {
+            fourDarkCondition.splice(
+              fourDarkCondition.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (fourDarkCondition.length === 0) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: "10153-ult-1",
+            name: "每經過1回合時，觸發「使自身獲得2層《高級萬聖甜點組》(最多6層)」",
+            type: 4,
+            condition: Condition.ON_SPECIFIC_TURN,
+            duration: 1,
+            deactivated: false,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10153-passive-3-1",
+              target: Target.SELF,
+              applySkill: {
+                id: "10153-passive-3-1",
+                name: "《高級萬聖甜點組》",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10153-passive-3-1",
+                  name: "《高級萬聖甜點組》",
+                  stack: 1,
+                  maxStack: 6,
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+            },
+          },
+          {
+            id: "10153-lead-3",
+            name: "攻擊力增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 1,
+            },
+          },
+          {
+            id: "10153-lead-4",
+            name: "造成傷害效果增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value: 0.5,
+            },
+          },
+          {
+            id: "10153-lead-5",
+            name: "被攻擊時，觸發「使目標受到闇屬性傷害增加5%(最多10層)」",
+            type: 4,
+            condition: Condition.RECEIVED_ATTACK,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10153-lead-5-1",
+              target: Target.ENEMY,
+              applySkill: {
+                id: "10153-lead-5-1",
+                name: "受到闇屬性傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10153-lead-5-1",
+                  name: "受到闇屬性傷害增加",
+                  stack: 1,
+                  maxStack: 10,
+                  affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                  value: 0.05,
+                },
+              },
+            },
+          },
+        ];
+      }
+      gameState.characters.forEach((_, index) => {
+        if (index !== 0) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10153-lead-6",
+              name: "攻擊時，觸發「以自身攻擊力20%對目標造成傷害」",
+              type: 1,
+              condition: Condition.ATTACK,
+              duration: 100,
+              _1: {
+                value: 0.2,
+                target: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                action: CharacterAction.ATTACK,
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10154": "星空奈奈美",
     case "10154": {
       break;
