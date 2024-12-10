@@ -1042,11 +1042,11 @@
   "10120": {
     "id": 10120,
     "name": "乘風破浪 蘭兒",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3604.8,
+    "initAtk": 977.6,
+    "attribute": 7,
+    "class": 14,
+    "available": true,
     "cd": 4
   },
   "10121": {

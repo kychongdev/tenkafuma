@@ -290,6 +290,17 @@ export function basicAttack(gameState: GameState, position: number) {
     }
 
     // "10120": "乘風破浪 蘭兒",
+    case "10120": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",

@@ -1984,6 +1984,194 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10120": "乘風破浪 蘭兒",
+    case "10120": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10120-passive-1",
+          name: "普攻時，觸發「使自身攻擊力增加50%(3回合)」",
+          type: 11,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10120-passive-1-1",
+                name: "攻擊力增加50%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 3,
+                _0: {
+                  value: 0.5,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10120-passive-2",
+          name: "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10120-passive-2-1",
+                name: "必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
+                type: 24,
+                duration: 1,
+                condition: Condition.ULTIMATE,
+                _24: {
+                  target: Target.SELF,
+                  clearSkill: ["10120-passive-1-1"],
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10120-passive-3",
+          name: "普攻時，觸發「《是的船長！》」",
+          type: 11,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10120-passive-3-1",
+                name: "使自身獲得必殺時，觸發「以自身攻擊力80%對目標造成傷害」(3回合)",
+                type: 1,
+                condition: Condition.ULTIMATE,
+                duration: 3,
+                _1: {
+                  value: 0.8,
+                  target: Target.ENEMY,
+                  damageType: DamageType.TRIGGER,
+                  action: CharacterAction.ULTIMATE,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10120-passive-4",
+          name: "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《是的船長！》的效果』(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10120-passive-4-1",
+                name: "必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
+                type: 24,
+                duration: 1,
+                condition: Condition.ULTIMATE,
+                _24: {
+                  target: Target.SELF,
+                  clearSkill: ["10120-passive-3-1"],
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].maxCd = 3;
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10120-passive-5",
+            name: "普攻時，觸發「使自身造成傷害增加20%(3回合)」",
+            type: 11,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10120-passive-5-1",
+                  name: "自身造成傷害增加20%",
+                  type: 0,
+                  condition: Condition.ULTIMATE,
+                  duration: 3,
+                  _0: {
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10120-passive-6",
+            name: "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《太小聲囉！》的造成傷害增加(回合型)效果』(1回合)",
+            type: 11,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10120-passive-6-1",
+                  name: "必殺時，觸發『清除自身《太小聲囉！》的造成傷害增加(回合型)效果』(1回合)",
+                  type: 24,
+                  duration: 1,
+                  condition: Condition.ULTIMATE,
+                  _24: {
+                    target: Target.SELF,
+                    clearSkill: ["10120-passive-5-1"],
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10120-passive4",
+            name: "使自身造成傷害增加7.5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.075,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",

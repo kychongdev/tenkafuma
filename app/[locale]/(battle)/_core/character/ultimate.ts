@@ -926,6 +926,65 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10120": "乘風破浪 蘭兒",
+    case "10120": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10120-ult-1",
+          name: "造成觸發技效果增加(4回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 3,
+          _0: {
+            affectType: AffectType.INCREASE_TRIGGER_DMG,
+            value:
+              bond === 1
+                ? 0.4
+                : bond === 2
+                  ? 0.6
+                  : bond === 3
+                    ? 0.6
+                    : bond === 4
+                      ? 0.8
+                      : 1,
+          },
+        },
+      ];
+      if (bond > 2) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+
+          {
+            id: "10120-ult-2",
+            name: "必殺技傷害增加(1回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value: bond === 3 ? 0.2 : bond === 4 ? 0.375 : 0.45,
+            },
+          },
+        ];
+      }
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.68
+                : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",
