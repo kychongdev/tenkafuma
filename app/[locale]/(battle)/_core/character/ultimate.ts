@@ -2190,7 +2190,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10147": "魔物終結 鬼醉木",
     case "10147": {
       if (bond < 3) {
-        // 以自身攻擊力330/376%對目標造成傷害，使目標受到風、光屬性傷害增加30/35%(2回合)。CD:4
         dealUltDamage(
           position,
           bond === 1 ? 3.3 : 3.76,
