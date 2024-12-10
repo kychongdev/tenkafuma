@@ -20,6 +20,7 @@ import { GameState } from "./GameState";
 import { DamageLog } from "@/types/Game";
 import Big from "big.js";
 import { checkSpecialCondition } from "./checkSpecialCondition";
+import { randomizeEnemyPos, randomizePos } from "./randomizePos";
 
 export function dealBasicHpDamage(
   position: Target,
@@ -30,6 +31,13 @@ export function dealBasicHpDamage(
   action: CharacterAction,
   isTrueDamage?: boolean,
 ) {
+  if (target > 0 && target < 5) {
+    target = randomizePos(gameState, target);
+  } else if (target >= 20 && target < 25) {
+    target = randomizeEnemyPos(gameState, target);
+  } else if (target === Target.SELF) {
+    target = position;
+  }
   let maxHp = Big(0);
   let atkPercentage = Big(1);
   let basicBuff = Big(1);
@@ -766,7 +774,14 @@ export function dealBasicHpDamage(
     action,
   });
 
-  if (position < 5 && position >= 0) {
+  if (target === position) {
+    const character = gameState.characters[position];
+    gameState.battle_log.push(
+      `[${parseActionName(action)}]${character.name}對自己造成${formatNumber(
+        res1,
+      )}(${parseDamageTypeName(damageType)})`,
+    );
+  } else if (position < 5 && position >= 0) {
     if (target === Target.ENEMY) {
       const character = gameState.characters[position];
       gameState.battle_log.push(

@@ -309,11 +309,14 @@ export function triggerSkill(
         console.log("Wrong data");
         break;
       }
-
-      switch (buff._4.target) {
-        case Target.ALL_ALLIES: {
-        }
+      if (buff.id === "10153-passive-3") {
+        console.log("test");
       }
+
+      //switch (buff._4.target) {
+      //  case Target.ALL_ALLIES: {
+      //  }
+      //}
 
       switch (buff._4.target) {
         case Target.SELF: {
@@ -351,6 +354,47 @@ export function triggerSkill(
           }
           break;
         }
+        case Target.SPECIFIC_CHARACTER: {
+          const char = gameState.characters.findIndex((character) => {
+            return character.id === buff._4?.applyToSpecificChar;
+          });
+          if (char === -1) {
+            break;
+          }
+
+          const isExist = gameState.characters[char].buff.some((x) => {
+            return x.id === buff._4?.targetSkill;
+          });
+
+          if (isExist) {
+            gameState.characters[char].buff.map((x) => {
+              if (x.id === buff._4?.targetSkill) {
+                if (x._3 && x._3.stack < x._3.maxStack) {
+                  if (x._3 && buff._4) {
+                    x._3.stack += buff._4.increaseStack;
+                    if (x._3.stack > x._3.maxStack) {
+                      x._3.stack = x._3.maxStack;
+                    }
+                  } else {
+                    console.log("Wrong data buff._4");
+                  }
+                }
+              }
+              return x;
+            });
+          } else {
+            if (buff._4?.applySkill) {
+              gameState.characters[char].buff = [
+                ...gameState.characters[char].buff,
+                buff._4.applySkill,
+              ];
+            } else {
+              console.log("Wrong data buff._4.applySkill");
+            }
+          }
+          break;
+        }
+
         case Target.ALL_ALLIES: {
           gameState.characters.forEach((_, index) => {
             const isExist = gameState.characters[index].buff.some((x) => {

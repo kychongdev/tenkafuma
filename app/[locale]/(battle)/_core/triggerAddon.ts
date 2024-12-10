@@ -50,6 +50,7 @@ export function triggerAddOn(
       switch (buff._101.damageType) {
         case DamageType.BASIC:
         case DamageType.BASIC_ADDON: {
+          console.log("test");
           if (buff._101.multiple) {
             for (let i = 0; i < buff._101.multiple; i++) {
               if (buff._101.target === Target.ALL_ALLIES) {
@@ -258,6 +259,17 @@ export function triggerAddOn(
         }
         default:
           break;
+      }
+
+      if (
+        (buff._101.target >= 0 && buff._101.target < 5) ||
+        (buff._101.target == Target.SELF && position >= 0 && position < 5)
+      ) {
+        parseCondition(
+          buff._101.target == Target.SELF ? position : buff._101.target,
+          [Condition.RECEIVED_ATTACK],
+          gameState,
+        );
       }
       break;
     case 104:

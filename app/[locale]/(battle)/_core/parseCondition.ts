@@ -1,7 +1,7 @@
-import { Condition } from '@/app/[locale]/(battle)/_types/Skill';
-import { GameState } from './GameState';
-import { triggerSkill } from './triggerSkill';
-import { p } from './utils';
+import { Condition } from "@/app/[locale]/(battle)/_types/Skill";
+import { GameState } from "./GameState";
+import { triggerSkill } from "./triggerSkill";
+import { p } from "./utils";
 
 // When activate condition
 export function parseCondition(

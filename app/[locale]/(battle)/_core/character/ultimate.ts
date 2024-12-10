@@ -2572,6 +2572,115 @@ export function ultimateAttack(gameState: GameState, position: number) {
     }
     // "10152": "治癒之星 蘇珊",
     // "10153": "純真殺意 撒旦",
+    case "10153": {
+      //使自身獲得6/7/8/9/10層《向聖杯祈願》(最多10層)(每場戰鬥僅生效1次)，並使目標受到傷害增加15/20/20/25/25%(最多2層)，再使目標受到暗屬性傷害增加5/5/10/10/15%(最多2層)。CD:3
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10153-ult-1",
+          name: "《向聖杯祈願》",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          disabledOnSkill: "10153-passive-1-1",
+          _3: {
+            id: "10153-ult-1",
+            name: "《向聖杯祈願》",
+            stack:
+              bond === 1
+                ? 6
+                : bond === 2
+                  ? 7
+                  : bond === 3
+                    ? 8
+                    : bond === 4
+                      ? 9
+                      : 10,
+            maxStack: 10,
+            value: 0,
+            affectType: AffectType.NONE,
+          },
+        },
+      ];
+
+      const skill: Skill = {
+        id: "10153-ult-2",
+        name: "受到傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10153-ult-2-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10153-ult-2-1",
+            name: "受到傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10153-ult-2-1",
+              name: "受到傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.15
+                  : bond === 2
+                    ? 0.2
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.25,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
+
+      const skill2 = {
+        id: "10153-ult-3",
+        name: "受到暗屬性傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10153-ult-3-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10153-ult-3-1",
+            name: "受到暗屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10153-ult-3-1",
+              name: "受到暗屬性傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.05
+                  : bond === 2
+                    ? 0.05
+                    : bond === 3
+                      ? 0.1
+                      : bond === 4
+                        ? 0.1
+                        : 0.15,
+            },
+          },
+        },
+      };
+      triggerSkill(skill2, gameState, position);
+
+      break;
+    }
     // "10154": "星空奈奈美",
     case "10154": {
       const buff: Skill = {

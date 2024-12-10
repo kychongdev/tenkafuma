@@ -4638,7 +4638,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               _4: {
                 increaseStack: 1,
                 targetSkill: "10153-passive-3-1",
-                target: Target.SELF,
+                target: Target.SPECIFIC_CHARACTER,
+                applyToSpecificChar: "10153",
                 applySkill: {
                   id: "10153-passive-3-1",
                   name: "《高級萬聖甜點組》",
@@ -4771,7 +4772,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 _101: {
                   value: 0.01,
                   target: Target.SELF,
-                  damageType: DamageType.BASIC_ADDON,
+                  damageType: DamageType.BASIC_HP,
                   action: CharacterAction.BASIC,
                   isTrueDamage: true,
                 },
@@ -4785,7 +4786,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 _101: {
                   value: 0.01,
                   target: Target.SELF,
-                  damageType: DamageType.ULTIMATE_ADDON,
+                  damageType: DamageType.BASIC_HP,
                   action: CharacterAction.ULTIMATE,
                   isTrueDamage: true,
                 },

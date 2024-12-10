@@ -54,6 +54,7 @@ export interface _4 {
   targetSkill: string;
   target: Target | CharacterClass;
   applySkill?: Skill;
+  applyToSpecificChar?: string;
 }
 
 // immediately effect buff

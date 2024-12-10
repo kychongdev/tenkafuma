@@ -46,6 +46,7 @@ interface ISkill {
   specialConditionValue?: number;
   specialConditionSkill?: string;
   disabledOnSkill?: string;
+  obtainOnEnemyTurn?: boolean;
 }
 
 interface Skill extends ISkill {
@@ -216,11 +217,8 @@ enum Target {
   ALL_WIND_EXCEPT_SELF = 27,
   ALL_LIGHT_EXCEPT_SELF = 28,
   ALL_DARK_EXCEPT_SELF = 29,
-  //ALL_LIGHT = 30,
-  //ALL_DARK = 31,
-  //ALL_FIRE = 32,
-  //ALL_WATER = 33,
-  //ALL_WIND = 34,
+  SPECIFIC_ENEMY = 30,
+  SPECIFIC_CHARACTER = 31,
   ALL_ENEMIES = 35,
   DARK_ENEMY = 36,
   LIGHT_ENEMY = 37,
