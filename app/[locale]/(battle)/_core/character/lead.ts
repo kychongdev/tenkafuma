@@ -3215,14 +3215,223 @@ export function triggerLead(gameState: GameState) {
         ];
       });
 
-      // 我方全體獲得「當我方隊伍恰好為1種角色屬性時，開啟《英雄召喚》」
-      // 我方全體獲得「當我方隊伍恰好為2種角色屬性時，開啟《英雄召喚》」
-      //
-      // 《英雄召喚》
-      // 攻擊力增加75%
-      // 必殺時，觸發「使目標受到光屬性、闇屬性傷害增加3%(最多15層)」
-      // 必殺時，追加「以自身攻擊力200%對目標造成傷害」
-      // 普攻時，追加「以自身攻擊力100%對目標造成傷害」
+      const attributeCount = [
+        CharacterAttribute.LIGHT,
+        CharacterAttribute.DARK,
+        CharacterAttribute.FIRE,
+        CharacterAttribute.WATER,
+        CharacterAttribute.WIND,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (attributeCount.includes(character.attribute)) {
+          const index = attributeCount.indexOf(character.attribute);
+          if (index !== -1) {
+            attributeCount.splice(
+              attributeCount.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (attributeCount.length === 4) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10152-lead-3",
+              name: "攻擊力增加75%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 0.75,
+              },
+            },
+            {
+              id: "10152-lead-4",
+              name: "必殺時，觸發「使目標受到光屬性傷害增加3%(最多15層)」",
+              type: 4,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10152-lead-4-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10152-lead-5-1",
+                  name: "受到光屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10152-lead-5-1",
+                    name: "受到光屬性傷害增加",
+                    stack: 1,
+                    maxStack: 15,
+                    affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                    value: 0.03,
+                  },
+                },
+              },
+            },
+            {
+              id: "10152-lead-5",
+              name: "必殺時，觸發「使目標受到光屬性、闇屬性傷害增加3%(最多15層)」",
+              type: 4,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10152-lead-5-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10152-lead-5-1",
+                  name: "受到光屬性、闇屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10152-lead-5-1",
+                    name: "受到光屬性、闇屬性傷害增加",
+                    stack: 1,
+                    maxStack: 15,
+                    affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                    value: 0.03,
+                  },
+                },
+              },
+            },
+            {
+              id: "10152-lead-6",
+              name: "必殺時，追加「以自身攻擊力200%對目標造成傷害」",
+              type: 101,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _101: {
+                value: 2,
+                target: Target.ENEMY,
+                damageType: DamageType.ULTIMATE_ADDON,
+                action: CharacterAction.ULTIMATE,
+              },
+            },
+            {
+              id: "10152-lead-7",
+              name: "普攻時，追加「以自身攻擊力100%對目標造成傷害」",
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _101: {
+                value: 1,
+                target: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                action: CharacterAction.BASIC,
+              },
+            },
+          ];
+        });
+      }
+
+      if (attributeCount.length === 3) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10152-lead-3",
+              name: "攻擊力增加75%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 0.75,
+              },
+            },
+            {
+              id: "10152-lead-4",
+              name: "必殺時，觸發「使目標受到光屬性傷害增加3%(最多15層)」",
+              type: 4,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10152-lead-4-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10152-lead-5-1",
+                  name: "受到光屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10152-lead-5-1",
+                    name: "受到光屬性傷害增加",
+                    stack: 1,
+                    maxStack: 15,
+                    affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                    value: 0.03,
+                  },
+                },
+              },
+            },
+            {
+              id: "10152-lead-5",
+              name: "必殺時，觸發「使目標受到光屬性、闇屬性傷害增加3%(最多15層)」",
+              type: 4,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10152-lead-5-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10152-lead-5-1",
+                  name: "受到光屬性、闇屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10152-lead-5-1",
+                    name: "受到光屬性、闇屬性傷害增加",
+                    stack: 1,
+                    maxStack: 15,
+                    affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                    value: 0.03,
+                  },
+                },
+              },
+            },
+            {
+              id: "10152-lead-6",
+              name: "必殺時，追加「以自身攻擊力200%對目標造成傷害」",
+              type: 101,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _101: {
+                value: 2,
+                target: Target.ENEMY,
+                damageType: DamageType.ULTIMATE_ADDON,
+                action: CharacterAction.ULTIMATE,
+              },
+            },
+            {
+              id: "10152-lead-7",
+              name: "普攻時，追加「以自身攻擊力100%對目標造成傷害」",
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _101: {
+                value: 1,
+                target: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                action: CharacterAction.BASIC,
+              },
+            },
+          ];
+        });
+      }
       break;
     }
     // "10153": "純真殺意 撒旦",

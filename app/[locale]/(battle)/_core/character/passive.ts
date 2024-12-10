@@ -4571,6 +4571,116 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10152": "治癒之星 蘇珊",
+    case "10152": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10152-passive-1",
+          name: "必殺時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            value: 0.3,
+            target: Target.ALL_ALLIES,
+            affectType: AffectType.RAW_ATK,
+            duration: 1,
+            base: false,
+          },
+        },
+      ];
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10152-passive-2",
+            name: "防禦時，觸發「使自身受到傷害減少10%(1回合)」",
+            type: 11,
+            condition: Condition.GUARD,
+            duration: 100,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10152-passive-2-1",
+                  name: "受到傷害減少",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 1,
+                  _0: {
+                    value: 0.1,
+                    affectType: AffectType.DECREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10152-passive-3",
+            name: "防禦時，觸發「使我方『治癒之星 蘇珊』造成治療增加10%(2回合)」",
+            type: 13,
+            condition: Condition.GUARD,
+            duration: 100,
+            _13: {
+              target: "10152",
+              applySkill: [
+                {
+                  id: "10152-passive-3-1",
+                  name: "造成治療增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.1,
+                    affectType: AffectType.INCREASE_HEAL_RATE,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      });
+
+      if (gameState.characters[position].stars === 5) {
+        //每經過一回合時，觸發「使自身被攻擊時，觸發『以自身最大HP10%對我方全體造成治療』(1回合)(此效果最多作用一次)」
+        gameState.characters.forEach((character, index) => {
+          if (character.attribute === CharacterAttribute.DARK) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "10152-passive-5",
+                name: "攻擊力增加40%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  value: 0.4,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ];
+          }
+        });
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10152-passive4",
+            name: "使自身造成治療增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_HEAL_RATE,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10153": "純真殺意 撒旦",
     case "10153": {
       gameState.characters[position].buff = [

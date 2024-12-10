@@ -1362,11 +1362,11 @@
   "10152": {
     "id": 10152,
     "name": "治癒之星 蘇珊",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3385.6,
+    "initAtk": 1041.6,
+    "attribute": 9,
+    "class": 13,
+    "available": true,
     "cd": 4
   },
   "10153": {
