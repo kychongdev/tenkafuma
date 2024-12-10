@@ -577,7 +577,22 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10152": "治癒之星 蘇珊",
+    case "10152": {
+      heal(position, 0.75, gameState, true, Target.ALL_ALLIES);
+      break;
+    }
     // "10153": "純真殺意 撒旦",
+    case "10153": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10154": "星空奈奈美",
     case "10154": {
       dealBasicDamage(
