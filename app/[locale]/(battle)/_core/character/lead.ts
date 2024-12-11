@@ -802,6 +802,274 @@ export function triggerLead(gameState: GameState) {
       break;
     }
     // "10078": "慵懶貓貓 露露",
+    case "10078": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10078-Lead-1",
+            name: "最大HP增加30%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+          {
+            id: "10078-Lead-2",
+            name: "攻擊力增加25%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.25,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: "10078-Lead-3",
+          name: "普攻傷害增加30%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_BASIC_DMG,
+            value: 0.3,
+          },
+        },
+      ];
+
+      gameState.characters.forEach((character, index) => {
+        if (character.attribute === CharacterAttribute.WATER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10078-Lead-3",
+              name: "普攻時，觸發「使目標受到普攻傷害增加15%(最多5層)」",
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10078-Lead-3-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10078-Lead-3-1",
+                  name: "受到普攻傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10078-Lead-3-1",
+                    name: "受到普攻傷害增加",
+                    stack: 1,
+                    maxStack: 5,
+                    affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+                    value: 0.15,
+                  },
+                },
+              },
+            },
+            {
+              id: "10078-Lead-4",
+              name: "普攻時，追加「以自身攻擊力30%對目標造成傷害」",
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _101: {
+                value: 0.3,
+                target: Target.ENEMY,
+                damageType: 0,
+                action: CharacterAction.BASIC,
+              },
+            },
+          ];
+        }
+      });
+
+      const fourWaterCondition = [
+        CharacterAttribute.WATER,
+        CharacterAttribute.WATER,
+        CharacterAttribute.WATER,
+        CharacterAttribute.WATER,
+      ];
+      gameState.characters.forEach((character) => {
+        if (fourWaterCondition.includes(character.attribute)) {
+          const index = fourWaterCondition.indexOf(character.attribute);
+          if (index !== -1) {
+            fourWaterCondition.splice(
+              fourWaterCondition.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (fourWaterCondition.length === 0) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+
+            {
+              id: "10078-Lead-5",
+              name: "普攻傷害增加50%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_BASIC_DMG,
+                value: 0.5,
+              },
+            },
+            {
+              id: "10078-lead-6",
+              name: "攻擊時，觸發「使我方站位1的隊員造成傷害增加5%(1回合)、獲得普攻時與必殺時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _11: {
+                target: Target.POSITION_1,
+                applySkill: [
+                  {
+                    id: "10078-Lead-6-1",
+                    name: "造成傷害增加5%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      affectType: AffectType.INCREASE_DMG,
+                      value: 0.05,
+                    },
+                  },
+                  {
+                    id: "10078-Lead-6-2",
+                    name: "普攻時，追加「以自身攻擊力10%對目標造成傷害」",
+                    type: 101,
+                    condition: Condition.BASIC_ATTACK,
+                    duration: 1,
+                    _101: {
+                      value: 0.1,
+                      target: Target.ENEMY,
+                      damageType: 0,
+                      action: CharacterAction.BASIC,
+                    },
+                  },
+                  {
+                    id: "10078-Lead-6-3",
+                    name: "必殺時，追加「以自身攻擊力10%對目標造成傷害」",
+                    type: 101,
+                    condition: Condition.ULTIMATE,
+                    duration: 1,
+                    _101: {
+                      value: 0.1,
+                      target: Target.ENEMY,
+                      damageType: 1,
+                      action: CharacterAction.BASIC,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        });
+      }
+
+      const fiveWaterCondition = [
+        CharacterAttribute.WATER,
+        CharacterAttribute.WATER,
+        CharacterAttribute.WATER,
+        CharacterAttribute.WATER,
+        CharacterAttribute.WATER,
+      ];
+      gameState.characters.forEach((character) => {
+        if (fiveWaterCondition.includes(character.attribute)) {
+          const index = fiveWaterCondition.indexOf(character.attribute);
+          if (index !== -1) {
+            fiveWaterCondition.splice(
+              fiveWaterCondition.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (fiveWaterCondition.length === 0) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+
+            {
+              id: "10078-Lead-7",
+              name: "普攻傷害增加50%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.3,
+              },
+            },
+            {
+              id: "10078-lead-7",
+              name: "攻擊時，觸發「使我方站位1的隊員造成傷害增加5%(1回合)、獲得普攻時與必殺時，追加『以自身攻擊力20%對目標造成傷害』(1回合)」",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _11: {
+                target: Target.POSITION_1,
+                applySkill: [
+                  {
+                    id: "10078-Lead-7-1",
+                    name: "造成傷害增加5%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      affectType: AffectType.INCREASE_DMG,
+                      value: 0.05,
+                    },
+                  },
+                  {
+                    id: "10078-Lead-7-2",
+                    name: "普攻時，追加「以自身攻擊力20%對目標造成傷害」",
+                    type: 101,
+                    condition: Condition.BASIC_ATTACK,
+                    duration: 1,
+                    _101: {
+                      value: 0.2,
+                      target: Target.ENEMY,
+                      damageType: 0,
+                      action: CharacterAction.BASIC,
+                    },
+                  },
+                  {
+                    id: "10078-Lead-7-3",
+                    name: "必殺時，追加「以自身攻擊力20%對目標造成傷害」",
+                    type: 101,
+                    condition: Condition.ULTIMATE,
+                    duration: 1,
+                    _101: {
+                      value: 0.2,
+                      target: Target.ENEMY,
+                      damageType: 1,
+                      action: CharacterAction.ULTIMATE,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        });
+      }
+      break;
+    }
     // "10079": "新春 凜月",
     // "10081": "花嫁 伊布力斯",
     // "10082": "花嫁 撒旦",
