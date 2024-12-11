@@ -3712,6 +3712,10 @@ export function triggerLead(gameState: GameState) {
 
       break;
     }
+    // "10156": "性誕魔王 巴爾"
+    case "10156": {
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

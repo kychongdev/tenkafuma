@@ -1242,11 +1242,11 @@
   "10140": {
     "id": 10140,
     "name": "真神化身 菈萊亞 菈萊亞",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 5040,
+    "initAtk": 699.2,
+    "attribute": 9,
+    "class": 12,
+    "available": true,
     "cd": 4
   },
   "10141": {
@@ -1398,6 +1398,16 @@
     "class": 11,
     "available": true,
     "cd": 3
+  },
+  "10156": {
+    "id": 10156,
+    "name": "性誕魔王 巴爾",
+    "initHp": 3740.8,
+    "initAtk": 942.3,
+    "attribute": 5,
+    "class": 11,
+    "available": true,
+    "cd": 4
   },
   "10801": {
     "id": 10801,

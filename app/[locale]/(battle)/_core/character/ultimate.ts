@@ -1774,6 +1774,96 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10140": "真神化身 菈萊亞 菈萊亞",
+    case "10140": {
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.68
+                : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: "10140-ult-1",
+          name: "受到傷害減少(2回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.DECREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.1
+                : bond === 2
+                  ? 0.125
+                  : bond === 3
+                    ? 0.15
+                    : bond === 4
+                      ? 0.175
+                      : 0.2,
+          },
+        },
+      ];
+      gameState.characters[1].buff = [
+        ...gameState.characters[1].buff,
+        {
+          id: "10140-ult-1",
+          name: "受到傷害減少(2回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.DECREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.1
+                : bond === 2
+                  ? 0.125
+                  : bond === 3
+                    ? 0.15
+                    : bond === 4
+                      ? 0.175
+                      : 0.2,
+          },
+        },
+      ];
+      gameState.characters[2].buff = [
+        ...gameState.characters[2].buff,
+        {
+          id: "10140-ult-1",
+          name: "受到傷害減少(2回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.DECREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.1
+                : bond === 2
+                  ? 0.125
+                  : bond === 3
+                    ? 0.15
+                    : bond === 4
+                      ? 0.175
+                      : 0.2,
+          },
+        },
+      ];
+
+      break;
+    }
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
     case "10142": {
@@ -2912,6 +3002,119 @@ export function ultimateAttack(gameState: GameState, position: number) {
           },
         },
       ];
+      break;
+    }
+    // "10156": "性誕魔王 巴爾"
+    case "10156": {
+      const skill: Skill = {
+        id: "10156-ult-1",
+        name: "受到傷害增加(最多1層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10156-ult-1-1",
+          applySkill: {
+            id: "10156-ult-1-1",
+            name: "受到傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10156-passive-1-1",
+              name: "受到傷害增加(最多1層)",
+              stack: 1,
+              maxStack: 1,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.2
+                    : bond === 3
+                      ? 0.3
+                      : bond === 4
+                        ? 0.4
+                        : 0.6,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
+
+      const skill2: Skill = {
+        id: "10156-ult-2",
+        name: "受到火屬性傷害增加(最多1層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10156-ult-2-1",
+          applySkill: {
+            id: "10156-ult-2-1",
+            name: "受到火屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10156-ult-2-1",
+              name: "受到火屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.25
+                    : bond === 3
+                      ? 0.3
+                      : bond === 4
+                        ? 0.35
+                        : 0.4,
+              affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+            },
+          },
+        },
+      };
+      triggerSkill(skill2, gameState, position);
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1.94
+          : bond === 2
+            ? 2.23
+            : bond === 3
+              ? 2.51
+              : bond === 4
+                ? 2.8
+                : 3.09,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1.94
+          : bond === 2
+            ? 2.23
+            : bond === 3
+              ? 2.51
+              : bond === 4
+                ? 2.8
+                : 3.09,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
       break;
     }
     // "10801": "雙蛇軍團護士長 艾琳",

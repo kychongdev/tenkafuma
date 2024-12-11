@@ -458,6 +458,17 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10140": "真神化身 菈萊亞 菈萊亞",
+    case "10140": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
     case "10142": {
@@ -633,6 +644,18 @@ export function basicAttack(gameState: GameState, position: number) {
           },
         },
       ];
+      break;
+    }
+    // "10156": "性誕魔王 巴爾"
+    case "10156": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
       break;
     }
     // "10801": "雙蛇軍團護士長 艾琳",

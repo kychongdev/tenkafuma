@@ -609,7 +609,6 @@ export function s21_63_action(gameState: GameState) {
         condition: Condition.ENEMY_BASIC_ATTACK,
         duration: 1,
         _8: {
-          value: 0,
           target: Target.ENEMY_1,
           targetSkill: "42228-passive-8-1",
           triggerSkill: {

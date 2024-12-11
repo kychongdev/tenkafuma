@@ -3394,6 +3394,231 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10140": "真神化身 菈萊亞 菈萊亞",
+    case "10140": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10140-passive-1",
+            name: "使我方全體必殺技傷害增加30%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.3,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10140-passive-2",
+          name: "造成傷害增加10%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.1,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+        {
+          id: "10140-passive-3",
+          name: "必殺時，觸發「使我方全體造成傷害增加20%(1回合)」",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10140-passive-3-1",
+                name: "造成傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10140-passive-8",
+          name: "防禦時，觸發「使我方全體被治療時回復量增加20%(1回合)」",
+          type: 11,
+          condition: Condition.GUARD,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10140-passive-8-1",
+                name: "被治療時回復量增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_HEAL_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10140-passive-4",
+            name: "普攻時，觸發「使自身『降臨值(最多10層)』增加1層」",
+            type: 19,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _19: {
+              increaseStack: 1,
+              targetSkill: "10140-passive-4-1",
+              target: Target.SELF,
+              applySkill: {
+                id: "10140-passive-4-1",
+                name: "降臨值",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10140-passive-4-1",
+                  name: "降臨值",
+                  stack: 1,
+                  maxStack: 10,
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+              checkActivation: [
+                {
+                  characterId: "10140",
+                  checkSkillId: "10140-passive-4-1",
+                  skillStackCondition: SkillStackCondition.EQUAL,
+                  activateIfStack: 10,
+                  activateSkillId: "10140-passive-6",
+                },
+              ],
+            },
+          },
+          {
+            id: "10140-passive-5",
+            name: "必殺時，觸發「使自身『降臨值(最多10層)』增加3層」",
+            type: 19,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _19: {
+              increaseStack: 3,
+              targetSkill: "10140-passive-4-1",
+              target: Target.SELF,
+              applySkill: {
+                id: "10140-passive-4-1",
+                name: "降臨值",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10140-passive-4-1",
+                  name: "降臨值",
+                  stack: 1,
+                  maxStack: 10,
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+              checkActivation: [
+                {
+                  characterId: "10140",
+                  checkSkillId: "10140-passive-4-1",
+                  skillStackCondition: SkillStackCondition.EQUAL,
+                  activateIfStack: 10,
+                  activateSkillId: "10140-passive-6",
+                },
+                {
+                  characterId: "10140",
+                  checkSkillId: "10140-passive-4-1",
+                  skillStackCondition: SkillStackCondition.EQUAL,
+                  activateIfStack: 10,
+                  activateSkillId: "10140-passive-7",
+                },
+              ],
+            },
+          },
+          {
+            id: "10140-passive-6",
+            name: "使目標受到傷害增加5%",
+            type: 4,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            deactivated: true,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10140-passive-6-1",
+              target: Target.ENEMY,
+              applySkill: {
+                id: "10140-passive-6-1",
+                name: "受到傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10140-passive-6-1",
+                  name: "受到傷害增加5%",
+                  value: 0.05,
+                  stack: 1,
+                  maxStack: 9,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+          {
+            id: "10140-passive-7",
+            name: "必殺時，觸發「以自身最大HP50%對目標造成傷害」",
+            type: 1,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            deactivated: true,
+            _1: {
+              value: 0.5,
+              target: Target.ENEMY,
+              damageType: DamageType.ULTIMATE_HP,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10140-passive4",
+            name: "使自身造成傷害增加7.5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.075,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
     case "10142": {
@@ -5513,6 +5738,190 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: "10154-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
+    // "10156": "性誕魔王 巴爾"
+    case "10156": {
+      const threeFireCondition = [
+        CharacterAttribute.FIRE,
+        CharacterAttribute.FIRE,
+        CharacterAttribute.FIRE,
+      ];
+
+      gameState.characters.forEach((character) => {
+        if (threeFireCondition.includes(character.attribute)) {
+          const index = threeFireCondition.indexOf(character.attribute);
+          if (index !== -1) {
+            threeFireCondition.splice(
+              threeFireCondition.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10156-passive-1",
+          name: "必殺時，觸發「使自身攻擊力增加60%」(最多3層)",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            target: Target.SELF,
+            targetSkill: "10156-passive-1-1",
+            applySkill: {
+              id: "10156-passive-1-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10156-passive-1-1",
+                name: "攻擊力增加",
+                stack: 1,
+                maxStack: 3,
+                value: 0.6,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+      ];
+
+      if (threeFireCondition.length === 0) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10156-passive-1",
+            name: "使自身攻擊力減少180%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 1.8,
+              affectType: AffectType.DECREASE_ATK,
+            },
+          },
+        ];
+      }
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10156-passive-3",
+          name: "必殺時，觸發「使自身造成傷害增加30%」(最多3層)",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            target: Target.SELF,
+            targetSkill: "10156-passive-3-1",
+            applySkill: {
+              id: "10156-passive-3-1",
+              name: "造成傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10156-passive-3-1",
+                name: "造成傷害增加",
+                stack: 1,
+                maxStack: 3,
+                value: 0.3,
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          },
+        },
+      ];
+
+      if (threeFireCondition.length === 0) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10156-passive-2",
+            name: "使自身造成傷害減少90%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.9,
+              affectType: AffectType.DECREASE_DMG,
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10156-passive-5",
+            name: "必殺時，觸發「使自身必殺技傷害增加30%」(最多3層)",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              target: Target.SELF,
+              targetSkill: "10156-passive-5-1",
+              applySkill: {
+                id: "10156-passive-5-1",
+                name: "必殺技傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10156-passive-5-1",
+                  name: "必殺技傷害增加",
+                  stack: 1,
+                  maxStack: 3,
+                  value: 0.5,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            },
+          },
+        ];
+
+        if (threeFireCondition.length === 0) {
+          gameState.characters[position].buff = [
+            ...gameState.characters[position].buff,
+            {
+              id: "10156-passive-6",
+              name: "使自身必殺技傷害減少150%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                value: 1.5,
+                affectType: AffectType.DECREASE_ULTIMATE_DMG,
+              },
+            },
+          ];
+        }
+      }
+
+      if (passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10156-passive4",
             name: "使自身攻擊力增加10%",
             type: 0,
             condition: Condition.NONE,
