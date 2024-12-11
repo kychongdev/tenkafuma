@@ -6541,6 +6541,110 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       }
       break;
     }
+    case "10157": {
+      break;
+    }
+
+    // "10158": "翩舞雪花 初華"
+    case "10158": {
+      //治療
+      //
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10158-passive-2",
+          name: "每經過3回合時，觸發「使目標受到傷害增加20%(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: "10158-passive-1-1",
+                name: "受到傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+        //治療
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10158-passive-4",
+            name: "攻擊力增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.4,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+          {
+            id: "10158-passive-5",
+            name: "必殺時，觸發「使我方全體被治療時回復量增加25%」(最多2層)",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              target: Target.ALL_ALLIES,
+              targetSkill: "10158-passive-5-1",
+              applySkill: {
+                id: "10158-passive-5-1",
+                name: "被治療時回復量增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10158-passive-5-1",
+                  name: "被治療時回復量增加",
+                  stack: 1,
+                  maxStack: 2,
+                  value: 0.25,
+                  affectType: AffectType.INCREASE_HEAL_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10158-passive4",
+            name: "使自身治療量增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_HEAL_RATE,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
+    case "10159": {
+      break;
+    }
+
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

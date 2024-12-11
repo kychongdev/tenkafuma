@@ -721,6 +721,10 @@ export function basicAttack(gameState: GameState, position: number) {
       );
       break;
     }
+    // "10158": "翩舞雪花 初華"
+    case "10158": {
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

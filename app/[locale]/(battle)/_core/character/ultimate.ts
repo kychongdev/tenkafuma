@@ -3481,6 +3481,75 @@ export function ultimateAttack(gameState: GameState, position: number) {
       );
       break;
     }
+    // "10158": "翩舞雪花 初華"
+    case "10158": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10158-ult-1",
+            name: "攻擊力增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.4
+                  : bond === 2
+                    ? 0.45
+                    : bond === 3
+                      ? 0.5
+                      : bond === 4
+                        ? 0.55
+                        : 0.6,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+          {
+            id: "10158-ult-2",
+            name: "造成傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.3,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: "10158-ult-3",
+            name: "必殺技傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.3,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

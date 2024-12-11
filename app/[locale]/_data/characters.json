@@ -1409,6 +1409,36 @@
     "available": true,
     "cd": 4
   },
+  "10157": {
+    "id": 10157,
+    "name": "性誕魔王 巴爾",
+    "initHp": 3740.8,
+    "initAtk": 942.3,
+    "attribute": 5,
+    "class": 11,
+    "available": true,
+    "cd": 4
+  },
+  "10158": {
+    "id": 10158,
+    "name": "翩舞雪花 初華",
+    "initHp": 4713.6,
+    "initAtk": 747.2,
+    "attribute": 6,
+    "class": 13,
+    "available": true,
+    "cd": 3
+  },
+  "10159": {
+    "id": 10159,
+    "name": "性誕魔王 巴爾",
+    "initHp": 3740.8,
+    "initAtk": 942.3,
+    "attribute": 5,
+    "class": 11,
+    "available": true,
+    "cd": 4
+  },
   "10801": {
     "id": 10801,
     "name": "法斯帝國士兵 賽蓮",
