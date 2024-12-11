@@ -488,6 +488,95 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10069": "尋情慾兔 鈴蘭",
     // "10071": "詛咒凝視 絲塔夏",
     // "10072": "花嫁 巴爾",
+    case "10072": {
+      const buff: Skill = {
+        id: "10072-ult-1",
+        name: "攻擊力",
+        type: 6,
+        condition: Condition.NONE,
+        duration: 1,
+        _6: {
+          duration: 1,
+          base: false,
+          value:
+            bond === 1
+              ? 0.4
+              : bond === 2
+                ? 0.4
+                : bond === 3
+                  ? 0.45
+                  : bond === 4
+                    ? 0.45
+                    : 0.5,
+          affectType: AffectType.RAW_ATK,
+          target: Target.SELF,
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      const buff2: Skill = {
+        id: "10072-ult-2",
+        name: "普攻傷害增加(2回合)",
+        type: 12,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _12: {
+          position: 1,
+          applySkill: {
+            id: "10072-ult-2",
+            name: "普攻傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.8
+                  : bond === 2
+                    ? 0.9
+                    : bond === 3
+                      ? 0.9
+                      : bond === 4
+                        ? 1
+                        : 1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        },
+      };
+      triggerSkill(buff2, gameState, position);
+      const buff3: Skill = {
+        id: "10072-ult-3",
+        name: "必殺傷害增加(1回合)",
+        type: 12,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _12: {
+          position: 1,
+          applySkill: {
+            id: "10072-ult-3",
+            name: "必殺傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.3
+                  : bond === 2
+                    ? 0.35
+                    : bond === 3
+                      ? 0.35
+                      : bond === 4
+                        ? 0.4
+                        : 0.4,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        },
+      };
+      triggerSkill(buff3, gameState, position);
+      break;
+    }
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",

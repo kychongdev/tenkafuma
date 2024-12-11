@@ -143,6 +143,32 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10069": "尋情慾兔 鈴蘭",
     // "10071": "詛咒凝視 絲塔夏",
     // "10072": "花嫁 巴爾",
+    case "10072": {
+      const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.75);
+      const buff: Skill = {
+        id: "10072-basic-1",
+        name: "攻擊力",
+        type: 12,
+        condition: Condition.NONE,
+        duration: 1,
+        _12: {
+          position: 1,
+          applySkill: {
+            id: "10072-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      break;
+    }
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",

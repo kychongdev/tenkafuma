@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 6111",
+    "dev": "next dev --turbopack -p 6111",
     "exp": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
@@ -58,7 +58,7 @@
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.454.0",
-    "next": "15.0.4",
+    "next": "15.1.0",
     "next-intl": "^3.24.0",
     "next-themes": "^0.3.0",
     "react": "19.0.0",
@@ -81,7 +81,7 @@
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.2",
     "eslint": "^8",
-    "eslint-config-next": "15.0.4",
+    "eslint-config-next": "15.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

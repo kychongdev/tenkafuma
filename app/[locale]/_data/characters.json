@@ -682,11 +682,11 @@
   "10072": {
     "id": 10072,
     "name": "花嫁 巴爾",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3462.4,
+    "initAtk": 1017.6,
     "attribute": 5,
-    "class": 11,
-    "available": false,
+    "class": 15,
+    "available": true,
     "cd": 4
   },
   "10074": {
