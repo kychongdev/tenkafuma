@@ -969,6 +969,112 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
+    case "10076": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10076-passive-1",
+          name: "必殺時，觸發「使我方全體普攻傷害增加30%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            target: Target.ALL_ALLIES,
+            targetSkill: "10076-passive-1-1",
+            increaseStack: 1,
+            applySkill: {
+              id: "10076-passive-1-1",
+              name: "普攻傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10076-passive-1-1",
+                name: "普攻傷害增加",
+                value: 0.3,
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: "10076-passive-2",
+          name: "第1回合時，觸發「使我方全體普攻傷害增加30%(50回合)」",
+          type: 11,
+          condition: Condition.ON_SPECIFIC_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10076-passive-2-1",
+                name: "普攻傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10076-passive-3",
+            name: "必殺時，觸發「使我方全體造成傷害增加12.5%(最多2層)」",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              target: Target.ALL_ALLIES,
+              targetSkill: "10076-passive-3-1",
+              increaseStack: 1,
+              applySkill: {
+                id: "10076-passive-3-1",
+                name: "造成傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10076-passive-3-1",
+                  name: "造成傷害增加",
+                  value: 0.125,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10076-passive-4",
+            name: "使普攻傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10077": "黑鷹 貝里絲",
     case "10077": {
       gameState.characters[position].buff = [
@@ -1117,9 +1223,9 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           duration: 100,
           _101: {
             value: 0.35,
-            isTrigger: false,
             target: Target.ENEMY,
-            damageType: 0,
+            damageType: DamageType.BASIC_ADDON,
+            action: CharacterAction.BASIC,
           },
         },
       ];

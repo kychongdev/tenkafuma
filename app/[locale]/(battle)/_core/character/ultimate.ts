@@ -580,6 +580,63 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
+    case "10076": {
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.68
+                : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      gameState.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10076-ult-1",
+              name: "攻擊力",
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration:
+                bond === 1
+                  ? 3
+                  : bond === 2
+                    ? 3
+                    : bond === 3
+                      ? 4
+                      : bond === 4
+                        ? 4
+                        : 4,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.375
+                    : bond === 2
+                      ? 0.45
+                      : bond === 3
+                        ? 0.45
+                        : bond === 4
+                          ? 0.525
+                          : 0.6,
+                target: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                action: CharacterAction.BASIC,
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10077": "黑鷹 貝里絲",
     case "10077": {
       const buff: Skill = {
