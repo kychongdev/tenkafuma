@@ -175,6 +175,17 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10077": "黑鷹 貝里絲",
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
+    case "10079": {
+      dealBasicDamage(
+        position,
+        1.25,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10081": "花嫁 伊布力斯",
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",

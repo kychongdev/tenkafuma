@@ -972,6 +972,123 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10077": "黑鷹 貝里絲",
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
+    case "10079": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10079-passive-1",
+          name: "普攻時，觸發「使目標受到普攻傷害增加20%(最多4層)」",
+          type: 4,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10079-passive-1-1",
+            target: Target.ENEMY,
+            applySkill: {
+              id: "10079-passive-1-1",
+              name: "受到普攻傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10079-passive-1-1",
+                name: "受到普攻傷害增加20%",
+                value: 0.2,
+                stack: 1,
+                maxStack: 4,
+                affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+              },
+            },
+          },
+        },
+        {
+          id: "10079-passive-2",
+          name: "第1回合時，觸發「使我方全體普攻傷害增加30%(50回合)」",
+          type: 11,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10079-passive-2-1",
+                name: "普攻傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10079-passive-3",
+            name: "使自身造成傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: "10079-passive-4",
+            name: "攻擊時，觸發「使目標受到傷害增加5%(最多5層)」",
+            type: 4,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10079-passive-4-1",
+              target: Target.ENEMY,
+              applySkill: {
+                id: "10079-passive-4-1",
+                name: "受到傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10079-passive-4-1",
+                  name: "受到傷害增加5%",
+                  value: 0.05,
+                  stack: 1,
+                  maxStack: 5,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10079-passive-4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10081": "花嫁 伊布力斯",
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",

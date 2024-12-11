@@ -583,6 +583,80 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10077": "黑鷹 貝里絲",
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
+    case "10079": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10079-ult-1",
+          name: "攻擊力增加(1回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration:
+            bond === 1
+              ? 3
+              : bond === 2
+                ? 3
+                : bond === 3
+                  ? 3
+                  : bond === 4
+                    ? 4
+                    : 4,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value:
+              bond === 1
+                ? 0.5
+                : bond === 2
+                  ? 0.65
+                  : bond === 3
+                    ? 0.8
+                    : bond === 4
+                      ? 0.95
+                      : 1.1,
+          },
+        },
+      ];
+
+      dealUltDamage(
+        position,
+        2,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      if (bond > 2) {
+        const buff: Skill = {
+          id: "10079-ult-2",
+          name: "造成傷害增加(最多1層)",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10079-ult-2-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10079-ult-2-1",
+              name: "造成傷害增加(最多1層)",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10079-ult-2-1",
+                name: "造成傷害增加(最多1層)",
+                stack: 1,
+                maxStack: 1,
+                affectType: AffectType.INCREASE_DMG,
+                value: bond === 3 ? 0.1 : bond === 4 ? 0.15 : 0.2,
+              },
+            },
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      }
+      break;
+    }
     // "10081": "花嫁 伊布力斯",
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",

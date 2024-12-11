@@ -742,11 +742,11 @@
   "10079": {
     "id": 10079,
     "name": "新春 凜月",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3476.8,
+    "initAtk": 1012.8,
     "attribute": 5,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4
   },
   "10081": {
