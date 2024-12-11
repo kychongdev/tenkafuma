@@ -581,6 +581,57 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
     // "10077": "黑鷹 貝里絲",
+    case "10077": {
+      const buff: Skill = {
+        id: "10077-ult-1",
+        name: "以自身最大HP10/10/12.5/15/20%使自身攻擊力增加(3/3/4/4/4回合)",
+        type: 16,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _16: {
+          value:
+            bond === 1
+              ? 0.1
+              : bond === 2
+                ? 0.1
+                : bond === 3
+                  ? 0.125
+                  : bond === 4
+                    ? 0.15
+                    : 0.2,
+          affectType: AffectType.RAW_ATK,
+          target: Target.SELF,
+          duration:
+            bond === 1
+              ? 3
+              : bond === 2
+                ? 3
+                : bond === 3
+                  ? 4
+                  : bond === 4
+                    ? 4
+                    : 4,
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      //再以自身攻擊力100/125/150/175/200%對我方全體進行治療，再以自身最大HP30/35/40/45/50%每回合對我方全體進行治療(4回合)，CD：4
+      heal(
+        position,
+        bond === 1
+          ? 1
+          : bond === 2
+            ? 1.25
+            : bond === 3
+              ? 1.5
+              : bond === 4
+                ? 1.75
+                : 2,
+        gameState,
+        true,
+        Target.ALL_ALLIES,
+      );
+      break;
+    }
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     case "10079": {

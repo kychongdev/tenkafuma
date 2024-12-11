@@ -970,6 +970,91 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
     // "10077": "黑鷹 貝里絲",
+    case "10077": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10077-passive-1",
+          name: "普攻時，觸發「使我方全體攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _6: {
+            value: 0.2,
+            target: Target.ALL_ALLIES,
+            affectType: AffectType.RAW_ATK,
+            duration: 1,
+            base: false,
+          },
+        },
+        {
+          id: "10077-passive-2",
+          name: "必殺時，觸發「使我方全體攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            value: 0.25,
+            target: Target.ALL_ALLIES,
+            affectType: AffectType.RAW_ATK,
+            duration: 1,
+            base: false,
+          },
+        },
+      ];
+
+      //TODO:
+      // 普攻時 ，觸發「以自身最大HP10%對我方全體施加護盾(1回合)、再以自身攻擊力10%對我方全體施加護盾(1回合)」
+      //
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10077-passive-4",
+            name: "必殺時，觸發「使我方全體攻擊力增加(8回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10077-passive-4-1",
+                  name: "攻擊力增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 8,
+                  _0: {
+                    value: 0.25,
+                    affectType: AffectType.INCREASE_ATK,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10077-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_HEAL_RATE_OVER_TIME,
+            },
+          },
+        ];
+      }
+      break;
+    }
+
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     case "10079": {
