@@ -117,6 +117,7 @@ export function basicAttack(gameState: GameState, position: number) {
           },
         ];
       });
+      break;
     }
     // "10045": "極樂之鬼 伊吹朱點",
     // "10046": "刺針 嘉維爾",

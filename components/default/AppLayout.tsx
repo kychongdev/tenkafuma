@@ -1,6 +1,7 @@
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/AppSideBar';
-import { HeaderButton } from './HeaderButton';
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSideBar";
+import { HeaderButton } from "./HeaderButton";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +12,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <SidebarTrigger className="[&_svg]:size-8 w-12 h-12" />
           <HeaderButton />
         </div>
-        {children}
+        <ScrollArea>{children}</ScrollArea>
       </main>
     </SidebarProvider>
   );

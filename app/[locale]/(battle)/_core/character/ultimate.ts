@@ -20,6 +20,7 @@ import {
 } from "@/types/Character";
 import { dealUltDamage } from "../dealUltDamage";
 import { dealUltHpDamage } from "../dealUltHpDamage";
+import { healUltDamage } from "../healUltDamage";
 
 export function ultimateAttack(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;
@@ -672,7 +673,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
       };
       triggerSkill(buff, gameState, position);
       //再以自身攻擊力100/125/150/175/200%對我方全體進行治療，再以自身最大HP30/35/40/45/50%每回合對我方全體進行治療(4回合)，CD：4
-      heal(
+      healUltDamage(
         position,
         bond === 1
           ? 1
@@ -684,8 +685,9 @@ export function ultimateAttack(gameState: GameState, position: number) {
                 ? 1.75
                 : 2,
         gameState,
-        true,
         Target.ALL_ALLIES,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
       );
       break;
     }
@@ -1219,7 +1221,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
         },
       ];
 
-      heal(position, 2.75, gameState, true, Target.ALL_ALLIES);
+      heal(position, 2.75, gameState, false, Target.ALL_ALLIES);
 
       gameState.enemies[gameState.targeting].buff = [
         ...gameState.enemies[gameState.targeting].buff,
@@ -1599,11 +1601,11 @@ export function ultimateAttack(gameState: GameState, position: number) {
         ...gameState.characters[position].buff,
         {
           id: "10128-ult-2",
-          name: "普攻時，追加『以攻擊力50/56.5/70/76.5/90%對目標造成傷害』(4回合)",
-          type: 1,
+          name: `普攻時，追加『以攻擊力${bond === 1 ? "50" : bond === 2 ? "56.5" : bond === 3 ? "70" : bond === 4 ? "76.5" : "90"}對目標造成傷害』(4回合)`,
+          type: 101,
           condition: Condition.BASIC_ATTACK,
           duration: 4,
-          _1: {
+          _101: {
             value:
               bond === 1
                 ? 0.5
@@ -3083,6 +3085,117 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10152": "治癒之星 蘇珊",
+    case "10152": {
+      //(使我方全體被治療時回復量增加60 / 70 / 80 / 90 / 100) % (1回合);
+      //，以自身最大HP40/45/50/50/50%對我方全體造成治療，再使我方全體造成傷害增加25/30/40/50/60%(4回合)，再使自身攻擊力增加20/40/60/80/100%(最多1層)，CD：4
+
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10152-ult-1",
+            name: "受到治療增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              affectType: AffectType.INCREASE_HEAL_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.6
+                  : bond === 2
+                    ? 0.7
+                    : bond === 3
+                      ? 0.8
+                      : bond === 4
+                        ? 0.9
+                        : 1,
+            },
+          },
+        ];
+      });
+
+      healUltDamage(
+        position,
+        bond === 1
+          ? 0.4
+          : bond === 2
+            ? 0.45
+            : bond === 3
+              ? 0.5
+              : bond === 4
+                ? 0.5
+                : 0.5,
+        gameState,
+        Target.ALL_ALLIES,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10152-ult-2",
+            name: "造成傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value:
+                bond === 1
+                  ? 0.25
+                  : bond === 2
+                    ? 0.3
+                    : bond === 3
+                      ? 0.4
+                      : bond === 4
+                        ? 0.5
+                        : 0.6,
+            },
+          },
+        ];
+      });
+      const skill: Skill = {
+        id: "10152-ult-3",
+        name: "攻擊力增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10152-ult-3-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10152-ult-3-1",
+            name: "攻擊力增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10152-ult-3-1",
+              name: "攻擊力增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_ATK,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.4
+                    : bond === 3
+                      ? 0.6
+                      : bond === 4
+                        ? 0.8
+                        : 1,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
+      break;
+    }
     // "10153": "純真殺意 撒旦",
     case "10153": {
       //使自身獲得6/7/8/9/10層《向聖杯祈願》(最多10層)(每場戰鬥僅生效1次)，並使目標受到傷害增加15/20/20/25/25%(最多2層)，再使目標受到暗屬性傷害增加5/5/10/10/15%(最多2層)。CD:3

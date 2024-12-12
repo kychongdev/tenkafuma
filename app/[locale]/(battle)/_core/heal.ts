@@ -1,6 +1,6 @@
-import { AffectType, Target } from '@/types/Skill';
-import { GameState } from './GameState';
-import { checkSpecialCondition } from './checkSpecialCondition';
+import { AffectType, Target } from "@/types/Skill";
+import { GameState } from "./GameState";
+import { checkSpecialCondition } from "./checkSpecialCondition";
 
 export function heal(
   position: number,
@@ -73,9 +73,9 @@ export function heal(
       healRate *
       value,
   );
-  console.log('atk', atk * atkPercentage + rawAtk);
-  console.log('basic', basicRate);
-  console.log('healRate', healRate);
+  console.log("atk", atk * atkPercentage + rawAtk);
+  console.log("basic", basicRate);
+  console.log("healRate", healRate);
 
   if (isBasic) {
     parseHealTarget(gameState, position, target, res);
@@ -97,7 +97,7 @@ function parseHealTarget(
 ) {
   switch (target) {
     case Target.SELF:
-      console.log('heal', heal);
+      console.log("heal", heal);
       gameState.characters[position].hp += heal;
       gameState.characters[position].isHeal = true;
       break;
@@ -133,7 +133,7 @@ function parseHealTarget(
           }
         }
 
-        console.log('heal', heal * healReceived);
+        console.log("heal", heal * healReceived);
         character.hp = Math.floor(character.hp + heal * healReceived);
         if (character.hp > character.maxHp) {
           character.hp = character.maxHp;

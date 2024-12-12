@@ -3639,13 +3639,13 @@ export function triggerLead(gameState: GameState) {
                 targetSkill: "10152-lead-4-1",
                 target: Target.ENEMY,
                 applySkill: {
-                  id: "10152-lead-5-1",
+                  id: "10152-lead-4-1",
                   name: "受到光屬性傷害增加",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
-                    id: "10152-lead-5-1",
+                    id: "10152-lead-4-1",
                     name: "受到光屬性傷害增加",
                     stack: 1,
                     maxStack: 15,
@@ -3657,7 +3657,7 @@ export function triggerLead(gameState: GameState) {
             },
             {
               id: "10152-lead-5",
-              name: "必殺時，觸發「使目標受到光屬性、闇屬性傷害增加3%(最多15層)」",
+              name: "必殺時，觸發「使目標受到闇屬性傷害增加3%(最多15層)」",
               type: 4,
               condition: Condition.ULTIMATE,
               duration: 100,
@@ -3667,13 +3667,13 @@ export function triggerLead(gameState: GameState) {
                 target: Target.ENEMY,
                 applySkill: {
                   id: "10152-lead-5-1",
-                  name: "受到光屬性、闇屬性傷害增加",
+                  name: "受到闇屬性傷害增加",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
                     id: "10152-lead-5-1",
-                    name: "受到光屬性、闇屬性傷害增加",
+                    name: "受到闇屬性傷害增加",
                     stack: 1,
                     maxStack: 15,
                     affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
@@ -3738,7 +3738,7 @@ export function triggerLead(gameState: GameState) {
                 targetSkill: "10152-lead-4-1",
                 target: Target.ENEMY,
                 applySkill: {
-                  id: "10152-lead-5-1",
+                  id: "10152-lead-4-1",
                   name: "受到光屬性傷害增加",
                   type: 3,
                   condition: Condition.NONE,
@@ -3756,7 +3756,7 @@ export function triggerLead(gameState: GameState) {
             },
             {
               id: "10152-lead-5",
-              name: "必殺時，觸發「使目標受到光屬性、闇屬性傷害增加3%(最多15層)」",
+              name: "必殺時，觸發「使目標受到闇屬性傷害增加3%(最多15層)」",
               type: 4,
               condition: Condition.ULTIMATE,
               duration: 100,
@@ -3766,13 +3766,13 @@ export function triggerLead(gameState: GameState) {
                 target: Target.ENEMY,
                 applySkill: {
                   id: "10152-lead-5-1",
-                  name: "受到光屬性、闇屬性傷害增加",
+                  name: "受到闇屬性傷害增加",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
                     id: "10152-lead-5-1",
-                    name: "受到光屬性、闇屬性傷害增加",
+                    name: "受到闇屬性傷害增加",
                     stack: 1,
                     maxStack: 15,
                     affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,

@@ -5785,7 +5785,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.ALL_ALLIES,
             applySkill: [
               {
-                id: "10152-passive-1-1",
+                id: "10151-passive-1-1",
                 name: "普攻傷害增加",
                 type: 0,
                 condition: Condition.NONE,
@@ -5957,7 +5957,10 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       if (gameState.characters[position].stars === 5) {
         //每經過一回合時，觸發「使自身被攻擊時，觸發『以自身最大HP10%對我方全體造成治療』(1回合)(此效果最多作用一次)」
         gameState.characters.forEach((character, index) => {
-          if (character.attribute === CharacterAttribute.DARK) {
+          if (
+            character.attribute === CharacterAttribute.DARK ||
+            character.attribute === CharacterAttribute.LIGHT
+          ) {
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               {
@@ -6030,7 +6033,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           duration: 100,
           _8: {
             target: Target.SELF,
-            targetSkill: "10154-ult-1-1",
+            targetSkill: "10153-ult-1",
             triggerSkill: {
               id: "10153-passive-2-1",
               name: "以自身攻擊力30%對目標造成傷害",
