@@ -25,7 +25,6 @@ export function AppSidebar() {
     },
   };
 
-  //<NavUser user={data.user} />
   return (
     <Sidebar>
       <SidebarHeader />
@@ -85,7 +84,9 @@ export function AppSidebar() {
 
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter></SidebarFooter>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
     </Sidebar>
   );
 }

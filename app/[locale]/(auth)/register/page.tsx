@@ -1,19 +1,19 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { signInAction, signUpAction } from '../actions';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { createClient } from '@/supabase/server';
-import { redirect } from '@/app/i18n/routing';
-import { getLocale } from 'next-intl/server';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { signInAction, signUpAction } from "../actions";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { createClient } from "@/supabase/server";
+import { redirect } from "@/app/i18n/routing";
+import { getLocale } from "next-intl/server";
 
 type Message = { success: string } | { error: string } | { message: string };
 
@@ -29,9 +29,9 @@ export default async function RegisterForm(props: {
   } = await supabase.auth.getUser();
   console.log(user);
 
-  // if (!user) {
-  //   return redirect({ href: '/sign-in', locale });
-  // }
+  //if (!user) {
+  //  return redirect({ href: "/login", locale });
+  //}
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
@@ -44,6 +44,10 @@ export default async function RegisterForm(props: {
         <CardContent>
           <form>
             <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" type="text" name="name" required />
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -67,7 +71,7 @@ export default async function RegisterForm(props: {
               >
                 Register
               </Button>
-              {'error' in searchParams ? (
+              {"error" in searchParams ? (
                 <Alert className="bg-red-500">
                   <AlertDescription>{searchParams.error}</AlertDescription>
                 </Alert>

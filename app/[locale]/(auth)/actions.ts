@@ -1,23 +1,28 @@
-'use server';
+"use server";
 
-import { encodedRedirect } from '@/supabase/utils';
-import { headers } from 'next/headers';
-import { SignUpSchema, signUpSchema } from './SignUpSchema';
-import { SignInSchema, signInSchema } from './SignInSchema';
-import { createClient } from '@/supabase/server';
+import { encodedRedirect } from "@/supabase/utils";
+import { headers } from "next/headers";
+import { SignUpSchema, signUpSchema } from "./SignUpSchema";
+import { SignInSchema, signInSchema } from "./SignInSchema";
+import { createClient } from "@/supabase/server";
 
-import { getLocale } from 'next-intl/server';
-import { redirect } from '@/app/i18n/routing';
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/app/i18n/routing";
 
 export const signUpAction = async (formData: FormData) => {
-  const email = formData.get('email')?.toString();
-  const password = formData.get('password')?.toString();
+  const email = formData.get("email")?.toString();
+  const password = formData.get("password")?.toString();
+  const name = formData.get("name")?.toString();
   const locale = await getLocale();
-  const { data, error: zodError } = signUpSchema.safeParse({ email, password });
+  const { data, error: zodError } = signUpSchema.safeParse({
+    email,
+    password,
+    name,
+  });
   if (zodError) {
     return encodedRedirect(
-      'error',
-      '/login',
+      "error",
+      "/login",
       zodError.issues[0].message,
       locale,
     );
@@ -28,27 +33,27 @@ export const signUpAction = async (formData: FormData) => {
   const { error } = await supabase.auth.signUp({
     email: data.email,
     password: data.password,
-    // options: {
-    // data: { name: data.name },
-    // emailRedirectTo: `${origin}/auth/callback`,
-    // },
+    options: {
+      data: { name: data.name },
+      // emailRedirectTo: `${origin}/auth/callback`,
+    },
   });
   if (error) {
-    return encodedRedirect('error', '/login', 'Failed to register', locale);
+    return encodedRedirect("error", "/login", "Failed to register", locale);
   }
-  return redirect({ href: '/', locale });
+  return redirect({ href: "/", locale });
 };
 
 export async function signInAction(formData: FormData) {
-  const email = formData.get('email')?.toString();
-  const password = formData.get('password')?.toString();
+  const email = formData.get("email")?.toString();
+  const password = formData.get("password")?.toString();
   const locale = await getLocale();
   const { data, error: zodError } = signInSchema.safeParse({ email, password });
 
   if (zodError) {
     return encodedRedirect(
-      'error',
-      '/login',
+      "error",
+      "/login",
       zodError.issues[0].message,
       locale,
     );
@@ -57,24 +62,24 @@ export async function signInAction(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    return encodedRedirect('error', '/login', error.message, locale);
+    return encodedRedirect("error", "/login", error.message, locale);
   }
 
-  return redirect({ href: '/', locale });
+  return redirect({ href: "/", locale });
 }
 
 export const forgotPasswordAction = async (formData: FormData) => {
-  const email = formData.get('email')?.toString();
+  const email = formData.get("email")?.toString();
   const supabase = await createClient();
-  const origin = (await headers()).get('origin');
+  const origin = (await headers()).get("origin");
   const locale = await getLocale();
-  const callbackUrl = formData.get('callbackUrl')?.toString();
+  const callbackUrl = formData.get("callbackUrl")?.toString();
 
   if (!email) {
     return encodedRedirect(
-      'error',
-      '/forgot-password',
-      'Email is required',
+      "error",
+      "/forgot-password",
+      "Email is required",
       locale,
     );
   }
@@ -106,8 +111,8 @@ export const forgotPasswordAction = async (formData: FormData) => {
 export const resetPasswordAction = async (formData: FormData) => {
   const supabase = await createClient();
 
-  const password = formData.get('password') as string;
-  const confirmPassword = formData.get('confirmPassword') as string;
+  const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
 
   if (!password || !confirmPassword) {
     // encodedRedirect(
@@ -144,5 +149,5 @@ export const signOutAction = async () => {
   const supabase = await createClient();
   const locale = await getLocale();
   await supabase.auth.signOut();
-  return redirect({ href: '/', locale });
+  return redirect({ href: "/", locale });
 };

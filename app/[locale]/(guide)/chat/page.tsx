@@ -1,46 +1,31 @@
-"use client";
+import { createClient } from "@/supabase/server";
+import InitUser from "./store/InitUser";
+import ChatMessages from "./components/ChatMessage";
+import ChatInput from "./components/ChatInput";
 
-import { redirect } from "@/app/i18n/routing";
-import {
-  ChatBubble,
-  ChatBubbleAvatar,
-  ChatBubbleMessage,
-} from "@/components/ui/chat/chat-bubble";
-import { ChatInput } from "@/components/ui/chat/chat-input";
-import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
-import { createClient } from "@/supabase/client";
-import { useLocale } from "next-intl";
+export default async function Page() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  if (data) {
+  }
+  console.log(data);
+  if (!data.user) {
+    return <div>Loading...</div>;
+  }
 
-export default function Page() {
-  // const supabase = createClient();
-  // const locale = useLocale();
-  // const user = await supabase.auth.getUser();
-  // if (!user) {
-  //   return redirect({ href: '/register', locale });
-  // }
-  // const { data } = await supabase.from('chat').select('id,content,profile(*) ');
-  //return (
-  //  <>
-  //    <ChatMessageList>
-  //      <ChatBubble variant="sent">
-  //        <ChatBubbleAvatar fallback="US" />
-  //        <ChatBubbleMessage variant="sent">
-  //          Hello, how has your day been? I hope you are doing well.
-  //        </ChatBubbleMessage>
-  //      </ChatBubble>
-  //      <ChatBubble variant="received">
-  //        <ChatBubbleAvatar fallback="AI" />
-  //        <ChatBubbleMessage variant="received">
-  //          Hi, I am doing well, thank you for asking. How can I help you today?
-  //        </ChatBubbleMessage>
-  //      </ChatBubble>
-  //      <ChatBubble variant="received">
-  //        <ChatBubbleAvatar fallback="AI" />
-  //        <ChatBubbleMessage isLoading />
-  //      </ChatBubble>
-  //    </ChatMessageList>
-  //    <ChatInput placeholder="Type your message here..." />
-  //  </>
-  //);
-  return <div>Chat</div>;
+  return (
+    <>
+      <div className="max-w-3xl md:py-10 h-screen">
+        <div className="h-full border rounded-xl flex flex-col relative shadow-2xl shadow-primary-foreground">
+          {data.user ? (
+            <>
+              <ChatMessages />
+              <ChatInput />
+            </>
+          ) : null}
+        </div>
+        <InitUser user={data.user} />
+      </div>
+    </>
+  );
 }

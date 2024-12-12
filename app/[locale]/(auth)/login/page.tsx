@@ -1,19 +1,19 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { signInAction } from '../actions';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { createClient } from '@/supabase/server';
-import { redirect } from '@/app/i18n/routing';
-import { getLocale } from 'next-intl/server';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { signInAction } from "../actions";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { createClient } from "@/supabase/server";
+import { redirect } from "@/app/i18n/routing";
+import { getLocale } from "next-intl/server";
 
 type Message = { success: string } | { error: string } | { message: string };
 
@@ -29,9 +29,9 @@ export default async function LoginForm(props: {
   } = await supabase.auth.getUser();
   console.log(user);
 
-  // if (!user) {
-  //   return redirect({ href: '/sign-in', locale });
-  // }
+  if (user) {
+    return redirect({ href: "/", locale });
+  }
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
@@ -73,15 +73,15 @@ export default async function LoginForm(props: {
               >
                 Login
               </Button>
-              {'error' in searchParams ? (
+              {"error" in searchParams ? (
                 <Alert className="bg-red-500">
                   <AlertDescription>{searchParams.error}</AlertDescription>
                 </Alert>
               ) : null}
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{' '}
-              <Link href="#" className="underline">
+              Don&apos;t have an account?{" "}
+              <Link href="/register" className="underline">
                 Sign up
               </Link>
             </div>
