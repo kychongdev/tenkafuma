@@ -14,7 +14,6 @@ const ChatMessages = async () => {
 
   //.range(0, LIMIT_MESSAGE)
   //.order("created_at", { ascending: false });
-  console.log(data);
 
   return (
     <Suspense fallback={"Loading..."}>

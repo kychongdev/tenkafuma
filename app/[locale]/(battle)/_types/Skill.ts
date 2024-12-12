@@ -26,6 +26,7 @@ import type {
   _24,
   _25,
   _26,
+  _27,
   _101,
   _104,
   _105,
@@ -77,6 +78,7 @@ interface Skill extends ISkill {
   _24?: _24;
   _25?: _25;
   _26?: _26;
+  _27?: _27;
   _101?: _101;
   _104?: _104;
   _105?: _105;
@@ -184,6 +186,7 @@ enum SpecialCondition {
   HP_LOWER_THAN = 0,
   HP_HIGHER_THAN = 1,
   SKILL_STACK_MORE_THAN = 2,
+  SKILL_STACK_LESS_THAN = 2,
 }
 
 enum Target {

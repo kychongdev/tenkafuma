@@ -5,6 +5,7 @@ import {
   SkillStackCondition,
   Target,
   AffectType,
+  SpecialCondition,
 } from "@/types/Skill";
 import { CharacterAttribute, CharacterClass } from "@/types/Character";
 import { applyRawAttBuff } from "./applyRawAtk";
@@ -2041,6 +2042,105 @@ export function triggerSkill(
         default:
           break;
       }
+      break;
+    }
+    case 27: {
+      if (!buff._27) {
+        console.log("Wrong data 27");
+        break;
+      }
+
+      switch (buff._27.target) {
+        case Target.ENEMY: {
+          const charIndex = gameState.enemies.findIndex((x) => {
+            return x.id === buff._27?.targetChar;
+          });
+
+          if (charIndex === -1) {
+            console.log("_27 Error: Can't find Enemy");
+            break;
+          }
+
+          const buffIndex = gameState.enemies[charIndex].buff.findIndex(
+            (x) => x.id === buff._27?.targetSkill,
+          );
+          if (!buffIndex || buffIndex == -1) {
+            break;
+          }
+          const skill = gameState.enemies[charIndex].buff[buffIndex];
+          if (!skill._3) {
+            console.log("_27 Error: Skill stack not found");
+            break;
+          }
+
+          if (
+            buff._27.specialCondition ===
+              SpecialCondition.SKILL_STACK_LESS_THAN &&
+            skill._3?.stack < buff._27.stack
+          ) {
+            buff._27.triggerSkill.forEach((b) => {
+              triggerSkill(b, gameState, position);
+            });
+          }
+
+          if (
+            buff._27.specialCondition ===
+              SpecialCondition.SKILL_STACK_MORE_THAN &&
+            skill._3?.stack > buff._27.stack
+          ) {
+            buff._27.triggerSkill.forEach((b) => {
+              triggerSkill(b, gameState, position);
+            });
+          }
+
+          break;
+        }
+        case Target.ALL_ALLIES: {
+          const charIndex = gameState.characters.findIndex((x) => {
+            return x.id === buff._27?.targetChar;
+          });
+
+          if (charIndex === -1) {
+            console.log("_27 Error: Can't find Ally");
+            break;
+          }
+
+          const buffIndex = gameState.characters[charIndex].buff.findIndex(
+            (x) => x.id === buff._27?.targetSkill,
+          );
+          if (!buffIndex || buffIndex == -1) {
+            break;
+          }
+          const skill = gameState.characters[charIndex].buff[buffIndex];
+          if (!skill._3) {
+            console.log("_27 Error: Skill stack not found");
+            break;
+          }
+          if (
+            buff._27.specialCondition ===
+              SpecialCondition.SKILL_STACK_LESS_THAN &&
+            skill._3?.stack < buff._27.stack
+          ) {
+            buff._27.triggerSkill.forEach((b) => {
+              triggerSkill(b, gameState, position);
+            });
+          }
+
+          if (
+            buff._27.specialCondition ===
+              SpecialCondition.SKILL_STACK_MORE_THAN &&
+            skill._3?.stack > buff._27.stack
+          ) {
+            buff._27.triggerSkill.forEach((b) => {
+              triggerSkill(b, gameState, position);
+            });
+          }
+          break;
+        }
+        default:
+          break;
+      }
+
       break;
     }
   }

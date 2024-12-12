@@ -4226,6 +4226,300 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10141": "調查員 娜娜",
+    case "10141": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10141-passive-1",
+          name: "第1回合時，使自身獲得50層《理智值》(最多50層)",
+          type: 11,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10141-passive-1-1",
+                name: "《理智值》",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10141-passive-1-1",
+                  name: "《理智值》",
+                  value: 0,
+                  maxStack: 50,
+                  stack: 50,
+                  affectType: AffectType.NONE,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10141-passive-2",
+          name: "每經過1回合時，觸發「使自身《理智值》層數減少10層」",
+          type: 20,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          disabledOnSkill: "10141-passive-10-3",
+          _20: {
+            target: Target.ALL_ALLIES,
+            targetChar: "10141",
+            targetSkill: "10141-passive-1-1",
+            clearAll: false,
+            clearStack: 10,
+          },
+        },
+        {
+          id: "10141-passive-3",
+          name: "自身《理智值》層數=50層時，開啟「造成觸發技效果增加30%」",
+          type: 0,
+          condition: Condition.NONE,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 49,
+          specialConditionSkill: "10141-passive-1-1",
+          duration: 100,
+          _0: {
+            value: 0.3,
+            affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+          },
+        },
+        {
+          id: "10141-passive-4",
+          name: "自身《理智值》層數≧40層時，開啟「造成傷害增加20%」",
+          type: 0,
+          condition: Condition.NONE,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 39,
+          specialConditionSkill: "10141-passive-1-1",
+          duration: 100,
+          _0: {
+            value: 0.2,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+        {
+          id: "10141-passive-5",
+          name: "自身《理智值》層數≧30層時，開啟「攻擊時，觸發『以自身攻擊力100%對目標造成傷害』」",
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 29,
+          specialConditionSkill: "10141-passive-1-1",
+          duration: 100,
+          _101: {
+            value: 1,
+            target: Target.ENEMY,
+            damageType: DamageType.BASIC,
+            action: CharacterAction.BASIC,
+          },
+        },
+        {
+          id: "10141-passive-6",
+          name: "自身《理智值》層數≧20層時，開啟「攻擊力增加65%」",
+          type: 0,
+          condition: Condition.NONE,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 19,
+          specialConditionSkill: "10141-passive-1-1",
+          duration: 100,
+          _0: {
+            value: 0.65,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10141-passive-7",
+          name: "自身《理智值》層數≧10層時，開啟「攻擊力增加65%」",
+          type: 0,
+          condition: Condition.NONE,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 9,
+          specialConditionSkill: "10141-passive-1-1",
+          duration: 100,
+          _0: {
+            value: 0.65,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        //{
+        //  id: "10141-passive-7",
+        //  name: "自身《理智值》層數<1層時，開啟「《喪失理智》」",
+        //  type: 27,
+        //  condition: Condition.EVERY_X_TURN,
+        //  conditionTurn: 1,
+        //  duration: 100,
+        //  _27: {
+        //    target: Target.ALL_ALLIES,
+        //    targetChar: "10141",
+        //    targetSkill: "10141-passive-1-1",
+        //    specialCondition: SpecialCondition.SKILL_STACK_LESS_THAN,
+        //    stack: 1,
+        //    triggerSkill: [
+        //      {
+        //        id: "10141-passive-7-1",
+        //        name: "《喪失理智》",
+        //        type: 4,
+        //        condition: Condition.NONE,
+        //        duration: 100,
+        //        _4: {
+        //          increaseStack: 50,
+        //          targetSkill: "10141-passive-1-1",
+        //          target: Target.SELF,
+        //          applySkill: {
+        //            id: "10141-passive-1-1",
+        //            name: "《理智值》",
+        //            type: 3,
+        //            condition: Condition.NONE,
+        //            duration: 100,
+        //            _3: {
+        //              id: "10141-passive-1-1",
+        //              name: "《理智值》",
+        //              value: 0,
+        //              maxStack: 50,
+        //              stack: 50,
+        //              affectType: AffectType.NONE,
+        //            },
+        //          },
+        //        },
+        //      },
+        //    ],
+        //  },
+        //},
+        {
+          id: "10141-passive-8-1",
+          name: "《喪失理智》",
+          type: 4,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_LESS_THAN,
+          specialConditionValue: 1,
+          specialConditionSkill: "10141-passive-1-1",
+          _4: {
+            increaseStack: 50,
+            targetSkill: "10141-passive-1-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10141-passive-1-1",
+              name: "《理智值》",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10141-passive-1-1",
+                name: "《理智值》",
+                value: 0,
+                maxStack: 50,
+                stack: 50,
+                affectType: AffectType.NONE,
+              },
+            },
+          },
+        },
+        //《無上真神之影》
+        //--使自身獲得50層《理智值》(最多50層)--，並對自身造成睡眠(1回合)
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        //第1回合時，觸發「使自身當前必殺技CD減少3回合」
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10141-passive-9",
+            name: "第1回合時，觸發「使自身當前必殺技CD減少3回合」",
+            type: 14,
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            _14: {
+              reduceCD: 3,
+              target: Target.SELF,
+            },
+          },
+          {
+            id: "10141-passive-10",
+            name: "必殺時，觸發「《理智值:笨蛋凱薩》」",
+            type: 21,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _21: {
+              trigger: [
+                {
+                  id: "10141-passive-10-1",
+                  name: "《理智值:笨蛋凱薩》",
+                  type: 1,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _1: {
+                    value: 1,
+                    target: Target.ENEMY,
+                    damageType: DamageType.BASIC,
+                    action: CharacterAction.BASIC,
+                  },
+                },
+                {
+                  id: "10141-passive-10-2",
+                  name: "《喪失理智》",
+                  type: 4,
+                  condition: Condition.EVERY_X_TURN,
+                  conditionTurn: 1,
+                  duration: 100,
+                  _4: {
+                    increaseStack: 50,
+                    targetSkill: "10141-passive-1-1",
+                    target: Target.SELF,
+                    applySkill: {
+                      id: "10141-passive-1-1",
+                      name: "《理智值》",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10141-passive-1-1",
+                        name: "《理智值》",
+                        value: 0,
+                        maxStack: 50,
+                        stack: 50,
+                        affectType: AffectType.NONE,
+                      },
+                    },
+                  },
+                },
+                {
+                  id: "10141-passive-10-3",
+                  name: "使自身不受「《理智值》層數減少」效果影響(4回合)",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 0,
+                    affectType: AffectType.NONE,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10141-passive4",
+            name: "使自身造成觸發技效果增加30%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.3,
+              affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+            },
+          },
+        ];
+      }
+    }
     // "10142": "夏日 千鶴",
     case "10142": {
       gameState.characters.forEach((character, index) => {

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { LIMIT_MESSAGE } from "../Constants";
 
 export type Imessage = {
   created_at: string;
@@ -43,7 +44,7 @@ export const useMessage = create<MessageState>()((set) => ({
     set((state) => ({
       messages: [...messages, ...state.messages],
       page: state.page + 1,
-      hasMore: messages.length >= 20,
+      hasMore: messages.length >= LIMIT_MESSAGE,
     })),
   setOptimisticIds: (id: string) =>
     set((state) => ({ optimisticIds: [...state.optimisticIds, id] })),

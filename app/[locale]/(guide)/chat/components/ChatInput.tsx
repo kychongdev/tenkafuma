@@ -12,7 +12,6 @@ const ChatInput = () => {
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
   const supabase = createClient();
-  console.log("test", user);
   const handleSendMessage = async (text: string) => {
     if (text.trim()) {
       const id = uuidv4();
@@ -21,14 +20,13 @@ const ChatInput = () => {
         text,
         sent_by: {
           id: user?.id,
-          avatar: user?.user_metadata.avatar,
+          avatar: user?.avatar || "",
           created_at: new Date().toISOString(),
-          name: user?.user_metadata.name,
+          name: user?.name || "Unknown User",
         },
         is_edit: false,
         created_at: new Date().toISOString(),
       };
-      console.log("test2", user);
 
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);

@@ -9,12 +9,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Hourglass, Podcast, SwordsIcon, TowerControl } from "lucide-react";
 import NavigationLink from "./default/NavigationLink";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/supabase/server";
 import { NavUser } from "./NavUser";
+import { ButtonGroup } from "./ButtonGroup";
 
 export async function AppSidebar() {
   const t = await getTranslations("AppSidebar");
@@ -25,15 +27,6 @@ export async function AppSidebar() {
     .select("*")
     .eq("id", data.user?.id)
     .single();
-  console.log(profile);
-
-  //const data = {
-  //  user: {
-  //    name: "shadcn",
-  //    email: "m@example.com",
-  //    avatar: "/avatars/shadcn.jpg",
-  //  },
-  //};
 
   return (
     <Sidebar>
@@ -95,7 +88,7 @@ export async function AppSidebar() {
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
-        {profile ? <NavUser user={profile} /> : null}
+        {profile ? <NavUser user={profile} /> : <ButtonGroup />}
       </SidebarFooter>
     </Sidebar>
   );

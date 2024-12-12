@@ -5,6 +5,7 @@ import { p } from "./utils";
 import { onTurnStart as enemyOnTurnStart } from "./stages/enemyTurn";
 import { parseInitstage, parseStageAction } from "./stages/parseStage";
 import { healOverTime } from "./healOverTime";
+import { checkSpecialCondition } from "./checkSpecialCondition";
 
 export function checkEndTurn(state: GameState) {
   const isEnd = state.characters.every((character) => {
@@ -29,7 +30,8 @@ export function checkEndTurn(state: GameState) {
 
 export function onTurnStart(gameState: GameState) {
   gameState.characters.forEach((character, position) => {
-    for (const buff of character.buff) {
+    const charBuff = checkSpecialCondition(gameState, position);
+    for (const buff of charBuff) {
       if (
         buff.condition === Condition.EVERY_X_TURN &&
         buff.conditionTurn &&

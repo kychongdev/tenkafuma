@@ -241,6 +241,18 @@ export interface _26 {
   multiple?: number;
 }
 
+// 娜娜1層觸發
+export interface _27 {
+  target: Target.ENEMY | Target.ALL_ALLIES;
+  targetChar: string;
+  targetSkill: string;
+  specialCondition:
+    | SpecialCondition.SKILL_STACK_MORE_THAN
+    | SpecialCondition.SKILL_STACK_LESS_THAN;
+  stack: number;
+  triggerSkill: Skill[];
+}
+
 // ---------------------------- ADD ON BUFF ----------------------------
 export interface _101 {
   value: number;

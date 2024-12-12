@@ -65,7 +65,6 @@ export function checkSpecialCondition(gameState: GameState, position: number) {
   }
 
   // Characters
-  console.log(position);
   return gameState.characters[position].buff
     .map((buff) => {
       switch (buff.specialCondition) {
@@ -114,6 +113,27 @@ export function checkSpecialCondition(gameState: GameState, position: number) {
             skill &&
             skill._3 &&
             skill._3?.stack > buff.specialConditionValue
+          ) {
+            return buff;
+          } else {
+            return;
+          }
+        }
+
+        case SpecialCondition.SKILL_STACK_LESS_THAN: {
+          if (!buff.specialConditionValue) {
+            return;
+          }
+          if (!buff.specialConditionSkill) {
+            return;
+          }
+          const skill = gameState.characters[position].buff.find(
+            (x) => x.id === buff.specialConditionSkill,
+          );
+          if (
+            skill &&
+            skill._3 &&
+            skill._3?.stack < buff.specialConditionValue
           ) {
             return buff;
           } else {

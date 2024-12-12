@@ -2,20 +2,29 @@ import { createClient } from "@/supabase/server";
 import InitUser from "./store/InitUser";
 import ChatMessages from "./components/ChatMessage";
 import ChatInput from "./components/ChatInput";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/app/i18n/routing";
 
 export default async function Page() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
-  if (data) {
-  }
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", data.user?.id)
+    .single();
+  const locale = await getLocale();
+  //if (data) {
+  //}
   console.log(data);
   if (!data.user) {
-    return <div>Loading...</div>;
+    redirect({ href: "/login", locale });
+    return <div>Redirecting to Login...</div>;
   }
 
   return (
     <>
-      <div className="max-w-3xl md:py-10 h-screen">
+      <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)]">
         <div className="h-full border rounded-xl flex flex-col relative shadow-2xl shadow-primary-foreground">
           {data.user ? (
             <>
@@ -24,7 +33,7 @@ export default async function Page() {
             </>
           ) : null}
         </div>
-        <InitUser user={data.user} />
+        {profile ? <InitUser user={profile} /> : null}
       </div>
     </>
   );

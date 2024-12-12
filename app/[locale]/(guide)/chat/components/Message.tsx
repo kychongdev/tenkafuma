@@ -29,7 +29,7 @@ const CurrentUserMessage = ({ message }: { message: Imessage }) => {
             )}
           </div>
         </div>
-        <p className="break-words font-medium border border-primary rounded-3xl px-2 ml-auto w-fit">
+        <p className="break-words font-medium border border-primary rounded-3xl px-2 ml-auto w-fit bg-white text-black">
           {message.text}
         </p>
       </div>
@@ -76,7 +76,7 @@ const Message = ({ message }: { message: Imessage }) => {
                 )}
               </div>
             </div>
-            <p className="break-words font-medium border border-primary rounded-3xl px-2 w-fit">
+            <p className="break-words font-medium border border-primary rounded-3xl px-2 w-fit bg-white text-black">
               {message.text}
             </p>
           </div>
