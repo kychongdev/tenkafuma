@@ -12,18 +12,28 @@ import {
 } from "@/components/ui/sidebar";
 import { Hourglass, Podcast, SwordsIcon, TowerControl } from "lucide-react";
 import NavigationLink from "./default/NavigationLink";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { createClient } from "@/supabase/server";
 import { NavUser } from "./NavUser";
 
-export function AppSidebar() {
-  const t = useTranslations("AppSidebar");
-  const data = {
-    user: {
-      name: "shadcn",
-      email: "m@example.com",
-      avatar: "/avatars/shadcn.jpg",
-    },
-  };
+export async function AppSidebar() {
+  const t = await getTranslations("AppSidebar");
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", data.user?.id)
+    .single();
+  console.log(profile);
+
+  //const data = {
+  //  user: {
+  //    name: "shadcn",
+  //    email: "m@example.com",
+  //    avatar: "/avatars/shadcn.jpg",
+  //  },
+  //};
 
   return (
     <Sidebar>
@@ -85,7 +95,7 @@ export function AppSidebar() {
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {profile ? <NavUser user={profile} /> : null}
       </SidebarFooter>
     </Sidebar>
   );
