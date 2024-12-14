@@ -471,6 +471,17 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10135": "偶像經紀人 梅絲米奈雅",
+    case "10135": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10136": "賞金獵人 安潔娜爾",
     case "10136": {
       dealBasicDamage(
@@ -596,7 +607,7 @@ export function basicAttack(gameState: GameState, position: number) {
     }
     // "10147": "魔物終結 鬼醉木",
     case "10147": {
-      dealBasicHpDamage(
+      dealBasicDamage(
         position,
         1,
         gameState,

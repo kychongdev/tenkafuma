@@ -1192,11 +1192,11 @@
   "10135": {
     "id": 10135,
     "name": "偶像經紀人 梅絲米奈雅",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3305.6,
+    "initAtk": 1065.6,
+    "attribute": 7,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4
   },
   "10136": {

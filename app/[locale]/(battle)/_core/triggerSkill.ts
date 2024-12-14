@@ -836,6 +836,39 @@ export function triggerSkill(
           break;
         }
 
+        case Target.SPECIFIC_CHARACTER: {
+          const rawAttSkill = applyRawAttBuff(gameState, position);
+          const baseAtk = gameState.characters[position].atk;
+          const pos = gameState.characters.findIndex((character) => {
+            return character.id === buff._6?.applyToSpecificChar;
+          });
+
+          if (pos === -1) {
+            console.log("_6 Error: Could not find Character listed");
+            break;
+          }
+          console.log("_6 Test", rawAttSkill);
+          gameState.characters[pos].buff = [
+            ...gameState.characters[pos].buff,
+            {
+              id: `${buff.id}-buff`,
+              name: buff.name,
+              type: 0,
+              condition: Condition.NONE,
+              duration: buff._6.duration,
+              _0: {
+                value:
+                  buff._6?.base === true
+                    ? Math.floor(baseAtk * buff._6.value)
+                    : Math.floor(rawAttSkill * buff._6.value),
+                affectType: buff._6?.affectType,
+              },
+            },
+          ];
+
+          break;
+        }
+
         default: {
           break;
         }
@@ -1184,6 +1217,24 @@ export function triggerSkill(
               ];
             }
           });
+          break;
+        }
+
+        case Target.SPECIFIC_CHARACTER: {
+          const pos = gameState.characters.findIndex((character) => {
+            return character.id === buff._11?.applyToSpecificChar;
+          });
+
+          if (pos === -1) {
+            console.log(
+              `_11 Error: Can't find this specific character ${buff._11.applyToSpecificChar}`,
+            );
+            break;
+          }
+          gameState.characters[pos].buff = [
+            ...gameState.characters[pos].buff,
+            ...buff._11.applySkill,
+          ];
           break;
         }
 

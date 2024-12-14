@@ -73,6 +73,7 @@ export interface _6 {
   value: number;
   affectType: AffectType.RAW_ATK;
   target: Target | CharacterClass;
+  applyToSpecificChar?: string;
   duration: number;
   base: boolean;
 }
@@ -115,6 +116,7 @@ export interface _10 {
 export interface _11 {
   target: Target | CharacterClass;
   applySkill: Skill[];
+  applyToSpecificChar?: string;
   deleteSelf?: boolean;
 }
 

@@ -3610,14 +3610,15 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
+            //
             id: "10134-passive4",
-            name: "使自身攻擊力增加10%",
+            name: "使自身造成治療量提升15%",
             type: 0,
             condition: Condition.NONE,
             duration: 100,
             _0: {
               value: 0.1,
-              affectType: AffectType.INCREASE_ATK,
+              affectType: AffectType.INCREASE_HEAL_RATE,
             },
           },
         ];
@@ -3626,6 +3627,229 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     }
 
     // "10135": "偶像經紀人 梅絲米奈雅",
+    case "10135": {
+      const charIndex = randomizePos(gameState, 2);
+      const charIndex2 = randomizePos(gameState, 2);
+      const charIndex3 = randomizePos(gameState, 2);
+      if (charIndex !== -1) {
+        gameState.characters[charIndex].buff = [
+          ...gameState.characters[charIndex].buff,
+          {
+            id: "10135-passive-1",
+            name: "使【偶像經紀人 梅絲米奈雅】獲得1層《妾身，蛇后，小白臉！》",
+            type: 4,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10135-passive-1-1",
+              target: Target.SPECIFIC_CHARACTER,
+              applyToSpecificChar: "10135",
+              applySkill: {
+                id: "10135-passive-1-1",
+                name: "《妾身，蛇后，小白臉！》",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10135-passive-1-1",
+                  name: "《妾身，蛇后，小白臉！》",
+                  stack: 1,
+                  maxStack: 4,
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (charIndex2 !== -1) {
+        gameState.characters[charIndex2].buff = [
+          ...gameState.characters[charIndex2].buff,
+          {
+            id: "10135-passive-2",
+            name: "攻擊時，觸發「以自身攻擊力10%使【偶像經紀人 梅絲米奈雅】攻擊力增加(1回合)」",
+            type: 6,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.1,
+              target: Target.SPECIFIC_CHARACTER,
+              applyToSpecificChar: "10135",
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      }
+
+      if (charIndex3 !== -1) {
+        gameState.characters[charIndex3].buff = [
+          ...gameState.characters[charIndex3].buff,
+          {
+            id: "10135-passive-3",
+            name: "造成傷害減少100%(負面效果)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 1,
+              affectType: AffectType.DECREASE_DMG,
+            },
+          },
+        ];
+      }
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10135-passive-4",
+          name: "必殺時，觸發「清除自身《妾身，蛇后，小白臉！》的所有層數」",
+          type: 20,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          disabledOnSkill: "10135-passive-10-1",
+          _20: {
+            target: Target.ALL_ALLIES,
+            targetChar: "10135",
+            targetSkill: "10135-passive-1-1",
+            clearAll: true,
+          },
+        },
+        {
+          id: "10135-passive-5",
+          name: "使自身普攻傷害增加75%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 0,
+          specialConditionSkill: "10135-passive-1-1",
+          _0: {
+            value: 0.75,
+            affectType: AffectType.INCREASE_BASIC_DMG,
+          },
+        },
+        {
+          id: "10135-passive-6",
+          name: "使自身攻擊力增加100%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 1,
+          specialConditionSkill: "10135-passive-1-1",
+          _0: {
+            value: 1,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10135-passive-7",
+          name: "使自身攻擊力增加100%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 2,
+          specialConditionSkill: "10135-passive-1-1",
+          _0: {
+            value: 1,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10135-passive-8",
+          name: "必殺技傷害增加60%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 3,
+          specialConditionSkill: "10135-passive-1-1",
+          _0: {
+            value: 0.6,
+            affectType: AffectType.INCREASE_ULTIMATE_DMG,
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        const charIndex4 = randomizePos(gameState, 2);
+        gameState.characters[charIndex4].buff = [
+          ...gameState.characters[charIndex4].buff,
+          {
+            id: "10135-passive-9",
+            name: "必殺時，觸發「使【偶像經紀人 梅絲米奈雅】獲得造成傷害增加40%(2回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.SPECIFIC_CHARACTER,
+              applyToSpecificChar: "10135",
+              applySkill: [
+                {
+                  id: "10135-passive-9-1",
+                  name: "造成傷害增加40%",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.4,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10135-passive-10",
+            name: "自身第1回合時，觸發「使自身必殺時不再清除《妾身，蛇后，小白臉！》的所有層數」",
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            type: 11,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10135-passive-10-1",
+                  name: "必殺時不再清除《妾身，蛇后，小白臉！》的所有層數",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _0: {
+                    value: 0,
+                    affectType: AffectType.NONE,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10135-passive4",
+            name: "使自身造成傷害增加7.5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.075,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10136": "賞金獵人 安潔娜爾",
     case "10136": {
       gameState.characters[position].buff = [
@@ -4111,9 +4335,16 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 {
                   characterId: "10140",
                   checkSkillId: "10140-passive-4-1",
-                  skillStackCondition: SkillStackCondition.EQUAL,
-                  activateIfStack: 10,
+                  skillStackCondition: SkillStackCondition.HIGHER,
+                  activateIfStack: 9,
                   activateSkillId: "10140-passive-6",
+                },
+                {
+                  characterId: "10140",
+                  checkSkillId: "10140-passive-4-1",
+                  skillStackCondition: SkillStackCondition.HIGHER,
+                  activateIfStack: 9,
+                  activateSkillId: "10140-passive-7",
                 },
               ],
             },
@@ -4147,15 +4378,15 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 {
                   characterId: "10140",
                   checkSkillId: "10140-passive-4-1",
-                  skillStackCondition: SkillStackCondition.EQUAL,
-                  activateIfStack: 10,
+                  skillStackCondition: SkillStackCondition.HIGHER,
+                  activateIfStack: 9,
                   activateSkillId: "10140-passive-6",
                 },
                 {
                   characterId: "10140",
                   checkSkillId: "10140-passive-4-1",
-                  skillStackCondition: SkillStackCondition.EQUAL,
-                  activateIfStack: 10,
+                  skillStackCondition: SkillStackCondition.HIGHER,
+                  activateIfStack: 9,
                   activateSkillId: "10140-passive-7",
                 },
               ],

@@ -3168,10 +3168,9 @@ export function triggerLead(gameState: GameState) {
           ...gameState.characters[0].buff,
           {
             id: "10150-lead-3",
-            name: "攻擊力增加80%",
+            name: "每Wave的第1回合時，觸發「使敵方全體暗屬性角色受到光屬性傷害增加50%(50回合)」",
             type: 11,
-            condition: Condition.ON_SPECIFIC_TURN,
-            conditionTurn: 1,
+            condition: Condition.ON_TURN_START,
             duration: 100,
             _11: {
               target: Target.DARK_ENEMY,
@@ -3216,6 +3215,9 @@ export function triggerLead(gameState: GameState) {
           },
         ];
 
+        //TODO 屬性相剋效果減少100%
+        //免疫必殺技CD變動效果
+
         gameState.characters.forEach((character, index) => {
           if (character.attribute === CharacterAttribute.LIGHT) {
             gameState.characters[index].buff = [
@@ -3246,7 +3248,7 @@ export function triggerLead(gameState: GameState) {
                 id: "10150-lead-8",
                 name: "普攻時，追加「以自身攻擊力18%對目標造成傷害」",
                 type: 101,
-                condition: Condition.ULTIMATE,
+                condition: Condition.BASIC_ATTACK,
                 duration: 100,
                 _101: {
                   value: 0.18,
@@ -3315,7 +3317,8 @@ export function triggerLead(gameState: GameState) {
         });
       }
       break;
-    } // "10151": "性感兔女郎 伊布力斯",
+    }
+    // "10151": "性感兔女郎 伊布力斯",
     case "10151": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [

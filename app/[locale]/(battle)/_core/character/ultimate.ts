@@ -1812,7 +1812,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
               _101: {
                 value: bond === 1 ? 0.65 : 0.75,
                 target: Target.ENEMY,
-                damageType: 1,
+                damageType: DamageType.ULTIMATE_ADDON,
                 action: CharacterAction.ULTIMATE,
               },
             },
@@ -1857,8 +1857,89 @@ export function ultimateAttack(gameState: GameState, position: number) {
         false,
         Target.ALL_ALLIES,
       );
+      break;
     }
     // "10135": "偶像經紀人 梅絲米奈雅",
+    case "10135": {
+      //使自身造成傷害增加10/15/20/25/30%(2回合)，再以自身330/376/422/468/514%攻擊力對目標造成傷害，並使自身獲得普攻時，追加「以自身80/100/120/140/160攻擊力對目標造成傷害」(2回合)，CD: 4
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10135-ult-1",
+          name: "造成傷害增加(2回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.INCREASE_DMG,
+            value:
+              bond === 1
+                ? 0.1
+                : bond === 2
+                  ? 0.15
+                  : bond === 3
+                    ? 0.2
+                    : bond === 4
+                      ? 0.25
+                      : 0.3,
+          },
+        },
+      ];
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.68
+                : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10135-ult-2",
+          name: `普攻時，追加「以自身${
+            bond === 1
+              ? 80
+              : bond === 2
+                ? 100
+                : bond === 3
+                  ? 120
+                  : bond === 4
+                    ? 140
+                    : 160
+          }攻擊力對目標造成傷害」`,
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 2,
+          _101: {
+            value:
+              bond === 1
+                ? 0.8
+                : bond === 2
+                  ? 1
+                  : bond === 3
+                    ? 1.2
+                    : bond === 4
+                      ? 1.4
+                      : 1.6,
+            target: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            action: CharacterAction.BASIC,
+          },
+        },
+      ];
+      break;
+    }
     // "10136": "賞金獵人 安潔娜爾",
     case "10136": {
       gameState.enemies[gameState.targeting].buff = [

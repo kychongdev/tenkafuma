@@ -1,5 +1,6 @@
 import { SpecialCondition } from "../_types/Skill";
 import { GameState } from "./GameState";
+import { p } from "./utils";
 
 export function checkSpecialCondition(gameState: GameState, position: number) {
   if (position >= 20 && position < 25) {
@@ -100,7 +101,7 @@ export function checkSpecialCondition(gameState: GameState, position: number) {
         }
 
         case SpecialCondition.SKILL_STACK_MORE_THAN: {
-          if (!buff.specialConditionValue) {
+          if (!buff.specialConditionValue && buff.specialConditionValue !== 0) {
             return;
           }
           if (!buff.specialConditionSkill) {
