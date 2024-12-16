@@ -872,11 +872,11 @@
   "10096": {
     "id": 10096,
     "name": "鮮血魔王 洛緹亞",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3230.4,
+    "initAtk": 1091.2,
+    "attribute": 9,
+    "class": 15,
+    "available": true,
     "cd": 4
   },
   "10097": {
@@ -1411,33 +1411,33 @@
   },
   "10157": {
     "id": 10157,
-    "name": "性誕魔王 巴爾",
-    "initHp": 3740.8,
-    "initAtk": 942.3,
-    "attribute": 5,
-    "class": 11,
+    "name": "純真祈願 牧愛菈",
+    "initHp": 3456,
+    "initAtk": 1019.2,
+    "attribute": 8,
+    "class": 15,
     "available": true,
-    "cd": 4
+    "cd": 1
   },
   "10158": {
     "id": 10158,
-    "name": "翩舞雪花 初華",
-    "initHp": 4713.6,
-    "initAtk": 747.2,
-    "attribute": 6,
-    "class": 13,
+    "name": "聖夜奇謀 布蘭妮",
+    "initHp": 5028.8,
+    "initAtk": 700.8,
+    "attribute": 8,
+    "class": 12,
     "available": true,
-    "cd": 3
+    "cd": 4
   },
   "10159": {
     "id": 10159,
-    "name": "性誕魔王 巴爾",
-    "initHp": 3740.8,
-    "initAtk": 942.3,
+    "name": "翩舞雪花 初華",
+    "initHp": 4713.6,
+    "initAtk": 747.2,
     "attribute": 5,
-    "class": 11,
+    "class": 13,
     "available": true,
-    "cd": 4
+    "cd": 3
   },
   "10801": {
     "id": 10801,

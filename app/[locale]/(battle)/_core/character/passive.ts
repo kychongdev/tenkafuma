@@ -1704,6 +1704,136 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",
+    case "10096": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "196-passive-1",
+          name: "普攻時，觸發「使我方全體普攻傷害增加30%(1回合)」",
+          type: 11,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "196-passive-1-1",
+                name: "普攻傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "196-passive-2",
+          name: "必殺時，觸發「使我方全體必殺技傷害增加10%(2回合)」",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "196-passive-2-1",
+                name: "必殺技傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  value: 0.1,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "196-passive-3",
+          name: "每經過4回合，觸發「使敵方全體受到傷害增加30%(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 4,
+          duration: 100,
+          _11: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: "196-passive-3-1",
+                name: "受到傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters.forEach((character, index) => {
+          if (
+            character.class === CharacterClass.ATTACKER ||
+            character.class === CharacterClass.OBSTRUCTER ||
+            character.class === CharacterClass.PROTECTOR
+          ) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "196-passive-4",
+                // 行動時，觸發「使我方全體攻擊力增加15%(50回合)」
+                name: "行動時，觸發「使我方全體攻擊力增加15%(50回合)」",
+                type: 11,
+                condition: Condition.MOVE,
+                duration: 1,
+                _11: {
+                  target: Target.ALL_ALLIES,
+                  applySkill: [
+                    {
+                      id: "196-passive-4-1",
+                      name: "攻擊力增加",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        value: 0.15,
+                        affectType: AffectType.INCREASE_ATK,
+                      },
+                    },
+                  ],
+                },
+              },
+            ];
+          }
+        });
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "196-passive-5",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10097": "性誕兔女郎 艾可",
     // "10098": "聖誕雪狐 靜",
     case "10098": {
@@ -2718,6 +2848,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
 
       if (gameState.characters[position].stars === 5) {
         gameState.characters[position].maxCd = 3;
+        gameState.characters[position].cd = 3;
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
@@ -7130,12 +7261,18 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       }
       break;
     }
+
+    // "10157": "純真祈願 牧愛菈"
     case "10157": {
       break;
     }
 
-    // "10158": "翩舞雪花 初華"
+    // "10158": "聖夜奇謀 布蘭妮"
     case "10158": {
+      break;
+    }
+    // "10159": "翩舞雪花 初華"
+    case "10159": {
       //治療
       //
       gameState.characters[position].buff = [
@@ -7228,9 +7365,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ];
       }
 
-      break;
-    }
-    case "10159": {
       break;
     }
 

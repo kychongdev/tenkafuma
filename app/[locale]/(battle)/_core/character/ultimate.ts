@@ -1,10 +1,10 @@
 import {
   AffectType,
-  Skill,
   Condition,
-  Target,
   DamageType,
+  Skill,
   SkillStackCondition,
+  Target,
 } from "@/types/Skill";
 import { applyRawAttBuff } from "../applyRawAtk";
 import { dealBasicDamage } from "../dealBasicDamage";
@@ -39,12 +39,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
           bond === 1
             ? 4.75
             : bond === 2
-              ? 5.5
-              : bond === 3
-                ? 6.25
-                : bond === 4
-                  ? 6.25
-                  : 6.25,
+            ? 5.5
+            : bond === 3
+            ? 6.25
+            : bond === 4
+            ? 6.25
+            : 6.25,
           gameState,
           Target.ENEMY,
           DamageType.ULTIMATE,
@@ -74,12 +74,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
           bond === 1
             ? 4.75
             : bond === 2
-              ? 5.5
-              : bond === 3
-                ? 6.25
-                : bond === 4
-                  ? 6.25
-                  : 6.25,
+            ? 5.5
+            : bond === 3
+            ? 6.25
+            : bond === 4
+            ? 6.25
+            : 6.25,
           gameState,
           Target.ENEMY,
           DamageType.ULTIMATE,
@@ -247,7 +247,8 @@ export function ultimateAttack(gameState: GameState, position: number) {
                   {
                     id: "10023-passive-3-2",
                     //
-                    name: "被攻擊時，觸發「使我方全體造成傷害增加35%(4回合)(1回合)(觸發1次後解除)",
+                    name:
+                      "被攻擊時，觸發「使我方全體造成傷害增加35%(4回合)(1回合)(觸發1次後解除)",
                     type: 11,
                     condition: Condition.RECEIVED_ATTACK,
                     duration: 2,
@@ -271,7 +272,8 @@ export function ultimateAttack(gameState: GameState, position: number) {
                   },
                   {
                     id: "10023-passive-4",
-                    name: "被攻擊時，清除自身的《孱弱的假象》的所有層數」(1回合)(觸發1次後解除)",
+                    name:
+                      "被攻擊時，清除自身的《孱弱的假象》的所有層數」(1回合)(觸發1次後解除)",
                     type: 20,
                     condition: Condition.RECEIVED_ATTACK,
                     duration: 2,
@@ -447,16 +449,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             condition: Condition.NONE,
             duration: 2,
             _0: {
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.1
-                    : bond === 3
-                      ? 0.15
-                      : bond === 4
-                        ? 0.15
-                        : 0.2,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.1
+                : bond === 3
+                ? 0.15
+                : bond === 4
+                ? 0.15
+                : 0.2,
               affectType: AffectType.INCREASE_DMG,
             },
           },
@@ -499,16 +500,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
         _6: {
           duration: 1,
           base: false,
-          value:
-            bond === 1
-              ? 0.4
-              : bond === 2
-                ? 0.4
-                : bond === 3
-                  ? 0.45
-                  : bond === 4
-                    ? 0.45
-                    : 0.5,
+          value: bond === 1
+            ? 0.4
+            : bond === 2
+            ? 0.4
+            : bond === 3
+            ? 0.45
+            : bond === 4
+            ? 0.45
+            : 0.5,
           affectType: AffectType.RAW_ATK,
           target: Target.SELF,
         },
@@ -529,16 +529,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             condition: Condition.NONE,
             duration: 2,
             _0: {
-              value:
-                bond === 1
-                  ? 0.8
-                  : bond === 2
-                    ? 0.9
-                    : bond === 3
-                      ? 0.9
-                      : bond === 4
-                        ? 1
-                        : 1,
+              value: bond === 1
+                ? 0.8
+                : bond === 2
+                ? 0.9
+                : bond === 3
+                ? 0.9
+                : bond === 4
+                ? 1
+                : 1,
               affectType: AffectType.INCREASE_BASIC_DMG,
             },
           },
@@ -560,16 +559,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             condition: Condition.NONE,
             duration: 1,
             _0: {
-              value:
-                bond === 1
-                  ? 0.3
-                  : bond === 2
-                    ? 0.35
-                    : bond === 3
-                      ? 0.35
-                      : bond === 4
-                        ? 0.4
-                        : 0.4,
+              value: bond === 1
+                ? 0.3
+                : bond === 2
+                ? 0.35
+                : bond === 3
+                ? 0.35
+                : bond === 4
+                ? 0.4
+                : 0.4,
               affectType: AffectType.INCREASE_ULTIMATE_DMG,
             },
           },
@@ -587,12 +585,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -607,27 +605,25 @@ export function ultimateAttack(gameState: GameState, position: number) {
               name: "攻擊力",
               type: 101,
               condition: Condition.BASIC_ATTACK,
-              duration:
-                bond === 1
-                  ? 3
-                  : bond === 2
-                    ? 3
-                    : bond === 3
-                      ? 4
-                      : bond === 4
-                        ? 4
-                        : 4,
+              duration: bond === 1
+                ? 3
+                : bond === 2
+                ? 3
+                : bond === 3
+                ? 4
+                : bond === 4
+                ? 4
+                : 4,
               _101: {
-                value:
-                  bond === 1
-                    ? 0.375
-                    : bond === 2
-                      ? 0.45
-                      : bond === 3
-                        ? 0.45
-                        : bond === 4
-                          ? 0.525
-                          : 0.6,
+                value: bond === 1
+                  ? 0.375
+                  : bond === 2
+                  ? 0.45
+                  : bond === 3
+                  ? 0.45
+                  : bond === 4
+                  ? 0.525
+                  : 0.6,
                 target: Target.ENEMY,
                 damageType: DamageType.BASIC_ADDON,
                 action: CharacterAction.BASIC,
@@ -647,28 +643,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
         condition: Condition.ULTIMATE,
         duration: 100,
         _16: {
-          value:
-            bond === 1
-              ? 0.1
-              : bond === 2
-                ? 0.1
-                : bond === 3
-                  ? 0.125
-                  : bond === 4
-                    ? 0.15
-                    : 0.2,
+          value: bond === 1
+            ? 0.1
+            : bond === 2
+            ? 0.1
+            : bond === 3
+            ? 0.125
+            : bond === 4
+            ? 0.15
+            : 0.2,
           affectType: AffectType.RAW_ATK,
           target: Target.SELF,
-          duration:
-            bond === 1
-              ? 3
-              : bond === 2
-                ? 3
-                : bond === 3
-                  ? 4
-                  : bond === 4
-                    ? 4
-                    : 4,
+          duration: bond === 1
+            ? 3
+            : bond === 2
+            ? 3
+            : bond === 3
+            ? 4
+            : bond === 4
+            ? 4
+            : 4,
         },
       };
       triggerSkill(buff, gameState, position);
@@ -678,12 +672,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1
           : bond === 2
-            ? 1.25
-            : bond === 3
-              ? 1.5
-              : bond === 4
-                ? 1.75
-                : 2,
+          ? 1.25
+          : bond === 3
+          ? 1.5
+          : bond === 4
+          ? 1.75
+          : 2,
         gameState,
         Target.ALL_ALLIES,
         DamageType.ULTIMATE,
@@ -715,16 +709,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 2,
               affectType: AffectType.INCREASE_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.075
-                  : bond === 2
-                    ? 0.075
-                    : bond === 3
-                      ? 0.1
-                      : bond === 4
-                        ? 0.125
-                        : 0.15,
+              value: bond === 1
+                ? 0.075
+                : bond === 2
+                ? 0.075
+                : bond === 3
+                ? 0.1
+                : bond === 4
+                ? 0.125
+                : 0.15,
             },
           },
         },
@@ -752,16 +745,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 2,
               affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.05
-                  : bond === 2
-                    ? 0.075
-                    : bond === 3
-                      ? 0.075
-                      : bond === 4
-                        ? 0.1
-                        : 0.125,
+              value: bond === 1
+                ? 0.05
+                : bond === 2
+                ? 0.075
+                : bond === 3
+                ? 0.075
+                : bond === 4
+                ? 0.1
+                : 0.125,
             },
           },
         },
@@ -772,12 +764,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -794,28 +786,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
           name: "攻擊力增加(1回合)",
           type: 0,
           condition: Condition.NONE,
-          duration:
-            bond === 1
-              ? 3
-              : bond === 2
-                ? 3
-                : bond === 3
-                  ? 3
-                  : bond === 4
-                    ? 4
-                    : 4,
+          duration: bond === 1
+            ? 3
+            : bond === 2
+            ? 3
+            : bond === 3
+            ? 3
+            : bond === 4
+            ? 4
+            : 4,
           _0: {
             affectType: AffectType.INCREASE_ATK,
-            value:
-              bond === 1
-                ? 0.5
-                : bond === 2
-                  ? 0.65
-                  : bond === 3
-                    ? 0.8
-                    : bond === 4
-                      ? 0.95
-                      : 1.1,
+            value: bond === 1
+              ? 0.5
+              : bond === 2
+              ? 0.65
+              : bond === 3
+              ? 0.8
+              : bond === 4
+              ? 0.95
+              : 1.1,
           },
         },
       ];
@@ -877,16 +867,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 7,
           _0: {
             affectType: AffectType.INCREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.18
-                : bond === 2
-                  ? 0.18
-                  : bond === 3
-                    ? 0.2
-                    : bond === 4
-                      ? 0.2
-                      : 0.2,
+            value: bond === 1
+              ? 0.18
+              : bond === 2
+              ? 0.18
+              : bond === 3
+              ? 0.2
+              : bond === 4
+              ? 0.2
+              : 0.2,
           },
         },
       ];
@@ -895,12 +884,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 2.65
           : bond === 2
-            ? 2.98
-            : bond === 3
-              ? 3.31
-              : bond === 4
-                ? 3.64
-                : 3.97,
+          ? 2.98
+          : bond === 3
+          ? 3.31
+          : bond === 4
+          ? 3.64
+          : 3.97,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -922,16 +911,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           condition: Condition.NONE,
           duration: 12,
           _0: {
-            value:
-              bond === 1
-                ? 0.1
-                : bond === 2
-                  ? 0.1
-                  : bond === 3
-                    ? 0.125
-                    : bond === 4
-                      ? 0.125
-                      : 0.15,
+            value: bond === 1
+              ? 0.1
+              : bond === 2
+              ? 0.1
+              : bond === 3
+              ? 0.125
+              : bond === 4
+              ? 0.125
+              : 0.15,
             affectType: AffectType.INCREASE_ULTIMATE_DMG,
           },
         },
@@ -941,12 +929,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1.16
           : bond === 2
-            ? 1.32
-            : bond === 3
-              ? 1.49
-              : bond === 4
-                ? 1.65
-                : 1.82,
+          ? 1.32
+          : bond === 3
+          ? 1.49
+          : bond === 4
+          ? 1.65
+          : 1.82,
         gameState,
         Target.ENEMY_2,
         DamageType.ULTIMATE,
@@ -958,12 +946,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1.16
           : bond === 2
-            ? 1.32
-            : bond === 3
-              ? 1.49
-              : bond === 4
-                ? 1.65
-                : 1.82,
+          ? 1.32
+          : bond === 3
+          ? 1.49
+          : bond === 4
+          ? 1.65
+          : 1.82,
         gameState,
         Target.ENEMY_3,
         DamageType.ULTIMATE,
@@ -974,12 +962,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1.16
           : bond === 2
-            ? 1.32
-            : bond === 3
-              ? 1.49
-              : bond === 4
-                ? 1.65
-                : 1.82,
+          ? 1.32
+          : bond === 3
+          ? 1.49
+          : bond === 4
+          ? 1.65
+          : 1.82,
         gameState,
         Target.ENEMY_4,
         DamageType.ULTIMATE,
@@ -991,6 +979,71 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",
+    case "10096": {
+      gameState.characters.forEach((character) => {
+        const attack = Math.floor(
+          applyRawAttBuff(gameState, position) *
+            (bond === 1
+              ? 0.3
+              : bond === 2
+              ? 0.35
+              : bond === 3
+              ? 0.4
+              : bond === 4
+              ? 0.4
+              : 0.4),
+        );
+        character.buff = [
+          ...character.buff,
+          {
+            id: "RAWATTACK",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER ||
+          character.class === CharacterClass.PROTECTOR
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "196-ult-1",
+              name:
+                "攻擊時，觸發『以自身攻擊力15%使自身以外我方全體攻擊力增加(1回合)』(1回合)",
+              type: 6,
+              condition: Condition.ATTACK,
+              duration: 1,
+              _6: {
+                duration: 1,
+                base: false,
+                value: bond === 1
+                  ? 0.1
+                  : bond === 2
+                  ? 0.1
+                  : bond === 3
+                  ? 0.125
+                  : bond === 4
+                  ? 0.125
+                  : 0.15,
+                affectType: AffectType.RAW_ATK,
+                target: Target.ALL_EXCEPT_SELF,
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10097": "性誕兔女郎 艾可",
     // "10098": "聖誕雪狐 靜",
     case "10098": {
@@ -1014,27 +1067,25 @@ export function ultimateAttack(gameState: GameState, position: number) {
               id: "10098-ult-1-1",
               name: "受到必殺技傷害增加(最多1層)",
               stack: 1,
-              maxStack:
-                bond === 1
-                  ? 3
-                  : bond === 2
-                    ? 3
-                    : bond === 3
-                      ? 3
-                      : bond === 4
-                        ? 2
-                        : 2,
+              maxStack: bond === 1
+                ? 3
+                : bond === 2
+                ? 3
+                : bond === 3
+                ? 3
+                : bond === 4
+                ? 2
+                : 2,
               affectType: AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.08
-                  : bond === 2
-                    ? 0.08
-                    : bond === 3
-                      ? 0.08
-                      : bond === 4
-                        ? 0.18
-                        : 0.225,
+              value: bond === 1
+                ? 0.08
+                : bond === 2
+                ? 0.08
+                : bond === 3
+                ? 0.08
+                : bond === 4
+                ? 0.18
+                : 0.225,
             },
           },
         },
@@ -1046,12 +1097,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -1103,27 +1154,25 @@ export function ultimateAttack(gameState: GameState, position: number) {
               id: "10108-ult-2-1",
               name: "受到傷害增加",
               stack: 1,
-              maxStack:
-                bond === 1
-                  ? 3
-                  : bond === 2
-                    ? 3
-                    : bond === 3
-                      ? 2
-                      : bond === 4
-                        ? 2
-                        : 2,
+              maxStack: bond === 1
+                ? 3
+                : bond === 2
+                ? 3
+                : bond === 3
+                ? 2
+                : bond === 4
+                ? 2
+                : 2,
               affectType: AffectType.INCREASE_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.15
-                  : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.225
-                      : bond === 4
-                        ? 0.225
-                        : 0.3,
+              value: bond === 1
+                ? 0.15
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.225
+                : bond === 4
+                ? 0.225
+                : 0.3,
             },
           },
         },
@@ -1172,21 +1221,21 @@ export function ultimateAttack(gameState: GameState, position: number) {
         ...gameState.characters[position].buff,
         {
           id: "10117-ult-1",
-          name: "普攻時，追加『以自身攻擊力96/115/135/154/173%對目標造成傷害』(4回合)",
+          name:
+            "普攻時，追加『以自身攻擊力96/115/135/154/173%對目標造成傷害』(4回合)",
           type: 1,
           condition: Condition.BASIC_ATTACK,
           duration: 4,
           _1: {
-            value:
-              bond === 1
-                ? 0.96
-                : bond === 2
-                  ? 1.15
-                  : bond === 3
-                    ? 1.35
-                    : bond === 4
-                      ? 1.54
-                      : 1.73,
+            value: bond === 1
+              ? 0.96
+              : bond === 2
+              ? 1.15
+              : bond === 3
+              ? 1.35
+              : bond === 4
+              ? 1.54
+              : 1.73,
             target: Target.ENEMY,
             damageType: DamageType.BASIC_ADDON,
             action: CharacterAction.BASIC,
@@ -1207,16 +1256,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_HEAL_RATE,
-            value:
-              bond === 1
-                ? 0.3
-                : bond === 2
-                  ? 0.35
-                  : bond === 3
-                    ? 0.4
-                    : bond === 4
-                      ? 0.45
-                      : 0.5,
+            value: bond === 1
+              ? 0.3
+              : bond === 2
+              ? 0.35
+              : bond === 3
+              ? 0.4
+              : bond === 4
+              ? 0.45
+              : 0.5,
           },
         },
       ];
@@ -1233,16 +1281,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 1,
           _0: {
             affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.1
-                : bond === 2
-                  ? 0.1
-                  : bond === 3
-                    ? 0.15
-                    : bond === 4
-                      ? 0.2
-                      : 0.25,
+            value: bond === 1
+              ? 0.1
+              : bond === 2
+              ? 0.1
+              : bond === 3
+              ? 0.15
+              : bond === 4
+              ? 0.2
+              : 0.25,
           },
         },
       ];
@@ -1303,16 +1350,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 3,
           _0: {
             affectType: AffectType.INCREASE_TRIGGER_DMG,
-            value:
-              bond === 1
-                ? 0.4
-                : bond === 2
-                  ? 0.6
-                  : bond === 3
-                    ? 0.6
-                    : bond === 4
-                      ? 0.8
-                      : 1,
+            value: bond === 1
+              ? 0.4
+              : bond === 2
+              ? 0.6
+              : bond === 3
+              ? 0.6
+              : bond === 4
+              ? 0.8
+              : 1,
           },
         },
       ];
@@ -1338,12 +1384,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -1366,31 +1412,29 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 4,
             _0: {
               affectType: AffectType.INCREASE_TRIGGER_DMG,
-              value:
-                bond === 1
-                  ? 0.6
-                  : bond === 2
-                    ? 0.7
-                    : bond === 3
-                      ? 0.8
-                      : bond === 4
-                        ? 0.9
-                        : 1,
+              value: bond === 1
+                ? 0.6
+                : bond === 2
+                ? 0.7
+                : bond === 3
+                ? 0.8
+                : bond === 4
+                ? 0.9
+                : 1,
             },
           },
         ];
       });
       {
-        const ultPercentage =
-          bond === 1
-            ? 2.65
-            : bond === 2
-              ? 2.98
-              : bond === 3
-                ? 3.31
-                : bond === 4
-                  ? 3.64
-                  : 3.97;
+        const ultPercentage = bond === 1
+          ? 2.65
+          : bond === 2
+          ? 2.98
+          : bond === 3
+          ? 3.31
+          : bond === 4
+          ? 3.64
+          : 3.97;
         dealUltDamage(
           position,
           ultPercentage,
@@ -1415,16 +1459,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 1,
           _0: {
             affectType: AffectType.INCREASE_ATK,
-            value:
-              bond === 1
-                ? 2
-                : bond === 2
-                  ? 2
-                  : bond === 3
-                    ? 2.5
-                    : bond === 4
-                      ? 2.5
-                      : 3,
+            value: bond === 1
+              ? 2
+              : bond === 2
+              ? 2
+              : bond === 3
+              ? 2.5
+              : bond === 4
+              ? 2.5
+              : 3,
           },
         },
       ];
@@ -1443,12 +1486,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
                 (bond === 1
                   ? 0.25
                   : bond === 2
-                    ? 0.3
-                    : bond === 3
-                      ? 0.35
-                      : bond === 4
-                        ? 0.4
-                        : 0.45),
+                  ? 0.3
+                  : bond === 3
+                  ? 0.35
+                  : bond === 4
+                  ? 0.4
+                  : 0.45),
             ),
           },
         },
@@ -1488,16 +1531,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.3
-                : bond === 2
-                  ? 0.3
-                  : bond === 3
-                    ? 0.4
-                    : bond === 4
-                      ? 0.4
-                      : 0.45,
+            value: bond === 1
+              ? 0.3
+              : bond === 2
+              ? 0.3
+              : bond === 3
+              ? 0.4
+              : bond === 4
+              ? 0.4
+              : 0.45,
           },
         },
       ];
@@ -1520,8 +1562,13 @@ export function ultimateAttack(gameState: GameState, position: number) {
                 stack: 1,
                 maxStack: 1,
                 affectType: AffectType.INCREASE_DMG_RECEIVED,
-                value:
-                  bond === 2 ? 0.1 : bond === 3 ? 0.1 : bond === 4 ? 0.2 : 0.2,
+                value: bond === 2
+                  ? 0.1
+                  : bond === 3
+                  ? 0.1
+                  : bond === 4
+                  ? 0.2
+                  : 0.2,
               },
             },
           ];
@@ -1539,16 +1586,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 4,
             _0: {
               affectType: AffectType.INCREASE_ULTIMATE_DMG,
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.25
-                        : 0.3,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.25
+                : 0.3,
             },
           },
         ];
@@ -1579,16 +1625,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
                 id: "10128-ult-1",
                 name: "受到攻擊者傷害增加(最多2層)",
                 affectType: AffectType.INCREASE_ATTACKER_DMG_RECEIVED,
-                value:
-                  bond === 1
-                    ? 0.3
-                    : bond === 2
-                      ? 0.365
-                      : bond === 3
-                        ? 0.4
-                        : bond === 4
-                          ? 0.465
-                          : 0.5,
+                value: bond === 1
+                  ? 0.3
+                  : bond === 2
+                  ? 0.365
+                  : bond === 3
+                  ? 0.4
+                  : bond === 4
+                  ? 0.465
+                  : 0.5,
                 stack: 1,
                 maxStack: 2,
               },
@@ -1601,21 +1646,30 @@ export function ultimateAttack(gameState: GameState, position: number) {
         ...gameState.characters[position].buff,
         {
           id: "10128-ult-2",
-          name: `普攻時，追加『以攻擊力${bond === 1 ? "50" : bond === 2 ? "56.5" : bond === 3 ? "70" : bond === 4 ? "76.5" : "90"}對目標造成傷害』(4回合)`,
+          name: `普攻時，追加『以攻擊力${
+            bond === 1
+              ? "50"
+              : bond === 2
+              ? "56.5"
+              : bond === 3
+              ? "70"
+              : bond === 4
+              ? "76.5"
+              : "90"
+          }對目標造成傷害』(4回合)`,
           type: 101,
           condition: Condition.BASIC_ATTACK,
           duration: 4,
           _101: {
-            value:
-              bond === 1
-                ? 0.5
-                : bond === 2
-                  ? 0.565
-                  : bond === 3
-                    ? 0.7
-                    : bond === 4
-                      ? 0.765
-                      : 0.9,
+            value: bond === 1
+              ? 0.5
+              : bond === 2
+              ? 0.565
+              : bond === 3
+              ? 0.7
+              : bond === 4
+              ? 0.765
+              : 0.9,
             target: Target.ENEMY,
             action: CharacterAction.BASIC,
             damageType: DamageType.BASIC_ADDON,
@@ -1627,12 +1681,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -1655,16 +1709,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 4,
             _0: {
               affectType: AffectType.INCREASE_DMG,
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.25
-                        : 0.3,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.25
+                : 0.3,
             },
           },
         ];
@@ -1674,12 +1727,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.88
           : bond === 2
-            ? 4.45
-            : bond === 3
-              ? 5.03
-              : bond === 4
-                ? 5.6
-                : 6.18,
+          ? 4.45
+          : bond === 3
+          ? 5.03
+          : bond === 4
+          ? 5.6
+          : 6.18,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -1703,16 +1756,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 3,
             _0: {
               affectType: AffectType.INCREASE_ULTIMATE_DMG,
-              value:
-                bond === 1
-                  ? 0.2
-                  : bond === 2
-                    ? 0.3
-                    : bond === 3
-                      ? 0.4
-                      : bond === 4
-                        ? 0.5
-                        : 0.6,
+              value: bond === 1
+                ? 0.2
+                : bond === 2
+                ? 0.3
+                : bond === 3
+                ? 0.4
+                : bond === 4
+                ? 0.5
+                : 0.6,
             },
           },
         ];
@@ -1723,12 +1775,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 2.65
           : bond === 2
-            ? 2.98
-            : bond === 3
-              ? 3.31
-              : bond === 4
-                ? 3.64
-                : 3.97,
+          ? 2.98
+          : bond === 3
+          ? 3.31
+          : bond === 4
+          ? 3.64
+          : 3.97,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -1747,16 +1799,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 100,
           _6: {
             affectType: AffectType.RAW_ATK,
-            value:
-              bond === 1
-                ? 0.5
-                : bond === 2
-                  ? 0.55
-                  : bond === 3
-                    ? 0.6
-                    : bond === 4
-                      ? 0.65
-                      : 0.7,
+            value: bond === 1
+              ? 0.5
+              : bond === 2
+              ? 0.55
+              : bond === 3
+              ? 0.6
+              : bond === 4
+              ? 0.65
+              : 0.7,
             target: Target.ALL_ALLIES,
             duration: 4,
             base: true,
@@ -1776,16 +1827,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 4,
             _0: {
               affectType: AffectType.INCREASE_ULTIMATE_DMG,
-              value:
-                bond === 1
-                  ? 0.2
-                  : bond === 2
-                    ? 0.25
-                    : bond === 3
-                      ? 0.3
-                      : bond === 4
-                        ? 0.35
-                        : 0.4,
+              value: bond === 1
+                ? 0.2
+                : bond === 2
+                ? 0.25
+                : bond === 3
+                ? 0.3
+                : bond === 4
+                ? 0.35
+                : 0.4,
             },
           },
         ];
@@ -1828,16 +1878,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 1,
             _0: {
               affectType: AffectType.INCREASE_DMG,
-              value:
-                bond === 1
-                  ? 0.3
-                  : bond === 2
-                    ? 0.375
-                    : bond === 3
-                      ? 0.45
-                      : bond === 4
-                        ? 0.10125
-                        : 0.6,
+              value: bond === 1
+                ? 0.3
+                : bond === 2
+                ? 0.375
+                : bond === 3
+                ? 0.45
+                : bond === 4
+                ? 0.10125
+                : 0.6,
             },
           },
         ];
@@ -1847,12 +1896,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1.65
           : bond === 2
-            ? 1.88
-            : bond === 3
-              ? 2.11
-              : bond === 4
-                ? 2.34
-                : 2.57,
+          ? 1.88
+          : bond === 3
+          ? 2.11
+          : bond === 4
+          ? 2.34
+          : 2.57,
         gameState,
         false,
         Target.ALL_ALLIES,
@@ -1872,16 +1921,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 2,
           _0: {
             affectType: AffectType.INCREASE_DMG,
-            value:
-              bond === 1
-                ? 0.1
-                : bond === 2
-                  ? 0.15
-                  : bond === 3
-                    ? 0.2
-                    : bond === 4
-                      ? 0.25
-                      : 0.3,
+            value: bond === 1
+              ? 0.1
+              : bond === 2
+              ? 0.15
+              : bond === 3
+              ? 0.2
+              : bond === 4
+              ? 0.25
+              : 0.3,
           },
         },
       ];
@@ -1891,12 +1939,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -1911,27 +1959,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
             bond === 1
               ? 80
               : bond === 2
-                ? 100
-                : bond === 3
-                  ? 120
-                  : bond === 4
-                    ? 140
-                    : 160
+              ? 100
+              : bond === 3
+              ? 120
+              : bond === 4
+              ? 140
+              : 160
           }攻擊力對目標造成傷害」`,
           type: 101,
           condition: Condition.BASIC_ATTACK,
           duration: 2,
           _101: {
-            value:
-              bond === 1
-                ? 0.8
-                : bond === 2
-                  ? 1
-                  : bond === 3
-                    ? 1.2
-                    : bond === 4
-                      ? 1.4
-                      : 1.6,
+            value: bond === 1
+              ? 0.8
+              : bond === 2
+              ? 1
+              : bond === 3
+              ? 1.2
+              : bond === 4
+              ? 1.4
+              : 1.6,
             target: Target.ENEMY,
             damageType: DamageType.BASIC_ADDON,
             action: CharacterAction.BASIC,
@@ -1952,16 +1999,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.3
-                : bond === 2
-                  ? 0.35
-                  : bond === 3
-                    ? 0.4
-                    : bond === 4
-                      ? 0.45
-                      : 0.5,
+            value: bond === 1
+              ? 0.3
+              : bond === 2
+              ? 0.35
+              : bond === 3
+              ? 0.4
+              : bond === 4
+              ? 0.45
+              : 0.5,
           },
         },
       ];
@@ -1970,12 +2016,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -1990,16 +2036,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           condition: Condition.BASIC_ATTACK,
           duration: 4,
           _1: {
-            value:
-              bond === 1
-                ? 0.15
-                : bond === 2
-                  ? 0.15
-                  : bond === 3
-                    ? 0.225
-                    : bond === 4
-                      ? 0.225
-                      : 0.3,
+            value: bond === 1
+              ? 0.15
+              : bond === 2
+              ? 0.15
+              : bond === 3
+              ? 0.225
+              : bond === 4
+              ? 0.225
+              : 0.3,
             target: Target.ENEMY,
             damageType: DamageType.BASIC_ADDON,
             action: CharacterAction.BASIC,
@@ -2021,16 +2066,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.2
-                : bond === 2
-                  ? 0.25
-                  : bond === 3
-                    ? 0.3
-                    : bond === 4
-                      ? 0.35
-                      : 0.4,
+            value: bond === 1
+              ? 0.2
+              : bond === 2
+              ? 0.25
+              : bond === 3
+              ? 0.3
+              : bond === 4
+              ? 0.35
+              : 0.4,
           },
         },
       ];
@@ -2048,27 +2092,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
                 bond === 1
                   ? 0.1
                   : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.25
-                        : 0.3
+                  ? 0.15
+                  : bond === 3
+                  ? 0.2
+                  : bond === 4
+                  ? 0.25
+                  : 0.3
               }%對目標造成傷害』`,
               type: 101,
               condition: Condition.BASIC_ATTACK,
               duration: 4,
               _101: {
-                value:
-                  bond === 1
-                    ? 0.1
-                    : bond === 2
-                      ? 0.15
-                      : bond === 3
-                        ? 0.2
-                        : bond === 4
-                          ? 0.25
-                          : 0.3,
+                value: bond === 1
+                  ? 0.1
+                  : bond === 2
+                  ? 0.15
+                  : bond === 3
+                  ? 0.2
+                  : bond === 4
+                  ? 0.25
+                  : 0.3,
                 target: Target.ENEMY,
                 damageType: DamageType.BASIC_ADDON,
                 action: CharacterAction.BASIC,
@@ -2086,27 +2129,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
             bond === 1
               ? 20
               : bond === 2
-                ? 30
-                : bond === 3
-                  ? 40
-                  : bond === 4
-                    ? 50
-                    : 60
+              ? 30
+              : bond === 3
+              ? 40
+              : bond === 4
+              ? 50
+              : 60
           }%對目標造成傷害』`,
           type: 101,
           condition: Condition.BASIC_ATTACK,
           duration: 4,
           _101: {
-            value:
-              bond === 1
-                ? 0.2
-                : bond === 2
-                  ? 0.3
-                  : bond === 3
-                    ? 0.4
-                    : bond === 4
-                      ? 0.5
-                      : 0.6,
+            value: bond === 1
+              ? 0.2
+              : bond === 2
+              ? 0.3
+              : bond === 3
+              ? 0.4
+              : bond === 4
+              ? 0.5
+              : 0.6,
             damageType: DamageType.BASIC_ADDON,
             action: CharacterAction.BASIC,
             target: Target.ENEMY,
@@ -2140,16 +2182,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 1,
               affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.2
-                        : 0.2,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.2
+                : 0.2,
             },
           },
         },
@@ -2207,12 +2248,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 5.2
           : bond === 2
-            ? 5.5
-            : bond === 3
-              ? 5.8
-              : bond === 4
-                ? 6.1
-                : 6.4,
+          ? 5.5
+          : bond === 3
+          ? 5.8
+          : bond === 4
+          ? 6.1
+          : 6.4,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -2227,12 +2268,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -2249,16 +2290,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 2,
           _0: {
             affectType: AffectType.DECREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.1
-                : bond === 2
-                  ? 0.125
-                  : bond === 3
-                    ? 0.15
-                    : bond === 4
-                      ? 0.175
-                      : 0.2,
+            value: bond === 1
+              ? 0.1
+              : bond === 2
+              ? 0.125
+              : bond === 3
+              ? 0.15
+              : bond === 4
+              ? 0.175
+              : 0.2,
           },
         },
       ];
@@ -2272,16 +2312,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 2,
           _0: {
             affectType: AffectType.DECREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.1
-                : bond === 2
-                  ? 0.125
-                  : bond === 3
-                    ? 0.15
-                    : bond === 4
-                      ? 0.175
-                      : 0.2,
+            value: bond === 1
+              ? 0.1
+              : bond === 2
+              ? 0.125
+              : bond === 3
+              ? 0.15
+              : bond === 4
+              ? 0.175
+              : 0.2,
           },
         },
       ];
@@ -2295,16 +2334,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 2,
           _0: {
             affectType: AffectType.DECREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.1
-                : bond === 2
-                  ? 0.125
-                  : bond === 3
-                    ? 0.15
-                    : bond === 4
-                      ? 0.175
-                      : 0.2,
+            value: bond === 1
+              ? 0.1
+              : bond === 2
+              ? 0.125
+              : bond === 3
+              ? 0.15
+              : bond === 4
+              ? 0.175
+              : 0.2,
           },
         },
       ];
@@ -2324,16 +2362,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_BASIC_DMG,
-            value:
-              bond === 1
-                ? 0.5
-                : bond === 2
-                  ? 0.7
-                  : bond === 3
-                    ? 0.9
-                    : bond === 4
-                      ? 1.1
-                      : 1.3,
+            value: bond === 1
+              ? 0.5
+              : bond === 2
+              ? 0.7
+              : bond === 3
+              ? 0.9
+              : bond === 4
+              ? 1.1
+              : 1.3,
           },
         },
         {
@@ -2344,16 +2381,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_DMG,
-            value:
-              bond === 1
-                ? 0.2
-                : bond === 2
-                  ? 0.25
-                  : bond === 3
-                    ? 0.3
-                    : bond === 4
-                      ? 0.35
-                      : 0.4,
+            value: bond === 1
+              ? 0.2
+              : bond === 2
+              ? 0.25
+              : bond === 3
+              ? 0.3
+              : bond === 4
+              ? 0.35
+              : 0.4,
           },
         },
       ];
@@ -2368,27 +2404,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
                 bond === 1
                   ? 20
                   : bond === 2
-                    ? 30
-                    : bond === 3
-                      ? 30
-                      : bond === 4
-                        ? 40
-                        : 60
+                  ? 30
+                  : bond === 3
+                  ? 30
+                  : bond === 4
+                  ? 40
+                  : 60
               }%對目標造成傷害』(4回合)`,
               type: 101,
               condition: Condition.BASIC_ATTACK,
               duration: 4,
               _101: {
-                value:
-                  bond === 1
-                    ? 0.2
-                    : bond === 2
-                      ? 0.3
-                      : bond === 3
-                        ? 0.3
-                        : bond === 4
-                          ? 0.4
-                          : 0.6,
+                value: bond === 1
+                  ? 0.2
+                  : bond === 2
+                  ? 0.3
+                  : bond === 3
+                  ? 0.3
+                  : bond === 4
+                  ? 0.4
+                  : 0.6,
                 target: Target.ENEMY,
                 damageType: DamageType.BASIC_ADDON,
                 action: CharacterAction.BASIC,
@@ -2396,7 +2431,8 @@ export function ultimateAttack(gameState: GameState, position: number) {
             },
             {
               id: "10142-ult-4",
-              name: "必殺時，觸發『使我方夏日 千鶴攻擊力增加10/10/20/20/30%(1回合)』(4回合)",
+              name:
+                "必殺時，觸發『使我方夏日 千鶴攻擊力增加10/10/20/20/30%(1回合)』(4回合)",
               type: 13,
               condition: Condition.ATTACK,
               duration: 4,
@@ -2411,16 +2447,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
                     duration: 1,
                     _0: {
                       affectType: AffectType.INCREASE_ATK,
-                      value:
-                        bond === 1
-                          ? 0.1
-                          : bond === 2
-                            ? 0.1
-                            : bond === 3
-                              ? 0.2
-                              : bond === 4
-                                ? 0.2
-                                : 0.3,
+                      value: bond === 1
+                        ? 0.1
+                        : bond === 2
+                        ? 0.1
+                        : bond === 3
+                        ? 0.2
+                        : bond === 4
+                        ? 0.2
+                        : 0.3,
                     },
                   },
                 ],
@@ -2452,16 +2487,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 4,
             _0: {
               affectType: AffectType.INCREASE_BASIC_DMG,
-              value:
-                bond === 1
-                  ? 0.3
-                  : bond === 2
-                    ? 0.45
-                    : bond === 3
-                      ? 0.6
-                      : bond === 4
-                        ? 0.75
-                        : 0.9,
+              value: bond === 1
+                ? 0.3
+                : bond === 2
+                ? 0.45
+                : bond === 3
+                ? 0.6
+                : bond === 4
+                ? 0.75
+                : 0.9,
             },
           },
         ];
@@ -2475,16 +2509,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           condition: Condition.BASIC_ATTACK,
           duration: 4,
           _101: {
-            value:
-              bond === 1
-                ? 0.6
-                : bond === 2
-                  ? 0.8
-                  : bond === 3
-                    ? 1
-                    : bond === 4
-                      ? 1.2
-                      : 1.4,
+            value: bond === 1
+              ? 0.6
+              : bond === 2
+              ? 0.8
+              : bond === 3
+              ? 1
+              : bond === 4
+              ? 1.2
+              : 1.4,
             target: Target.ENEMY,
             damageType: DamageType.BASIC_ADDON,
             action: CharacterAction.BASIC,
@@ -2498,16 +2531,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_ATK,
-            value:
-              bond === 1
-                ? 0
-                : bond === 2
-                  ? 0
-                  : bond === 3
-                    ? 0.3
-                    : bond === 4
-                      ? 0.6
-                      : 0.9,
+            value: bond === 1
+              ? 0
+              : bond === 2
+              ? 0
+              : bond === 3
+              ? 0.3
+              : bond === 4
+              ? 0.6
+              : 0.9,
           },
         },
       ];
@@ -2520,12 +2552,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 2.95
           : bond === 2
-            ? 3.64
-            : bond === 3
-              ? 4.33
-              : bond === 4
-                ? 5.02
-                : 5.71,
+          ? 3.64
+          : bond === 3
+          ? 4.33
+          : bond === 4
+          ? 5.02
+          : 5.71,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -2536,12 +2568,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 0.89
           : bond === 2
-            ? 1.07
-            : bond === 3
-              ? 1.25
-              : bond === 4
-                ? 1.43
-                : 1.61,
+          ? 1.07
+          : bond === 3
+          ? 1.25
+          : bond === 4
+          ? 1.43
+          : 1.61,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -2650,16 +2682,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               name: "必殺技傷害增加",
               stack: 1,
               maxStack: 1,
-              value:
-                bond === 1
-                  ? 0.6
-                  : bond === 2
-                    ? 0.7
-                    : bond === 3
-                      ? 0.8
-                      : bond === 4
-                        ? 0.9
-                        : 1,
+              value: bond === 1
+                ? 0.6
+                : bond === 2
+                ? 0.7
+                : bond === 3
+                ? 0.8
+                : bond === 4
+                ? 0.9
+                : 1,
               affectType: AffectType.INCREASE_ULTIMATE_DMG,
             },
           },
@@ -2688,16 +2719,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 1,
               affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.3
-                        : 0.4,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.3
+                : 0.4,
             },
           },
         },
@@ -2711,12 +2741,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.86
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.86
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -2832,16 +2862,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 2,
               affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.125
-                    : bond === 3
-                      ? 0.15
-                      : bond === 4
-                        ? 0.175
-                        : 0.2,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.125
+                : bond === 3
+                ? 0.15
+                : bond === 4
+                ? 0.175
+                : 0.2,
             },
           },
         },
@@ -2851,21 +2880,21 @@ export function ultimateAttack(gameState: GameState, position: number) {
         ...gameState.characters[position].buff,
         {
           id: "10148-ult-2",
-          name: "普攻時，追加『以自身攻擊力110/125/140/155/170%對目標造成傷害』",
+          name:
+            "普攻時，追加『以自身攻擊力110/125/140/155/170%對目標造成傷害』",
           type: 101,
           condition: Condition.BASIC_ATTACK,
           duration: 4,
           _101: {
-            value:
-              bond === 1
-                ? 1.1
-                : bond === 2
-                  ? 1.25
-                  : bond === 3
-                    ? 1.4
-                    : bond === 4
-                      ? 1.55
-                      : 1.7,
+            value: bond === 1
+              ? 1.1
+              : bond === 2
+              ? 1.25
+              : bond === 3
+              ? 1.4
+              : bond === 4
+              ? 1.55
+              : 1.7,
             target: Target.ENEMY,
             damageType: DamageType.BASIC_ADDON,
             action: CharacterAction.BASIC,
@@ -2877,12 +2906,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1
           : bond === 2
-            ? 1.25
-            : bond === 3
-              ? 1.5
-              : bond === 4
-                ? 1.75
-                : 2,
+          ? 1.25
+          : bond === 3
+          ? 1.5
+          : bond === 4
+          ? 1.75
+          : 2,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -2904,16 +2933,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               duration: 4,
               _0: {
                 affectType: AffectType.INCREASE_ULTIMATE_DMG,
-                value:
-                  bond === 1
-                    ? 0.2
-                    : bond === 2
-                      ? 0.3
-                      : bond === 3
-                        ? 0.4
-                        : bond === 4
-                          ? 0.5
-                          : 0.6,
+                value: bond === 1
+                  ? 0.2
+                  : bond === 2
+                  ? 0.3
+                  : bond === 3
+                  ? 0.4
+                  : bond === 4
+                  ? 0.5
+                  : 0.6,
               },
             },
           ];
@@ -2931,16 +2959,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               duration: 4,
               _0: {
                 affectType: AffectType.INCREASE_DMG,
-                value:
-                  bond === 1
-                    ? 0.15
-                    : bond === 2
-                      ? 0.2
-                      : bond === 3
-                        ? 0.3
-                        : bond === 4
-                          ? 0.4
-                          : 0.5,
+                value: bond === 1
+                  ? 0.15
+                  : bond === 2
+                  ? 0.2
+                  : bond === 3
+                  ? 0.3
+                  : bond === 4
+                  ? 0.4
+                  : 0.5,
               },
             },
           ];
@@ -2952,12 +2979,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.86
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.86
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -2989,16 +3016,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 2,
               affectType: AffectType.INCREASE_DMG,
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.1
-                    : bond === 3
-                      ? 0.15
-                      : bond === 4
-                        ? 0.15
-                        : 0.2,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.1
+                : bond === 3
+                ? 0.15
+                : bond === 4
+                ? 0.15
+                : 0.2,
             },
           },
         },
@@ -3009,12 +3035,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 3.3
           : bond === 2
-            ? 3.76
-            : bond === 3
-              ? 4.22
-              : bond === 4
-                ? 4.68
-                : 5.14,
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -3029,36 +3055,34 @@ export function ultimateAttack(gameState: GameState, position: number) {
             bond === 1
               ? 50
               : bond === 2
-                ? 57
-                : bond === 3
-                  ? 65
-                  : bond === 4
-                    ? 72
-                    : 80
+              ? 57
+              : bond === 3
+              ? 65
+              : bond === 4
+              ? 72
+              : 80
           }%對目標造成傷害』`,
           type: 101,
           condition: Condition.BASIC_ATTACK,
-          duration:
-            bond === 1
-              ? 3
-              : bond === 2
-                ? 3
-                : bond === 3
-                  ? 4
-                  : bond === 4
-                    ? 4
-                    : 4,
+          duration: bond === 1
+            ? 3
+            : bond === 2
+            ? 3
+            : bond === 3
+            ? 4
+            : bond === 4
+            ? 4
+            : 4,
           _101: {
-            value:
-              bond === 1
-                ? 0.5
-                : bond === 2
-                  ? 0.57
-                  : bond === 3
-                    ? 0.65
-                    : bond === 4
-                      ? 0.72
-                      : 0.8,
+            value: bond === 1
+              ? 0.5
+              : bond === 2
+              ? 0.57
+              : bond === 3
+              ? 0.65
+              : bond === 4
+              ? 0.72
+              : 0.8,
             target: Target.ENEMY,
             damageType: DamageType.BASIC_ADDON,
             action: CharacterAction.BASIC,
@@ -3080,16 +3104,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           duration: 4,
           _0: {
             affectType: AffectType.INCREASE_DMG_RECEIVED,
-            value:
-              bond === 1
-                ? 0.3
-                : bond === 2
-                  ? 0.3
-                  : bond === 3
-                    ? 0.4
-                    : bond === 4
-                      ? 0.4
-                      : 0.5,
+            value: bond === 1
+              ? 0.3
+              : bond === 2
+              ? 0.3
+              : bond === 3
+              ? 0.4
+              : bond === 4
+              ? 0.4
+              : 0.5,
           },
         },
       ];
@@ -3103,27 +3126,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
               bond === 1
                 ? 30
                 : bond === 2
-                  ? 40
-                  : bond === 3
-                    ? 40
-                    : bond === 4
-                      ? 50
-                      : 60
+                ? 40
+                : bond === 3
+                ? 40
+                : bond === 4
+                ? 50
+                : 60
             }%對目標造成傷害』`,
             type: 101,
             condition: Condition.ULTIMATE,
             duration: 1,
             _101: {
-              value:
-                bond === 1
-                  ? 0.3
-                  : bond === 2
-                    ? 0.4
-                    : bond === 3
-                      ? 0.4
-                      : bond === 4
-                        ? 0.5
-                        : 0.6,
+              value: bond === 1
+                ? 0.3
+                : bond === 2
+                ? 0.4
+                : bond === 3
+                ? 0.4
+                : bond === 4
+                ? 0.5
+                : 0.6,
               target: Target.ENEMY,
               damageType: DamageType.ULTIMATE_ADDON,
               action: CharacterAction.ULTIMATE,
@@ -3135,27 +3157,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
               bond === 1
                 ? 20
                 : bond === 2
-                  ? 22.5
-                  : bond === 3
-                    ? 25
-                    : bond === 4
-                      ? 27.5
-                      : 30
+                ? 22.5
+                : bond === 3
+                ? 25
+                : bond === 4
+                ? 27.5
+                : 30
             }%對目標造成傷害』`,
             type: 101,
             condition: Condition.BASIC_ATTACK,
             duration: 4,
             _101: {
-              value:
-                bond === 1
-                  ? 0.2
-                  : bond === 2
-                    ? 0.225
-                    : bond === 3
-                      ? 0.25
-                      : bond === 4
-                        ? 0.275
-                        : 0.3,
+              value: bond === 1
+                ? 0.2
+                : bond === 2
+                ? 0.225
+                : bond === 3
+                ? 0.25
+                : bond === 4
+                ? 0.275
+                : 0.3,
               target: Target.ENEMY,
               damageType: DamageType.BASIC_ADDON,
               action: CharacterAction.BASIC,
@@ -3181,16 +3202,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 1,
             _0: {
               affectType: AffectType.INCREASE_HEAL_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.6
-                  : bond === 2
-                    ? 0.7
-                    : bond === 3
-                      ? 0.8
-                      : bond === 4
-                        ? 0.9
-                        : 1,
+              value: bond === 1
+                ? 0.6
+                : bond === 2
+                ? 0.7
+                : bond === 3
+                ? 0.8
+                : bond === 4
+                ? 0.9
+                : 1,
             },
           },
         ];
@@ -3201,12 +3221,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 0.4
           : bond === 2
-            ? 0.45
-            : bond === 3
-              ? 0.5
-              : bond === 4
-                ? 0.5
-                : 0.5,
+          ? 0.45
+          : bond === 3
+          ? 0.5
+          : bond === 4
+          ? 0.5
+          : 0.5,
         gameState,
         Target.ALL_ALLIES,
         DamageType.ULTIMATE,
@@ -3224,16 +3244,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             duration: 4,
             _0: {
               affectType: AffectType.INCREASE_DMG,
-              value:
-                bond === 1
-                  ? 0.25
-                  : bond === 2
-                    ? 0.3
-                    : bond === 3
-                      ? 0.4
-                      : bond === 4
-                        ? 0.5
-                        : 0.6,
+              value: bond === 1
+                ? 0.25
+                : bond === 2
+                ? 0.3
+                : bond === 3
+                ? 0.4
+                : bond === 4
+                ? 0.5
+                : 0.6,
             },
           },
         ];
@@ -3260,16 +3279,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 1,
               affectType: AffectType.INCREASE_ATK,
-              value:
-                bond === 1
-                  ? 0.2
-                  : bond === 2
-                    ? 0.4
-                    : bond === 3
-                      ? 0.6
-                      : bond === 4
-                        ? 0.8
-                        : 1,
+              value: bond === 1
+                ? 0.2
+                : bond === 2
+                ? 0.4
+                : bond === 3
+                ? 0.6
+                : bond === 4
+                ? 0.8
+                : 1,
             },
           },
         },
@@ -3301,16 +3319,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 2,
               affectType: AffectType.INCREASE_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.15
-                  : bond === 2
-                    ? 0.2
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.25
-                        : 0.25,
+              value: bond === 1
+                ? 0.15
+                : bond === 2
+                ? 0.2
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.25
+                : 0.25,
             },
           },
         },
@@ -3339,16 +3356,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               stack: 1,
               maxStack: 2,
               affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
-              value:
-                bond === 1
-                  ? 0.05
-                  : bond === 2
-                    ? 0.05
-                    : bond === 3
-                      ? 0.1
-                      : bond === 4
-                        ? 0.1
-                        : 0.15,
+              value: bond === 1
+                ? 0.05
+                : bond === 2
+                ? 0.05
+                : bond === 3
+                ? 0.1
+                : bond === 4
+                ? 0.1
+                : 0.15,
             },
           },
         },
@@ -3380,16 +3396,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               id: "10154-ult-1-1",
               name: "《戀愛的萌系能量》",
               value: 0,
-              stack:
-                bond === 1
-                  ? 1
-                  : bond === 2
-                    ? 1
-                    : bond === 3
-                      ? 2
-                      : bond === 4
-                        ? 2
-                        : 3,
+              stack: bond === 1
+                ? 1
+                : bond === 2
+                ? 1
+                : bond === 3
+                ? 2
+                : bond === 4
+                ? 2
+                : 3,
               maxStack: 3,
               affectType: AffectType.NONE,
             },
@@ -3400,7 +3415,8 @@ export function ultimateAttack(gameState: GameState, position: number) {
 
       const buff2: Skill = {
         id: "10154-ult-1",
-        name: "使自身以外我方全體水屬性角色獲得「必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)」",
+        name:
+          "使自身以外我方全體水屬性角色獲得「必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)」",
         type: 11,
         condition: Condition.ULTIMATE,
         duration: 1,
@@ -3413,27 +3429,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
                 bond === 1
                   ? 80
                   : bond === 2
-                    ? 90
-                    : bond === 3
-                      ? 100
-                      : bond === 4
-                        ? 110
-                        : 120
+                  ? 90
+                  : bond === 3
+                  ? 100
+                  : bond === 4
+                  ? 110
+                  : 120
               }%對目標造成傷害』(1回合)`,
               type: 101,
               condition: Condition.ULTIMATE,
               duration: 1,
               _101: {
-                value:
-                  bond === 1
-                    ? 0.8
-                    : bond === 2
-                      ? 0.9
-                      : bond === 3
-                        ? 1
-                        : bond === 4
-                          ? 1.1
-                          : 1.2,
+                value: bond === 1
+                  ? 0.8
+                  : bond === 2
+                  ? 0.9
+                  : bond === 3
+                  ? 1
+                  : bond === 4
+                  ? 1.1
+                  : 1.2,
                 target: Target.ENEMY,
                 damageType: DamageType.ULTIMATE_ADDON,
                 action: CharacterAction.ULTIMATE,
@@ -3449,12 +3464,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 2.65
           : bond === 2
-            ? 2.98
-            : bond === 3
-              ? 3.31
-              : bond === 4
-                ? 3.64
-                : 3.97,
+          ? 2.98
+          : bond === 3
+          ? 3.31
+          : bond === 4
+          ? 3.64
+          : 3.97,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -3473,16 +3488,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           condition: Condition.NONE,
           duration: 1,
           _0: {
-            value:
-              bond === 1
-                ? 1
-                : bond === 2
-                  ? 1.25
-                  : bond === 3
-                    ? 1.5
-                    : bond === 4
-                      ? 1.75
-                      : 2,
+            value: bond === 1
+              ? 1
+              : bond === 2
+              ? 1.25
+              : bond === 3
+              ? 1.5
+              : bond === 4
+              ? 1.75
+              : 2,
             affectType: AffectType.INCREASE_ATK,
           },
         },
@@ -3493,16 +3507,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           condition: Condition.NONE,
           duration: 3,
           _0: {
-            value:
-              bond === 1
-                ? 1
-                : bond === 2
-                  ? 1.5
-                  : bond === 3
-                    ? 2
-                    : bond === 4
-                      ? 2.5
-                      : 3,
+            value: bond === 1
+              ? 1
+              : bond === 2
+              ? 1.5
+              : bond === 3
+              ? 2
+              : bond === 4
+              ? 2.5
+              : 3,
             affectType: AffectType.INCREASE_TRIGGER_EFFECT,
           },
         },
@@ -3516,16 +3529,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
           condition: Condition.NONE,
           duration: 3,
           _0: {
-            value:
-              bond === 1
-                ? 0.6
-                : bond === 2
-                  ? 0.7
-                  : bond === 3
-                    ? 0.8
-                    : bond === 4
-                      ? 0.9
-                      : 1,
+            value: bond === 1
+              ? 0.6
+              : bond === 2
+              ? 0.7
+              : bond === 3
+              ? 0.8
+              : bond === 4
+              ? 0.9
+              : 1,
             affectType: AffectType.INCREASE_TRIGGER_DMG_RECEIVED,
           },
         },
@@ -3555,16 +3567,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               name: "受到傷害增加(最多1層)",
               stack: 1,
               maxStack: 1,
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.2
-                    : bond === 3
-                      ? 0.3
-                      : bond === 4
-                        ? 0.4
-                        : 0.6,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.2
+                : bond === 3
+                ? 0.3
+                : bond === 4
+                ? 0.4
+                : 0.6,
               affectType: AffectType.INCREASE_DMG_RECEIVED,
             },
           },
@@ -3593,16 +3604,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
               name: "受到火屬性傷害增加",
               stack: 1,
               maxStack: 1,
-              value:
-                bond === 1
-                  ? 0.2
-                  : bond === 2
-                    ? 0.25
-                    : bond === 3
-                      ? 0.3
-                      : bond === 4
-                        ? 0.35
-                        : 0.4,
+              value: bond === 1
+                ? 0.2
+                : bond === 2
+                ? 0.25
+                : bond === 3
+                ? 0.3
+                : bond === 4
+                ? 0.35
+                : 0.4,
               affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
             },
           },
@@ -3615,12 +3625,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1.94
           : bond === 2
-            ? 2.23
-            : bond === 3
-              ? 2.51
-              : bond === 4
-                ? 2.8
-                : 3.09,
+          ? 2.23
+          : bond === 3
+          ? 2.51
+          : bond === 4
+          ? 2.8
+          : 3.09,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -3632,12 +3642,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
         bond === 1
           ? 1.94
           : bond === 2
-            ? 2.23
-            : bond === 3
-              ? 2.51
-              : bond === 4
-                ? 2.8
-                : 3.09,
+          ? 2.23
+          : bond === 3
+          ? 2.51
+          : bond === 4
+          ? 2.8
+          : 3.09,
         gameState,
         Target.ENEMY,
         DamageType.ULTIMATE,
@@ -3645,8 +3655,18 @@ export function ultimateAttack(gameState: GameState, position: number) {
       );
       break;
     }
-    // "10158": "翩舞雪花 初華"
+
+    // "10157": "純真祈願 牧愛菈"
+    case "10157": {
+      break;
+    }
+
+    // "10158": "聖夜奇謀 布蘭妮"
     case "10158": {
+      break;
+    }
+    // "10158": "翩舞雪花 初華"
+    case "10159": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
@@ -3657,16 +3677,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             condition: Condition.NONE,
             duration: 1,
             _0: {
-              value:
-                bond === 1
-                  ? 0.4
-                  : bond === 2
-                    ? 0.45
-                    : bond === 3
-                      ? 0.5
-                      : bond === 4
-                        ? 0.55
-                        : 0.6,
+              value: bond === 1
+                ? 0.4
+                : bond === 2
+                ? 0.45
+                : bond === 3
+                ? 0.5
+                : bond === 4
+                ? 0.55
+                : 0.6,
               affectType: AffectType.INCREASE_ATK,
             },
           },
@@ -3677,16 +3696,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             condition: Condition.NONE,
             duration: 2,
             _0: {
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.25
-                        : 0.3,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.25
+                : 0.3,
               affectType: AffectType.INCREASE_DMG,
             },
           },
@@ -3697,16 +3715,15 @@ export function ultimateAttack(gameState: GameState, position: number) {
             condition: Condition.NONE,
             duration: 3,
             _0: {
-              value:
-                bond === 1
-                  ? 0.1
-                  : bond === 2
-                    ? 0.15
-                    : bond === 3
-                      ? 0.2
-                      : bond === 4
-                        ? 0.25
-                        : 0.3,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.25
+                : 0.3,
               affectType: AffectType.INCREASE_ULTIMATE_DMG,
             },
           },
@@ -3714,43 +3731,43 @@ export function ultimateAttack(gameState: GameState, position: number) {
       });
       break;
     }
-    // "10801": "雙蛇軍團護士長 艾琳",
-    // "10802": "貓妖 娜娜",
-    // "10803": "龍女 伊維絲",
-    // "10804": "犬人族 朵拉",
-    // "10805": "魅魔 撒芭絲",
-    // "10806": "美人魚 瑪蓮",
-    // "10807": "流浪魔法師 尤依",
-    // "10808": "黑暗精靈 索拉卡",
-    // "10809": "怪盜 米雅",
-    // "10810": "人馬女僕 蘇菲",
-    // "10811": "冷豔美醫 嘉莉娜",
-    // "10812": "南瓜仙子 帕奈奈",
-    // "10813": "白薔薇 伊艾",
-    // "10901": "法斯帝國士兵 賽蓮",
-    // "10902": "法斯帝國法師 佩托拉",
-    // "10903": "魔族戰士 芙蕾",
-    // "10904": "魔族法師 瑪努艾拉",
-    // "10905": "烈日國武士 桔梗",
-    // "10906": "烈日國巫女 楓",
-    // "10907": "精靈射手 奧菈",
-    // "10908": "矮人戰士 可兒",
-    // "10909": "雙蛇軍團士兵 夏琳",
-    // "10910": "聖光騎士 瑪蒂娜",
-    // "10911": "主神教團僧兵 克蕾雅",
-    // "10912": "史萊姆娘 蘿爾",
-    // "10913": "牛女 米諾",
-    // "10914": "蛇女 拉米亞",
-    // "10915": "鳥身女妖 哈比",
-    // "10916": "法斯精銳近衛 安娜",
-    // "10917": "法斯精銳騎士 布蘭",
-    // "10918": "法斯高階法師 諾諾可",
-    // "10919": "懲戒天使",
-    // "10920": "福音天使",
-    // "10921": "獵犬小隊 茉莉",
-    // "10922": "試作機三號",
-    // "10923": "人馬 賽希",
-    // "10924": "木乃伊 穆穆",
-    // "10933": "獵犬小隊 安雅"
+      // "10801": "雙蛇軍團護士長 艾琳",
+      // "10802": "貓妖 娜娜",
+      // "10803": "龍女 伊維絲",
+      // "10804": "犬人族 朵拉",
+      // "10805": "魅魔 撒芭絲",
+      // "10806": "美人魚 瑪蓮",
+      // "10807": "流浪魔法師 尤依",
+      // "10808": "黑暗精靈 索拉卡",
+      // "10809": "怪盜 米雅",
+      // "10810": "人馬女僕 蘇菲",
+      // "10811": "冷豔美醫 嘉莉娜",
+      // "10812": "南瓜仙子 帕奈奈",
+      // "10813": "白薔薇 伊艾",
+      // "10901": "法斯帝國士兵 賽蓮",
+      // "10902": "法斯帝國法師 佩托拉",
+      // "10903": "魔族戰士 芙蕾",
+      // "10904": "魔族法師 瑪努艾拉",
+      // "10905": "烈日國武士 桔梗",
+      // "10906": "烈日國巫女 楓",
+      // "10907": "精靈射手 奧菈",
+      // "10908": "矮人戰士 可兒",
+      // "10909": "雙蛇軍團士兵 夏琳",
+      // "10910": "聖光騎士 瑪蒂娜",
+      // "10911": "主神教團僧兵 克蕾雅",
+      // "10912": "史萊姆娘 蘿爾",
+      // "10913": "牛女 米諾",
+      // "10914": "蛇女 拉米亞",
+      // "10915": "鳥身女妖 哈比",
+      // "10916": "法斯精銳近衛 安娜",
+      // "10917": "法斯精銳騎士 布蘭",
+      // "10918": "法斯高階法師 諾諾可",
+      // "10919": "懲戒天使",
+      // "10920": "福音天使",
+      // "10921": "獵犬小隊 茉莉",
+      // "10922": "試作機三號",
+      // "10923": "人馬 賽希",
+      // "10924": "木乃伊 穆穆",
+      // "10933": "獵犬小隊 安雅"
   }
 }

@@ -72,7 +72,8 @@ export function triggerLead(gameState: GameState) {
             ...gameState.characters[index].buff,
             {
               id: "10023-Lead-3",
-              name: "防禦時，觸發「使我方站位1獲得1層《編制重整》(最多4層)」(50回合)",
+              name:
+                "防禦時，觸發「使我方站位1獲得1層《編制重整》(最多4層)」(50回合)",
               type: 19,
               condition: Condition.GUARD,
               duration: 50,
@@ -192,7 +193,8 @@ export function triggerLead(gameState: GameState) {
         },
         {
           id: "10023-Lead-6",
-          name: "(反噬的犬嚎) 必殺時，追加「以自身攻擊力25%使自身以外的我方全體攻擊力增加(1回合)」",
+          name:
+            "(反噬的犬嚎) 必殺時，追加「以自身攻擊力25%使自身以外的我方全體攻擊力增加(1回合)」",
           type: 106,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -231,7 +233,8 @@ export function triggerLead(gameState: GameState) {
         },
         {
           id: "10023-Lead-8",
-          name: "(反噬的犬嚎) 必殺時，追加「使我方全體必殺技傷害增加50%(1回合)」",
+          name:
+            "(反噬的犬嚎) 必殺時，追加「使我方全體必殺技傷害增加50%(1回合)」",
           type: 111,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -376,7 +379,8 @@ export function triggerLead(gameState: GameState) {
         },
         {
           id: "10044-lead-5",
-          name: "必殺時，觸發「使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」",
+          name:
+            "必殺時，觸發「使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」",
           type: 21,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -384,7 +388,8 @@ export function triggerLead(gameState: GameState) {
             trigger: [
               {
                 id: "10044-lead-5-1",
-                name: "使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」",
+                name:
+                  "使自身以外我方全體獲得『必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)』、『普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)』」",
                 type: 11,
                 condition: Condition.ULTIMATE,
                 duration: 100,
@@ -393,7 +398,8 @@ export function triggerLead(gameState: GameState) {
                   applySkill: [
                     {
                       id: "10044-lead-5-1-1",
-                      name: "必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)",
+                      name:
+                        "必殺時，追加『以自身攻擊力100%對目標造成傷害』(1回合)",
                       type: 101,
                       condition: Condition.ULTIMATE,
                       duration: 1,
@@ -406,7 +412,8 @@ export function triggerLead(gameState: GameState) {
                     },
                     {
                       id: "10044-lead-5-1-2",
-                      name: "普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)",
+                      name:
+                        "普攻時，追加『以自身攻擊力25%對目標造成傷害』(2回合)",
                       type: 101,
                       condition: Condition.BASIC_ATTACK,
                       duration: 2,
@@ -425,7 +432,8 @@ export function triggerLead(gameState: GameState) {
         },
         {
           id: "10044-lead-6",
-          name: "每經過4回合，觸發「使敵方全體受到火、水、風、光、闇屬性傷害增加70%(2回合)」",
+          name:
+            "每經過4回合，觸發「使敵方全體受到火、水、風、光、闇屬性傷害增加70%(2回合)」",
           type: 11,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 4,
@@ -930,7 +938,8 @@ export function triggerLead(gameState: GameState) {
             },
             {
               id: "10078-lead-6",
-              name: "攻擊時，觸發「使我方站位1的隊員造成傷害增加5%(1回合)、獲得普攻時與必殺時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
+              name:
+                "攻擊時，觸發「使我方站位1的隊員造成傷害增加5%(1回合)、獲得普攻時與必殺時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1018,7 +1027,8 @@ export function triggerLead(gameState: GameState) {
             },
             {
               id: "10078-lead-7",
-              name: "攻擊時，觸發「使我方站位1的隊員造成傷害增加5%(1回合)、獲得普攻時與必殺時，追加『以自身攻擊力20%對目標造成傷害』(1回合)」",
+              name:
+                "攻擊時，觸發「使我方站位1的隊員造成傷害增加5%(1回合)、獲得普攻時與必殺時，追加『以自身攻擊力20%對目標造成傷害』(1回合)」",
               type: 0,
               condition: Condition.NONE,
               duration: 100,
@@ -1395,7 +1405,8 @@ export function triggerLead(gameState: GameState) {
                       duration: 100,
                       _3: {
                         id: "10117-lead-8-1",
-                        name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
+                        name:
+                          "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
                         stack: 1,
                         maxStack: 5,
                         value: 0.18,
@@ -1442,7 +1453,8 @@ export function triggerLead(gameState: GameState) {
                     target: Target.ENEMY,
                     applySkill: {
                       id: "10117-lead-10-1",
-                      name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
+                      name:
+                        "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
                       type: 3,
                       condition: Condition.NONE,
                       duration: 100,
@@ -1681,7 +1693,8 @@ export function triggerLead(gameState: GameState) {
             },
             {
               id: "10123-Lead-5",
-              name: "必殺時，觸發「使目標受到火、水、風、光、闇屬性傷害增加5%(2回合)」",
+              name:
+                "必殺時，觸發「使目標受到火、水、風、光、闇屬性傷害增加5%(2回合)」",
               type: 11,
               condition: Condition.ULTIMATE,
               duration: 100,
@@ -1776,7 +1789,8 @@ export function triggerLead(gameState: GameState) {
               },
               {
                 id: "10123-Lead-8",
-                name: "必殺時，觸發「使目標受到火、水、風、光、闇屬性傷害增加5%(2回合)」",
+                name:
+                  "必殺時，觸發「使目標受到火、水、風、光、闇屬性傷害增加5%(2回合)」",
                 type: 11,
                 condition: Condition.ULTIMATE,
                 duration: 100,
@@ -1870,7 +1884,8 @@ export function triggerLead(gameState: GameState) {
         // 自身護盾效果增加50%
         {
           id: "10129-Lead-2",
-          name: "每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」",
+          name:
+            "每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」",
           type: 21,
           condition: Condition.ON_TURN_START,
           conditionTurn: 1,
@@ -1879,7 +1894,8 @@ export function triggerLead(gameState: GameState) {
             trigger: [
               {
                 id: "10129-lead-2-1",
-                name: "每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」",
+                name:
+                  "每Wave的第一回合時，觸發「使敵方全體受到傷害增加50%(最多1層)」",
                 type: 4,
                 condition: Condition.NONE,
                 duration: 100,
@@ -2533,7 +2549,8 @@ export function triggerLead(gameState: GameState) {
             },
             {
               id: "10144-lead-5",
-              name: "防禦時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
+              name:
+                "防禦時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
               type: 6,
               condition: Condition.GUARD,
               duration: 100,
@@ -2570,7 +2587,8 @@ export function triggerLead(gameState: GameState) {
             },
             {
               id: "10144-lead-7",
-              name: "必殺時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
+              name:
+                "必殺時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
               type: 6,
               condition: Condition.ULTIMATE,
               duration: 100,
@@ -2765,7 +2783,8 @@ export function triggerLead(gameState: GameState) {
             ...gameState.characters[index].buff,
             {
               id: "10146-lead-4",
-              name: "第一回合時，觸發「以自身基礎攻擊力10%使我方全體攻擊力增加(50回合)」",
+              name:
+                "第一回合時，觸發「以自身基礎攻擊力10%使我方全體攻擊力增加(50回合)」",
               type: 6,
               condition: Condition.ON_TURN_START,
               conditionTurn: 1,
@@ -2817,7 +2836,8 @@ export function triggerLead(gameState: GameState) {
                 trigger: [
                   {
                     id: "10146-lead-6-1",
-                    name: "第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」",
+                    name:
+                      "第九回合時，觸發「使敵方全體受到傷害增加33%(最多3層)」",
                     type: 4,
                     condition: Condition.NONE,
                     duration: 100,
@@ -3168,7 +3188,8 @@ export function triggerLead(gameState: GameState) {
           ...gameState.characters[0].buff,
           {
             id: "10150-lead-3",
-            name: "每Wave的第1回合時，觸發「使敵方全體暗屬性角色受到光屬性傷害增加50%(50回合)」",
+            name:
+              "每Wave的第1回合時，觸發「使敵方全體暗屬性角色受到光屬性傷害增加50%(50回合)」",
             type: 11,
             condition: Condition.ON_TURN_START,
             duration: 100,
@@ -3375,7 +3396,8 @@ export function triggerLead(gameState: GameState) {
               ...gameState.characters[index].buff,
               {
                 id: "10151-lead-3",
-                name: "當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《本小姐不需要運氣》",
+                name:
+                  "當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《本小姐不需要運氣》",
                 type: 21,
                 condition: Condition.ON_TURN_START,
                 duration: 100,
@@ -3437,7 +3459,8 @@ export function triggerLead(gameState: GameState) {
                     },
                     {
                       id: "10151-lead-3-3",
-                      name: "使我方全體攻擊者獲得「必殺時，追加『以自身攻擊力25%對目標造成傷害』(50回合)」",
+                      name:
+                        "使我方全體攻擊者獲得「必殺時，追加『以自身攻擊力25%對目標造成傷害』(50回合)」",
                       type: 11,
                       condition: Condition.NONE,
                       duration: 50,
@@ -3446,7 +3469,8 @@ export function triggerLead(gameState: GameState) {
                         applySkill: [
                           {
                             id: "10151-lead-3-3-1",
-                            name: "必殺時，追加『以自身攻擊力25%對目標造成傷害』",
+                            name:
+                              "必殺時，追加『以自身攻擊力25%對目標造成傷害』",
                             type: 101,
                             condition: Condition.ULTIMATE,
                             duration: 50,
@@ -3471,7 +3495,8 @@ export function triggerLead(gameState: GameState) {
               ...gameState.characters[index].buff,
               {
                 id: "10151-lead-4",
-                name: "當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《絕對的實力能輾壓一切》",
+                name:
+                  "當我方隊伍恰好有2種屬性角色時，發動『第1回合時，觸發《絕對的實力能輾壓一切》",
                 type: 21,
                 condition: Condition.ON_TURN_START,
                 duration: 100,
@@ -3533,7 +3558,8 @@ export function triggerLead(gameState: GameState) {
                     },
                     {
                       id: "10151-lead-4-3",
-                      name: "使我方全體攻擊者獲得「普攻時，追加『以自身攻擊力20%對目標造成傷害』(50回合)」",
+                      name:
+                        "使我方全體攻擊者獲得「普攻時，追加『以自身攻擊力20%對目標造成傷害』(50回合)」",
                       type: 11,
                       condition: Condition.NONE,
                       duration: 50,
@@ -3542,7 +3568,8 @@ export function triggerLead(gameState: GameState) {
                         applySkill: [
                           {
                             id: "10151-lead-4-3-1",
-                            name: "普攻時，追加『以自身攻擊力20%對目標造成傷害』",
+                            name:
+                              "普攻時，追加『以自身攻擊力20%對目標造成傷害』",
                             type: 101,
                             condition: Condition.BASIC_ATTACK,
                             duration: 50,
@@ -3868,7 +3895,8 @@ export function triggerLead(gameState: GameState) {
           ...gameState.characters[0].buff,
           {
             id: "10153-lead-3",
-            name: "每經過1回合時，觸發「使自身獲得2層《高級萬聖甜點組》(最多6層)」",
+            name:
+              "每經過1回合時，觸發「使自身獲得2層《高級萬聖甜點組》(最多6層)」",
             type: 4,
             condition: Condition.ON_SPECIFIC_TURN,
             duration: 1,
@@ -4098,8 +4126,17 @@ export function triggerLead(gameState: GameState) {
       break;
     }
 
-    // "10158": "翩舞雪花 初華"
+    // "10157": "純真祈願 牧愛菈"
+    case "10157": {
+      break;
+    }
+
+    // "10158": "聖夜奇謀 布蘭妮"
     case "10158": {
+      break;
+    }
+    // "10159": "翩舞雪花 初華"
+    case "10159": {
       break;
     }
     // "10801": "雙蛇軍團護士長 艾琳",
