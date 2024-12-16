@@ -12,7 +12,7 @@ export function parseCondition(
   condition.forEach((c) => {
     if (position >= 0 && position < 5 && !state.characters[position].isDead) {
       for (const char of state.characters[position].buff) {
-        if (char.deactivated) continue;
+        if (char.deactivated || char.OffOnAction) continue;
         if (c === char.condition) {
           triggerSkill(char, state, position);
         }
@@ -22,7 +22,7 @@ export function parseCondition(
     for (const enemy of state.enemies) {
       if (enemy.isDead) continue;
       for (const char of enemy.buff) {
-        if (char.deactivated) continue;
+        if (char.deactivated || char.OffOnAction) continue;
         if (c === char.condition) {
           console.log(char.id);
           triggerSkill(char, state, position);

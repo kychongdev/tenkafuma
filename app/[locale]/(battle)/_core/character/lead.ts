@@ -3867,7 +3867,7 @@ export function triggerLead(gameState: GameState) {
         gameState.characters[0].buff = [
           ...gameState.characters[0].buff,
           {
-            id: "10153-ult-1",
+            id: "10153-lead-3",
             name: "每經過1回合時，觸發「使自身獲得2層《高級萬聖甜點組》(最多6層)」",
             type: 4,
             condition: Condition.ON_SPECIFIC_TURN,
@@ -3875,16 +3875,16 @@ export function triggerLead(gameState: GameState) {
             deactivated: false,
             _4: {
               increaseStack: 1,
-              targetSkill: "10153-passive-3-1",
+              targetSkill: "10153-lead-3-1",
               target: Target.SELF,
               applySkill: {
-                id: "10153-passive-3-1",
+                id: "10153-lead-3-1",
                 name: "《高級萬聖甜點組》",
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: "10153-passive-3-1",
+                  id: "10153-lead-3-1",
                   name: "《高級萬聖甜點組》",
                   stack: 1,
                   maxStack: 6,

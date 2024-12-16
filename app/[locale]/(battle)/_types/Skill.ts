@@ -48,6 +48,7 @@ interface ISkill {
   specialConditionSkill?: string;
   disabledOnSkill?: string;
   obtainOnEnemyTurn?: boolean;
+  OffOnAction?: boolean;
 }
 
 interface Skill extends ISkill {

@@ -2,10 +2,12 @@ import {
   AffectType,
   Condition,
   DamageType,
+  Skill,
   Target,
-} from "@/app/[locale]/(battle)/_types/Skill";
+} from "@/types/Skill";
 import { CharacterAction, CharacterClass } from "@/types/Character";
 import { GameState } from "../GameState";
+import { triggerSkill } from "../triggerSkill";
 
 export function applyExtra(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;
@@ -164,6 +166,48 @@ export function applyExtra(gameState: GameState, position: number) {
           },
         ];
       });
+      break;
+    }
+    case "10153": {
+      console.log("10153");
+      const skill: Skill = {
+        id: "10153-ult-1",
+        name: "《向聖杯祈願》",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        disabledOnSkill: "10153-passive-1-1",
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10153-ult-1-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10153-ult-1-1",
+            name: "《向聖杯祈願》",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10153-ult-1-1",
+              name: "《向聖杯祈願》",
+              stack:
+                bond === 1
+                  ? 6
+                  : bond === 2
+                    ? 7
+                    : bond === 3
+                      ? 8
+                      : bond === 4
+                        ? 9
+                        : 10,
+              maxStack: 10,
+              value: 0,
+              affectType: AffectType.NONE,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
       break;
     }
     default:

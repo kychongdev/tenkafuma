@@ -3279,36 +3279,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
     }
     // "10153": "純真殺意 撒旦",
     case "10153": {
-      //使自身獲得6/7/8/9/10層《向聖杯祈願》(最多10層)(每場戰鬥僅生效1次)，並使目標受到傷害增加15/20/20/25/25%(最多2層)，再使目標受到暗屬性傷害增加5/5/10/10/15%(最多2層)。CD:3
-      gameState.characters[position].buff = [
-        ...gameState.characters[position].buff,
-        {
-          id: "10153-ult-1",
-          name: "《向聖杯祈願》",
-          type: 3,
-          condition: Condition.NONE,
-          duration: 100,
-          disabledOnSkill: "10153-passive-1-1",
-          _3: {
-            id: "10153-ult-1",
-            name: "《向聖杯祈願》",
-            stack:
-              bond === 1
-                ? 6
-                : bond === 2
-                  ? 7
-                  : bond === 3
-                    ? 8
-                    : bond === 4
-                      ? 9
-                      : 10,
-            maxStack: 10,
-            value: 0,
-            affectType: AffectType.NONE,
-          },
-        },
-      ];
-
       const skill: Skill = {
         id: "10153-ult-2",
         name: "受到傷害增加",

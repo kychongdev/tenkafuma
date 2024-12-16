@@ -948,10 +948,8 @@ export function triggerSkill(
     case 8: {
       if (!buff._8) {
         console.log("Wrong data 8");
-        console.log(buff);
         break;
       }
-      console.log(buff.id);
       switch (buff._8.target) {
         case Target.SELF: {
           const skillStackNum = gameState.characters[position].buff.find(
@@ -959,6 +957,7 @@ export function triggerSkill(
               return x.id === buff._8?.targetSkill;
             },
           );
+
           if (!skillStackNum || !skillStackNum._3) {
             // Does not have this skill
             break;
