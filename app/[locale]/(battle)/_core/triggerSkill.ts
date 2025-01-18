@@ -1,11 +1,11 @@
 import {
-  Skill,
+  AffectType,
   Condition,
   DamageType,
+  Skill,
   SkillStackCondition,
-  Target,
-  AffectType,
   SpecialCondition,
+  Target,
 } from "@/types/Skill";
 import { CharacterAttribute, CharacterClass } from "@/types/Character";
 import { applyRawAttBuff } from "./applyRawAtk";
@@ -284,7 +284,7 @@ export function triggerSkill(
           gameState.characters[position].cd += buff._2.increaseCD;
           if (
             gameState.characters[position].cd >
-            gameState.characters[position].maxCd
+              gameState.characters[position].maxCd
           ) {
             gameState.characters[position].cd =
               gameState.characters[position].maxCd;
@@ -699,10 +699,9 @@ export function triggerSkill(
                 condition: Condition.NONE,
                 duration: buff._6.duration,
                 _0: {
-                  value:
-                    buff._6?.base === true
-                      ? Math.floor(baseAtk * buff._6.value)
-                      : Math.floor(rawAttSkill * buff._6.value),
+                  value: buff._6?.base === true
+                    ? Math.floor(baseAtk * buff._6.value)
+                    : Math.floor(rawAttSkill * buff._6.value),
                   affectType: buff._6?.affectType,
                 },
               },
@@ -724,10 +723,9 @@ export function triggerSkill(
               condition: Condition.NONE,
               duration: buff._6.duration,
               _0: {
-                value:
-                  buff._6?.base === true
-                    ? Math.floor(baseAtk * buff._6.value)
-                    : Math.floor(rawAttSkill * buff._6.value),
+                value: buff._6?.base === true
+                  ? Math.floor(baseAtk * buff._6.value)
+                  : Math.floor(rawAttSkill * buff._6.value),
                 affectType: buff._6?.affectType,
               },
             },
@@ -752,10 +750,9 @@ export function triggerSkill(
                   condition: Condition.NONE,
                   duration: buff._6.duration,
                   _0: {
-                    value:
-                      buff._6?.base === true
-                        ? Math.floor(baseAtk * buff._6.value)
-                        : Math.floor(rawAttSkill * buff._6.value),
+                    value: buff._6?.base === true
+                      ? Math.floor(baseAtk * buff._6.value)
+                      : Math.floor(rawAttSkill * buff._6.value),
                     affectType: buff._6?.affectType,
                   },
                 },
@@ -787,10 +784,9 @@ export function triggerSkill(
                   condition: Condition.NONE,
                   duration: buff._6.duration,
                   _0: {
-                    value:
-                      buff._6?.base === true
-                        ? Math.floor(baseAtk * buff._6.value)
-                        : Math.floor(rawAttSkill * buff._6.value),
+                    value: buff._6?.base === true
+                      ? Math.floor(baseAtk * buff._6.value)
+                      : Math.floor(rawAttSkill * buff._6.value),
                     affectType: buff._6?.affectType,
                   },
                 },
@@ -821,10 +817,9 @@ export function triggerSkill(
               condition: Condition.NONE,
               duration: buff._6.duration,
               _0: {
-                value:
-                  buff._6?.base === true
-                    ? Math.floor(baseAtk * buff._6.value)
-                    : Math.floor(rawAttSkill * buff._6.value),
+                value: buff._6?.base === true
+                  ? Math.floor(baseAtk * buff._6.value)
+                  : Math.floor(rawAttSkill * buff._6.value),
                 affectType: buff._6?.affectType,
               },
             },
@@ -857,10 +852,9 @@ export function triggerSkill(
               condition: Condition.NONE,
               duration: buff._6.duration,
               _0: {
-                value:
-                  buff._6?.base === true
-                    ? Math.floor(baseAtk * buff._6.value)
-                    : Math.floor(rawAttSkill * buff._6.value),
+                value: buff._6?.base === true
+                  ? Math.floor(baseAtk * buff._6.value)
+                  : Math.floor(rawAttSkill * buff._6.value),
                 affectType: buff._6?.affectType,
               },
             },
@@ -1045,6 +1039,8 @@ export function triggerSkill(
       }
       switch (buff._11.target) {
         case Target.SELF: {
+          console.log("test");
+          console.log(p(buff._11.applySkill));
           gameState.characters[position].buff = [
             ...gameState.characters[position].buff,
             ...buff._11.applySkill,
@@ -1952,27 +1948,14 @@ export function triggerSkill(
         console.log("Wrong data 24");
         break;
       }
-      function recursiveDeleteSkill(index: string, pos: number) {
-        const buffIndex = gameState.characters[pos].buff.findIndex(
-          (x) => x.id === index,
-        );
-
-        if (!buffIndex || buffIndex == -1) {
-          return;
-        }
-
-        const clone = [...gameState.characters[pos].buff];
-        clone.splice(buffIndex, 1);
-        gameState.characters[pos].buff = clone;
-        recursiveDeleteSkill(index, pos);
-      }
-
       switch (buff._24.target) {
         case Target.ALL_EXCEPT_SELF: {
           gameState.characters.forEach((_, charIndex) => {
             if (charIndex !== position) {
-              buff._24?.clearSkill.forEach((deleteSkillIndex) => {
-                recursiveDeleteSkill(deleteSkillIndex, charIndex);
+              buff._24?.clearSkill.forEach((deleteBuffId) => {
+                gameState.characters[charIndex].buff = gameState.characters[
+                  charIndex
+                ].buff.filter((x) => x.id !== deleteBuffId);
               });
             }
           });
@@ -1981,13 +1964,16 @@ export function triggerSkill(
         }
 
         case Target.SELF: {
-          buff._24?.clearSkill.forEach((index) => {
-            recursiveDeleteSkill(index, position);
+          console.log("24 self trigger");
+          buff._24?.clearSkill.forEach((deleteBuffId) => {
+            gameState.characters[position].buff = gameState.characters[position]
+              .buff.filter(
+                (x) => x.id !== deleteBuffId,
+              );
           });
           break;
         }
       }
-
       break;
     }
 

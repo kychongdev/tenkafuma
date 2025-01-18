@@ -5646,12 +5646,12 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 condition: Condition.MOVE,
                 duration: 2,
                 _24: {
+                  target: Target.ALL_EXCEPT_SELF,
                   clearSkill: [
                     "10147-passive-1-1",
                     "10147-passive-1-2",
                     "10147-passive-1-3",
                   ],
-                  target: Target.ALL_EXCEPT_SELF,
                 },
                 deleteSelf: true,
               },

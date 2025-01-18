@@ -64,21 +64,26 @@ export function onTurnStart(gameState: GameState) {
 
 export function endTurn(state: GameState) {
   state.enemies.forEach((enemy, index) => {
-    enemy.buff.forEach((buff) => {
+    state.enemies[index].buff = state.enemies[index].buff.map((buff) => {
       if (buff.duration && buff.duration !== 100) {
-        buff.duration -= 1;
+        return { ...buff, duration: buff.duration - 1 };
       }
+      return buff;
     });
-    state.enemies[index].cd =
-      state.enemies[index].cd > 0 ? state.enemies[index].cd - 1 : 0;
+
+    state.enemies[index].cd = state.enemies[index].cd > 0
+      ? state.enemies[index].cd - 1
+      : 0;
   });
 
   state.characters.forEach((character, index) => {
-    state.characters[index].buff.forEach((buff) => {
+    state.characters[index].buff = state.characters[index].buff.map((buff) => {
       if (buff.duration && buff.duration !== 100) {
-        buff.duration = buff.duration - 1;
+        return { ...buff, duration: buff.duration - 1 };
       }
+      return buff;
     });
+
     character.cd = character.cd > 0 ? character.cd - 1 : 0;
   });
 
