@@ -1,5 +1,5 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   BedDouble,
   BicepsFlexed,
@@ -7,10 +7,10 @@ import {
   Heart,
   Star,
   Sword,
-} from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { Controller, UseFormReturn } from 'react-hook-form';
-import { CharacterTeam } from '../_types/Select';
+} from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Controller, UseFormReturn } from "react-hook-form";
+import { CharacterTeam } from "../_types/Select";
 import {
   Select,
   SelectContent,
@@ -18,11 +18,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Toggle } from '@/components/ui/toggle';
-import { FormControl, FormField, FormItem } from '@/components/ui/form';
-import { CharFilterDrawer } from './CharFilterDrawer';
-import { Checkbox } from '@/components/ui/checkbox';
+} from "@/components/ui/select";
+import { Toggle } from "@/components/ui/toggle";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { CharFilterDrawer } from "./CharFilterDrawer";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface CharStatsInputsProps {
   position: 0 | 1 | 2 | 3 | 4;
@@ -35,20 +35,20 @@ export const CharStatsSelect = ({
   position,
   char,
 }: CharStatsInputsProps) => {
-  const t = useTranslations('Team');
+  const t = useTranslations("Team");
   const { register, control, setValue } = useForm;
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const allowedKeys = [
-      'Backspace',
-      'ArrowLeft',
-      'ArrowRight',
-      'Enter',
-      'Tab',
-      'Control',
-      'Meta',
+      "Backspace",
+      "ArrowLeft",
+      "ArrowRight",
+      "Enter",
+      "Tab",
+      "Control",
+      "Meta",
     ];
     if (
-      (e.key >= '0' && e.key <= '9') ||
+      (e.key >= "0" && e.key <= "9") ||
       (allowedKeys.includes(e.key) && // Allow specified keys
         !(e.ctrlKey || e.metaKey))
     ) {
@@ -58,17 +58,17 @@ export const CharStatsSelect = ({
   };
   const handleKeyDownAllowDot = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const allowedKeys = [
-      'Backspace',
-      'ArrowLeft',
-      'ArrowRight',
-      'Enter',
-      'Tab',
-      '.',
-      'Control',
-      'Meta',
+      "Backspace",
+      "ArrowLeft",
+      "ArrowRight",
+      "Enter",
+      "Tab",
+      ".",
+      "Control",
+      "Meta",
     ];
     if (
-      (e.key >= '0' && e.key <= '9') ||
+      (e.key >= "0" && e.key <= "9") ||
       (allowedKeys.includes(e.key) && // Allow specified keys
         !(e.ctrlKey || e.metaKey))
     ) {
@@ -94,7 +94,7 @@ export const CharStatsSelect = ({
                 <Heart className="absolute left-2 top-[45%] transform -translate-y-1/2 text-gray-500 z-10" />
                 <Input
                   type="text"
-                  placeholder={t('HP')}
+                  placeholder={t("HP")}
                   className="pl-9 py-2 text-md w-full border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6E23DD] focus:border-transparent"
                   onKeyDown={handleKeyDownAllowDot}
                   {...register(`${position}.hpPot`, {
@@ -102,7 +102,7 @@ export const CharStatsSelect = ({
                       if (e.target.value > 100) {
                         setValue(`${position}.hpPot`, 100);
                       }
-                      if (e.target.value === '') {
+                      if (e.target.value === "") {
                         setValue(`${position}.hpPot`, 0);
                       }
                       setValue(`${position}.hpPot`, parseInt(e.target.value));
@@ -119,7 +119,7 @@ export const CharStatsSelect = ({
                 <Sword className="absolute left-2 top-[45%] transform -translate-y-1/2 text-gray-500 z-10" />
                 <Input
                   type="text"
-                  placeholder={t('ATK')}
+                  placeholder={t("ATK")}
                   className="pl-9 py-2 text-md w-full border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6E23DD] focus:border-transparent"
                   onKeyDown={handleKeyDownAllowDot}
                   {...register(`${position}.atkPot`, {
@@ -127,7 +127,7 @@ export const CharStatsSelect = ({
                       if (e.target.value > 100) {
                         setValue(`${position}.atkPot`, 100);
                       }
-                      if (e.target.value === '') {
+                      if (e.target.value === "") {
                         setValue(`${position}.atkPot`, 0);
                       }
                       setValue(`${position}.atkPot`, parseInt(e.target.value));
@@ -148,16 +148,17 @@ export const CharStatsSelect = ({
                 </div>
                 <Input
                   type="text"
-                  placeholder={t('LVL')}
+                  placeholder={t("LVL")}
                   className="pl-9 py-2 text-md w-full border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6E23DD] focus:border-transparent"
                   onKeyDown={handleKeyDown}
                   {...register(`${position}.level`, {
                     onChange: (e) => {
-                      return;
-                      // if (e.target.value > 60) {
-                      //   setValue(`${position}.level`, 60);
-                      // }
-                      // setValue(`${position}.level`, parseInt(e.target.value));
+                      if (e.target.value > 60) {
+                        e.target.value = 60;
+                      }
+                      if (e.target.value[0] === "0") {
+                        e.target.value = e.target.value.slice(1);
+                      }
                     },
                   })}
                 />
@@ -175,7 +176,7 @@ export const CharStatsSelect = ({
                       >
                         <FormControl>
                           <SelectTrigger className="pl-9 py-2 text-md text-gray-500">
-                            <SelectValue placeholder={t('STAR')} />
+                            <SelectValue placeholder={t("STAR")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -206,7 +207,7 @@ export const CharStatsSelect = ({
                       >
                         <FormControl>
                           <SelectTrigger className="pl-9 py-2 text-md text-gray-500">
-                            <SelectValue placeholder={t('BOND')} />
+                            <SelectValue placeholder={t("BOND")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -238,7 +239,7 @@ export const CharStatsSelect = ({
                       >
                         <FormControl>
                           <SelectTrigger className="pl-9 py-2 text-md text-gray-500">
-                            <SelectValue placeholder={t('LIB')} />
+                            <SelectValue placeholder={t("LIB")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -269,7 +270,7 @@ export const CharStatsSelect = ({
                       >
                         <FormControl>
                           <SelectTrigger className="pl-9 py-2 text-md text-gray-500">
-                            <SelectValue placeholder={t('ROOM')} />
+                            <SelectValue placeholder={t("ROOM")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -299,7 +300,7 @@ export const CharStatsSelect = ({
                       onPressedChange={field.onChange}
                       // {...register(`${position}.isPot6`)}
                     >
-                      <div className="text-black">{t('PASSIVE4')}</div>
+                      <div className="text-black">{t("PASSIVE4")}</div>
                     </Toggle>
                   )}
                 />

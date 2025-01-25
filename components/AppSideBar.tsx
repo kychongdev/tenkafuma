@@ -55,6 +55,12 @@ export async function AppSidebar() {
                     <span>{t("menu3")}</span>
                   </NavigationLink>
                 </SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <NavigationLink href="/analysis">
+                    <SwordsIcon />
+                    <span>{t("menu4")}</span>
+                  </NavigationLink>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 6111",
+    "dev": "next dev --turbo -p 6111",
     "exp": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
@@ -65,6 +65,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.53.1",
+    "react-hot-toast": "^2.5.1",
     "react-resizable-panels": "^2.1.6",
     "recharts": "^2.13.2",
     "sonner": "^1.5.0",

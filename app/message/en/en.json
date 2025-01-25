@@ -44,7 +44,8 @@
     "menu-title": "Tenkafuma",
     "menu1": "Create Team",
     "menu2": "Battle Simulator",
-    "menu3": "Create Analysis"
+    "menu3": "Create Analysis",
+    "menu4": "Character Analysis"
   },
   "Battle": {
     "turn": "Turn {turn}"

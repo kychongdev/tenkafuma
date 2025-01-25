@@ -5843,7 +5843,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 id: "10148-passive-6",
                 name: "攻擊時，觸發「使我方全體妨礙者造成傷害增加10%(1回合)」",
                 type: 11,
-                condition: Condition.GET_HEAL,
+                condition: Condition.ATTACK,
                 duration: 100,
                 _11: {
                   target: Target.OBSTRUCTER,
@@ -5865,7 +5865,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               {
                 id: "10148-passive-6",
                 name:
-                  "攻擊時，使我方全體攻擊者、妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
+                  "攻擊時，使我方全體攻擊者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
                 type: 11,
                 condition: Condition.ATTACK,
                 duration: 100,

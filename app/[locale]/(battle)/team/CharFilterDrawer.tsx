@@ -14,6 +14,7 @@ import _ from "lodash";
 import { CharacterTeam } from "@/types/Select";
 import { CharacterAttribute, CharacterClass } from "../_types/Character";
 import { Toggle } from "@/components/ui/toggle";
+import toast from "react-hot-toast";
 
 interface CharFilterDrawerProps {
   position: 0 | 1 | 2 | 3 | 4;
@@ -52,7 +53,11 @@ export const CharFilterDrawer = ({
         <div className="flex flex-col justify-center items-center">
           <Image
             className="rounded-md"
-            src={`/characters/square/${char !== "" && char !== undefined && char !== null ? char : "char_nr"}.png`}
+            src={`/characters/square/${
+              char !== "" && char !== undefined && char !== null
+                ? char
+                : "char_nr"
+            }.png`}
             width={120}
             height={120}
             alt=""
@@ -60,10 +65,10 @@ export const CharFilterDrawer = ({
 
           <div className="font-bold text-sm text-center dark:text-white">
             {char !== "" &&
-            char !== undefined &&
-            char !== null &&
-            charList[char] !== undefined &&
-            charList[char] !== null
+                char !== undefined &&
+                char !== null &&
+                charList[char] !== undefined &&
+                charList[char] !== null
               ? charList[char].name
               : ""}
           </div>
@@ -82,6 +87,9 @@ export const CharFilterDrawer = ({
                     className="w-12 h-12"
                     key={char.id}
                     onClick={() => {
+                      if (!char.leader && position === 0) {
+                        toast("Leader is not available");
+                      }
                       setValue(`${position}.id`, char.id.toString());
                       setOpen(false);
                     }}
@@ -104,7 +112,7 @@ export const CharFilterDrawer = ({
                 setAttribute((prev) =>
                   prev.includes(CharacterAttribute.FIRE)
                     ? prev.filter((x) => x !== CharacterAttribute.FIRE)
-                    : [...prev, CharacterAttribute.FIRE],
+                    : [...prev, CharacterAttribute.FIRE]
                 );
               }}
               className="data-[state=on]:bg-red-500 border-white border-solid border-y border-l rounded-none p-0"
@@ -117,7 +125,7 @@ export const CharFilterDrawer = ({
                 setAttribute((prev) =>
                   prev.includes(CharacterAttribute.WATER)
                     ? prev.filter((x) => x !== CharacterAttribute.WATER)
-                    : [...prev, CharacterAttribute.WATER],
+                    : [...prev, CharacterAttribute.WATER]
                 );
               }}
               className="data-[state=on]:bg-blue-500 border-white border-solid border-y rounded-none p-0"
@@ -135,7 +143,7 @@ export const CharFilterDrawer = ({
                 setAttribute((prev) =>
                   prev.includes(CharacterAttribute.WIND)
                     ? prev.filter((x) => x !== CharacterAttribute.WIND)
-                    : [...prev, CharacterAttribute.WIND],
+                    : [...prev, CharacterAttribute.WIND]
                 );
               }}
               className="data-[state=on]:bg-green-500 border-white border-solid border-y rounded-none p-0"
@@ -148,7 +156,7 @@ export const CharFilterDrawer = ({
                 setAttribute((prev) =>
                   prev.includes(CharacterAttribute.DARK)
                     ? prev.filter((x) => x !== CharacterAttribute.DARK)
-                    : [...prev, CharacterAttribute.DARK],
+                    : [...prev, CharacterAttribute.DARK]
                 );
               }}
               className="data-[state=on]:bg-purple-500 border-white border-solid border-y rounded-none p-0"
@@ -161,7 +169,7 @@ export const CharFilterDrawer = ({
                 setAttribute((prev) =>
                   prev.includes(CharacterAttribute.LIGHT)
                     ? prev.filter((x) => x !== CharacterAttribute.LIGHT)
-                    : [...prev, CharacterAttribute.LIGHT],
+                    : [...prev, CharacterAttribute.LIGHT]
                 );
               }}
               className="data-[state=on]:bg-yellow-500 border-white border-solid border-y rounded-none p-0"
@@ -180,7 +188,7 @@ export const CharFilterDrawer = ({
                 setCharClass((prev) =>
                   prev.includes(CharacterClass.ATTACKER)
                     ? prev.filter((x) => x !== CharacterClass.ATTACKER)
-                    : [...prev, CharacterClass.ATTACKER],
+                    : [...prev, CharacterClass.ATTACKER]
                 );
               }}
               className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
@@ -198,7 +206,7 @@ export const CharFilterDrawer = ({
                 setCharClass((prev) =>
                   prev.includes(CharacterClass.OBSTRUCTER)
                     ? prev.filter((x) => x !== CharacterClass.OBSTRUCTER)
-                    : [...prev, CharacterClass.OBSTRUCTER],
+                    : [...prev, CharacterClass.OBSTRUCTER]
                 );
               }}
               className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
@@ -216,7 +224,7 @@ export const CharFilterDrawer = ({
                 setCharClass((prev) =>
                   prev.includes(CharacterClass.PROTECTOR)
                     ? prev.filter((x) => x !== CharacterClass.PROTECTOR)
-                    : [...prev, CharacterClass.PROTECTOR],
+                    : [...prev, CharacterClass.PROTECTOR]
                 );
               }}
               className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
@@ -234,7 +242,7 @@ export const CharFilterDrawer = ({
                 setCharClass((prev) =>
                   prev.includes(CharacterClass.HEALER)
                     ? prev.filter((x) => x !== CharacterClass.HEALER)
-                    : [...prev, CharacterClass.HEALER],
+                    : [...prev, CharacterClass.HEALER]
                 );
               }}
               className="data-[state=on]:bg-zinc-50 border-white border-solid border-y rounded-none p-0"
@@ -252,7 +260,7 @@ export const CharFilterDrawer = ({
                 setCharClass((prev) =>
                   prev.includes(CharacterClass.SUPPORT)
                     ? prev.filter((x) => x !== CharacterClass.SUPPORT)
-                    : [...prev, CharacterClass.SUPPORT],
+                    : [...prev, CharacterClass.SUPPORT]
                 );
               }}
               className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-r rounded-none p-0"
