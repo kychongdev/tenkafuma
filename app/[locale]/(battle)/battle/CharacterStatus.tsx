@@ -33,7 +33,13 @@ export function CharacterStatus({ position }: { position: number }) {
             <ScrollArea className="grid gap-1 h-96">
               {character.buff.map((buff, index) => {
                 return (
-                  <div key={buff.id + index} className="grid grid-cols-10">
+                  <div
+                    key={buff.id + index}
+                    className="grid grid-cols-10"
+                    onClick={() => {
+                      console.log(buff);
+                    }}
+                  >
                     <Card className="p-2 align-middle  text-sm col-span-9">
                       {parseSkillName(buff)}
                     </Card>

@@ -1,4 +1,4 @@
-import { AffectType, DamageType, Target, type Skill } from "@/types/Skill";
+import { AffectType, DamageType, type Skill, Target } from "@/types/Skill";
 import { CharacterAction, CharacterAttribute } from "@/types/Character";
 import characterJson from "@/data/characters.json";
 import { CharacterState } from "../_types/Select";
@@ -156,117 +156,171 @@ export function parseSkillName(buff: Skill) {
       buff.deactivated === true
         ? "(未發動)"
         : buff.deactivated === false
-          ? "(發動中)"
-          : ""
+        ? "(發動中)"
+        : ""
     }${buff.name}`;
   }
   if (buff.type === 3 && buff._3) {
     if (!buff.deactivated) {
       switch (buff._3.affectType) {
         case AffectType.INCREASE_FIRE_DMG_RECEIVED:
-          return `受到火屬性攻擊增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到火屬性攻擊增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_WATER_DMG_RECEIVED:
-          return `受到水屬性攻擊增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到水屬性攻擊增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_WIND_DMG_RECEIVED:
-          return `受到風屬性攻擊增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到風屬性攻擊增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_LIGHT_DMG_RECEIVED:
-          return `受到光屬性攻擊增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到光屬性攻擊增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_DARK_DMG_RECEIVED:
-          return `受到暗屬性攻擊增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到暗屬性攻擊增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_ATK:
-          return `攻擊增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `攻擊增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.MAX_HP:
-          return `最大HP增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `最大HP增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_DMG:
-          return `造成傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `造成傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_BASIC_DMG:
-          return `普攻傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `普攻傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_ULTIMATE_DMG:
-          return `必殺技傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `必殺技傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_DMG_RECEIVED:
-          return `受到傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.DECREASE_DMG_RECEIVED:
-          return `受到傷害減少${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到傷害減少${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_ATTACKER_DMG_RECEIVED:
-          return `受到攻擊者傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到攻擊者傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_TRIGGER_DMG_RECEIVED:
-          return `受到觸發傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到觸發傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_TRIGGER_EFFECT:
-          return `觸發效果增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `觸發效果增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.DECREASE_TRIGGER_EFFECT:
-          return `觸發效果減少${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `觸發效果減少${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_ULTIMATE_DMG_RECEIVED:
-          return `受到必殺技傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到必殺技傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_BASIC_DMG_RECEIVED:
-          return `受到普攻傷害增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到普攻傷害增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.DECREASE_BASIC_DMG_RECEIVED:
-          return `受到普攻傷害減少${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到普攻傷害減少${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_HEAL_RATE_OVER_TIME:
-          return `受到持續回復增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到持續回復增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_HEAL_RATE:
-          return `被治療時回復量增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `被治療時回復量增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.DECREASE_HEAL_RATE:
-          return `被治療時回復量減少${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `被治療時回復量減少${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.DECREASE_HEAL_RATE_OVER_TIME:
-          return `受到持續回復減少${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到持續回復減少${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.DECREASE_HEAL_RECEIVED:
-          return `受到治療量減少${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到治療量減少${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_HEAL_RECEIVED:
-          return `受到治療量增加${formatToTwoDecimal(
-            buff._3.value * buff._3.stack * 100,
-          )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `受到治療量增加${
+            formatToTwoDecimal(
+              buff._3.value * buff._3.stack * 100,
+            )
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_GUARD_EFFECT:
-          return `防禦減傷效果增加${fixDecimal(buff._3.value * buff._3.stack * 100)}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `防禦減傷效果增加${
+            fixDecimal(buff._3.value * buff._3.stack * 100)
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.DECREASE_GUARD_EFFECT:
-          return `防禦減傷效果減少${fixDecimal(buff._3.value * buff._3.stack * 100)}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+          return `防禦減傷效果減少${
+            fixDecimal(buff._3.value * buff._3.stack * 100)
+          }% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
         case AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED:
           const char = buff._3.specificCharId;
           if (char) {
@@ -286,8 +340,8 @@ export function parseSkillName(buff: Skill) {
       buff.deactivated === true
         ? "(未發動)"
         : buff.deactivated === false
-          ? "(發動中)"
-          : ""
+        ? "(發動中)"
+        : ""
     }${buff.name}`;
   }
 
@@ -298,8 +352,8 @@ export function parseSkillName(buff: Skill) {
     buff.deactivated === true
       ? "(未發動)"
       : buff.deactivated === false
-        ? "(發動中)"
-        : ""
+      ? "(發動中)"
+      : ""
   }${buff.name}`;
 }
 
@@ -316,6 +370,7 @@ export function parseAttribute(
   active: CharacterAttribute,
   passive: CharacterAttribute,
 ) {
+  console.log(active, passive);
   switch (active) {
     case CharacterAttribute.DARK:
       if (passive === CharacterAttribute.LIGHT) return 1.5;

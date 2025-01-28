@@ -1708,7 +1708,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: "196-passive-1",
+          id: "10096-passive-1",
           name: "普攻時，觸發「使我方全體普攻傷害增加30%(1回合)」",
           type: 11,
           condition: Condition.BASIC_ATTACK,
@@ -1717,7 +1717,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.ALL_ALLIES,
             applySkill: [
               {
-                id: "196-passive-1-1",
+                id: "10096-passive-1-1",
                 name: "普攻傷害增加",
                 type: 0,
                 condition: Condition.NONE,
@@ -1731,7 +1731,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
         },
         {
-          id: "196-passive-2",
+          id: "10096-passive-2",
           name: "必殺時，觸發「使我方全體必殺技傷害增加10%(2回合)」",
           type: 11,
           condition: Condition.ULTIMATE,
@@ -1740,7 +1740,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.ALL_ALLIES,
             applySkill: [
               {
-                id: "196-passive-2-1",
+                id: "10096-passive-2-1",
                 name: "必殺技傷害增加",
                 type: 0,
                 condition: Condition.NONE,
@@ -1754,7 +1754,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
         },
         {
-          id: "196-passive-3",
+          id: "10096-passive-3",
           name: "每經過4回合，觸發「使敵方全體受到傷害增加30%(1回合)」",
           type: 11,
           condition: Condition.EVERY_X_TURN,
@@ -1764,7 +1764,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.ENEMY,
             applySkill: [
               {
-                id: "196-passive-3-1",
+                id: "10096-passive-3-1",
                 name: "受到傷害增加",
                 type: 0,
                 condition: Condition.NONE,
@@ -1789,7 +1789,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             gameState.characters[index].buff = [
               ...gameState.characters[index].buff,
               {
-                id: "196-passive-4",
+                id: "10096-passive-4",
                 // 行動時，觸發「使我方全體攻擊力增加15%(50回合)」
                 name: "行動時，觸發「使我方全體攻擊力增加15%(50回合)」",
                 type: 11,
@@ -1799,7 +1799,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ALL_ALLIES,
                   applySkill: [
                     {
-                      id: "196-passive-4-1",
+                      id: "10096-passive-4-1",
                       name: "攻擊力增加",
                       type: 0,
                       condition: Condition.NONE,
@@ -1820,7 +1820,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: "196-passive-5",
+            id: "10096-passive-5",
             name: "使自身攻擊力增加10%",
             type: 0,
             condition: Condition.NONE,
@@ -2112,6 +2112,128 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10111": "背德密醫 艾琳",
     // "10113": "嬌蠻兇護 凱薩",
     // "10114": "魔法少女 朱諾安",
+    case "10114": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10114-passive-1",
+          name: "攻擊力增加40%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.4,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10114-passive-2",
+          name: "必殺技傷害增加20%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.2,
+            affectType: AffectType.INCREASE_ULTIMATE_DMG,
+          },
+        },
+      ];
+      {
+        const buff: Skill = {
+          id: "10114-passive-3",
+          name: "我方站位5的角色獲得《重見光明》",
+          type: 12,
+          condition: Condition.NONE,
+          duration: 100,
+          _12: {
+            position: 4,
+            applySkill: {
+              id: "10114-passive-3-1",
+              name: "必殺技傷害增加40%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                value: 0.4,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      }
+      {
+        const buff: Skill = {
+          id: "10114-passive-4",
+          name: "我方站位5的角色獲得《重見光明》",
+          type: 12,
+          condition: Condition.NONE,
+          duration: 100,
+          _12: {
+            position: 4,
+            applySkill: {
+              id: "10114-passive-3-1",
+              name: "造成傷害增加40%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                value: 0.4,
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      }
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10114-passive-5",
+            name: "觸發技傷害增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 1,
+              affectType: AffectType.INCREASE_TRIGGER_DMG,
+            },
+          },
+          {
+            id: "10114-passive-6",
+            name: "必殺時，觸發「以自身攻擊力180%對目標造成傷害」",
+            type: 1,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _1: {
+              value: 1.8,
+              target: Target.ENEMY,
+              damageType: DamageType.TRIGGER,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10114-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10115": "魔法少女 布蘭妮",
     case "10115": {
       gameState.characters[position].buff = [
@@ -3494,13 +3616,13 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ALL_ALLIES,
                   applySkill: {
                     id: "10129-passive-1-1-1",
-                    name: "受到傷害增加20%",
+                    name: "必殺技傷害增加",
                     type: 3,
                     condition: Condition.NONE,
                     duration: 100,
                     _3: {
                       id: "10129-passive-1-1-1",
-                      name: "受到傷害增加20%",
+                      name: "必殺技傷害增加",
                       value: 0.03,
                       stack: 1,
                       maxStack: 15,

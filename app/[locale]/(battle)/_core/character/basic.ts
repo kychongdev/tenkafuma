@@ -329,6 +329,17 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10111": "背德密醫 艾琳",
     // "10113": "嬌蠻兇護 凱薩",
     // "10114": "魔法少女 朱諾安",
+    case "10114": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10115": "魔法少女 布蘭妮",
     case "10115": {
       heal(position, 0.75, gameState, true, Target.ALL_ALLIES);

@@ -138,7 +138,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "160-passive-1",
-          name: "攻擊時，觸發「以自身攻擊力25%使我方全體攻擊力增加(1回合)」效果",
+          name:
+            "攻擊時，觸發「以自身攻擊力25%使我方全體攻擊力增加(1回合)」效果",
           type: 6,
           condition: Condition.ATTACK,
           duration: 100,
@@ -392,7 +393,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: "172-passive-5",
-            name: "每經過2回合，觸發「使自身《若即若離的吸引力》賦予的攻擊力增加狀態增加1層」效果",
+            name:
+              "每經過2回合，觸發「使自身《若即若離的吸引力》賦予的攻擊力增加狀態增加1層」效果",
             type: 4,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 2,
@@ -934,7 +936,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "188-passive-2",
-          name: "使我方全體攻擊者、妨礙者獲得「必殺時，觸發『以攻擊力77%對目標造成傷害』(1回合)」",
+          name:
+            "使我方全體攻擊者、妨礙者獲得「必殺時，觸發『以攻擊力77%對目標造成傷害』(1回合)」",
           type: 11,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -959,7 +962,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "188-passive-3",
-          name: "使我方全體攻擊者、妨礙者獲得「必殺時，觸發『以攻擊力77%對目標造成傷害』(1回合)」",
+          name:
+            "使我方全體攻擊者、妨礙者獲得「必殺時，觸發『以攻擊力77%對目標造成傷害』(1回合)」",
           type: 11,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -1187,7 +1191,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
           {
             id: "198-passive-6",
-            name: "必殺時，觸發「使目標受到《鬼抓人大賽開始喏∼》 賦予的受到傷害增加狀態增加4層」",
+            name:
+              "必殺時，觸發「使目標受到《鬼抓人大賽開始喏∼》 賦予的受到傷害增加狀態增加4層」",
             type: 4,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -1367,7 +1372,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     case "508":
       {
         const lowestHP = gameState.characters.reduce((prev, current) =>
-          prev && prev.maxHp < current.maxHp ? prev : current,
+          prev && prev.maxHp < current.maxHp ? prev : current
         );
         const lowestHpIndex = gameState.characters.findIndex(
           (character) => character.id === lowestHP.id,
@@ -1499,127 +1504,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       }
       break;
     // 魔法少女 朱諾安
-    case "514":
-      gameState.characters[position].buff = [
-        ...gameState.characters[position].buff,
-        {
-          id: "514-passive-1",
-          name: "攻擊力增加40%",
-          type: 0,
-          condition: Condition.NONE,
-          duration: 100,
-          _0: {
-            value: 0.4,
-            affectType: AffectType.INCREASE_ATK,
-          },
-        },
-        {
-          id: "514-passive-2",
-          name: "必殺技傷害增加20%",
-          type: 0,
-          condition: Condition.NONE,
-          duration: 100,
-          _0: {
-            value: 0.2,
-            affectType: AffectType.INCREASE_ULTIMATE_DMG,
-          },
-        },
-      ];
-      {
-        const buff: Buff = {
-          id: "514-passive-3",
-          name: "我方站位5的角色獲得《重見光明》",
-          type: 12,
-          condition: Condition.NONE,
-          duration: 100,
-          _12: {
-            position: 4,
-            applySkill: {
-              id: "514-passive-3-1",
-              name: "必殺技傷害增加40%",
-              type: 0,
-              condition: Condition.NONE,
-              duration: 100,
-              _0: {
-                value: 0.4,
-                affectType: AffectType.INCREASE_ULTIMATE_DMG,
-              },
-            },
-          },
-        };
-        triggerPassive(buff, gameState, position);
-      }
-      {
-        const buff: Buff = {
-          id: "514-passive-4",
-          name: "我方站位5的角色獲得《重見光明》",
-          type: 12,
-          condition: Condition.NONE,
-          duration: 100,
-          _12: {
-            position: 4,
-            applySkill: {
-              id: "514-passive-3-1",
-              name: "造成傷害增加40%",
-              type: 0,
-              condition: Condition.NONE,
-              duration: 100,
-              _0: {
-                value: 0.4,
-                affectType: AffectType.INCREASE_DMG,
-              },
-            },
-          },
-        };
-        triggerPassive(buff, gameState, position);
-      }
-
-      if (gameState.characters[position].stars === 5) {
-        gameState.characters[position].buff = [
-          ...gameState.characters[position].buff,
-          {
-            id: "514-passive-5",
-            name: "觸發技傷害增加100%",
-            type: 0,
-            condition: Condition.NONE,
-            duration: 100,
-            _0: {
-              value: 1,
-              affectType: AffectType.INCREASE_TRIGGER_DMG,
-            },
-          },
-          {
-            id: "514-passive-6",
-            name: "必殺時，觸發「以自身攻擊力180%對目標造成傷害」",
-            type: 1,
-            condition: Condition.ULTIMATE,
-            duration: 100,
-            _1: {
-              value: 1.8,
-              isTrigger: true,
-              target: Target.ENEMY,
-              damageType: 1,
-            },
-          },
-        ];
-      }
-      if (gameState.characters[position].passive4) {
-        gameState.characters[position].buff = [
-          ...gameState.characters[position].buff,
-          {
-            id: "514-passive4",
-            name: "使自身攻擊力增加10%",
-            type: 0,
-            condition: Condition.NONE,
-            duration: 100,
-            _0: {
-              value: 0.1,
-              affectType: AffectType.INCREASE_ATK,
-            },
-          },
-        ];
-      }
-      break;
     case "515":
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
@@ -2166,7 +2050,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "520-passive-2",
-          name: "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
+          name:
+            "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
           type: 11,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 1,
@@ -2176,7 +2061,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             applySkill: [
               {
                 id: "520-passive-2-1",
-                name: "必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
+                name:
+                  "必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
                 type: 24,
                 duration: 1,
                 condition: Condition.ULTIMATE,
@@ -2203,7 +2089,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             applySkill: [
               {
                 id: "520-passive-3-1",
-                name: "使自身獲得必殺時，觸發「以自身攻擊力80%對目標造成傷害」(3回合)",
+                name:
+                  "使自身獲得必殺時，觸發「以自身攻擊力80%對目標造成傷害」(3回合)",
                 type: 1,
                 condition: Condition.ULTIMATE,
                 duration: 3,
@@ -2223,7 +2110,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "520-passive-4",
-          name: "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《是的船長！》的效果』(1回合)」",
+          name:
+            "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《是的船長！》的效果』(1回合)」",
           type: 11,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 1,
@@ -2233,7 +2121,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             applySkill: [
               {
                 id: "520-passive-4-1",
-                name: "必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
+                name:
+                  "必殺時，觸發『清除自身《填裝火藥》的攻擊力增加(回合型)效果』(1回合)」",
                 type: 24,
                 duration: 1,
                 condition: Condition.ULTIMATE,
@@ -2279,7 +2168,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: "520-passive-6",
-            name: "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《太小聲囉！》的造成傷害增加(回合型)效果』(1回合)",
+            name:
+              "每經過1回合，觸發「使自身獲得必殺時，觸發『清除自身《太小聲囉！》的造成傷害增加(回合型)效果』(1回合)",
             type: 11,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 1,
@@ -2289,7 +2179,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               applySkill: [
                 {
                   id: "520-passive-6-1",
-                  name: "必殺時，觸發『清除自身《太小聲囉！》的造成傷害增加(回合型)效果』(1回合)",
+                  name:
+                    "必殺時，觸發『清除自身《太小聲囉！》的造成傷害增加(回合型)效果』(1回合)",
                   type: 24,
                   duration: 1,
                   condition: Condition.ULTIMATE,
@@ -2399,7 +2290,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
           {
             id: "522-passive-5",
-            name: "每經過4回合，觸發「給予我方全體必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)(施放必殺後會消除此效果)」",
+            name:
+              "每經過4回合，觸發「給予我方全體必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)(施放必殺後會消除此效果)」",
             type: 11,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 4,
@@ -2410,7 +2302,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 {
                   id: "522-passive-5-1",
                   // 必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)
-                  name: "必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)(施放必殺後會消除此效果)",
+                  name:
+                    "必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)(施放必殺後會消除此效果)",
                   type: 11,
                   condition: Condition.ULTIMATE,
                   duration: 4,
@@ -2580,7 +2473,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "525-2",
-          name: "每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方攻擊者攻擊力增加(1回合)』(1回合)」",
+          name:
+            "每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方攻擊者攻擊力增加(1回合)』(1回合)」",
           type: 2,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 3,
@@ -2603,14 +2497,16 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "525-3",
-          name: "每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」",
+          name:
+            "每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」",
           type: 2,
           condition: Condition.EVERY_X_TURN,
           conditionTurn: 3,
           duration: 100,
           _2: {
             id: "525-3-1",
-            name: "必殺時,觸發 『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」",
+            name:
+              "必殺時,觸發 『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」",
             type: 6,
             duration: 1,
             target: Target.SELF,
@@ -2775,7 +2671,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
 
           {
             id: "526-7",
-            name: "必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到火屬性傷害增加3%(1回合)』」",
+            name:
+              "必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到火屬性傷害增加3%(1回合)』」",
             type: 8,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -2799,7 +2696,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
           {
             id: "526-8",
-            name: "必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到水屬性傷害增加3%(1回合)』」",
+            name:
+              "必殺時，觸發「依據自身『連環陷阱』的層數觸發『使目標受到水屬性傷害增加3%(1回合)』」",
             type: 8,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -2980,7 +2878,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             trigger: [
               {
                 id: "529-passive-1-1",
-                name: "每經過1回合，觸發「使我方全體必殺技傷害增加3%(最多15層)」",
+                name:
+                  "每經過1回合，觸發「使我方全體必殺技傷害增加3%(最多15層)」",
                 type: 4,
                 condition: Condition.NONE,
                 duration: 100,
@@ -3012,7 +2911,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         // TODO
         {
           id: "529-passive-2",
-          name: "被攻擊時，觸發「使《油門當剎車踩》的我方全體必殺技傷害增加效果增加1層」",
+          name:
+            "被攻擊時，觸發「使《油門當剎車踩》的我方全體必殺技傷害增加效果增加1層」",
           type: 21,
           condition: Condition.RECEIVED_ATTACK,
           conditionTurn: 1,
@@ -3021,7 +2921,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             trigger: [
               {
                 id: "529-passive-1-1",
-                name: "每經過1回合，觸發「使我方全體必殺技傷害增加3%(最多15層)」",
+                name:
+                  "每經過1回合，觸發「使我方全體必殺技傷害增加3%(最多15層)」",
                 type: 4,
                 condition: Condition.NONE,
                 duration: 100,
@@ -3291,7 +3192,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: "801-passive-4",
-            name: "每經過1回合時，觸發「以自身攻擊力25使我方全體攻擊力增加(1回合)」",
+            name:
+              "每經過1回合時，觸發「以自身攻擊力25使我方全體攻擊力增加(1回合)」",
             type: 6,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 1,
@@ -3339,7 +3241,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "802-passive-2",
-          name: "必殺時，觸發「以自身攻擊力15使自身以外我方全體攻擊力增加(1回合)」",
+          name:
+            "必殺時，觸發「以自身攻擊力15使自身以外我方全體攻擊力增加(1回合)」",
           type: 6,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -3357,7 +3260,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: "802-passive-5",
-            name: "必殺時，觸發「以自身攻擊力15使自身以外我方全體攻擊力增加(1回合)」",
+            name:
+              "必殺時，觸發「以自身攻擊力15使自身以外我方全體攻擊力增加(1回合)」",
             type: 6,
             condition: Condition.ULTIMATE,
             duration: 100,
@@ -3495,7 +3399,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "804-passive-1",
-          name: "必殺時，觸發「使我方全體水屬性的攻擊者、守護者、妨礙者獲得《傳遞飛刀》」",
+          name:
+            "必殺時，觸發「使我方全體水屬性的攻擊者、守護者、妨礙者獲得《傳遞飛刀》」",
           type: 17,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -3526,7 +3431,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "804-passive-2",
-          name: "必殺時，觸發「使我方全體水屬性的攻擊者、守護者、妨礙者獲得「必殺時，觸發『使我方賞金獵人安潔娜爾』獲得《傳遞飛刀》』」",
+          name:
+            "必殺時，觸發「使我方全體水屬性的攻擊者、守護者、妨礙者獲得「必殺時，觸發『使我方賞金獵人安潔娜爾』獲得《傳遞飛刀》』」",
           type: 17,
           condition: Condition.ULTIMATE,
           duration: 100,
@@ -3550,7 +3456,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   applySkill: [
                     {
                       id: "804-passive-2-2",
-                      name: "普攻時，追加「以自身攻擊力30%對目標造成傷害」(1回合)",
+                      name:
+                        "普攻時，追加「以自身攻擊力30%對目標造成傷害」(1回合)",
                       type: 101,
                       condition: Condition.BASIC_ATTACK,
                       duration: 1,
@@ -3585,7 +3492,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
           {
             id: "804-passive-4",
-            name: "第一回合時，使自身以外的我方全體水屬性隊員當前必殺技CD減少1回合",
+            name:
+              "第一回合時，使自身以外的我方全體水屬性隊員當前必殺技CD減少1回合",
             type: 18,
             condition: Condition.ON_TURN_START,
             duration: 100,
@@ -4054,7 +3962,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "811-passive-1",
-          name: "普攻時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
+          name:
+            "普攻時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
           condition: Condition.BASIC_ATTACK,
           type: 105,
           duration: 100,
@@ -4088,7 +3997,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "811-passive-3",
-          name: "必殺時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
+          name:
+            "必殺時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
           condition: Condition.ULTIMATE,
           type: 105,
           duration: 100,
@@ -4253,7 +4163,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         },
         {
           id: "812-passive-4",
-          name: "普攻時，觸發「使敵方全體受到『夏日 凱薩』傷害增加4%(最多15層)」",
+          name:
+            "普攻時，觸發「使敵方全體受到『夏日 凱薩』傷害增加4%(最多15層)」",
           type: 4,
           condition: Condition.BASIC_ATTACK,
           duration: 100,
@@ -4327,7 +4238,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
           {
             id: "812-passive-7",
-            name: "每經過1回合時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」",
+            name:
+              "每經過1回合時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」",
             type: 6,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 1,
@@ -4382,7 +4294,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: "813-passive-2",
-            name: "每Wave的第9回合時，觸發「使敵方全體受到傷害增加50%(50回合)」",
+            name:
+              "每Wave的第9回合時，觸發「使敵方全體受到傷害增加50%(50回合)」",
             type: 11,
             condition: Condition.ON_SPECIFIC_TURN,
             duration: 100,
@@ -4534,7 +4447,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   {
                     id: "814-passive-3-2",
                     //
-                    name: "被攻擊時，觸發「使我方全體造成傷害增加35%(4回合)(1回合)(觸發1次後解除)",
+                    name:
+                      "被攻擊時，觸發「使我方全體造成傷害增加35%(4回合)(1回合)(觸發1次後解除)",
                     type: 11,
                     condition: Condition.RECEIVED_ATTACK,
                     duration: 2,
@@ -4558,7 +4472,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   },
                   {
                     id: "814-passive-4",
-                    name: "被攻擊時，清除自身的《孱弱的假象》的所有層數」(1回合)(觸發1次後解除)",
+                    name:
+                      "被攻擊時，清除自身的《孱弱的假象》的所有層數」(1回合)(觸發1次後解除)",
                     type: 20,
                     condition: Condition.RECEIVED_ATTACK,
                     duration: 2,
@@ -4782,7 +4697,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             },
             {
               id: "816-passive-5",
-              name: "第一回合時，觸發「使『魔獸獵手 神無雪』造成傷害增加15%(50回合)」",
+              name:
+                "第一回合時，觸發「使『魔獸獵手 神無雪』造成傷害增加15%(50回合)」",
               type: 13,
               condition: Condition.ON_TURN_START,
               duration: 100,
@@ -4934,7 +4850,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               },
               {
                 id: "817-passive-1-3",
-                name: "行動後，觸發「清除自身以外的我方全體《享受大餐》的所有效果」(2回合)(觸發1次後解除)",
+                name:
+                  "行動後，觸發「清除自身以外的我方全體《享受大餐》的所有效果」(2回合)(觸發1次後解除)",
                 type: 24,
                 condition: Condition.MOVE,
                 duration: 2,
@@ -5165,7 +5082,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               },
               {
                 id: "818-passive-6",
-                name: "攻擊時，使我方全體攻擊者、妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
+                name:
+                  "攻擊時，使我方全體攻擊者、妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
                 type: 11,
                 condition: Condition.ATTACK,
                 duration: 100,
@@ -5190,7 +5108,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               },
               {
                 id: "818-passive-7",
-                name: "攻擊時，使我方全體妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
+                name:
+                  "攻擊時，使我方全體妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
                 type: 11,
                 condition: Condition.ATTACK,
                 duration: 100,
@@ -5382,7 +5301,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           },
           {
             id: "820-passive-4",
-            name: "每經過1回合時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」",
+            name:
+              "每經過1回合時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」",
             type: 6,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 1,
@@ -5470,7 +5390,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "821-passive-4",
-          name: "普攻時，觸發「使自身以外我方全體光屬性角色普攻傷害增加40%(1回合)」",
+          name:
+            "普攻時，觸發「使自身以外我方全體光屬性角色普攻傷害增加40%(1回合)」",
           type: 11,
           condition: Condition.BASIC_ATTACK,
           duration: 100,
@@ -5503,7 +5424,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               ...gameState.characters[index].buff,
               {
                 id: "821-passive-5",
-                name: "使自身以外我方全體光屬性角色獲得「必殺時，觸發『《賭客的視線》』」",
+                name:
+                  "使自身以外我方全體光屬性角色獲得「必殺時，觸發『《賭客的視線》』」",
                 type: 21,
                 condition: Condition.ULTIMATE,
                 duration: 100,
@@ -5511,7 +5433,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   trigger: [
                     {
                       id: "821-passive-5-1",
-                      name: "使自身以外我方全體光屬性角色獲得「必殺時，觸發『《賭客的視線》』」",
+                      name:
+                        "使自身以外我方全體光屬性角色獲得「必殺時，觸發『《賭客的視線》』」",
                       type: 13,
                       condition: Condition.NONE,
                       duration: 100,
@@ -5542,7 +5465,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                           },
                           {
                             id: "821-passive-5-4",
-                            name: "必殺時，追加『以自身攻擊力25%對目標造成傷害』(1回合)",
+                            name:
+                              "必殺時，追加『以自身攻擊力25%對目標造成傷害』(1回合)",
                             type: 101,
                             condition: Condition.ULTIMATE,
                             duration: 1,
@@ -5639,7 +5563,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           ...gameState.characters[position].buff,
           {
             id: "822-passive-3",
-            name: "攻擊時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」效果",
+            name:
+              "攻擊時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」效果",
             type: 6,
             condition: Condition.ATTACK,
             duration: 100,
@@ -5659,7 +5584,8 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               ...gameState.characters[index].buff,
               {
                 id: "822-passive-4",
-                name: "攻擊時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」效果",
+                name:
+                  "攻擊時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」效果",
                 type: 6,
                 condition: Condition.ATTACK,
                 duration: 100,

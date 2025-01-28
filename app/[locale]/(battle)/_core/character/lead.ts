@@ -1215,6 +1215,252 @@ export function triggerLead(gameState: GameState) {
     // "10111": "背德密醫 艾琳",
     // "10113": "嬌蠻兇護 凱薩",
     // "10114": "魔法少女 朱諾安",
+    case "10114": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10114-Lead-1",
+            name: "最大HP增加30%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+        ];
+      });
+      {
+        const threeDarkCondition = [
+          CharacterAttribute.DARK,
+          CharacterAttribute.DARK,
+          CharacterAttribute.DARK,
+        ];
+        gameState.characters.forEach((character) => {
+          if (threeDarkCondition.includes(character.attribute)) {
+            const index = threeDarkCondition.indexOf(character.attribute);
+            if (index !== -1) {
+              threeDarkCondition.splice(
+                threeDarkCondition.indexOf(character.attribute),
+                1,
+              );
+            }
+          }
+        });
+        if (threeDarkCondition.length === 0) {
+          gameState.characters.forEach((_, index) => {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "10114-Lead-2",
+                name: "攻擊力增加40%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  affectType: AffectType.INCREASE_ATK,
+                  value: 0.4,
+                },
+              },
+              {
+                id: "10114-Lead-3",
+                name: "行動時，觸發「使目標受到傷害增加2.5%(最多12層)」",
+                type: 4,
+                condition: Condition.MOVE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: "10114-Lead-3-1",
+                  target: Target.ENEMY,
+                  applySkill: {
+                    id: "10114-Lead-3-1",
+                    name: "受到傷害增加2.5%",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10114-Lead-3-1",
+                      name: "受到傷害增加2.5%",
+                      stack: 1,
+                      maxStack: 12,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                      value: 0.025,
+                    },
+                  },
+                },
+              },
+              {
+                id: "10114-Lead-4",
+                name: "行動時，觸發「使目標受到觸發技傷害增加5%(最多12層)」",
+                type: 4,
+                condition: Condition.MOVE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: "10114-Lead-4-1",
+                  target: Target.ENEMY,
+                  applySkill: {
+                    id: "10114-Lead-4-1",
+                    name: "受到觸發技傷害增加5%",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10114-Lead-4-1",
+                      name: "受到觸發技傷害增加5%",
+                      stack: 1,
+                      maxStack: 12,
+                      affectType: AffectType.INCREASE_TRIGGER_DMG_RECEIVED,
+                      value: 0.05,
+                    },
+                  },
+                },
+              },
+            ];
+          });
+        }
+        const twoLightCondition = [
+          CharacterAttribute.LIGHT,
+          CharacterAttribute.LIGHT,
+        ];
+        gameState.characters.forEach((character) => {
+          if (twoLightCondition.includes(character.attribute)) {
+            const index = twoLightCondition.indexOf(character.attribute);
+            if (index !== -1) {
+              twoLightCondition.splice(
+                twoLightCondition.indexOf(character.attribute),
+                1,
+              );
+            }
+          }
+        });
+        if (twoLightCondition.length === 0) {
+          gameState.characters.forEach((_, index) => {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "10114-Lead-5",
+                name: "造成傷害增加20%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  affectType: AffectType.INCREASE_DMG,
+                  value: 0.2,
+                },
+              },
+              {
+                id: "10114-Lead-6",
+                name: "必殺時，觸發「使目標受到暗屬性傷害增加17.5%(最多2層)」",
+                type: 4,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: "10114-Lead-6-1",
+                  target: Target.ENEMY,
+                  applySkill: {
+                    id: "10114-Lead-6-1",
+                    name: "受到暗屬性傷害增加17.5%",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10114-Lead-6-1",
+                      name: "受到暗屬性傷害增加17.5%",
+                      stack: 1,
+                      maxStack: 2,
+                      affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                      value: 0.175,
+                    },
+                  },
+                },
+              },
+              {
+                id: "10114-Lead-7",
+                name: "必殺時，觸發「使目標受到光屬性傷害增加17.5%(最多2層)」",
+                type: 4,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: "10114-Lead-7-1",
+                  target: Target.ENEMY,
+                  applySkill: {
+                    id: "10114-Lead-7-1",
+                    name: "受到光屬性傷害增加17.5%",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10114-Lead-7-1",
+                      name: "受到光屬性傷害增加17.5%",
+                      stack: 1,
+                      maxStack: 2,
+                      affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                      value: 0.175,
+                    },
+                  },
+                },
+              },
+            ];
+          });
+        }
+      }
+
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: "10114-Lead-8",
+          name: "攻擊力增加80%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value: 0.8,
+          },
+        },
+        {
+          id: "10114-Lead-9",
+          name: "普攻傷害增加60%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_BASIC_DMG,
+            value: 0.6,
+          },
+        },
+        {
+          id: "10114-Lead-10",
+          name: "必殺技傷害增加40%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            value: 0.4,
+          },
+        },
+        {
+          id: "10114-Lead-11",
+          name: "必殺時，觸發「以自身攻擊力150%對目標造成傷害」",
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 1.5,
+            action: CharacterAction.ULTIMATE,
+            target: Target.ENEMY,
+            damageType: DamageType.TRIGGER,
+          },
+        },
+      ];
+      break;
+    }
     // "10115": "魔法少女 布蘭妮",
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
@@ -2767,9 +3013,9 @@ export function triggerLead(gameState: GameState) {
           duration: 100,
           _101: {
             value: 0.8,
-            action: CharacterAction.BASIC,
+            action: CharacterAction.ULTIMATE,
             target: Target.ENEMY,
-            damageType: 1,
+            damageType: DamageType.ULTIMATE_ADDON,
           },
         },
       ];

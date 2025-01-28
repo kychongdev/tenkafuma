@@ -1080,13 +1080,13 @@
   "10114": {
     "id": 10114,
     "name": "魔法少女 朱諾安",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3651.2,
+    "initAtk": 964.8,
+    "attribute": 9,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10115": {
     "id": 10115,

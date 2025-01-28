@@ -62,8 +62,6 @@ export function dealUltDamage(
   let defenderisGuard = false;
   let defenderDefEffect = Big(0.5);
 
-  // const attributeNum = parseAttribute(attackerAttribute, defenderAttribute);
-
   switch (position) {
     case Target.ENEMY_1: {
       attacker = checkSpecialCondition(gameState, position);
@@ -122,10 +120,10 @@ export function dealUltDamage(
   switch (target) {
     case Target.ENEMY:
       defender = checkSpecialCondition(gameState, gameState.targeting + 20);
-      defenderClass = gameState.characters[gameState.targeting].class;
-      defenderAttribute = gameState.characters[gameState.targeting].attribute;
-      defenderId = gameState.characters[gameState.targeting].id;
-      defenderisGuard = gameState.characters[gameState.targeting].isGuard;
+      defenderClass = gameState.enemies[gameState.targeting].class;
+      defenderAttribute = gameState.enemies[gameState.targeting].attribute;
+      defenderId = gameState.enemies[gameState.targeting].id;
+      defenderisGuard = gameState.enemies[gameState.targeting].isGuard;
       break;
     case Target.ENEMY_1:
       defender = checkSpecialCondition(gameState, target);
@@ -174,6 +172,8 @@ export function dealUltDamage(
       defenderisGuard = gameState.characters[target].isGuard;
       break;
   }
+
+  const attributeX = parseAttribute(attackerAttribute, defenderAttribute);
 
   for (const buff of attacker) {
     if (!buff.deactivated) {
@@ -813,48 +813,49 @@ export function dealUltDamage(
       .round(0, Big.roundDown)
       .add(rawAtk)
       .round(0, Big.roundDown);
-    res =
-      defenderisGuard && !isTrueDamage
-        ? Big(0)
-            .add(finalAtk)
-            .mul(ultBuff)
-            .mul(increaseDamage)
-            .mul(enemyDamageReceivedIncrease)
-            .mul(attributeDamage)
-            .mul(value)
-            .mul(defenderDefEffect)
-        : Big(0)
-            .add(finalAtk)
-            .mul(ultBuff)
-            .mul(increaseDamage)
-            .mul(enemyDamageReceivedIncrease)
-            .mul(attributeDamage)
-            .mul(value);
+    res = defenderisGuard && !isTrueDamage
+      ? Big(0)
+        .add(finalAtk)
+        .mul(ultBuff)
+        .mul(increaseDamage)
+        .mul(enemyDamageReceivedIncrease)
+        .mul(attributeDamage)
+        .mul(value)
+        .mul(defenderDefEffect)
+      : Big(0)
+        .add(finalAtk)
+        .mul(ultBuff)
+        .mul(increaseDamage)
+        .mul(enemyDamageReceivedIncrease)
+        .mul(attributeDamage)
+        .mul(attributeX)
+        .mul(value);
   } else {
     const finalAtk = Big(attackerAtk)
       .mul(atkPercentage)
       .round(0, Big.roundDown)
       .add(rawAtk)
       .round(0, Big.roundDown);
-    res =
-      defenderisGuard && !isTrueDamage
-        ? Big(0)
-            .add(finalAtk)
-            .mul(ultBuff)
-            .mul(increaseDamage)
-            .mul(enemyDamageReceivedIncrease)
-            .mul(attributeDamage)
-            .round(0, Big.roundDown)
-            .mul(value)
-            .mul(defenderDefEffect)
-        : Big(0)
-            .add(finalAtk)
-            .mul(ultBuff)
-            .mul(increaseDamage)
-            .mul(enemyDamageReceivedIncrease)
-            .mul(attributeDamage)
-            .round(0, Big.roundDown)
-            .mul(value);
+    res = defenderisGuard && !isTrueDamage
+      ? Big(0)
+        .add(finalAtk)
+        .mul(ultBuff)
+        .mul(increaseDamage)
+        .mul(enemyDamageReceivedIncrease)
+        .mul(attributeDamage)
+        .mul(attributeX)
+        .round(0, Big.roundDown)
+        .mul(value)
+        .mul(defenderDefEffect)
+      : Big(0)
+        .add(finalAtk)
+        .mul(ultBuff)
+        .mul(increaseDamage)
+        .mul(enemyDamageReceivedIncrease)
+        .mul(attributeDamage)
+        .mul(attributeX)
+        .round(0, Big.roundDown)
+        .mul(value);
   }
   console.log(
     attackerAtk.toNumber(),
@@ -952,9 +953,11 @@ export function dealUltDamage(
     } else {
       const character = gameState.characters[position];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]${character.name}對敵${target - 19}造成${formatNumber(
-          res1,
-        )}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]${character.name}對敵${target - 19}造成${
+          formatNumber(
+            res1,
+          )
+        }(${parseDamageTypeName(damageType)})`,
       );
     }
   } else if (position >= 20 && position < 25) {
@@ -962,12 +965,18 @@ export function dealUltDamage(
       const enemy = gameState.enemies[position - 20];
       const character = gameState.characters[target];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對${character.name}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${
+          position - 19
+        }${enemy.name}對${character.name}造成${formatNumber(res1)}(${
+          parseDamageTypeName(damageType)
+        })`,
       );
     } else {
       const enemy = gameState.enemies[position - 20];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${target - 19}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${
+          target - 19
+        }造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
       );
     }
   }
@@ -981,13 +990,15 @@ export function dealUltDamage(
         );
         if (
           gameState.enemies[gameState.targeting].hp >
-          gameState.enemies[gameState.targeting].maxHp
+            gameState.enemies[gameState.targeting].maxHp
         ) {
           gameState.enemies[gameState.targeting].hp =
             gameState.enemies[gameState.targeting].maxHp;
         }
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[gameState.targeting].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[gameState.targeting].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -999,7 +1010,9 @@ export function dealUltDamage(
           gameState.enemies[0].hp = gameState.enemies[0].maxHp;
         }
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[0].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[0].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -1011,7 +1024,9 @@ export function dealUltDamage(
           gameState.enemies[1].hp = gameState.enemies[1].maxHp;
         }
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[1].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[1].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -1023,7 +1038,9 @@ export function dealUltDamage(
           gameState.enemies[2].hp = gameState.enemies[2].maxHp;
         }
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[2].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[2].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -1035,7 +1052,9 @@ export function dealUltDamage(
           gameState.enemies[3].hp = gameState.enemies[3].maxHp;
         }
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[3].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[3].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -1047,7 +1066,9 @@ export function dealUltDamage(
           gameState.enemies[4].hp = gameState.enemies[4].maxHp;
         }
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[4].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[4].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -1063,7 +1084,9 @@ export function dealUltDamage(
             .toNumber(),
         );
         gameState.battle_log.push(
-          `[吸血]${gameState.characters[position].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.characters[position].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
     }

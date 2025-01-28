@@ -1185,6 +1185,58 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10111": "背德密醫 艾琳",
     // "10113": "嬌蠻兇護 凱薩",
     // "10114": "魔法少女 朱諾安",
+    case "10114": {
+      {
+        const buff: Skill = {
+          id: "10114-ultimate-1",
+          name: "必殺技傷害增加70%(2回合)",
+          type: 12,
+          condition: Condition.NONE,
+          duration: 100,
+          _12: {
+            position: 4,
+            applySkill: {
+              id: "10114-ultimate-1",
+              name: "必殺技傷害增加70%(2回合)",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 2,
+              _0: {
+                value: bond === 1
+                  ? 0.3
+                  : bond === 2
+                  ? 0.4
+                  : bond === 3
+                  ? 0.5
+                  : bond === 4
+                  ? 0.6
+                  : 0.7,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          },
+        };
+        triggerSkill(buff, gameState, position);
+        const ultPercentage = bond === 1
+          ? 3.88
+          : bond === 2
+          ? 4.45
+          : bond === 3
+          ? 5.03
+          : bond === 4
+          ? 5.6
+          : 6.18;
+        dealUltDamage(
+          position,
+          ultPercentage,
+          gameState,
+          Target.ENEMY,
+          DamageType.ULTIMATE,
+          CharacterAction.ULTIMATE,
+        );
+      }
+      break;
+    }
     // "10115": "魔法少女 布蘭妮",
     case "10115": {
       // 以自身攻擊力80/85/90/95/100%每回合對我方全體進行治療(4回合)、再以自身最大HP20/24/28/32/36%對我方全體施放護盾(1回合)，並使目標受到傷害增加0/0/10/15/20%(4回合)，CD:4

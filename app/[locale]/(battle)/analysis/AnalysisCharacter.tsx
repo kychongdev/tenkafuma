@@ -6,7 +6,7 @@ export default function AnalysisCharacter() {
   const characters = ["10148"];
 
   return (
-    <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)]">
+    <div className="px-4 pt-4 w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)]">
       {characters.map((char) => {
         return (
           <Avatar
