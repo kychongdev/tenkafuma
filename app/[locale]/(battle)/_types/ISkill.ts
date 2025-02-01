@@ -5,8 +5,8 @@ import type {
 } from "./Character";
 import type {
   AffectType,
-  Skill,
   DamageType,
+  Skill,
   SkillStackCondition,
   SpecialCondition,
   Target,
@@ -293,4 +293,9 @@ export interface _111 {
   target: Target | CharacterClass;
   applySkill: Skill[];
   deleteSelf?: boolean;
+}
+
+export interface _113 {
+  target: string;
+  applySkill: Skill[];
 }

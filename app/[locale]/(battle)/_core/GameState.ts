@@ -68,6 +68,7 @@ export interface GameState {
   undoLastAction: () => void;
   initStage: (stage: string) => void;
   debug: () => void;
+  attackAll: () => void;
 }
 
 interface UndoLog {
@@ -162,6 +163,7 @@ export const useGameState = create<GameState>()(
           parseInitstage(state);
           parseStageAction(state);
           state.turn = state.turn + 1;
+
           onTurnStart(state);
         });
       },
@@ -359,6 +361,14 @@ export const useGameState = create<GameState>()(
       debug: () => {
         set((state) => {
           console.log(p(state));
+        });
+      },
+      attackAll: () => {
+        set((state) => {
+          state.characters.forEach((_, index) => {
+            state.characters[index].hp = state.characters[index].hp - 10;
+            parseCondition(index, [Condition.RECEIVED_ATTACK], state);
+          });
         });
       },
     })),

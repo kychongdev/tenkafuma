@@ -1,4 +1,4 @@
-import { Skill, Condition, Target, DamageType } from "@/types/Skill";
+import { Condition, DamageType, Skill, Target } from "@/types/Skill";
 import { CharacterAttribute, CharacterClass } from "@/types/Character";
 import { GameState } from "./GameState";
 import { applyRawAttBuff } from "./applyRawAtk";
@@ -50,7 +50,7 @@ export function triggerAddOn(
       switch (buff._101.damageType) {
         case DamageType.BASIC:
         case DamageType.BASIC_ADDON: {
-          console.log("test");
+          console.log("test101");
           if (buff._101.multiple) {
             for (let i = 0; i < buff._101.multiple; i++) {
               if (buff._101.target === Target.ALL_ALLIES) {
@@ -346,7 +346,6 @@ export function triggerAddOn(
               });
             } else {
               // purely typescript problem
-              console.log("give first buff, suppose only 5");
               if (buff._104?.applySkill) {
                 gameState.characters[index].buff = [
                   ...gameState.characters[index].buff,
@@ -357,6 +356,8 @@ export function triggerAddOn(
               }
             }
           });
+
+          break;
         }
         case Target.ENEMY: {
           const isExist = gameState.enemies[gameState.targeting].buff.some(
@@ -390,6 +391,8 @@ export function triggerAddOn(
               console.log("Wrong data buff._104.applySkill");
             }
           }
+
+          break;
         }
         case Target.ALL_ENEMIES: {
           {
@@ -437,6 +440,7 @@ export function triggerAddOn(
               }
             });
           }
+          break;
         }
         case Target.POSITION_1:
         case Target.POSITION_2:
@@ -479,6 +483,7 @@ export function triggerAddOn(
               console.log("Wrong data buff._104.applySkill");
             }
           }
+          break;
         }
 
         case Target.FIRE:
@@ -552,10 +557,9 @@ export function triggerAddOn(
               condition: Condition.NONE,
               duration: buff._106.duration,
               _0: {
-                value:
-                  buff._106?.base === true
-                    ? Math.floor(baseAtk * buff._106.value)
-                    : Math.floor(rawAttSkill * buff._106.value),
+                value: buff._106?.base === true
+                  ? Math.floor(baseAtk * buff._106.value)
+                  : Math.floor(rawAttSkill * buff._106.value),
                 affectType: buff._106?.affectType,
               },
             },
@@ -570,10 +574,9 @@ export function triggerAddOn(
               condition: Condition.NONE,
               duration: buff._106.duration,
               _0: {
-                value:
-                  buff._106?.base === true
-                    ? Math.floor(baseAtk * buff._106.value)
-                    : Math.floor(rawAttSkill * buff._106.value),
+                value: buff._106?.base === true
+                  ? Math.floor(baseAtk * buff._106.value)
+                  : Math.floor(rawAttSkill * buff._106.value),
                 affectType: buff._106?.affectType,
               },
             },
@@ -589,10 +592,9 @@ export function triggerAddOn(
                 condition: Condition.NONE,
                 duration: buff._106.duration,
                 _0: {
-                  value:
-                    buff._106?.base === true
-                      ? Math.floor(baseAtk * buff._106.value)
-                      : Math.floor(rawAttSkill * buff._106.value),
+                  value: buff._106?.base === true
+                    ? Math.floor(baseAtk * buff._106.value)
+                    : Math.floor(rawAttSkill * buff._106.value),
                   affectType: buff._106?.affectType,
                 },
               },
@@ -612,10 +614,9 @@ export function triggerAddOn(
             condition: Condition.NONE,
             duration: buff._106.duration,
             _0: {
-              value:
-                buff._106?.base === true
-                  ? Math.floor(baseAtk * buff._106.value)
-                  : Math.floor(rawAttSkill * buff._106.value),
+              value: buff._106?.base === true
+                ? Math.floor(baseAtk * buff._106.value)
+                : Math.floor(rawAttSkill * buff._106.value),
               affectType: buff._106?.affectType,
             },
           },
@@ -633,10 +634,9 @@ export function triggerAddOn(
             condition: Condition.NONE,
             duration: buff._106.duration,
             _0: {
-              value:
-                buff._106?.base === true
-                  ? Math.floor(baseAtk * buff._106.value)
-                  : Math.floor(rawAttSkill * buff._106.value),
+              value: buff._106?.base === true
+                ? Math.floor(baseAtk * buff._106.value)
+                : Math.floor(rawAttSkill * buff._106.value),
               affectType: buff._106?.affectType,
             },
           },
@@ -761,5 +761,23 @@ export function triggerAddOn(
         gameState.characters[position].buff = clone;
       }
       break;
+
+    case 113: {
+      if (!buff._113) {
+        console.log("Wrong data 113");
+        break;
+      }
+
+      console.log("test113");
+      gameState.characters.forEach((character, index) => {
+        if (character.id === buff._113?.target) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            ...buff._113.applySkill,
+          ];
+        }
+      });
+      break;
+    }
   }
 }

@@ -436,6 +436,124 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10040": "小惡魔 布蘭妮",
     // "10041": "公會看板娘 小螢",
     // "10042": "夏日 伊布力斯",
+    case "10042": {
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.attribute === CharacterAttribute.WATER ||
+          character.attribute === CharacterAttribute.FIRE
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10042-ult-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: bond < 3 ? 0.3 : 0.4,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          ];
+        }
+      });
+      //水層次
+      {
+        const buff: Skill = {
+          id: "10042-ult-2",
+          name: "受到傷害增加",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "144-ult-2-1",
+            target: Target.ENEMY,
+            applySkill: {
+              id: "10042-ult-2-1",
+              name: "受到水傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10042-ult-2-1",
+                name: "受到水傷害增加",
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                value: bond === 1
+                  ? 0.05
+                  : bond === 2
+                  ? 0.075
+                  : bond === 3
+                  ? 0.1
+                  : bond === 4
+                  ? 0.125
+                  : 0.15,
+              },
+            },
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      }
+
+      {
+        const buff: Skill = {
+          id: "10042-ult-3",
+          name: "受到火傷害增加",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10042-ult-3-1",
+            target: Target.ENEMY,
+            applySkill: {
+              id: "10042-ult-3-1",
+              name: "受到火傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10042-ult-3-1",
+                name: "受到火傷害增加",
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                value: bond === 1
+                  ? 0.05
+                  : bond === 2
+                  ? 0.075
+                  : bond === 3
+                  ? 0.1
+                  : bond === 4
+                  ? 0.125
+                  : 0.15,
+              },
+            },
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      }
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 3.3
+          : bond === 2
+          ? 3.76
+          : bond === 3
+          ? 4.22
+          : bond === 4
+          ? 4.68
+          : 5.14,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      break;
+    }
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
     case "10044": {
@@ -514,6 +632,31 @@ export function ultimateAttack(gameState: GameState, position: number) {
         },
       };
       triggerSkill(buff, gameState, position);
+
+      const buff4: Skill = {
+        id: "10072-ult-4",
+        name: "攻擊力",
+        type: 6,
+        condition: Condition.NONE,
+        duration: 1,
+        _6: {
+          duration: 1,
+          base: false,
+          value: bond === 1
+            ? 0.65
+            : bond === 2
+            ? 0.65
+            : bond === 3
+            ? 0.7
+            : bond === 4
+            ? 0.7
+            : 0.75,
+          affectType: AffectType.RAW_ATK,
+          target: Target.POSITION_2,
+        },
+      };
+
+      triggerSkill(buff4, gameState, position);
       const buff2: Skill = {
         id: "10072-ult-2",
         name: "普攻傷害增加(2回合)",
@@ -574,6 +717,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
         },
       };
       triggerSkill(buff3, gameState, position);
+
       break;
     }
     // "10074": "雪姬 初華",
@@ -602,7 +746,27 @@ export function ultimateAttack(gameState: GameState, position: number) {
             ...gameState.characters[index].buff,
             {
               id: "10076-ult-1",
-              name: "攻擊力",
+              name: `普攻時，追加技能『以自身攻擊力${
+                bond === 1
+                  ? 37.5
+                  : bond === 2
+                  ? 45
+                  : bond === 3
+                  ? 45
+                  : bond === 4
+                  ? 52.5
+                  : 60
+              }%對目標造成傷害』(${
+                bond === 1
+                  ? 3
+                  : bond === 2
+                  ? 3
+                  : bond === 3
+                  ? 4
+                  : bond === 4
+                  ? 4
+                  : 4
+              }回合)`,
               type: 101,
               condition: Condition.BASIC_ATTACK,
               duration: bond === 1
@@ -2142,14 +2306,14 @@ export function ultimateAttack(gameState: GameState, position: number) {
               id: "10137-ult-2",
               name: `普攻時，追加『以自身攻擊力${
                 bond === 1
-                  ? 0.1
+                  ? 10
                   : bond === 2
-                  ? 0.15
+                  ? 15
                   : bond === 3
-                  ? 0.2
+                  ? 20
                   : bond === 4
-                  ? 0.25
-                  : 0.3
+                  ? 25
+                  : 30
               }%對目標造成傷害』`,
               type: 101,
               condition: Condition.BASIC_ATTACK,
@@ -2483,12 +2647,21 @@ export function ultimateAttack(gameState: GameState, position: number) {
             },
             {
               id: "10142-ult-4",
-              name:
-                "必殺時，觸發『使我方夏日 千鶴攻擊力增加10/10/20/20/30%(1回合)』(4回合)",
-              type: 13,
-              condition: Condition.ATTACK,
+              name: `普攻時，使我方『夏日 千鶴』攻擊力增加${
+                bond === 1
+                  ? 10
+                  : bond === 2
+                  ? 10
+                  : bond === 3
+                  ? 20
+                  : bond === 4
+                  ? 20
+                  : 30
+              }%(1回合)`,
+              type: 113,
+              condition: Condition.BASIC_ATTACK,
               duration: 4,
-              _13: {
+              _113: {
                 target: "10142",
                 applySkill: [
                   {

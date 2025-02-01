@@ -1,16 +1,14 @@
 import type {
   _0,
   _1,
-  _2,
-  _3,
-  _4,
-  _5,
-  _6,
-  _7,
-  _8,
-  _9,
   _10,
+  _101,
+  _104,
+  _105,
+  _106,
   _11,
+  _111,
+  _113,
   _12,
   _13,
   _14,
@@ -19,6 +17,7 @@ import type {
   _17,
   _18,
   _19,
+  _2,
   _20,
   _21,
   _22,
@@ -27,11 +26,13 @@ import type {
   _25,
   _26,
   _27,
-  _101,
-  _104,
-  _105,
-  _106,
-  _111,
+  _3,
+  _4,
+  _5,
+  _6,
+  _7,
+  _8,
+  _9,
 } from "./ISkill";
 
 interface ISkill {
@@ -85,6 +86,7 @@ interface Skill extends ISkill {
   _105?: _105;
   _106?: _106;
   _111?: _111;
+  _113?: _113;
 }
 
 enum AffectType {
@@ -258,11 +260,11 @@ enum DamageType {
 
 export type { Skill };
 export {
-  Condition,
-  Target,
   AffectType,
-  DurationType,
-  SpecialCondition,
-  SkillStackCondition,
+  Condition,
   DamageType,
+  DurationType,
+  SkillStackCondition,
+  SpecialCondition,
+  Target,
 };

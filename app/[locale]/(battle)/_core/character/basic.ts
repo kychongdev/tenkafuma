@@ -97,6 +97,17 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10040": "小惡魔 布蘭妮",
     // "10041": "公會看板娘 小螢",
     // "10042": "夏日 伊布力斯",
+    case "10042": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
     case "10044": {
@@ -530,7 +541,7 @@ export function basicAttack(gameState: GameState, position: number) {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: "805-basic-1",
+          id: "10137-basic-1",
           name: "攻擊力",
           type: 0,
           condition: Condition.NONE,
@@ -549,6 +560,7 @@ export function basicAttack(gameState: GameState, position: number) {
         DamageType.BASIC,
         CharacterAction.BASIC,
       );
+      break;
     }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
@@ -605,12 +617,13 @@ export function basicAttack(gameState: GameState, position: number) {
       );
       dealBasicHpDamage(
         position,
-        1,
+        0.5,
         gameState,
         Target.ENEMY,
         DamageType.BASIC,
         CharacterAction.BASIC,
       );
+      break;
     }
     // "10145": "夏日 撒旦",
     case "10145": {
@@ -622,6 +635,7 @@ export function basicAttack(gameState: GameState, position: number) {
         DamageType.BASIC,
         CharacterAction.BASIC,
       );
+
       break;
     }
     // "10146": "魔獸獵手 神無雪",

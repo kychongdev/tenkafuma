@@ -45,6 +45,7 @@ export default function Battle() {
     damage_log_3,
     damage_log_4,
     damage_log_5,
+    attackAll,
   } = useStore(useGameState, (state) => state);
 
   const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
@@ -70,8 +71,8 @@ export default function Battle() {
             {turnState === TurnState.PLAYER_TURN
               ? t("player_turn")
               : turnState === TurnState.ENEMY_TURN
-                ? t("enemy_turn")
-                : t("data_error")}
+              ? t("enemy_turn")
+              : t("data_error")}
           </Badge>
         </div>
         <Progress
@@ -79,38 +80,56 @@ export default function Battle() {
           className="mt-3 w-full"
         />
         <div className="text-end text-sm">
-          {f(enemies[targeting].hp)}
-          {"      "}(
+          {f(enemies[targeting].hp)}{"      "}(
           {((enemies[targeting].hp / enemies[targeting].maxHp) * 100).toFixed(
             2,
           )}
           %) HP
         </div>
-        <div className="flex min-h-[100px] justify-center mt-4 mx-16 items-center">
-          {ready ? (
-            <Carousel setApi={setApi} className="w-full max-w-xs mb-3">
-              <CarouselContent>
-                {enemies.map((enemy, index) => (
-                  <CarouselItem key={index} className="">
-                    <EnemyStatus position={index} />
-                    <div className="text-white text-center">
-                      Enemy {index + 1}
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          ) : (
-            <Button
-              onClick={() => {
-                router.push("/team");
-              }}
-            >
-              Please pick a team
-            </Button>
-          )}
+
+        <div className="flex min-h-[100px] justify-center mt-4 items-center">
+          {ready
+            ? (
+              <div className="grid grid-cols-4">
+                <div className="mx-12 col-span-3">
+                  <Carousel
+                    setApi={setApi}
+                    className="w-full max-w-xs mb-3 "
+                  >
+                    <CarouselContent>
+                      {enemies.map((enemy, index) => (
+                        <CarouselItem key={index} className="">
+                          <EnemyStatus position={index} />
+                          <div className="text-white text-center">
+                            Enemy {index + 1}
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                </div>
+                <div className="flex flex-col gap-2 w-full">
+                  <Button
+                    onClick={() => {
+                      attackAll();
+                    }}
+                  >
+                    ATK ALL
+                  </Button>
+                </div>
+              </div>
+            )
+            : (
+              <Button
+                onClick={() => {
+                  router.push("/team");
+                }}
+              >
+                Please pick a team
+              </Button>
+            )}
         </div>
         <div className="grid grid-cols-5 gap-2 mb-5">
           <CharacterButton position={0} />

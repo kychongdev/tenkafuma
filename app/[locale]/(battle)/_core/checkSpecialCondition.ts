@@ -13,9 +13,9 @@ export function checkSpecialCondition(gameState: GameState, position: number) {
             }
             if (
               (gameState.enemies[position - 20].hp /
-                gameState.enemies[position - 20].maxHp) *
-                100 <
-              buff.specialConditionValue
+                    gameState.enemies[position - 20].maxHp) *
+                  100 <
+                buff.specialConditionValue
             ) {
               return buff;
             }
@@ -28,9 +28,9 @@ export function checkSpecialCondition(gameState: GameState, position: number) {
             }
             if (
               (gameState.enemies[position - 20].hp /
-                gameState.enemies[position - 20].maxHp) *
-                100 >
-              buff.specialConditionValue
+                    gameState.enemies[position - 20].maxHp) *
+                  100 >
+                buff.specialConditionValue
             ) {
               return buff;
             } else {
@@ -75,9 +75,9 @@ export function checkSpecialCondition(gameState: GameState, position: number) {
           }
           if (
             (gameState.characters[position].hp /
-              gameState.characters[position].maxHp) *
-              100 <
-            buff.specialConditionValue
+                  gameState.characters[position].maxHp) *
+                100 <
+              buff.specialConditionValue
           ) {
             return buff;
           }
@@ -90,9 +90,9 @@ export function checkSpecialCondition(gameState: GameState, position: number) {
           }
           if (
             (gameState.characters[position].hp /
-              gameState.characters[position].maxHp) *
-              100 >
-            buff.specialConditionValue
+                  gameState.characters[position].maxHp) *
+                100 >
+              buff.specialConditionValue
           ) {
             return buff;
           } else {

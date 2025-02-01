@@ -679,6 +679,134 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10040": "小惡魔 布蘭妮",
     // "10041": "公會看板娘 小螢",
     // "10042": "夏日 伊布力斯",
+    case "10042": {
+      // 防禦時，觸發「使我方全體水、火屬性隊員被治療時回復量增加50%(2回合)」
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10042-passive-2",
+          name: "必殺時，觸發「使我方全體水屬性隊員攻擊力增加15%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            target: Target.WATER,
+            targetSkill: "10042-passive-2-1",
+            increaseStack: 1,
+            applySkill: {
+              id: "10042-passive-2-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10042-passive-2-1",
+                name: "攻擊力增加",
+                stack: 1,
+                maxStack: 2,
+                value: 0.15,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: "10042-passive-3",
+          name: "必殺時，觸發「使我方全體火屬性隊員攻擊力增加15%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            target: Target.FIRE,
+            targetSkill: "10042-passive-3-1",
+            increaseStack: 1,
+            applySkill: {
+              id: "10042-passive-3-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10042-passive-2-1",
+                name: "攻擊力增加",
+                stack: 1,
+                maxStack: 2,
+                value: 0.15,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: "10042-passive-4",
+          name: "使自身造成傷害增加25%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.25,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+      ];
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10042-passive-5",
+            name: "每經過4回合，觸發「使目標受到水、火屬性傷害增加40%(1回合)」",
+            type: 11,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 4,
+            duration: 100,
+            _11: {
+              target: Target.ENEMY,
+              applySkill: [
+                {
+                  id: "10042-passive-5-1",
+                  name: "受到水屬性傷害增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 1,
+                  _0: {
+                    value: 0.4,
+                    affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                  },
+                },
+                {
+                  id: "10042-passive-5-2",
+                  name: "受到火屬性傷害增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 1,
+                  _0: {
+                    value: 0.4,
+                    affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10042-passive-6",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
     case "10044": {
@@ -5503,7 +5631,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               targetSkill: "10145-passive-6-1",
               applySkill: {
                 id: "10145-passive-6-1",
-                name: "造成傷害增加",
+                name: "受到傷害增加",
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,

@@ -98,8 +98,6 @@ const MessageMenu = ({ message }: { message: Imessage }) => {
         <MoreHorizontal />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Action</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
             document.getElementById("trigger-edit")?.click();

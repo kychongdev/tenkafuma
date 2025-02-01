@@ -2745,23 +2745,34 @@ export function triggerLead(gameState: GameState) {
             affectType: AffectType.INCREASE_DMG,
           },
         },
-      ];
-      gameState.enemies[0].buff = [
-        ...gameState.enemies[0].buff,
         {
-          id: "10144-passive-4-1",
-          name: "受到夏日凱撒的傷害增加4%",
-          type: 3,
-          condition: Condition.NONE,
+          id: "10144-lead-11",
+          name:
+            "每Wave的第1回合時，觸發『使自身《婚紗兵裝。能量汲取》的疊層效果達到滿層』",
+          type: 11,
+          condition: Condition.ON_TURN_START,
           duration: 100,
-          _3: {
-            id: "10144-passive-4-1",
-            name: "受到夏日凱撒的傷害增加4%",
-            value: 0.04,
-            stack: 15,
-            maxStack: 15,
-            specificCharId: "10144",
-            affectType: AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED,
+          _11: {
+            target: Target.ALL_ENEMIES,
+            applySkill: [
+              {
+                id: "10144-passive-4-1",
+                name: "受到夏日凱撒的傷害增加60%",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10144-passive-4-1",
+                  name: "受到夏日凱撒的傷害增加60%",
+                  value: 0.04,
+                  stack: 15,
+                  maxStack: 15,
+                  specificCharId: "10144",
+                  affectType:
+                    AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED,
+                },
+              },
+            ],
           },
         },
       ];

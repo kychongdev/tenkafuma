@@ -453,11 +453,11 @@
   "10042": {
     "id": 10042,
     "name": "夏日 伊布力斯",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3456,
+    "initAtk": 1019.2,
+    "attribute": 6,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4,
     "leader": false
   },
@@ -1394,7 +1394,7 @@
     "class": 11,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10143": {
     "id": 10143,
@@ -1405,7 +1405,7 @@
     "class": 13,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10144": {
     "id": 10144,
@@ -1416,18 +1416,18 @@
     "class": 11,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10145": {
     "id": 10145,
     "name": "夏日 撒旦",
     "initHp": 5249.6,
-    "initAtk": 10,
+    "initAtk": 672,
     "attribute": 8,
     "class": 15,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10146": {
     "id": 10146,

@@ -60,8 +60,6 @@ export function dealBasicHpDamage(
   let defenderisGuard = false;
   let defenderDefEffect = Big(0.5);
 
-  const test = Big(1.5);
-
   // you need to specify the enemy position
   switch (position) {
     case Target.ENEMY_1: {
@@ -125,42 +123,42 @@ export function dealBasicHpDamage(
 
   switch (target) {
     case Target.ENEMY:
-      attacker = checkSpecialCondition(gameState, gameState.targeting + 20);
-      defenderClass = gameState.characters[gameState.targeting].class;
-      defenderAttribute = gameState.characters[gameState.targeting].attribute;
-      defenderId = gameState.characters[gameState.targeting].id;
-      defenderisGuard = gameState.characters[gameState.targeting].isGuard;
+      defender = checkSpecialCondition(gameState, gameState.targeting + 20);
+      defenderClass = gameState.enemies[gameState.targeting].class;
+      defenderAttribute = gameState.enemies[gameState.targeting].attribute;
+      defenderId = gameState.enemies[gameState.targeting].id;
+      defenderisGuard = gameState.enemies[gameState.targeting].isGuard;
       break;
     case Target.ENEMY_1:
-      attacker = checkSpecialCondition(gameState, target);
+      defender = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[0].class;
       defenderAttribute = gameState.enemies[0].attribute;
       defenderId = gameState.enemies[0].id;
       defenderisGuard = gameState.characters[0].isGuard;
       break;
     case Target.ENEMY_2:
-      attacker = checkSpecialCondition(gameState, target);
+      defender = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[1].class;
       defenderAttribute = gameState.enemies[1].attribute;
       defenderId = gameState.enemies[1].id;
       defenderisGuard = gameState.characters[1].isGuard;
       break;
     case Target.ENEMY_3:
-      attacker = checkSpecialCondition(gameState, target);
+      defender = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[2].class;
       defenderAttribute = gameState.enemies[2].attribute;
       defenderId = gameState.enemies[2].id;
       defenderisGuard = gameState.characters[2].isGuard;
       break;
     case Target.ENEMY_4:
-      attacker = checkSpecialCondition(gameState, target);
+      defender = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[3].class;
       defenderAttribute = gameState.enemies[3].attribute;
       defenderId = gameState.enemies[3].id;
       defenderisGuard = gameState.characters[3].isGuard;
       break;
     case Target.ENEMY_5:
-      attacker = checkSpecialCondition(gameState, target);
+      defender = checkSpecialCondition(gameState, target);
       defenderClass = gameState.enemies[4].class;
       defenderAttribute = gameState.enemies[4].attribute;
       defenderId = gameState.enemies[4].id;
@@ -171,7 +169,7 @@ export function dealBasicHpDamage(
     case Target.POSITION_3:
     case Target.POSITION_4:
     case Target.POSITION_5:
-      attacker = checkSpecialCondition(gameState, target);
+      defender = checkSpecialCondition(gameState, target);
       defenderClass = gameState.characters[target].class;
       defenderAttribute = gameState.characters[target].attribute;
       defenderId = gameState.characters[target].id;
@@ -180,7 +178,8 @@ export function dealBasicHpDamage(
   }
 
   //TODO: reduce attribute effect
-  // const attributeNum = parseAttribute(attackerAttribute, defenderAttribute);
+  const attributeX = parseAttribute(attackerAttribute, defenderAttribute);
+  console.log(attacker);
 
   for (const buff of attacker) {
     if (!buff.deactivated) {
@@ -690,6 +689,7 @@ export function dealBasicHpDamage(
   }
 
   console.log(
+    "hp damage",
     attackerAtk.toNumber(),
     atkPercentage.toNumber(),
     maxHp.toNumber(),
@@ -700,23 +700,24 @@ export function dealBasicHpDamage(
     value,
     defenderDefEffect.toNumber(),
   );
-  const res =
-    defenderisGuard && !isTrueDamage
-      ? Big(0)
-          .add(maxHp)
-          .mul(basicBuff)
-          .mul(increaseDamage)
-          .mul(enemyDamageReceivedIncrease)
-          .mul(attributeDamage)
-          .mul(value)
-          .mul(defenderDefEffect)
-      : Big(0)
-          .add(maxHp)
-          .mul(basicBuff)
-          .mul(increaseDamage)
-          .mul(enemyDamageReceivedIncrease)
-          .mul(attributeDamage)
-          .mul(value);
+  const res = defenderisGuard && !isTrueDamage
+    ? Big(0)
+      .add(maxHp)
+      .mul(basicBuff)
+      .mul(increaseDamage)
+      .mul(enemyDamageReceivedIncrease)
+      .mul(attributeDamage)
+      .mul(value)
+      .mul(attributeX)
+      .mul(defenderDefEffect)
+    : Big(0)
+      .add(maxHp)
+      .mul(basicBuff)
+      .mul(increaseDamage)
+      .mul(enemyDamageReceivedIncrease)
+      .mul(attributeDamage)
+      .mul(attributeX)
+      .mul(value);
 
   switch (target) {
     case Target.ENEMY: {
@@ -777,9 +778,11 @@ export function dealBasicHpDamage(
   if (target === position) {
     const character = gameState.characters[position];
     gameState.battle_log.push(
-      `[${parseActionName(action)}]${character.name}對自己造成${formatNumber(
-        res1,
-      )}(${parseDamageTypeName(damageType)})`,
+      `[${parseActionName(action)}]${character.name}對自己造成${
+        formatNumber(
+          res1,
+        )
+      }(${parseDamageTypeName(damageType)})`,
     );
   } else if (position < 5 && position >= 0) {
     if (target === Target.ENEMY) {
@@ -792,9 +795,11 @@ export function dealBasicHpDamage(
     } else {
       const character = gameState.characters[position];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]${character.name}對敵${target - 19}造成${formatNumber(
-          res1,
-        )}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]${character.name}對敵${target - 19}造成${
+          formatNumber(
+            res1,
+          )
+        }(${parseDamageTypeName(damageType)})`,
       );
     }
   } else if (position >= 20 && position < 25) {
@@ -802,12 +807,18 @@ export function dealBasicHpDamage(
       const enemy = gameState.enemies[position - 20];
       const character = gameState.characters[target];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對${character.name}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${
+          position - 19
+        }${enemy.name}對${character.name}造成${formatNumber(res1)}(${
+          parseDamageTypeName(damageType)
+        })`,
       );
     } else {
       const enemy = gameState.enemies[position - 20];
       gameState.battle_log.push(
-        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${target - 19}造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
+        `[${parseActionName(action)}]敵${position - 19}${enemy.name}對敵${
+          target - 19
+        }造成${formatNumber(res1)}(${parseDamageTypeName(damageType)})`,
       );
     }
   }
@@ -825,7 +836,9 @@ export function dealBasicHpDamage(
           Big(gameState.enemies[0].hp).add(suckHp).toNumber(),
         );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[0].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[0].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -834,7 +847,9 @@ export function dealBasicHpDamage(
           Big(gameState.enemies[1].hp).add(suckHp).toNumber(),
         );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[1].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[1].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -843,7 +858,9 @@ export function dealBasicHpDamage(
           Big(gameState.enemies[2].hp).add(suckHp).toNumber(),
         );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[2].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[2].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -852,7 +869,9 @@ export function dealBasicHpDamage(
           Big(gameState.enemies[3].hp).add(suckHp).toNumber(),
         );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[3].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[3].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -861,7 +880,9 @@ export function dealBasicHpDamage(
           Big(gameState.enemies[4].hp).add(suckHp).toNumber(),
         );
         gameState.battle_log.push(
-          `[吸血]${gameState.enemies[4].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.enemies[4].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
       }
@@ -877,7 +898,9 @@ export function dealBasicHpDamage(
             .toNumber(),
         );
         gameState.battle_log.push(
-          `[吸血]${gameState.characters[position].name}回復${formatNumber(suckHp1)}點生命`,
+          `[吸血]${gameState.characters[position].name}回復${
+            formatNumber(suckHp1)
+          }點生命`,
         );
         break;
     }
