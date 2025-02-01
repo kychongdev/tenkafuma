@@ -4,6 +4,7 @@ import ChatMessages from "./components/ChatMessage";
 import ChatInput from "./components/ChatInput";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/app/i18n/routing";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -24,15 +25,17 @@ export default async function Page() {
 
   return (
     <>
-      <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)]">
-        <div className="h-full border rounded-xl flex flex-col relative shadow-2xl shadow-primary-foreground">
-          {data.user ? (
+      <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)] overscroll-none">
+        {data.user
+          ? (
             <>
-              <ChatMessages />
+              <ScrollArea className="w-full h-[80vh]">
+                <ChatMessages />
+              </ScrollArea>
               <ChatInput />
             </>
-          ) : null}
-        </div>
+          )
+          : null}
         {profile ? <InitUser user={profile} /> : null}
       </div>
     </>

@@ -3710,6 +3710,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
 
     // "10157": "純真祈願 牧愛菈"
     case "10157": {
+      //使自身獲得6層《純真祈願》(最多10層)(每場戰鬥僅生效1次)，再以自身攻擊力30%使我方全體攻擊力增加(1回合)。CD:1
       break;
     }
 

@@ -7386,6 +7386,98 @@ export function initPassiveSkill(position: number, gameState: GameState) {
 
     // "10157": "純真祈願 牧愛菈"
     case "10157": {
+      //第1回合時，觸發「使自身當前必殺技CD減少1回合」(觸發1次後清除)
+      //必殺時，觸發「使自身不受《純真祈願》層數變動效果影響(50回合)」(觸發1次後清除)
+      //使我方全體獲得「普攻時，觸發「清除自身『只要心懷戀慕』所給予『普攻傷害增加』效果」
+      //使我方全體獲得「必殺時，觸發「清除自身『只要心懷戀慕』所給予『必殺技傷害增加』效果」
+      //普攻時，根據自身《純真祈願》的層數，觸發「使我方全體普攻傷害增加8%(最多20層)」
+      //
+      //必殺時，根據自身《純真祈願》的層數，觸發「使我方全體必殺技傷害增加1.25%(最多50層)」
+      //攻擊時，根據自身《純真祈願》的層數，觸發《最美好的夜晚》
+      //《最美好的夜晚》
+      //使目標受到傷害增加0.25%(最多80層)
+      //使目標受到全屬性傷害增加0.25%(最多80層)
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10157-passive-1",
+          name: "第1回合，「使自身當前必殺技CD減少1回合」(觸發1次後清除)",
+          type: 14,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _14: {
+            reduceCD: 1,
+            target: Target.SELF,
+          },
+          deleteSelf: true,
+        },
+        {
+          id: "10157-passive-2",
+          name:
+            "必殺時，觸發「使自身不受《純真祈願》層數變動效果影響(50回合)」(觸發1次後解除)",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deleteSelf: true,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10157-passive-2-1",
+                name: "使自身不受《純真祈願》層數變動效果影響",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10157-passive-5",
+          name:
+            "必殺時，根據自身《純真祈願》的層數，觸發「使我方全體必殺技傷害增加1.25%(最多50層)」",
+          type: 8,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-passive-5-1",
+              name:
+                "必殺時，根據自身《純真祈願》的層數，觸發「使我方全體必殺技傷害增加1.25%(最多50層)」",
+              type: 4,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ALL_ALLIES,
+                targetSkill: "10157-passive-5-1-1",
+                applySkill: {
+                  id: "10158-passive-5-1",
+                  name: "必殺技傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10158-passive-5-1",
+                    name: "被治療時回復量增加",
+                    stack: 1,
+                    maxStack: 50,
+                    value: 0.0125,
+                    affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
       break;
     }
 

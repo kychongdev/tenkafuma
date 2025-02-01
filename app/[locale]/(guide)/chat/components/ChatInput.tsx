@@ -20,13 +20,14 @@ const ChatInput = () => {
         text,
         sent_by: {
           id: user?.id,
-          avatar: user?.avatar || "",
+          avatar: user?.avatar || "/icons/enemy.png",
           created_at: new Date().toISOString(),
           name: user?.name || "Unknown User",
         },
         is_edit: false,
         created_at: new Date().toISOString(),
       };
+      console.log("test2", user);
 
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
@@ -40,14 +41,18 @@ const ChatInput = () => {
   };
 
   return (
-    <div className="p-5 border-t">
+    <div className="p-2 pt-4">
       <Textarea
-        className="resize-none ring-2 ring-primary-foreground"
+        className="resize-none ring-2 ring-primary-foreground "
         placeholder="Send Message 💬🚀"
+        onKeyUp={(e) => {
+          if (e.key === "Enter") {
+            e.currentTarget.value = "";
+          }
+        }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSendMessage(e.currentTarget.value);
-            e.currentTarget.value = "";
           }
         }}
       />

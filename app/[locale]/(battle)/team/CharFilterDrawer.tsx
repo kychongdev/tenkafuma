@@ -15,6 +15,7 @@ import { CharacterTeam } from "@/types/Select";
 import { CharacterAttribute, CharacterClass } from "../_types/Character";
 import { Toggle } from "@/components/ui/toggle";
 import toast from "react-hot-toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CharFilterDrawerProps {
   position: 0 | 1 | 2 | 3 | 4;
@@ -80,32 +81,34 @@ export const CharFilterDrawer = ({
             <DrawerTitle className="flex items-center justify-center">
               Select Character
             </DrawerTitle>
-            <div className="grid grid-cols-6 gap-1 my-2 gap-y-3">
-              {c.map((char) => {
-                return (
-                  <Avatar
-                    className="w-12 h-12"
-                    key={char.id}
-                    onClick={() => {
-                      if (!char.leader && position === 0) {
-                        toast("Leader is not available");
-                      }
-                      setValue(`${position}.id`, char.id.toString());
-                      setOpen(false);
-                    }}
-                  >
-                    <AvatarImage
-                      src={`/characters/square/${char.id}.png`}
-                      alt={char.name}
-                    />
-                    <AvatarFallback>{char.name}</AvatarFallback>
-                  </Avatar>
-                );
-              })}
-            </div>
+            <ScrollArea className="w-full h-72">
+              <div className="grid grid-cols-6 gap-1 my-2 gap-y-3">
+                {c.map((char) => {
+                  return (
+                    <Avatar
+                      className="w-12 h-12"
+                      key={char.id}
+                      onClick={() => {
+                        if (!char.leader && position === 0) {
+                          toast("Leader is not available");
+                        }
+                        setValue(`${position}.id`, char.id.toString());
+                        setOpen(false);
+                      }}
+                    >
+                      <AvatarImage
+                        src={`/characters/square/${char.id}.png`}
+                        alt={char.name}
+                      />
+                      <AvatarFallback>{char.name}</AvatarFallback>
+                    </Avatar>
+                  );
+                })}
+              </div>
+            </ScrollArea>
           </DrawerHeader>
 
-          <div className="grid grid-cols-5 w-full mb-3 gap-y-1">
+          <div className="grid grid-cols-5 w-full mb-3 gap-y-1 px-3 gap-2">
             <Toggle
               pressed={attribute.includes(CharacterAttribute.FIRE)}
               onPressedChange={() => {
@@ -115,7 +118,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterAttribute.FIRE]
                 );
               }}
-              className="data-[state=on]:bg-red-500 border-white border-solid border-y border-x rounded-none p-0"
+              className="data-[state=on]:bg-red-500 border-white border-solid border rounded p-0"
             >
               <Image src="/icons/fire.jpg" width={30} height={30} alt="fire" />
             </Toggle>
@@ -128,7 +131,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterAttribute.WATER]
                 );
               }}
-              className="data-[state=on]:bg-blue-500 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-blue-500 border-white border-solid border rounded p-0"
             >
               <Image
                 src="/icons/water.jpg"
@@ -146,7 +149,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterAttribute.WIND]
                 );
               }}
-              className="data-[state=on]:bg-green-500 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-green-500 border-white border-solid border rounded p-0"
             >
               <Image src="/icons/wind.jpg" width={30} height={30} alt="wind" />
             </Toggle>
@@ -159,7 +162,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterAttribute.DARK]
                 );
               }}
-              className="data-[state=on]:bg-purple-500 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-purple-500 border-white border-solid border rounded p-0"
             >
               <Image src="/icons/dark.jpg" width={30} height={30} alt="dark" />
             </Toggle>
@@ -172,7 +175,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterAttribute.LIGHT]
                 );
               }}
-              className="data-[state=on]:bg-yellow-500 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-yellow-500 border-white border-solid border rounded p-0"
             >
               <Image
                 src="/icons/light.jpg"
@@ -191,7 +194,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterClass.ATTACKER]
                 );
               }}
-              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-x rounded-none p-0"
+              className="data-[state=on]:bg-zinc-500 border-white border-solid border rounded p-0"
             >
               <Image
                 src="/icons/ui_attacker.png"
@@ -209,7 +212,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterClass.OBSTRUCTER]
                 );
               }}
-              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-zinc-500 border-white border-solid border rounded p-0"
             >
               <Image
                 src="/icons/ui_obsructer.png"
@@ -227,7 +230,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterClass.PROTECTOR]
                 );
               }}
-              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-zinc-500 border-white border-solid border rounded p-0"
             >
               <Image
                 src="/icons/ui_protector.png"
@@ -245,7 +248,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterClass.HEALER]
                 );
               }}
-              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-zinc-500 border-white border-solid border rounded p-0"
             >
               <Image
                 src="/icons/ui_healer.png"
@@ -263,7 +266,7 @@ export const CharFilterDrawer = ({
                     : [...prev, CharacterClass.SUPPORT]
                 );
               }}
-              className="data-[state=on]:bg-zinc-50 border-white border-solid border-y border-r rounded-none p-0"
+              className="data-[state=on]:bg-zinc-500 border-white border-solid border rounded p-0"
             >
               <Image
                 src="/icons/ui_supporter.png"

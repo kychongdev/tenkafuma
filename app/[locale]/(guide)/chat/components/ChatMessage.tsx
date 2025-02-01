@@ -12,13 +12,10 @@ const ChatMessages = async () => {
     .range(0, LIMIT_MESSAGE)
     .order("created_at", { ascending: false });
 
-  //.range(0, LIMIT_MESSAGE)
-  //.order("created_at", { ascending: false });
-
   return (
     <Suspense fallback={"Loading..."}>
-      <MessagesList />
       <InitMessages messages={data?.reverse() || []} />
+      <MessagesList />
     </Suspense>
   );
 };

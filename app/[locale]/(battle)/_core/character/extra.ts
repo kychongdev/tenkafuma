@@ -27,16 +27,15 @@ export function applyExtra(gameState: GameState, position: number) {
               condition: Condition.ATTACK,
               duration: 3,
               _1: {
-                value:
-                  bond === 1
-                    ? 0.33
-                    : bond === 2
-                      ? 0.39
-                      : bond === 3
-                        ? 0.46
-                        : bond === 4
-                          ? 0.52
-                          : 0.59,
+                value: bond === 1
+                  ? 0.33
+                  : bond === 2
+                  ? 0.39
+                  : bond === 3
+                  ? 0.46
+                  : bond === 4
+                  ? 0.52
+                  : 0.59,
                 target: Target.ENEMY,
                 damageType: DamageType.TRIGGER,
                 action: CharacterAction.ATTACK,
@@ -53,7 +52,8 @@ export function applyExtra(gameState: GameState, position: number) {
           ...gameState.characters[position].buff,
           {
             id: "10134-ult-1",
-            name: "攻擊時，觸發『以自身攻擊力使自身以外我方全體攻擊力增加』(1回合)",
+            name:
+              "攻擊時，觸發『以自身攻擊力使自身以外我方全體攻擊力增加』(1回合)",
             type: 6,
             condition: Condition.ATTACK,
             duration: 5,
@@ -78,12 +78,12 @@ export function applyExtra(gameState: GameState, position: number) {
               bond === 1
                 ? 20
                 : bond === 2
-                  ? 22.5
-                  : bond === 3
-                    ? 25
-                    : bond === 4
-                      ? 27.5
-                      : 30
+                ? 22.5
+                : bond === 3
+                ? 25
+                : bond === 4
+                ? 27.5
+                : 30
             }%(最多2層)』`,
             type: 4,
             condition: Condition.ULTIMATE,
@@ -101,16 +101,15 @@ export function applyExtra(gameState: GameState, position: number) {
                 _3: {
                   id: "10044-ult-1-1",
                   name: "必殺技傷害增加",
-                  value:
-                    bond === 1
-                      ? 0.2
-                      : bond === 2
-                        ? 0.225
-                        : bond === 3
-                          ? 0.25
-                          : bond === 4
-                            ? 0.275
-                            : 0.3,
+                  value: bond === 1
+                    ? 0.2
+                    : bond === 2
+                    ? 0.225
+                    : bond === 3
+                    ? 0.25
+                    : bond === 4
+                    ? 0.275
+                    : 0.3,
                   stack: 1,
                   maxStack: 2,
                   affectType: AffectType.INCREASE_ULTIMATE_DMG,
@@ -124,12 +123,12 @@ export function applyExtra(gameState: GameState, position: number) {
               bond === 1
                 ? 20
                 : bond === 2
-                  ? 25
-                  : bond === 3
-                    ? 30
-                    : bond === 4
-                      ? 35
-                      : 40
+                ? 25
+                : bond === 3
+                ? 30
+                : bond === 4
+                ? 35
+                : 40
             }%(最多2層)』`,
             type: 4,
             condition: Condition.BASIC_ATTACK,
@@ -147,16 +146,15 @@ export function applyExtra(gameState: GameState, position: number) {
                 _3: {
                   id: "10044-ult-2-1",
                   name: "普攻傷害增加",
-                  value:
-                    bond === 1
-                      ? 0.2
-                      : bond === 2
-                        ? 0.25
-                        : bond === 3
-                          ? 0.3
-                          : bond === 4
-                            ? 0.35
-                            : 0.4,
+                  value: bond === 1
+                    ? 0.2
+                    : bond === 2
+                    ? 0.25
+                    : bond === 3
+                    ? 0.3
+                    : bond === 4
+                    ? 0.35
+                    : 0.4,
                   stack: 1,
                   maxStack: 2,
                   affectType: AffectType.INCREASE_BASIC_DMG,
@@ -190,16 +188,15 @@ export function applyExtra(gameState: GameState, position: number) {
             _3: {
               id: "10153-ult-1-1",
               name: "《向聖杯祈願》",
-              stack:
-                bond === 1
-                  ? 6
-                  : bond === 2
-                    ? 7
-                    : bond === 3
-                      ? 8
-                      : bond === 4
-                        ? 9
-                        : 10,
+              stack: bond === 1
+                ? 6
+                : bond === 2
+                ? 7
+                : bond === 3
+                ? 8
+                : bond === 4
+                ? 9
+                : 10,
               maxStack: 10,
               value: 0,
               affectType: AffectType.NONE,
@@ -209,6 +206,46 @@ export function applyExtra(gameState: GameState, position: number) {
       };
       triggerSkill(skill, gameState, position);
       break;
+    }
+
+    case "10157": {
+      const skill: Skill = {
+        id: "10157-ult-1",
+        name: "《純真祈願》",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        disabledOnSkill: "10157-passive-1-1",
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10157-ult-1-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10157-ult-1-1",
+            name: "《向聖杯祈願》",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10153-ult-1-1",
+              name: "《向聖杯祈願》",
+              stack: bond === 1
+                ? 6
+                : bond === 2
+                ? 7
+                : bond === 3
+                ? 8
+                : bond === 4
+                ? 9
+                : 10,
+              maxStack: 10,
+              value: 0,
+              affectType: AffectType.NONE,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
     }
     default:
       break;

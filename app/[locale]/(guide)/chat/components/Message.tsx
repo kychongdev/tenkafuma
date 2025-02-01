@@ -18,16 +18,15 @@ const CurrentUserMessage = ({ message }: { message: Imessage }) => {
     <div className="flex gap-2">
       <div className="flex-1 overflow-x-hidden">
         <div className="flex items-center justify-between">
-          <MessageMenu message={message} />
-          <div className="mb-2">
-            <h1 className="font-bold text-right">{message.sent_by?.name}</h1>
-            <h1 className="text-xs text-secondary-foreground text-right">
-              {new Date(message.created_at).toLocaleString()}
-            </h1>
-            {message.is_edit && (
-              <h1 className="text-xs text-secondary-foreground">edited</h1>
-            )}
-          </div>
+          <h1 className="flex text-xs text-secondary-foreground gap-2">
+            <div className="flex items-center">
+              {new Date(message.created_at).toLocaleString() + " " +
+                (message.is_edit ? "Edited" : "")}
+            </div>
+
+            <MessageMenu message={message} />
+          </h1>
+          <h1 className="font-bold text-right">{message.sent_by?.name}</h1>
         </div>
         <p className="break-words font-medium border border-primary rounded-3xl px-2 ml-auto w-fit bg-white text-black">
           {message.text}
@@ -48,40 +47,44 @@ const CurrentUserMessage = ({ message }: { message: Imessage }) => {
 
 const Message = ({ message }: { message: Imessage }) => {
   const user = useUser((state) => state.user);
+  const name = message.sent_by?.name
+    ? message.sent_by?.name
+    : message.users?.name ?? "Can't Load";
+  const image = message.sent_by?.avatar
+    ? message.sent_by?.avatar
+    : message.users?.avatar ?? "/icons/enemy.png";
 
   return (
     <>
-      {message.sent_by?.id === user?.id ? (
-        <CurrentUserMessage message={message} />
-      ) : (
-        <div className="flex gap-2">
-          <div>
-            <Image
-              src={message.sent_by?.avatar ?? "/icons/enemy.png"}
-              alt={message.sent_by?.name! ?? "unknown"}
-              width={40}
-              height={40}
-              className="rounded-full shadow-xl"
-            />
-          </div>
-          <div className="flex-1 overflow-x-hidden">
-            <div className="flex items-center justify-between">
-              <div className="mb-2">
-                <h1 className="font-bold">{message.sent_by?.name}</h1>
-                <h1 className="text-xs text-secondary-foreground">
-                  {new Date(message.created_at).toLocaleString()}
-                </h1>
-                {message.is_edit && (
-                  <h1 className="text-xs text-secondary-foreground">edited</h1>
-                )}
-              </div>
+      {message.sent_by?.id === user?.id
+        ? <CurrentUserMessage message={message} />
+        : (
+          <div className="flex gap-2">
+            <div>
+              <Image
+                src={image}
+                alt={name}
+                width={40}
+                height={40}
+                className="rounded-full shadow-xl"
+              />
             </div>
-            <p className="break-words font-medium border border-primary rounded-3xl px-2 w-fit bg-white text-black">
-              {message.text}
-            </p>
+            <div className="flex-1 overflow-x-hidden">
+              <div className="flex items-center justify-between">
+                <h1 className="font-bold">
+                  {name}
+                </h1>
+                <h1 className="text-xs text-secondary-foreground">
+                  {new Date(message.created_at).toLocaleString() + " " +
+                    (message.is_edit ? "Edited" : "")}
+                </h1>
+              </div>
+              <p className="break-words font-medium border border-primary rounded-3xl px-2 w-fit bg-white text-black">
+                {message.text}
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </>
   );
 };
