@@ -15,9 +15,7 @@ export default async function Page() {
     .eq("id", data.user?.id)
     .single();
   const locale = await getLocale();
-  //if (data) {
-  //}
-  console.log(data);
+
   if (!data.user) {
     redirect({ href: "/login", locale });
     return <div>Redirecting to Login...</div>;
@@ -29,10 +27,7 @@ export default async function Page() {
         {data.user
           ? (
             <>
-              <ScrollArea className="w-full h-[80vh]">
-                <ChatMessages />
-              </ScrollArea>
-              <ChatInput />
+              <ChatMessages />
             </>
           )
           : null}

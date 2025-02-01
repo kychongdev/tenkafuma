@@ -7,7 +7,7 @@ import { Imessage, useMessage } from "../store/Message";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/supabase/client";
 
-const ChatInput = () => {
+const ChatInput = ({ action }: { action: any }) => {
   const user = useUser((state) => state.user);
   const addMessage = useMessage((state) => state.addMessage);
   const setOptimisticIds = useMessage((state) => state.setOptimisticIds);
@@ -27,7 +27,6 @@ const ChatInput = () => {
         is_edit: false,
         created_at: new Date().toISOString(),
       };
-      console.log("test2", user);
 
       addMessage(newMessage as Imessage);
       setOptimisticIds(newMessage.id);
@@ -44,7 +43,7 @@ const ChatInput = () => {
     <div className="p-2 pt-4">
       <Textarea
         className="resize-none ring-2 ring-primary-foreground "
-        placeholder="Send Message 💬🚀"
+        placeholder="Send Message 💬"
         onKeyUp={(e) => {
           if (e.key === "Enter") {
             e.currentTarget.value = "";
@@ -53,6 +52,7 @@ const ChatInput = () => {
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSendMessage(e.currentTarget.value);
+            action();
           }
         }}
       />

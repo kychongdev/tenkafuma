@@ -7,9 +7,11 @@ import { toast } from "sonner";
 import { ArrowDown } from "lucide-react";
 import LoadMoreMessages from "./LoadMoreMessage";
 import { createClient } from "@/supabase/client";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import ChatInput from "./ChatInput";
 
 const MessagesList = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  //const scrollRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   //const [userScrolled, setUserScrolled] = useState(false);
   //const [notification, setNotification] = useState(0);
@@ -54,21 +56,53 @@ const MessagesList = () => {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "cn_chat" },
         async (payload) => {
-          if (!optimisticIds.includes(payload.new.id)) {
-            const { error, data } = await supabase
-              .from("profiles")
-              .select("*")
-              .eq("id", payload.new.sent_by)
-              .single();
+          if (
+            //@ts-ignore
+            chatContainerRef.current?.scrollTop - 0.5 ==
+              //@ts-ignore
+              chatContainerRef.current?.scrollHeight -
+                //@ts-ignore
+                chatContainerRef.current?.clientHeight
+          ) {
+            if (!optimisticIds.includes(payload.new.id)) {
+              const { error, data } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq("id", payload.new.sent_by)
+                .single();
 
-            if (error) {
-              toast.error(error.message);
-            } else {
-              const newMessage = {
-                ...payload.new,
-                users: data,
-              };
-              addMessage(newMessage as unknown as Imessage);
+              if (error) {
+                toast.error(error.message);
+              } else {
+                const newMessage = {
+                  ...payload.new,
+                  users: data,
+                };
+                addMessage(newMessage as unknown as Imessage);
+                setTimeout(() => {
+                  chatContainerRef.current?.scrollTo({
+                    top: chatContainerRef.current?.scrollHeight,
+                  }), 100;
+                });
+              }
+            }
+          } else {
+            if (!optimisticIds.includes(payload.new.id)) {
+              const { error, data } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq("id", payload.new.sent_by)
+                .single();
+
+              if (error) {
+                toast.error(error.message);
+              } else {
+                const newMessage = {
+                  ...payload.new,
+                  users: data,
+                };
+                addMessage(newMessage as unknown as Imessage);
+              }
             }
           }
           //const scrollContainer = scrollRef.current;
@@ -103,53 +137,77 @@ const MessagesList = () => {
   }, [messages]);
 
   useEffect(() => {
+    setTimeout(() => {
+      chatContainerRef.current?.scrollTo({
+        top: chatContainerRef.current?.scrollHeight,
+      }), 100;
+    });
+  }, []);
+
+  useEffect(() => {
     //const scrollContainer = scrollRef.current;
     //if (scrollContainer && !userScrolled) {
     //  scrollContainer.scrollTop = scrollContainer.scrollHeight;
     //}
+    //console.log(chatContainerRef.current?.lastElementChild?.lastElementChild);
 
-    console.log("scrolling");
-    console.log(chatContainerRef.current);
-    chatContainerRef.current?.scrollIntoView(false);
+    //chatContainerRef.current?.scrollIntoView({
+    //  behavior: "smooth",
+    //});
+
+    //if (
+    //  chatContainerRef.current?.scrollTop ===
+    //    chatContainerRef.current?.scrollHeight -
+    //      chatContainerRef.current?.clientHeight + 0.5
+    //) {
+    //chatContainerRef.current?.scrollTo({
+    //  top: chatContainerRef.current?.scrollHeight,
+    //});
+    //}
+
+    //console.log(chatContainerRef.current?.scrollTop);
+    //console.log(
+    //  chatContainerRef.current?.scrollHeight,
+    //);
+    //console.log(
+    //  chatContainerRef.current?.clientHeight,
+    //);
+    //console.log(
+    //  chatContainerRef.current?.scrollTop - 0.5,
+    //  chatContainerRef.current?.scrollHeight -
+    //    chatContainerRef.current?.clientHeight,
+    //);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
-  //const handleOnScroll = () => {
-  //  const scrollContainer = scrollRef.current;
-  //  if (scrollContainer) {
-  //    const isScroll = scrollContainer.scrollTop <
-  //      scrollContainer.scrollHeight - scrollContainer.clientHeight - 10;
-  //    setUserScrolled(isScroll);
-  //    if (
-  //      scrollContainer.scrollTop ===
-  //        scrollContainer.scrollHeight - scrollContainer.clientHeight
-  //    ) {
-  //      setNotification(0);
-  //    }
-  //  }
-  //};
-  //const scrollDown = () => {
-  //  setNotification(0);
-  //  scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  //};
+  const scrollDown = () => {
+    setTimeout(() => {
+      chatContainerRef.current?.scrollTo({
+        top: chatContainerRef.current?.scrollHeight,
+      }), 100;
+    });
+  };
 
   return (
     <>
-      <div className="flex-1 flex flex-col p-5 h-full overflow-y-auto" //ref={scrollRef}
-        //onScroll={handleOnScroll}
-      >
-        <div className="flex-1 pb-5 ">
-          <LoadMoreMessages />
-        </div>
-        <div className=" space-y-7" ref={chatContainerRef}>
-          {messages.map((value, index) => {
-            return <Message key={index} message={value} />;
-          })}
-        </div>
+      <ScrollArea className="w-full h-[80vh]" viewportRef={chatContainerRef}>
+        <div className="flex-1 flex flex-col p-5 h-full overflow-y-auto" //onScroll={handleOnScroll}
+        >
+          <div className="flex-1 pb-5 ">
+            <LoadMoreMessages />
+          </div>
+          <div className="space-y-7">
+            {messages.map((value, index) => {
+              return <Message key={index} message={value} />;
+            })}
+          </div>
 
-        <DeleteAlert />
-        <EditAlert />
-      </div>
+          <DeleteAlert />
+          <EditAlert />
+        </div>
+      </ScrollArea>
+      <ChatInput action={scrollDown} />
     </>
   );
 };
