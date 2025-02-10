@@ -17,6 +17,7 @@ import { GameState } from "./GameState";
 import { p, parseTargetToNum } from "./utils";
 import { checkSpecialCondition } from "./checkSpecialCondition";
 import { healUltDamage } from "./healUltDamage";
+import { dealDotDamage } from "./dealDotDamage";
 
 export function triggerSkill(
   buff: Skill,
@@ -265,6 +266,12 @@ export function triggerSkill(
           break;
         // TODO
         case DamageType.DOT: {
+          dealDotDamage(
+            position,
+            buff._1.value,
+            gameState,
+            buff._1.target,
+          );
           break;
         }
         default:
@@ -1999,12 +2006,11 @@ export function triggerSkill(
     }
 
     case 26: {
-      // 傷害
+      // Heal
       if (!buff._26) {
         console.log("Wrong data");
         break;
       }
-      console.log("run");
       switch (buff._26.damageType) {
         case DamageType.BASIC:
         case DamageType.BASIC_ADDON: {
@@ -2177,6 +2183,22 @@ export function triggerSkill(
           break;
       }
 
+      break;
+    }
+    case 28: {
+      if (!buff._28) {
+        console.log("Wrong data 28");
+        break;
+      }
+
+      dealDotDamage(
+        position,
+        buff._28.value,
+        gameState,
+        buff._28.target,
+        buff._28.duration,
+        buff.id,
+      );
       break;
     }
   }

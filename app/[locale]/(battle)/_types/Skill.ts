@@ -26,6 +26,7 @@ import type {
   _25,
   _26,
   _27,
+  _28,
   _3,
   _4,
   _5,
@@ -81,6 +82,7 @@ interface Skill extends ISkill {
   _25?: _25;
   _26?: _26;
   _27?: _27;
+  _28?: _28;
   _101?: _101;
   _104?: _104;
   _105?: _105;
@@ -159,6 +161,11 @@ enum AffectType {
   INCREASE_TRIGGER_EFFECT,
   DECREASE_TRIGGER_EFFECT,
   RAW_HEAL_OVER_TIME,
+  INCREASE_DMG_OVER_TIME,
+  DECREASE_DMG_OVER_TIME,
+  INCREASE_DMG_OVER_TIME_RECEIVED,
+  DECREASE_DMG_OVER_TIME_RECEIVED,
+  DOT,
   NONE,
 }
 

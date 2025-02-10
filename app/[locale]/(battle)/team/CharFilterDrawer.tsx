@@ -84,14 +84,14 @@ export const CharFilterDrawer = ({
             <ScrollArea className="w-full h-72">
               <div className="grid grid-cols-6 gap-1 my-2 gap-y-3">
                 {c.map((char) => {
+                  if (!char.leader && position === 0) {
+                    return null;
+                  }
                   return (
                     <Avatar
                       className="w-12 h-12"
                       key={char.id}
                       onClick={() => {
-                        if (!char.leader && position === 0) {
-                          toast("Leader is not available");
-                        }
                         setValue(`${position}.id`, char.id.toString());
                         setOpen(false);
                       }}

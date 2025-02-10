@@ -255,6 +255,15 @@ export interface _27 {
   triggerSkill: Skill[];
 }
 
+export interface _28 {
+  value: number;
+  target: Target;
+  // 0 is basic, 1 is ultimate
+  action: CharacterAction;
+  duration: number;
+  multiple?: number;
+}
+
 // ---------------------------- ADD ON BUFF ----------------------------
 export interface _101 {
   value: number;

@@ -4392,8 +4392,113 @@ export function triggerLead(gameState: GameState) {
     case "10158": {
       break;
     }
-    // "10159": "翩舞雪花 初華"
+
+    // "10159": "喜迎性春 菲歐菈",
     case "10159": {
+      break;
+    }
+
+    // "10161": "舞焰赤龍 薩夏",
+    case "10161": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10161-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10161-lead-2",
+            name: "攻擊力增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 1,
+            },
+          },
+          {
+            id: "10161-lead-3",
+            name: "造成傷害減少200%(持續型傷害不受影響)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_DMG,
+              value: 2,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+
+        //每Wave第1回合時，觸發「《點燃火焰山》」
+        //
+        //《點燃火焰山》
+        //
+        //使敵方全體受到傷害增加100%(50回合)
+        {
+          id: "10161-lead-4",
+          name: "每Wave第1回合時，觸發《點燃火焰山》",
+          type: 21,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: "10161-lead-4-1",
+                name: "觸發《點燃火焰山》",
+                type: 11,
+                condition: Condition.NONE,
+                duration: 100,
+                _11: {
+                  target: Target.ALL_ENEMIES,
+                  applySkill: [
+                    {
+                      id: "10161-lead-4-1-1",
+                      name: "使敵方全體受到持續型傷害增加200%(50回合)",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        affectType: AffectType.INCREASE_DMG_OVER_TIME_RECEIVED,
+                        value: 2,
+                      },
+                    },
+                    {
+                      id: "10161-lead-4-1-2",
+                      name: "使敵方全體受到傷害增加100%(50回合)",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        affectType: AffectType.INCREASE_DMG_RECEIVED,
+                        value: 1,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      break;
+    }
+
+    // "10175": "翩舞雪花 初華"
+    case "10175": {
       break;
     }
     // "10801": "雙蛇軍團護士長 艾琳",

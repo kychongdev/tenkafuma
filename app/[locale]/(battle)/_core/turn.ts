@@ -1,4 +1,4 @@
-import { Condition } from "@/app/[locale]/(battle)/_types/Skill";
+import { AffectType, Condition } from "@/app/[locale]/(battle)/_types/Skill";
 import { GameState } from "./GameState";
 import { triggerSkill } from "./triggerSkill";
 import { p } from "./utils";
@@ -21,8 +21,10 @@ export function checkEndTurn(state: GameState) {
   });
 
   if (isEnd) {
+    calculateDot(state);
     enemyOnTurnStart(state);
     parseStageAction(state);
+    enemyCalculateDot(state);
     endTurn(state);
     onTurnStart(state);
   }
@@ -117,4 +119,30 @@ export function endTurn(state: GameState) {
     enemy.isGuard = false;
   }
   state.turn += 1;
+}
+
+export function calculateDot(
+  gameState: GameState,
+) {
+  gameState.characters.forEach((_, position) => {
+    gameState.characters[position].buff.forEach((buff) => {
+      if (buff._0?.affectType === AffectType.DOT) {
+        gameState.characters[position].hp = gameState.characters[position].hp -
+          buff._0.value;
+      }
+    });
+  });
+}
+
+export function enemyCalculateDot(
+  gameState: GameState,
+) {
+  gameState.enemies.forEach((_, position) => {
+    gameState.enemies[position].buff.forEach((buff) => {
+      if (buff._0?.affectType === AffectType.DOT) {
+        gameState.enemies[position].hp = gameState.enemies[position].hp -
+          buff._0.value;
+      }
+    });
+  });
 }

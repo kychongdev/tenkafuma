@@ -149,6 +149,26 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
+    case "10063": {
+      gameState.characters.forEach((_, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "RAWATTACK",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10066": "千咒魔女 安西莉卡",
     // "10067": "新春 神無雪",
     // "10068": "元氣補給 蓮",
@@ -788,8 +808,27 @@ export function basicAttack(gameState: GameState, position: number) {
     case "10158": {
       break;
     }
-    // "10159": "翩舞雪花 初華"
+
+    // "10159": "喜迎性春 菲歐菈",
     case "10159": {
+      break;
+    }
+
+    // "10161": "舞焰赤龍 薩夏",
+    case "10161": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
+
+    // "10175": "翩舞雪花 初華"
+    case "10175": {
       break;
     }
       // "10801": "雙蛇軍團護士長 艾琳",

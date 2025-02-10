@@ -602,6 +602,85 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
+    case "10063": {
+      gameState.characters.forEach((character) => {
+        const attack = Math.floor(
+          applyRawAttBuff(gameState, position) *
+            (bond === 1
+              ? 0.15
+              : bond === 2
+              ? 0.2
+              : bond === 3
+              ? 0.3
+              : bond === 4
+              ? 0.3
+              : 0.3),
+        );
+        character.buff = [
+          ...character.buff,
+          {
+            id: "10063-ult-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      {
+        const buff: Skill = {
+          id: "10063-ult-2",
+          name: "必殺時，觸發「使我方站位5的隊員攻擊力增加%(1回合)」",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.POSITION_5,
+            applySkill: [{
+              id: "10063-passive-2-1",
+              name: "攻擊力增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: bond === 1
+                  ? 0.2
+                  : bond === 2
+                  ? 0.25
+                  : bond === 3
+                  ? 0.3
+                  : bond === 4
+                  ? 0.45
+                  : 0.6,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            }],
+          },
+        };
+        triggerSkill(buff, gameState, position);
+        gameState.characters.forEach((_, index) => {
+          parseCondition(index, [Condition.GET_HEAL], gameState);
+        });
+
+        const buff2: Skill = {
+          id: "10063-ult-3",
+          name: "使5號位當前必殺技CD減少4回合",
+          type: 15,
+          condition: Condition.NONE,
+          duration: 100,
+          _15: {
+            reduceCD: 4,
+            position: 4,
+          },
+        };
+        triggerSkill(buff2, gameState, position);
+      }
+      break;
+    }
     // "10066": "千咒魔女 安西莉卡",
     // "10067": "新春 神無雪",
     // "10068": "元氣補給 蓮",
@@ -3891,13 +3970,105 @@ export function ultimateAttack(gameState: GameState, position: number) {
     case "10158": {
       break;
     }
-    // "10158": "翩舞雪花 初華"
+
+    // "10159": "喜迎性春 菲歐菈",
     case "10159": {
+      break;
+    }
+
+    // "10161": "舞焰赤龍 薩夏",
+    case "10161": {
+      const skill: Skill = {
+        id: "10161-ult-1",
+        name: "受到傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10161-ult-1-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10161-ult-1-1",
+            name: "受到傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10161-ult-1-1",
+              name: "受到傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value: bond === 1
+                ? 0.15
+                : bond === 2
+                ? 0.175
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.225
+                : 0.25,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10161-ult-2",
+          name: "攻擊力增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value: bond === 1
+              ? 0.3
+              : bond === 2
+              ? 0.35
+              : bond === 3
+              ? 0.4
+              : bond === 4
+              ? 0.45
+              : 0.5,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+
+      const skill2: Skill = {
+        id: "10161-ult-3",
+        name: "每回合造成傷害",
+        type: 1,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _1: {
+          target: Target.ENEMY,
+          damageType: DamageType.DOT,
+          action: CharacterAction.ULTIMATE,
+          value: bond === 1
+            ? 2.1
+            : bond === 2
+            ? 2.45
+            : bond === 3
+            ? 2.8
+            : bond === 4
+            ? 3.15
+            : 3.5,
+        },
+      };
+      triggerSkill(skill2, gameState, position);
+      break;
+    }
+
+    // "10175": "翩舞雪花 初華"
+    case "10175": {
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: "10158-ult-1",
+            id: "10175-ult-1",
             name: "攻擊力增加",
             type: 0,
             condition: Condition.NONE,
@@ -3916,7 +4087,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
             },
           },
           {
-            id: "10158-ult-2",
+            id: "10175-ult-2",
             name: "造成傷害增加",
             type: 0,
             condition: Condition.NONE,
@@ -3935,7 +4106,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
             },
           },
           {
-            id: "10158-ult-3",
+            id: "10175-ult-3",
             name: "必殺技傷害增加",
             type: 0,
             condition: Condition.NONE,

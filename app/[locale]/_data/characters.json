@@ -618,11 +618,11 @@
   "10057": {
     "id": 10057,
     "name": "煌星 妲絲艾菲娜",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3571.2,
+    "initAtk": 896,
+    "attribute": 9,
+    "class": 15,
+    "available": true,
     "cd": 4,
     "leader": false
   },
@@ -684,11 +684,11 @@
   "10063": {
     "id": 10063,
     "name": "傳說女僕 艾蜜莉",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3403.2,
+    "initAtk": 939.2,
+    "attribute": 8,
+    "class": 15,
+    "available": true,
     "cd": 4,
     "leader": false
   },
@@ -1574,6 +1574,28 @@
   },
   "10159": {
     "id": 10159,
+    "name": "喜迎性春 菲歐菈",
+    "initHp": 3817.6,
+    "initAtk": 923.2,
+    "attribute": 6,
+    "class": 13,
+    "available": true,
+    "cd": 3,
+    "leader": true
+  },
+  "10161": {
+    "id": 10161,
+    "name": "舞焰赤龍 薩夏",
+    "initHp": 3660.8,
+    "initAtk": 963.2,
+    "attribute": 5,
+    "class": 14,
+    "available": true,
+    "cd": 4,
+    "leader": true
+  },
+  "10175": {
+    "id": 10175,
     "name": "翩舞雪花 初華",
     "initHp": 4713.6,
     "initAtk": 747.2,
