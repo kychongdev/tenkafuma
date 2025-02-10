@@ -264,6 +264,25 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
+    case "10091": {
+      const buff: Skill = {
+        id: "191-Lead-3",
+        name:
+          "使自身普攻時，觸發「以自身攻擊力40%使我方全體妨礙者攻擊力增加(1回合)」",
+        type: 6,
+        condition: Condition.NONE,
+        duration: 100,
+        _6: {
+          affectType: AffectType.RAW_ATK,
+          duration: 1,
+          value: 0.4,
+          base: false,
+          target: Target.OBSTRUCTER,
+        },
+      };
+      triggerSkill(buff, gameState, position);
+      break;
+    }
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
       dealBasicDamage(
@@ -352,7 +371,24 @@ export function basicAttack(gameState: GameState, position: number) {
           ];
         }
       });
-      heal(position, 0.75, gameState, true, Target.ALL_ALLIES);
+      heal(position, 0.2, gameState, true, Target.ALL_ALLIES);
+
+      gameState.characters.forEach((character) => {
+        character.buff = [
+          ...character.buff,
+          {
+            id: "10108-basic-2",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              value: Math.floor(applyRawAttBuff(gameState, position) * 0.2),
+              affectType: AffectType.RAW_HEAL_OVER_TIME,
+            },
+          },
+        ];
+      });
       break;
     }
     // "10109": "純情可可 伊布力斯",

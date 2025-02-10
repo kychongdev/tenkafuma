@@ -9,8 +9,10 @@ export function wood(gameState: GameState) {
     {
       ...initCharacterState,
       id: "wood",
-      maxHp: 5063653034,
-      hp: 5063653034,
+      maxHp: 10854389981,
+      hp: 10854389981,
+      //maxHp: 5063653034,
+      //hp: 5063653034,
       //attribute: CharacterAttribute.WATER,
     },
   ];

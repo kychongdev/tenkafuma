@@ -75,7 +75,7 @@ export const CharFilterDrawer = ({
           </div>
         </div>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent aria-describedby={undefined}>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
             <DrawerTitle className="flex items-center justify-center">

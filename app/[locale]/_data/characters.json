@@ -915,13 +915,13 @@
   "10091": {
     "id": 10091,
     "name": "夏日 黑白諾艾莉",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
-    "cd": 4,
-    "leader": false
+    "initHp": 4513.6,
+    "initAtk": 780.8,
+    "attribute": 8,
+    "class": 15,
+    "available": true,
+    "cd": 3,
+    "leader": true
   },
   "10092": {
     "id": 10092,

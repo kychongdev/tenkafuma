@@ -951,6 +951,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10057": "煌星 妲絲艾菲娜",
     case "10057": {
       if (bond > 2) {
+        gameState.characters[position].maxCd = 3;
         gameState.characters[position].cd = 3;
       }
       gameState.characters[position].buff = [
@@ -1962,6 +1963,72 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
+    case "10091": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10091-passive-1",
+          name: "第一回合時，觸發「使我方全體妨礙者必殺技傷害增加35%(50回合)」",
+          type: 11,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _11: {
+            target: Target.OBSTRUCTER,
+            applySkill: [
+              {
+                id: "10091-passive-1-1",
+                name: "必殺技傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0.35,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10091-passive-2",
+          name: "攻擊時，觸發「以自身攻擊力10%使我方全體攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _6: {
+            base: false,
+            duration: 1,
+            value: 0.1,
+            target: Target.ALL_ALLIES,
+            affectType: AffectType.RAW_ATK,
+          },
+        },
+        {
+          id: "10091-passive-3",
+          name: "第一回合時，觸發「使我方全體妨礙者造成傷害增加20%(50回合)」",
+          type: 11,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _11: {
+            target: Target.OBSTRUCTER,
+            applySkill: [
+              {
+                id: "10091-passive-3-1",
+                name: "造成傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      break;
+    }
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
       gameState.characters[position].buff = [

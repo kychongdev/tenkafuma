@@ -263,6 +263,7 @@ export interface _28 {
   action: CharacterAction;
   duration: number;
   multiple?: number;
+  overlap?: boolean;
 }
 
 // ---------------------------- ADD ON BUFF ----------------------------

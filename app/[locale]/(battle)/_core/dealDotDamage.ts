@@ -13,6 +13,7 @@ import {
 } from "../_types/Skill";
 import { GameState } from "./GameState";
 import { checkSpecialCondition } from "./checkSpecialCondition";
+import { p } from "./utils";
 
 export function dealDotDamage(
   position: Target,
@@ -21,6 +22,7 @@ export function dealDotDamage(
   target: Target,
   duration: number,
   skillId: string,
+  overlap: boolean = false,
 ) {
   let rawAtk = Big(0);
   let atkPercentage = Big(1);
@@ -308,6 +310,14 @@ export function dealDotDamage(
 
   switch (target) {
     case Target.ENEMY: {
+      if (overlap) {
+        gameState.enemies[gameState.targeting].buff = gameState
+          .enemies[gameState.targeting].buff.filter((buff) =>
+            buff.id !== skillId + "-dot"
+          );
+        console.log(p(gameState.enemies[gameState.targeting].buff));
+      }
+
       gameState.enemies[gameState.targeting].buff = [
         ...gameState.enemies[gameState.targeting].buff,
         {

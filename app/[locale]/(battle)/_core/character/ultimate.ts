@@ -1175,6 +1175,46 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
+    case "10091": {
+      const buff: Skill = {
+        id: "10091-ultimate-1",
+        name:
+          "以自身攻擊力40/45/45/50/55%使我方全體妨礙者攻擊力增加(1/1/2/2/2回合)",
+        type: 6,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _6: {
+          affectType: AffectType.RAW_ATK,
+          duration: bond < 3 ? 1 : 2,
+          value: bond === 1
+            ? 0.4
+            : bond === 2
+            ? 0.45
+            : bond === 3
+            ? 0.45
+            : bond === 4
+            ? 0.5
+            : 0.55,
+          base: false,
+          target: Target.OBSTRUCTER,
+        },
+      };
+      triggerSkill(buff, gameState, position);
+
+      const buff2: Skill = {
+        id: "10091-ultimate-2",
+        name: "使我方全體妨礙者當前必殺技CD減少1回合",
+        type: 14,
+        condition: Condition.NONE,
+        duration: 100,
+        _14: {
+          reduceCD: 1,
+          target: Target.OBSTRUCTER,
+        },
+      };
+      triggerSkill(buff2, gameState, position);
+      break;
+    }
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
       gameState.characters[position].buff = [
@@ -4093,6 +4133,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
             : bond === 4
             ? 3.15
             : 3.5,
+          overlap: true,
         },
       };
       triggerSkill(skill2, gameState, position);

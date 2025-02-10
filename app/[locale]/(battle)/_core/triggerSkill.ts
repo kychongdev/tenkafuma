@@ -2193,6 +2193,7 @@ export function triggerSkill(
         buff._28.target,
         buff._28.duration,
         buff.id,
+        buff._28.overlap,
       );
       break;
     }
