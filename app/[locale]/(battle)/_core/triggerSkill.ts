@@ -266,12 +266,6 @@ export function triggerSkill(
           break;
         // TODO
         case DamageType.DOT: {
-          dealDotDamage(
-            position,
-            buff._1.value,
-            gameState,
-            buff._1.target,
-          );
           break;
         }
         default:
@@ -1041,6 +1035,7 @@ export function triggerSkill(
       break;
     case 11:
       if (!buff._11) {
+        console.log(buff.id);
         console.log("Wrong data 11");
         break;
       }

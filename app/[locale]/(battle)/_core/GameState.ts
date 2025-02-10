@@ -13,7 +13,7 @@ import { parseConditionAddon } from "./triggerAddon";
 import { parseCondition } from "./parseCondition";
 import { Condition } from "@/app/[locale]/(battle)/_types/Skill";
 import { p } from "./utils";
-import { checkEndTurn, onTurnStart } from "./turn";
+import { checkEndTurn, enemyCalculateDot, onTurnStart } from "./turn";
 import { initPassiveSkill } from "./character/passive";
 import { applyExtra } from "./character/extra";
 import { ultimateAttack } from "./character/ultimate";
@@ -273,6 +273,7 @@ export const useGameState = create<GameState>()(
           state.characters[position].cd = state.characters[position].maxCd;
 
           ultimateAttack(state, position);
+
           parseConditionAddon(
             position,
             [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],

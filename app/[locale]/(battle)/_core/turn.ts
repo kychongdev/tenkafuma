@@ -1,4 +1,9 @@
-import { AffectType, Condition } from "@/app/[locale]/(battle)/_types/Skill";
+import {
+  AffectType,
+  Condition,
+  DamageType,
+  Target,
+} from "@/app/[locale]/(battle)/_types/Skill";
 import { GameState } from "./GameState";
 import { triggerSkill } from "./triggerSkill";
 import { p } from "./utils";
@@ -6,6 +11,9 @@ import { onTurnStart as enemyOnTurnStart } from "./stages/enemyTurn";
 import { parseInitstage, parseStageAction } from "./stages/parseStage";
 import { healOverTime } from "./healOverTime";
 import { checkSpecialCondition } from "./checkSpecialCondition";
+import Big from "big.js";
+import { DamageLog } from "../_types/Game";
+import { CharacterAction } from "../_types/Character";
 
 export function checkEndTurn(state: GameState) {
   const isEnd = state.characters.every((character) => {
@@ -125,10 +133,93 @@ export function calculateDot(
   gameState: GameState,
 ) {
   gameState.characters.forEach((_, position) => {
-    gameState.characters[position].buff.forEach((buff) => {
+    let charBuff = [];
+    charBuff = checkSpecialCondition(gameState, position);
+    let selfDamageReceivedIncrease = Big(1);
+
+    for (const buff of charBuff) {
+      if (!buff.deactivated) {
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.INCREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._0?.value,
+          );
+        }
+        if (
+          buff.type === 3 &&
+          buff._3?.value &&
+          buff._3?.affectType === AffectType.INCREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.DECREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._0?.value,
+          );
+        }
+        if (
+          buff.type === 3 &&
+          buff._3?.value &&
+          buff._3?.affectType === AffectType.DECREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.INCREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._0?.value,
+          );
+        }
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.DECREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._0?.value,
+          );
+        }
+
+        if (
+          buff.type === 3 &&
+          buff._3?.affectType === AffectType.INCREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+
+        if (
+          buff.type === 3 &&
+          buff._3?.affectType === AffectType.DECREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+      }
+    }
+
+    const res = Big(1)
+      .mul(selfDamageReceivedIncrease);
+
+    charBuff.forEach((buff) => {
       if (buff._0?.affectType === AffectType.DOT) {
         gameState.characters[position].hp = gameState.characters[position].hp -
-          buff._0.value;
+          Big(buff._0.value).mul(res)
+            .round(0, Big.roundDown)
+            .toNumber();
       }
     });
   });
@@ -138,11 +229,139 @@ export function enemyCalculateDot(
   gameState: GameState,
 ) {
   gameState.enemies.forEach((_, position) => {
-    gameState.enemies[position].buff.forEach((buff) => {
+    let charBuff = [];
+    charBuff = checkSpecialCondition(gameState, position + 20);
+    let selfDamageReceivedIncrease = Big(1);
+
+    for (const buff of charBuff) {
+      if (!buff.deactivated) {
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.INCREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._0?.value,
+          );
+        }
+        if (
+          buff.type === 3 &&
+          buff._3?.value &&
+          buff._3?.affectType === AffectType.INCREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.DECREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._0?.value,
+          );
+        }
+        if (
+          buff.type === 3 &&
+          buff._3?.value &&
+          buff._3?.affectType === AffectType.DECREASE_DMG_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.INCREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._0?.value,
+          );
+        }
+        if (
+          buff.type === 0 &&
+          buff._0?.affectType === AffectType.DECREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._0?.value,
+          );
+        }
+
+        if (
+          buff.type === 3 &&
+          buff._3?.affectType === AffectType.INCREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.add(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+
+        if (
+          buff.type === 3 &&
+          buff._3?.affectType === AffectType.DECREASE_DMG_OVER_TIME_RECEIVED
+        ) {
+          selfDamageReceivedIncrease = selfDamageReceivedIncrease.minus(
+            buff._3?.value * buff._3?.stack,
+          );
+        }
+      }
+    }
+
+    const res = Big(1)
+      .mul(selfDamageReceivedIncrease);
+
+    charBuff.forEach((buff) => {
       if (buff._0?.affectType === AffectType.DOT) {
-        gameState.enemies[position].hp = gameState.enemies[position].hp -
-          buff._0.value;
+        const dmg = Big(buff._0.value).mul(res)
+          .round(0, Big.roundDown)
+          .toNumber();
+        gameState.enemies[position].hp = gameState.enemies[position].hp - dmg;
+        writeDamageLog(gameState, buff._0.appliedChar ?? 6, {
+          damage: dmg,
+          type: DamageType.DOT,
+          turn: gameState.turn,
+          defender: position + 20,
+        });
       }
     });
   });
+}
+
+function writeDamageLog(
+  gameState: GameState,
+  position: number,
+  content: DamageLog,
+) {
+  switch (position) {
+    case 0:
+      gameState.damage_log_1.push(content);
+      break;
+    case 1:
+      gameState.damage_log_2.push(content);
+      break;
+    case 2:
+      gameState.damage_log_3.push(content);
+      break;
+    case 3:
+      gameState.damage_log_4.push(content);
+      break;
+    case 4:
+      gameState.damage_log_5.push(content);
+      break;
+    case Target.ENEMY_1:
+      gameState.enemy_damage_log_1.push(content);
+      break;
+    case Target.ENEMY_2:
+      gameState.enemy_damage_log_2.push(content);
+      break;
+    case Target.ENEMY_3:
+      gameState.enemy_damage_log_3.push(content);
+      break;
+    case Target.ENEMY_4:
+      gameState.enemy_damage_log_4.push(content);
+      break;
+    case Target.ENEMY_5:
+      gameState.enemy_damage_log_5.push(content);
+      break;
+  }
 }

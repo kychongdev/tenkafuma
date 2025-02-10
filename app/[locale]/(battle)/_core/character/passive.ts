@@ -21,6 +21,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
   const id = gameState.characters[position].id;
   const passive4 = gameState.characters[position].passive4;
   const lib = gameState.characters[position].lib;
+  const bond = gameState.characters[position].bond;
   switch (id) {
     // "10001": "魔王 巴爾",
     // "10002": "魔王 撒旦",
@@ -949,6 +950,9 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10056": "墮龍 凱茜菲娜",
     // "10057": "煌星 妲絲艾菲娜",
     case "10057": {
+      if (bond > 2) {
+        gameState.characters[position].cd = 3;
+      }
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
@@ -7949,7 +7953,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                       condition: Condition.NONE,
                       duration: 100,
                       _3: {
-                        id: "10142-passive-4-1",
+                        id: "10161-passive-4-1-1",
                         name: "受到傷害增加20%",
                         value: 0.02,
                         stack: 1,

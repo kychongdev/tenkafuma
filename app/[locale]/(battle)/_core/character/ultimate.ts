@@ -596,6 +596,38 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10055": "精靈舞者 塔諾西雅",
     // "10056": "墮龍 凱茜菲娜",
     // "10057": "煌星 妲絲艾菲娜",
+    case "10057": {
+      //以自身攻擊力165/188/188/211/211%對我方全體施放護盾(2回合)，再以自身攻擊力30/30/30/30/40%使我方全體攻擊力增加(2回合)，CD: 4 [3絆 CD: 3]
+      gameState.characters.forEach((_, index) => {
+        const attack = Math.floor(
+          applyRawAttBuff(gameState, position) *
+            (bond === 1
+              ? 0.3
+              : bond === 2
+              ? 0.3
+              : bond === 3
+              ? 0.3
+              : bond === 4
+              ? 0.3
+              : 0.4),
+        );
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10057-ult-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
@@ -4014,6 +4046,19 @@ export function ultimateAttack(gameState: GameState, position: number) {
         },
       };
       triggerSkill(skill, gameState, position);
+
+      const attack = Math.floor(
+        applyRawAttBuff(gameState, position) *
+          (bond === 1
+            ? 0.3
+            : bond === 2
+            ? 0.35
+            : bond === 3
+            ? 0.4
+            : bond === 4
+            ? 0.45
+            : 0.5),
+      );
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
@@ -4023,16 +4068,8 @@ export function ultimateAttack(gameState: GameState, position: number) {
           condition: Condition.NONE,
           duration: 1,
           _0: {
-            value: bond === 1
-              ? 0.3
-              : bond === 2
-              ? 0.35
-              : bond === 3
-              ? 0.4
-              : bond === 4
-              ? 0.45
-              : 0.5,
-            affectType: AffectType.INCREASE_ATK,
+            value: attack,
+            affectType: AffectType.RAW_ATK,
           },
         },
       ];
@@ -4040,12 +4077,12 @@ export function ultimateAttack(gameState: GameState, position: number) {
       const skill2: Skill = {
         id: "10161-ult-3",
         name: "每回合造成傷害",
-        type: 1,
+        type: 28,
         condition: Condition.ULTIMATE,
         duration: 100,
-        _1: {
+        _28: {
           target: Target.ENEMY,
-          damageType: DamageType.DOT,
+          duration: 4,
           action: CharacterAction.ULTIMATE,
           value: bond === 1
             ? 2.1

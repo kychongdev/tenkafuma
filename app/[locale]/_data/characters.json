@@ -684,8 +684,8 @@
   "10063": {
     "id": 10063,
     "name": "傳說女僕 艾蜜莉",
-    "initHp": 3403.2,
-    "initAtk": 939.2,
+    "initHp": 3388.8,
+    "initAtk": 944,
     "attribute": 8,
     "class": 15,
     "available": true,

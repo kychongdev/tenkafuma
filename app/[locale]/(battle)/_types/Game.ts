@@ -1,11 +1,11 @@
-import { DamageType } from './Skill';
-import { CharacterAction } from './Character';
+import { DamageType } from "./Skill";
+import { CharacterAction } from "./Character";
 
 export interface DamageLog {
   damage: number;
   type: DamageType;
   turn: number;
-  attacker: number;
+  attacker?: number;
   defender: number;
-  action: CharacterAction;
+  action?: CharacterAction;
 }

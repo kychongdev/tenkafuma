@@ -18,6 +18,7 @@ export interface _0 {
   value: number;
   specificCharId?: string;
   hidden?: boolean;
+  appliedChar?: number;
 }
 
 // 純攻擊

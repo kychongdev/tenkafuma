@@ -44,10 +44,16 @@ export function EnemyStatus({ position }: { position: number }) {
               {enemy.buff.map((buff, index) => {
                 return (
                   <div key={buff.id + index} className="grid grid-cols-10">
-                    <Card className="p-2 text-sm col-span-9">
+                    <Card
+                      className="p-2 text-sm col-span-9"
+                      onClick={() => {
+                        console.log(buff);
+                      }}
+                    >
                       {parseSkillName(buff)}
                     </Card>
-                    <Card className="text-center">
+
+                    <Card className="p-2 text-sm text-center">
                       {buff.duration === 100 ? "-" : buff.duration}
                     </Card>
                   </div>

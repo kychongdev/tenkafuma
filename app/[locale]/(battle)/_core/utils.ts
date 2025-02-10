@@ -132,6 +132,16 @@ export function parseSkillName(buff: Skill) {
           } else {
             return "受到特定角色傷害增加";
           }
+        case AffectType.DOT:
+          return `每回合受到${formatNumber(buff._0.value)}傷害`;
+        case AffectType.DECREASE_DMG_OVER_TIME_RECEIVED:
+          return `受到持續型傷害減少${buff._0.value * 100}%`;
+        case AffectType.INCREASE_DMG_OVER_TIME_RECEIVED:
+          return `受到持續型傷害增加${buff._0.value * 100}%`;
+        case AffectType.INCREASE_DMG_OVER_TIME:
+          return `造成持續型傷害增加${buff._0.value * 100}%`;
+        case AffectType.DECREASE_DMG_OVER_TIME:
+          return `造成持續型傷害減少${buff._0.value * 100}%`;
         case AffectType.IMMUNE_SLEEP:
           return "免疫睡眠";
         case AffectType.IMMUNE_PARALYSIS:
@@ -332,6 +342,14 @@ export function parseSkillName(buff: Skill) {
           } else {
             return "受到特定角色傷害增加";
           }
+        case AffectType.DECREASE_DMG_OVER_TIME_RECEIVED:
+          return `受到持續型傷害減少${buff._3.value * buff._3.stack * 100}%`;
+        case AffectType.INCREASE_DMG_OVER_TIME_RECEIVED:
+          return `受到持續型傷害增加${buff._3.value * buff._3.stack * 100}%`;
+        case AffectType.INCREASE_DMG_OVER_TIME:
+          return `造成持續型傷害增加${buff._3.value * buff._3.stack * 100}%`;
+        case AffectType.DECREASE_DMG_OVER_TIME:
+          return `造成持續型傷害減少${buff._3.value * buff._3.stack * 100}%`;
         case AffectType.NONE:
           return `${buff.name} ${buff._3.stack}層 (最多${buff._3.maxStack}層)`;
       }

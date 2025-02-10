@@ -295,27 +295,19 @@ export function dealDotDamage(
     .round(0, Big.roundDown);
 
   console.log(
-    attackerAtk.toNumber(),
-    atkPercentage.toNumber(),
-    rawAtk.toNumber(),
-    basicBuff.toNumber(),
-    increaseDamage.toNumber(),
-    enemyDamageReceivedIncrease.toNumber(),
-    attributeDamage.toNumber(),
-    value,
-    defenderDefEffect.toNumber(),
+    finalAtk.toNumber(),
   );
 
   const res = Big(0)
     .add(finalAtk)
-    .mul(enemyDamageReceivedIncrease)
+    //.mul(enemyDamageReceivedIncrease)
     .mul(dotIncrease)
     .round(0, Big.roundDown)
-    .mul(value);
+    .mul(value)
+    .round(0, Big.roundDown);
 
   switch (target) {
     case Target.ENEMY: {
-      console.log("dot", res.toNumber());
       gameState.enemies[gameState.targeting].buff = [
         ...gameState.enemies[gameState.targeting].buff,
         {
@@ -327,6 +319,7 @@ export function dealDotDamage(
           _0: {
             affectType: AffectType.DOT,
             value: res.toNumber(),
+            appliedChar: position,
           },
         },
       ];
@@ -344,6 +337,7 @@ export function dealDotDamage(
           _0: {
             affectType: AffectType.DOT,
             value: res.toNumber(),
+            appliedChar: position,
           },
         },
       ];
@@ -361,6 +355,7 @@ export function dealDotDamage(
           _0: {
             affectType: AffectType.DOT,
             value: res.toNumber(),
+            appliedChar: position,
           },
         },
       ];
@@ -378,6 +373,7 @@ export function dealDotDamage(
           _0: {
             affectType: AffectType.DOT,
             value: res.toNumber(),
+            appliedChar: position,
           },
         },
       ];
@@ -395,6 +391,7 @@ export function dealDotDamage(
           _0: {
             affectType: AffectType.DOT,
             value: res.toNumber(),
+            appliedChar: position,
           },
         },
       ];
@@ -412,6 +409,7 @@ export function dealDotDamage(
           _0: {
             affectType: AffectType.DOT,
             value: res.toNumber(),
+            appliedChar: position,
           },
         },
       ];
