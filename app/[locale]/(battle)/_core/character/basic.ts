@@ -865,6 +865,23 @@ export function basicAttack(gameState: GameState, position: number) {
 
     // "10175": "翩舞雪花 初華"
     case "10175": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10175-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.4,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+
       break;
     }
       // "10801": "雙蛇軍團護士長 艾琳",

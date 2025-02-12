@@ -266,6 +266,14 @@ export interface _28 {
   overlap?: boolean;
 }
 
+export interface _29 {
+  value: number;
+  target: Target | CharacterClass;
+  applyToSpecificChar?: string;
+  duration: number;
+  base: boolean;
+}
+
 // ---------------------------- ADD ON BUFF ----------------------------
 export interface _101 {
   value: number;

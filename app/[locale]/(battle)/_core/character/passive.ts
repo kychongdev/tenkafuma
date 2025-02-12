@@ -1103,6 +1103,77 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
+    case "10060": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10060-passive-1",
+          name:
+            "攻擊時，觸發「以自身攻擊力25%使我方全體攻擊力增加(1回合)」效果",
+          type: 6,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _6: {
+            value: 0.25,
+            target: Target.ALL_ALLIES,
+            affectType: AffectType.RAW_ATK,
+            duration: 1,
+            base: false,
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10060-passive-2",
+            name: "攻擊時，觸發「使我方全體造成傷害增加(最多5層)」效果",
+            type: 4,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10060-passive-2-1",
+              target: Target.ALL_ALLIES,
+              applySkill: {
+                id: "10060-passive-2-1",
+                name: "造成傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10060-passive-2-1",
+                  name: "造成傷害增加",
+                  value: 0.05,
+                  stack: 1,
+                  maxStack: 5,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10060-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
@@ -8112,8 +8183,23 @@ export function initPassiveSkill(position: number, gameState: GameState) {
 
     // "10175": "翩舞雪花 初華"
     case "10175": {
-      //治療
-      //
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10175-passive-1",
+          name:
+            "普攻時，觸發「以自身攻擊力50%每回合對我方全體進行治療(3回合)」",
+          type: 29,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _29: {
+            value: 0.5,
+            target: Target.ALL_ALLIES,
+            duration: 3,
+            base: false,
+          },
+        },
+      ];
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
@@ -8140,7 +8226,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             ],
           },
         },
-        //治療
       ];
 
       if (gameState.characters[position].stars === 5) {

@@ -311,7 +311,8 @@ export function triggerSkill(
         console.log("Wrong data");
         break;
       }
-      if (buff.id === "10153-passive-3") {
+
+      if (buff.id === "10153-ult-1") {
         console.log("test");
       }
 
@@ -2196,6 +2197,45 @@ export function triggerSkill(
         buff._28.overlap,
       );
       break;
+    }
+
+    case 29: {
+      if (!buff._29) {
+        console.log("Wrong data 29");
+        break;
+      }
+
+      switch (buff._29.target) {
+        case Target.ALL_ALLIES:
+          {
+            const rawAttSkill = applyRawAttBuff(gameState, position);
+            const baseAtk = gameState.characters[position].atk;
+            gameState.characters.forEach((_, index) => {
+              if (!buff._29) {
+                console.log("2.Wrong data 6");
+                return;
+              }
+
+              gameState.characters[index].buff = [
+                ...gameState.characters[index].buff,
+                {
+                  id: `${buff.id}-HoT`,
+                  name: buff.name,
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: buff._29.duration,
+                  _0: {
+                    value: buff._29?.base === true
+                      ? Math.floor(baseAtk * buff._29.value)
+                      : Math.floor(rawAttSkill * buff._29.value),
+                    affectType: AffectType.RAW_HEAL_OVER_TIME,
+                  },
+                },
+              ];
+            });
+          }
+          break;
+      }
     }
   }
 

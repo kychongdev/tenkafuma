@@ -3,10 +3,9 @@ import { GameState } from "./GameState";
 
 //傳功
 export function healOverTime(gameState: GameState, position: number) {
-  const char =
-    position < 5
-      ? gameState.characters[position]
-      : gameState.enemies[position - 20];
+  const char = position < 5
+    ? gameState.characters[position]
+    : gameState.enemies[position - 20];
   let healReceived = 1;
   let totalHeal = 0;
 

@@ -169,18 +169,18 @@ export function healUltDamage(
         if (position >= 20 && position < 25) {
           if (
             (gameState.enemies[position - 20].hp /
-              gameState.enemies[position - 20].maxHp) *
-              100 <
-            buff.specialConditionValue
+                  gameState.enemies[position - 20].maxHp) *
+                100 <
+              buff.specialConditionValue
           ) {
             continue;
           }
         } else {
           if (
             (gameState.characters[position].hp /
-              gameState.characters[position].maxHp) *
-              100 <
-            buff.specialConditionValue
+                  gameState.characters[position].maxHp) *
+                100 <
+              buff.specialConditionValue
           ) {
             continue;
           }
@@ -280,18 +280,18 @@ export function healUltDamage(
         if (position >= 20 && position < 25) {
           if (
             (gameState.enemies[position - 20].hp /
-              gameState.enemies[position - 20].maxHp) *
-              100 <
-            buff.specialConditionValue
+                  gameState.enemies[position - 20].maxHp) *
+                100 <
+              buff.specialConditionValue
           ) {
             continue;
           }
         } else {
           if (
             (gameState.characters[position].hp /
-              gameState.characters[position].maxHp) *
-              100 <
-            buff.specialConditionValue
+                  gameState.characters[position].maxHp) *
+                100 <
+              buff.specialConditionValue
           ) {
             continue;
           }
@@ -424,7 +424,7 @@ export function healUltDamage(
       );
       if (
         gameState.enemies[gameState.targeting].hp >
-        gameState.enemies[gameState.targeting].maxHp
+          gameState.enemies[gameState.targeting].maxHp
       ) {
         gameState.enemies[gameState.targeting].hp =
           gameState.enemies[gameState.targeting].maxHp;

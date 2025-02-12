@@ -167,6 +167,7 @@ export function applyExtra(gameState: GameState, position: number) {
       break;
     }
     case "10153": {
+      //this suck ass TODO
       const skill: Skill = {
         id: "10153-ult-1",
         name: "《向聖杯祈願》",

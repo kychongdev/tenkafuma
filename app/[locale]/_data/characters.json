@@ -1599,11 +1599,11 @@
     "name": "翩舞雪花 初華",
     "initHp": 4713.6,
     "initAtk": 747.2,
-    "attribute": 5,
+    "attribute": 6,
     "class": 13,
     "available": true,
     "cd": 3,
-    "leader": false
+    "leader": true
   },
   "10801": {
     "id": 10801,
