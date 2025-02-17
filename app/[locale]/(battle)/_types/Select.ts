@@ -1,5 +1,5 @@
-import { Skill } from './Skill';
-import { CharacterAttribute, CharacterClass } from './Character';
+import { Skill } from "./Skill";
+import { CharacterAttribute, CharacterClass } from "./Character";
 
 interface CharacterSelect {
   id: string;
@@ -15,11 +15,11 @@ interface CharacterSelect {
 }
 
 interface CharacterTeam {
-  '0': CharacterSelect;
-  '1': CharacterSelect;
-  '2': CharacterSelect;
-  '3': CharacterSelect;
-  '4': CharacterSelect;
+  "0": CharacterSelect;
+  "1": CharacterSelect;
+  "2": CharacterSelect;
+  "3": CharacterSelect;
+  "4": CharacterSelect;
 }
 
 interface CharacterState {
@@ -55,4 +55,4 @@ interface CharacterState {
   ultName: string;
 }
 
-export type { CharacterSelect, CharacterTeam, CharacterState };
+export type { CharacterSelect, CharacterState, CharacterTeam };

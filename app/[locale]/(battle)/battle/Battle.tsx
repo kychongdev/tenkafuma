@@ -21,6 +21,12 @@ import { EnemyStatus } from "./EnemyStatus";
 import { useSimulateTeamState } from "../_core/SimulateTeamState";
 import { ChartPie, Info, RotateCcw, Save, Sword, Undo } from "lucide-react";
 import { useStore } from "zustand";
+import { SaveBattle } from "./SaveBattle";
+import { CharacterState } from "../_types/Select";
+
+function checkEnemyAlive(enemies: CharacterState[]) {
+  return enemies.filter((enemy) => enemy.hp > 0).length > 0;
+}
 
 export default function Battle() {
   const t = useTranslations("Battle");
@@ -31,6 +37,7 @@ export default function Battle() {
     ready,
     wave,
     turn,
+    stage,
     turn_state: turnState,
     enemies,
     setTargeting,
@@ -138,6 +145,7 @@ export default function Battle() {
           <CharacterButton position={3} />
           <CharacterButton position={4} />
         </div>
+        {!checkEnemyAlive(enemies) && stage !== "wood" ? <SaveBattle /> : null}
 
         <div className="grid grid-cols-7 gap-2">
           <Button

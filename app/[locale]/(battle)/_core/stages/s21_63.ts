@@ -487,11 +487,10 @@ export function s21_63_action(gameState: GameState) {
   // 使自身造成伤害增加5%(最多10层)
   // 使自身受到伤害增加5%(最多10层)
 
-  const hpLossLastTurnPercentage =
-    Math.abs(
-      (startingHp - gameState.stage_state.last_turn_hp) /
-        gameState.enemies[0].maxHp,
-    ) * 100;
+  const hpLossLastTurnPercentage = Math.abs(
+    (startingHp - gameState.stage_state.last_turn_hp) /
+      gameState.enemies[0].maxHp,
+  ) * 100;
 
   if (gameState.turn !== 0 && hpLossLastTurnPercentage < 1) {
     console.log("hpLossLastTurnPercentage", hpLossLastTurnPercentage);
@@ -604,7 +603,8 @@ export function s21_63_action(gameState: GameState) {
       ...gameState.enemies[0].buff,
       {
         id: "42228-act06-1",
-        name: "使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」",
+        name:
+          "使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」",
         type: 8,
         condition: Condition.ENEMY_BASIC_ATTACK,
         duration: 1,
@@ -770,9 +770,7 @@ export function s21_63_action(gameState: GameState) {
         CharacterAction.SKILL,
       );
       parseCondition(Target.ENEMY_1, [Condition.ENEMY_BASIC_ATTACK], gameState);
-    }
-
-    // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
+    } // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
     // [触发条件：玩家位置9 存活]
     else {
       const hpSorted = hpSort(gameState.characters);

@@ -1557,7 +1557,7 @@
     "initAtk": 1019.2,
     "attribute": 8,
     "class": 15,
-    "available": true,
+    "available": false,
     "cd": 1,
     "leader": false
   },
@@ -1568,7 +1568,7 @@
     "initAtk": 700.8,
     "attribute": 8,
     "class": 12,
-    "available": true,
+    "available": false,
     "cd": 4,
     "leader": false
   },

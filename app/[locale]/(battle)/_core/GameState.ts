@@ -18,6 +18,7 @@ import { initPassiveSkill } from "./character/passive";
 import { applyExtra } from "./character/extra";
 import { ultimateAttack } from "./character/ultimate";
 import { parseInitstage, parseStageAction } from "./stages/parseStage";
+import { customAlphabet } from "nanoid";
 
 export enum TurnState {
   ENEMY_TURN,
@@ -32,6 +33,7 @@ enum CharacterPosition {
 }
 
 export interface GameState {
+  client_id: string;
   wave: number;
   ready: boolean;
   turn: number;
@@ -123,6 +125,7 @@ export const useGameState = create<GameState>()(
       ready: false,
       turn: 0,
       turn_state: TurnState.PLAYER_TURN,
+      client_id: "",
       enemies: [initCharacterState],
       stage: "wood",
       stage_state: {} as any,
@@ -150,6 +153,10 @@ export const useGameState = create<GameState>()(
       action: [],
       initBattle: (team: CharacterTeam): void => {
         set((state) => {
+          const alphabet =
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+          const nid = customAlphabet(alphabet, 20);
+          state.client_id = nid();
           resetBattle(state);
           state.select = team;
           state.characters = initTeam(team);
@@ -169,6 +176,10 @@ export const useGameState = create<GameState>()(
       },
       initStage: (stage: string) => {
         set((state) => {
+          const alphabet =
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+          const nid = customAlphabet(alphabet, 20);
+          state.client_id = nid();
           resetBattle(state);
           state.stage = stage;
           if (state.select) {

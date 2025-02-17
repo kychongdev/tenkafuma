@@ -1,16 +1,18 @@
-import Image from 'next/image';
-import { useGameState } from '@/core/GameState';
-import { CharacterState } from '@/types/Select';
-import { Progress } from '@/components/ui/progress';
-import { f } from '../_core/utils';
-import { Button } from '@/components/ui/button';
-import { CharacterStatus } from './CharacterStatus';
+import Image from "next/image";
+import { useGameState } from "@/core/GameState";
+import { CharacterState } from "@/types/Select";
+import { Progress } from "@/components/ui/progress";
+import { f } from "../_core/utils";
+import { Button } from "@/components/ui/button";
+import { CharacterStatus } from "./CharacterStatus";
+import { SaveBattle } from "./SaveBattle";
 
 export const CharacterButton = ({ position }: { position: number }) => {
   const character = useGameState((state) => state.characters[position]);
   const { basicAction, ultAction, guardAction } = useGameState(
     (state) => state,
   );
+  const enemy = useGameState((state) => state.enemies);
 
   return (
     <div>
@@ -19,8 +21,12 @@ export const CharacterButton = ({ position }: { position: number }) => {
         className="w-full rounded-none"
       />
       <Image
-        className={`border-solid border-2 border-white ${isMoveable(character) ? '' : 'opacity-50'}`}
-        src={`/characters/full/${character.id == '' || !character.id ? 'char_nr' : character.id}.png`}
+        className={`border-solid border-2 border-white ${
+          isMoveable(character) ? "" : "opacity-50"
+        }`}
+        src={`/characters/full/${
+          character.id == "" || !character.id ? "char_nr" : character.id
+        }.png`}
         width={167}
         height={512}
         priority
@@ -70,4 +76,8 @@ function isMoveable(character: CharacterState) {
       character.isParalysis
     ) && character.isExist
   );
+}
+
+function checkEnemyAlive(enemies: CharacterState[]) {
+  return enemies.filter((enemy) => enemy.hp > 0).length > 0;
 }

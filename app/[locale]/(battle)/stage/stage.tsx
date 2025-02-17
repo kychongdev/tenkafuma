@@ -1,8 +1,10 @@
-import { Button } from '@/components/ui/button';
-import stage from '@/core/stages/stage.json';
-import _ from 'lodash';
-import { useGameState } from '@/core/GameState';
-import { useRouter } from 'next/navigation';
+import { Button } from "@/components/ui/button";
+import stage from "@/core/stages/stage.json";
+import _ from "lodash";
+import { useGameState } from "@/core/GameState";
+import { useRouter } from "next/navigation";
+
+//import { Locale, usePathname, useRouter } from '@/app/i18n/routing';
 
 export default function Stage() {
   const stageList = _.pickBy(stage, (value) => {
@@ -22,7 +24,7 @@ export default function Stage() {
             key={x.name}
             onClick={() => {
               initStage(x.value);
-              router.push('/battle');
+              router.push("/battle");
             }}
           >
             {x.name}
