@@ -90,59 +90,70 @@ export const forgotPasswordAction = async (formData: FormData) => {
 
   if (error) {
     console.error(error.message);
-    // return encodedRedirect(
-    //   'error',
-    //   '/forgot-password',
-    //   'Could not reset password',
-    // );
+    return encodedRedirect(
+      "error",
+      "/forgot-password",
+      "Could not reset password",
+      locale,
+    );
   }
 
   if (callbackUrl) {
-    // return redirect(callbackUrl);
+    return redirect({ href: callbackUrl, locale });
   }
 
-  // return encodedRedirect(
-  //   'success',
-  //   '/forgot-password',
-  //   'Check your email for a link to reset your password.',
-  // );
+  return encodedRedirect(
+    "success",
+    "/forgot-password",
+    "Check your email for a link to reset your password",
+    locale,
+  );
 };
 
 export const resetPasswordAction = async (formData: FormData) => {
   const supabase = await createClient();
+  const locale = await getLocale();
 
   const password = formData.get("password") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
 
   if (!password || !confirmPassword) {
-    // encodedRedirect(
-    //   'error',
-    //   '/protected/reset-password',
-    //   'Password and confirm password are required',
-    // );
+    encodedRedirect(
+      "error",
+      "/protected/reset-password",
+      "Password and confirm password are required",
+      locale,
+    );
   }
 
   if (password !== confirmPassword) {
-    // encodedRedirect(
-    //   'error',
-    //   '/protected/reset-password',
-    //   'Passwords do not match',
-    // );
+    encodedRedirect(
+      "error",
+      "/protected/reset-password",
+      "Passwords do not match",
+      locale,
+    );
   }
 
   const { error } = await supabase.auth.updateUser({
     password: password,
   });
 
-  // if (error) {
-  //   encodedRedirect(
-  //     'error',
-  //     '/protected/reset-password',
-  //     'Password update failed',
-  //   );
-  // }
-  //
-  // encodedRedirect('success', '/protected/reset-password', 'Password updated');
+  if (error) {
+    encodedRedirect(
+      "error",
+      "/protected/reset-password",
+      "Password update failed",
+      locale,
+    );
+  }
+
+  encodedRedirect(
+    "success",
+    "/protected/reset-password",
+    "Password updated",
+    locale,
+  );
 };
 
 export const signOutAction = async () => {

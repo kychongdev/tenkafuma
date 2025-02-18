@@ -1,19 +1,12 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInAction, signUpAction } from "../actions";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { signUpAction } from "../actions";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { createClient } from "@/supabase/server";
 import { redirect } from "@/app/i18n/routing";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 type Message = { success: string } | { error: string } | { message: string };
 
@@ -29,27 +22,26 @@ export default async function RegisterForm(props: {
   } = await supabase.auth.getUser();
   console.log(user);
 
-  //if (!user) {
-  //  return redirect({ href: "/login", locale });
+  //if (user) {
+  //  return redirect({ href: "/", locale });
   //}
+  const t = await getTranslations("LoginPage");
+
   return (
-    <div className="flex h-screen w-full items-center justify-center px-4">
-      <Card className="mx-auto max-w-sm">
+    <div className="flex h-screen w-full  items-center justify-center px-4">
+      <Card className="mx-auto max-w-sm min-w-[300px]">
         <CardHeader>
-          <CardTitle className="text-2xl">Register</CardTitle>
-          <CardDescription>
-            Enter your info below to register an account
-          </CardDescription>
+          <CardTitle className="text-2xl">{t("Register")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">{t("Name")}</Label>
                 <Input id="name" type="text" name="name" required />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("Email")}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -60,7 +52,7 @@ export default async function RegisterForm(props: {
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t("Password")}</Label>
                 </div>
                 <Input id="password" type="password" name="password" required />
               </div>
@@ -69,13 +61,15 @@ export default async function RegisterForm(props: {
                 type="submit"
                 className="w-full"
               >
-                Register
+                {t("Register")}
               </Button>
-              {"error" in searchParams ? (
-                <Alert className="bg-red-500">
-                  <AlertDescription>{searchParams.error}</AlertDescription>
-                </Alert>
-              ) : null}
+              {"error" in searchParams
+                ? (
+                  <Alert className="bg-red-500">
+                    <AlertDescription>{searchParams.error}</AlertDescription>
+                  </Alert>
+                )
+                : null}
             </div>
           </form>
         </CardContent>

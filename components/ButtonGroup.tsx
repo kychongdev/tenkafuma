@@ -2,30 +2,21 @@
 
 import { redirect } from "@/app/i18n/routing";
 import { Button } from "./ui/button";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSidebar } from "./ui/sidebar";
 
 export const ButtonGroup = () => {
   const locale = useLocale();
   const { toggleSidebar } = useSidebar();
+  const t = useTranslations("AppSidebar");
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <Button
-        onClick={() => {
-          toggleSidebar();
-          redirect({ href: "/login", locale });
-        }}
-      >
-        Sign In
-      </Button>
-      <Button
-        onClick={() => {
-          toggleSidebar();
-          redirect({ href: "/register", locale });
-        }}
-      >
-        Register
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        toggleSidebar();
+        redirect({ href: "/login", locale });
+      }}
+    >
+      {t("sign-in-button")}
+    </Button>
   );
 };

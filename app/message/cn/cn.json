@@ -45,12 +45,31 @@
     "menu1": "创建队伍",
     "menu2": "战斗开始",
     "menu3": "計算機",
-    "menu4": "角色數值分析"
+    "menu4": "角色數值分析",
+    "sign-in-button": "登入"
   },
   "Battle": {
     "turn": "第 {turn} 回合"
   },
   "SimulatePage": {
     "label": "從戰鬥儲存的紀錄會這裡，可以調整練度再計算傷害"
+  },
+  "LoginPage": {
+    "Login": "登入",
+    "Email": "電子郵件",
+    "Password": "密碼",
+    "Forgot Password": "忘記密碼",
+    "Register": "註冊",
+    "Reset Password": "重置密碼",
+    "Send Email": "發送郵件",
+    "Reset Password": "重置密碼",
+    "Already have an account": "已有帳號",
+    "Check your email for a link to reset your password": "請檢查您的電子郵件以重置密碼",
+    "Password and confirm password are required": "密碼和確認密碼是必需的",
+    "Name": "用戶名",
+    "Submitting": "提交中",
+    "Please enter your new password below": "請在下面輸入您的新密碼",
+    "New password": "新密碼",
+    "Confirm password": "確認密碼"
   }
 }
