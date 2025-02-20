@@ -39,6 +39,7 @@ export function checkEndTurn(state: GameState) {
 }
 
 export function onTurnStart(gameState: GameState) {
+  const oldState = gameState;
   gameState.characters.forEach((character, position) => {
     const charBuff = checkSpecialCondition(gameState, position);
     for (const buff of charBuff) {
@@ -48,24 +49,24 @@ export function onTurnStart(gameState: GameState) {
         gameState.turn > 1
       ) {
         if ((gameState.turn - 1) % buff.conditionTurn === 0) {
-          triggerSkill(buff, gameState, position);
+          triggerSkill(buff, gameState, position, oldState);
         }
       }
       if (buff.condition === Condition.TURN) {
         if (buff.conditionTurn) {
           if (gameState.turn === buff.conditionTurn) {
-            triggerSkill(buff, gameState, position);
+            triggerSkill(buff, gameState, position, oldState);
           }
         }
       }
       if (buff.condition === Condition.ON_TURN_START && gameState.turn === 1) {
-        triggerSkill(buff, gameState, position);
+        triggerSkill(buff, gameState, position, oldState);
       }
       if (
         buff.condition === Condition.ON_SPECIFIC_TURN &&
         gameState.turn === buff.conditionTurn
       ) {
-        triggerSkill(buff, gameState, position);
+        triggerSkill(buff, gameState, position, oldState);
       }
     }
   });

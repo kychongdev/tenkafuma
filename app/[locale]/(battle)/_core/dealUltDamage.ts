@@ -858,14 +858,22 @@ export function dealUltDamage(
         .mul(value);
   }
   console.log(
+    "基礎攻擊力",
     attackerAtk.toNumber(),
+    "攻擊%",
     atkPercentage.toNumber(),
+    "攻擊力",
     rawAtk.toNumber(),
+    "必殺",
     ultBuff.toNumber(),
+    "造傷",
     increaseDamage.toNumber(),
+    "易傷",
     enemyDamageReceivedIncrease.toNumber(),
+    "屬性傷",
     attributeDamage.toNumber(),
     // attributeNum,
+    "倍率",
     value,
   );
 

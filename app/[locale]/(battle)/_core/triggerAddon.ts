@@ -13,13 +13,15 @@ export function parseConditionAddon(
   position: number,
   condition: Condition[],
   state: GameState,
+  oldState: GameState,
 ) {
+  const b = oldState.characters[position].buff;
   condition.forEach((c) => {
     if (position >= 0 && position < 5 && !state.characters[position].isDead) {
-      for (const char of state.characters[position].buff) {
+      for (const char of b) {
         if (char.deactivated) continue;
         if (c === char.condition) {
-          triggerAddOn(char, state, position);
+          triggerAddOn(char, state, position, oldState);
         }
       }
     }
@@ -39,6 +41,7 @@ export function triggerAddOn(
   buff: Skill,
   gameState: GameState,
   position: number,
+  oldState?: GameState,
 ) {
   switch (buff.type) {
     case 101:

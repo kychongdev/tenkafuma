@@ -651,12 +651,12 @@
   "10060": {
     "id": 10060,
     "name": "豐收聖女 菲歐菈",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
-    "cd": 4,
+    "initHp": 4724.8,
+    "initAtk": 746,
+    "attribute": 8,
+    "class": 13,
+    "available": true,
+    "cd": 5,
     "leader": false
   },
   "10061": {
@@ -1185,7 +1185,7 @@
     "class": 11,
     "available": true,
     "cd": 3,
-    "leader": false
+    "leader": true
   },
   "10124": {
     "id": 10124,

@@ -5,6 +5,7 @@ import { getMessages } from "next-intl/server";
 import { ReactNode } from "react";
 import AppLayout from "./AppLayout";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,9 @@ export default async function BaseLayout({ children, locale }: Props) {
             enableSystem
             disableTransitionOnChange
           >
-            <div>UNDER CONSTRUCTION</div>
+            <AppLayout>{children}</AppLayout>
+
+            <Toaster />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

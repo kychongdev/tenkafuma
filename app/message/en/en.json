@@ -49,5 +49,31 @@
   },
   "Battle": {
     "turn": "Turn {turn}"
+  },
+  "LoginPage": {
+    "Login": "Login",
+    "Email": "Email",
+    "Password": "Password",
+    "Forgot Password": "Forgot Password",
+    "Register": "Register",
+    "Reset Password": "Reset Password",
+    "Send Email": "Send Email",
+    "Reset Password": "Reset Password",
+    "Already have an account": "Already have an account",
+    "Check your email for a link to reset your password": "Check your email for a link to reset your password",
+    "Password and confirm password are required": "Password and confirm password are required",
+    "Name": "Name",
+    "Submitting": "Submitting",
+    "Please enter your new password below": "Please enter your new password below",
+    "New password": "New password",
+    "Confirm password": "Confirm password",
+    "Password updated": "Password updated",
+    "could not reset password": "could not reset password",
+    "email is required": "email is required",
+    "Password update failed": "Password update failed",
+    "Passwords do not match": "Passwords do not match",
+    "password and confirm password are required": "password and confirm password are required",
+    "Login failed": "Login failed",
+    "Failed to register": "Failed to register"
   }
 }

@@ -70,6 +70,14 @@
     "Submitting": "提交中",
     "Please enter your new password below": "請在下面輸入您的新密碼",
     "New password": "新密碼",
-    "Confirm password": "確認密碼"
+    "Confirm password": "確認密碼",
+    "Password updated": "密碼已更新",
+    "could not reset password": "無法重置密碼",
+    "email is required": "電子郵件是必需的",
+    "Password update failed": "密碼更新失敗",
+    "Passwords do not match": "密碼不匹配",
+    "password and confirm password are required": "密碼和確認密碼是必需的",
+    "Login failed": "登錄失敗",
+    "Failed to register": "註冊失敗"
   }
 }

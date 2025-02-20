@@ -56,35 +56,38 @@ const Message = ({ message }: { message: Imessage }) => {
 
   return (
     <>
-      {message.sent_by?.id === user?.id
-        ? <CurrentUserMessage message={message} />
-        : (
-          <div className="flex gap-2">
-            <div>
-              <Image
-                src={image}
-                alt={name}
-                width={40}
-                height={40}
-                className="rounded-full shadow-xl"
-              />
-            </div>
-            <div className="flex-1 overflow-x-hidden">
-              <div className="flex items-center justify-between">
-                <h1 className="font-bold">
-                  {name}
-                </h1>
-                <h1 className="text-xs text-secondary-foreground">
-                  {new Date(message.created_at).toLocaleString() + " " +
-                    (message.is_edit ? "Edited" : "")}
-                </h1>
+      <div className="flex gap-2">
+        <div>
+          <Image
+            src={image}
+            alt={name}
+            width={40}
+            height={40}
+            className="rounded-full shadow-xl"
+          />
+        </div>
+        <div className="flex-1 overflow-x-hidden">
+          <div className="flex items-center justify-between">
+            <h1 className="font-bold">
+              {name}
+            </h1>
+
+            <h1 className="flex text-xs text-secondary-foreground gap-2">
+              <div className="flex items-center">
+                {new Date(message.created_at).toLocaleString() + " " +
+                  (message.is_edit ? "Edited" : "")}
               </div>
-              <p className="break-words font-medium border border-primary rounded-3xl px-2 w-fit bg-white text-black">
-                {message.text}
-              </p>
-            </div>
+
+              {message.sent_by?.id === user?.id
+                ? <MessageMenu message={message} />
+                : null}
+            </h1>
           </div>
-        )}
+          <p className="break-words font-medium border border-primary rounded-3xl px-2 w-fit bg-white text-black">
+            {message.text}
+          </p>
+        </div>
+      </div>
     </>
   );
 };
@@ -98,6 +101,8 @@ const MessageMenu = ({ message }: { message: Imessage }) => {
         <MoreHorizontal />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
+        <DropdownMenuLabel>Action</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
             document.getElementById("trigger-edit")?.click();

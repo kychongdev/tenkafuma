@@ -23,6 +23,7 @@ export function triggerSkill(
   buff: Skill,
   gameState: GameState,
   position: number,
+  oldState?: GameState,
 ) {
   if (buff.disabledOnSkill) {
     const isExist = gameState.characters[position].buff.some((x) => {
@@ -946,20 +947,25 @@ export function triggerSkill(
         console.log("Wrong data 8");
         break;
       }
+      if (!oldState) {
+        console.log("Can't find old state");
+        break;
+      }
       switch (buff._8.target) {
         case Target.SELF: {
-          const skillStackNum = gameState.characters[position].buff.find(
+          const skillStackNum = oldState.characters[position].buff.find(
             (x) => {
               return x.id === buff._8?.targetSkill;
             },
           );
+          console.log(skillStackNum);
 
           if (!skillStackNum || !skillStackNum._3) {
             // Does not have this skill
             break;
           }
           for (let i = 0; i < skillStackNum._3.stack; i++) {
-            triggerSkill(buff._8.triggerSkill, gameState, position);
+            triggerSkill(buff._8.triggerSkill, gameState, position, oldState);
           }
           break;
         }
@@ -976,7 +982,12 @@ export function triggerSkill(
             break;
           }
           for (let i = 0; i < skillStackNum._3.stack; i++) {
-            triggerSkill(buff._8.triggerSkill, gameState, buff._8.target);
+            triggerSkill(
+              buff._8.triggerSkill,
+              gameState,
+              buff._8.target,
+              oldState,
+            );
           }
           break;
         }

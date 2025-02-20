@@ -4250,23 +4250,23 @@ export function triggerLead(gameState: GameState) {
             name:
               "每經過1回合時，觸發「使自身獲得2層《高級萬聖甜點組》(最多6層)」",
             type: 4,
-            condition: Condition.ON_SPECIFIC_TURN,
-            duration: 1,
-            deactivated: false,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
             _4: {
-              increaseStack: 1,
-              targetSkill: "10153-lead-3-1",
+              increaseStack: 2,
+              targetSkill: "10153-passive-3-1",
               target: Target.SELF,
               applySkill: {
-                id: "10153-lead-3-1",
+                id: "10153-passive-3-1",
                 name: "《高級萬聖甜點組》",
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: "10153-lead-3-1",
+                  id: "10153-passive-3-1",
                   name: "《高級萬聖甜點組》",
-                  stack: 1,
+                  stack: 2,
                   maxStack: 6,
                   value: 0,
                   affectType: AffectType.NONE,
@@ -4275,7 +4275,7 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: "10153-lead-3",
+            id: "10153-lead-4",
             name: "攻擊力增加100%",
             type: 0,
             condition: Condition.NONE,
@@ -4286,7 +4286,7 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: "10153-lead-4",
+            id: "10153-lead-5",
             name: "造成傷害效果增加50%",
             type: 0,
             condition: Condition.NONE,
@@ -4297,7 +4297,7 @@ export function triggerLead(gameState: GameState) {
             },
           },
           {
-            id: "10153-lead-5",
+            id: "10153-lead-6",
             name: "被攻擊時，觸發「使目標受到闇屬性傷害增加5%(最多10層)」",
             type: 4,
             condition: Condition.RECEIVED_ATTACK,
@@ -4330,7 +4330,7 @@ export function triggerLead(gameState: GameState) {
           gameState.characters[index].buff = [
             ...gameState.characters[index].buff,
             {
-              id: "10153-lead-6",
+              id: "10153-lead-7",
               name: "攻擊時，觸發「以自身攻擊力20%對目標造成傷害」",
               type: 1,
               condition: Condition.ATTACK,

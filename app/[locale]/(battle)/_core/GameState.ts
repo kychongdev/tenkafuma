@@ -233,20 +233,24 @@ export const useGameState = create<GameState>()(
           state.undo.push(prevState);
           state.action.push({ position, targeting: state.targeting });
           state.characters[position].isMoved = true;
+
+          const oldState = state;
           basicAttack(state, position);
           parseConditionAddon(
             position,
             [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
           parseCondition(
             position,
             [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
           state.characters.forEach((character, index) => {
             if (character.isHeal === true) {
-              parseCondition(index, [Condition.GET_HEAL], state);
+              parseCondition(index, [Condition.GET_HEAL], state, oldState);
               character.isHeal = false;
             }
           });
@@ -283,22 +287,26 @@ export const useGameState = create<GameState>()(
           state.characters[position].isMoved = true;
           state.characters[position].cd = state.characters[position].maxCd;
 
+          const oldState = p(state);
           ultimateAttack(state, position);
+          console.log(p(state.characters[position].buff));
 
           parseConditionAddon(
             position,
             [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
           parseCondition(
             position,
             [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
 
           state.characters.forEach((character, index) => {
             if (character.isHeal === true) {
-              parseCondition(index, [Condition.GET_HEAL], state);
+              parseCondition(index, [Condition.GET_HEAL], state, oldState);
             }
             character.isHeal = false;
           });
@@ -334,13 +342,20 @@ export const useGameState = create<GameState>()(
             position: position + 10,
             targeting: state.targeting,
           });
+          const oldState = state;
           state.characters[position].isGuard = true;
           parseConditionAddon(
             position,
             [Condition.GUARD, Condition.MOVE],
             state,
+            oldState,
           );
-          parseCondition(position, [Condition.GUARD, Condition.MOVE], state);
+          parseCondition(
+            position,
+            [Condition.GUARD, Condition.MOVE],
+            state,
+            oldState,
+          );
           checkEndTurn(state);
         });
       },
@@ -377,12 +392,12 @@ export const useGameState = create<GameState>()(
       },
       attackAll: () => {
         set((state) => {
-          //state.characters[4].hp = state.characters[4].hp - 10;
-          //parseCondition(4, [Condition.RECEIVED_ATTACK], state);
-          state.characters.forEach((_, index) => {
-            state.characters[index].hp = state.characters[index].hp - 10;
-            parseCondition(index, [Condition.RECEIVED_ATTACK], state);
-          });
+          state.characters[1].hp = state.characters[1].hp - 10;
+          parseCondition(1, [Condition.RECEIVED_ATTACK], state, state);
+          //state.characters.forEach((_, index) => {
+          //  state.characters[index].hp = state.characters[index].hp - 10;
+          //  parseCondition(index, [Condition.RECEIVED_ATTACK], state);
+          //});
         });
       },
     })),

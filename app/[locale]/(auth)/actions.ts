@@ -6,7 +6,7 @@ import { SignUpSchema, signUpSchema } from "./SignUpSchema";
 import { SignInSchema, signInSchema } from "./SignInSchema";
 import { createClient } from "@/supabase/server";
 
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { redirect } from "@/app/i18n/routing";
 
 export const signUpAction = async (formData: FormData) => {
@@ -14,6 +14,8 @@ export const signUpAction = async (formData: FormData) => {
   const password = formData.get("password")?.toString();
   const name = formData.get("name")?.toString();
   const locale = await getLocale();
+
+  const t = await getTranslations("LoginPage");
   const { data, error: zodError } = signUpSchema.safeParse({
     email,
     password,
@@ -28,18 +30,18 @@ export const signUpAction = async (formData: FormData) => {
     );
   }
   const supabase = await createClient();
-  // // const origin = (await headers()).get('origin');
+  const origin = (await headers()).get("origin");
   //
   const { error } = await supabase.auth.signUp({
     email: data.email,
     password: data.password,
     options: {
       data: { name: data.name },
-      // emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback`,
     },
   });
   if (error) {
-    return encodedRedirect("error", "/login", "Failed to register", locale);
+    return encodedRedirect("error", "/login", t("Failed to register"), locale);
   }
   return redirect({ href: "/", locale });
 };
@@ -49,6 +51,7 @@ export async function signInAction(formData: FormData) {
   const password = formData.get("password")?.toString();
   const locale = await getLocale();
   const { data, error: zodError } = signInSchema.safeParse({ email, password });
+  const t = await getTranslations("LoginPage");
 
   if (zodError) {
     return encodedRedirect(
@@ -62,7 +65,7 @@ export async function signInAction(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    return encodedRedirect("error", "/login", error.message, locale);
+    return encodedRedirect("error", "/login", t("Login failed"), locale);
   }
 
   return redirect({ href: "/", locale });
@@ -79,7 +82,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/forgot-password",
-      "Email is required",
+      "email is required",
       locale,
     );
   }
@@ -93,7 +96,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/forgot-password",
-      "Could not reset password",
+      "could not reset password",
       locale,
     );
   }
@@ -121,7 +124,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     encodedRedirect(
       "error",
       "/protected/reset-password",
-      "Password and confirm password are required",
+      "password and confirm password are required",
       locale,
     );
   }

@@ -197,7 +197,7 @@ const MessagesList = () => {
           <div className="flex-1 pb-5 ">
             <LoadMoreMessages />
           </div>
-          <div className="space-y-7">
+          <div className="space-y-4">
             {messages.map((value, index) => {
               return <Message key={index} message={value} />;
             })}
