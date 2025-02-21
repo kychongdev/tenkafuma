@@ -250,7 +250,7 @@
     "class": 12,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10024": {
     "id": 10024,
@@ -932,7 +932,7 @@
     "class": 11,
     "available": true,
     "cd": 3,
-    "leader": false
+    "leader": true
   },
   "10093": {
     "id": 10093,
@@ -1119,7 +1119,7 @@
     "class": 11,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10118": {
     "id": 10118,
@@ -1130,7 +1130,7 @@
     "class": 13,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10119": {
     "id": 10119,
@@ -1339,7 +1339,7 @@
     "class": 11,
     "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10138": {
     "id": 10138,

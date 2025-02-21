@@ -1895,6 +1895,97 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10081": "花嫁 伊布力斯",
+    case "10081": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10081-passive-1",
+          name: "必殺時，觸發「以自身攻擊力120%對目標進行追擊」",
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 1.2,
+            target: Target.ENEMY,
+            damageType: DamageType.ULTIMATE_ADDON,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+        //每經過1回合，觸發
+        //「使自身必殺傷害增加3%(最多33層)」
+        {
+          id: "10081-passive-2",
+          name: "每經過1回合，觸發「使自身必殺傷害增加3%(最多33層)」",
+          type: 4,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10081-passive-2-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10081-passive-2-1",
+              name: "必殺傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10081-passive-2-1",
+                name: "必殺傷害增加",
+                value: 0.03,
+                stack: 1,
+                maxStack: 33,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          },
+        },
+      ];
+
+      //普攻時，觸發「使目標受到光屬性傷害增加5%(最多3層)」
+      //必殺時，觸發「以自身攻擊力150%對目標進行追擊」
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10081-passive-3",
+            name: "普攻時，觸發「使目標受到水屬性傷增加5%(最多3層)」",
+            type: 4,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10081-passive-3-1",
+              target: Target.ENEMY,
+              applySkill: {
+                id: "10081-passive-3-1",
+                name: "受到水屬性傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10081-passive-3-1",
+                  name: "受到水屬性傷害增加5%",
+                  value: 0.05,
+                  stack: 1,
+                  maxStack: 3,
+                  affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      //使自身攻擊力增加10%
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+        ];
+      }
+      break;
+    }
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",
     // "10084": "貓娘Vtuber 杏仁咪嚕",
