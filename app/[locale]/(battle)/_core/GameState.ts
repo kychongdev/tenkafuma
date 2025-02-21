@@ -392,7 +392,7 @@ export const useGameState = create<GameState>()(
       },
       attackAll: () => {
         set((state) => {
-          state.characters[1].hp = state.characters[1].hp - 10;
+          state.characters[1].hp = state.characters[1].hp - 500000;
           parseCondition(1, [Condition.RECEIVED_ATTACK], state, state);
           //state.characters.forEach((_, index) => {
           //  state.characters[index].hp = state.characters[index].hp - 10;

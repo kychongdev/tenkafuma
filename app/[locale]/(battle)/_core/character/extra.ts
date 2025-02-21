@@ -12,10 +12,12 @@ import { triggerSkill } from "../triggerSkill";
 export function applyExtra(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;
   switch (gameState.characters[position].id) {
-    case "10123":
+    case "10123": {
       break;
-    case "10134":
+    }
+    case "10134": {
       break;
+    }
     case "10044": {
       break;
     }

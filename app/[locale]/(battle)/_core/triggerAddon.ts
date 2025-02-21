@@ -15,7 +15,7 @@ export function parseConditionAddon(
   state: GameState,
   oldState: GameState,
 ) {
-  const b = oldState.characters[position].buff;
+  const b = state.characters[position].buff;
   condition.forEach((c) => {
     if (position >= 0 && position < 5 && !state.characters[position].isDead) {
       for (const char of b) {
