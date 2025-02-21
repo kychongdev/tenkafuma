@@ -5322,7 +5322,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   id: "10140-passive-6-1",
                   name: "受到傷害增加5%",
                   value: 0.05,
-                  stack: 1,
+                  stack: 3,
                   maxStack: 9,
                   affectType: AffectType.INCREASE_DMG_RECEIVED,
                 },
