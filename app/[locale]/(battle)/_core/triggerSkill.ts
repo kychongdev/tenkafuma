@@ -25,6 +25,20 @@ export function triggerSkill(
   position: number,
   oldState?: GameState,
 ) {
+  if (
+    buff.disableOnStack && buff.disableOnStackSkill &&
+    buff.disableOnStackBelowValue && oldState
+  ) {
+    const isExist = oldState.characters[position].buff.find((x) => {
+      return x.id === buff.disableOnStackSkill;
+    });
+    if (
+      isExist && isExist._3 && isExist._3.stack >= buff.disableOnStackBelowValue
+    ) {
+      return;
+    }
+  }
+
   if (buff.disabledOnSkill) {
     const isExist = gameState.characters[position].buff.some((x) => {
       return x.id === buff.disabledOnSkill;

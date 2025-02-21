@@ -272,6 +272,7 @@ export function triggerAddOn(
           buff._101.target == Target.SELF ? position : buff._101.target,
           [Condition.RECEIVED_ATTACK],
           gameState,
+          gameState,
         );
       }
       break;
@@ -540,7 +541,12 @@ export function triggerAddOn(
       //   console.log("Wrong data");
       //   break;
       // }
-      parseCondition(position, [Condition.RECEIVED_ATTACK], gameState);
+      parseCondition(
+        position,
+        [Condition.RECEIVED_ATTACK],
+        gameState,
+        gameState,
+      );
       break;
     case 106:
       if (!buff._106) {

@@ -5261,10 +5261,10 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           {
             id: "10140-passive-5",
             name: "必殺時，觸發「使自身『降臨值(最多10層)』增加3層」",
-            type: 19,
+            type: 4,
             condition: Condition.ULTIMATE,
             duration: 100,
-            _19: {
+            _4: {
               increaseStack: 3,
               targetSkill: "10140-passive-4-1",
               target: Target.SELF,
@@ -5283,22 +5283,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   affectType: AffectType.NONE,
                 },
               },
-              checkActivation: [
-                {
-                  characterId: "10140",
-                  checkSkillId: "10140-passive-4-1",
-                  skillStackCondition: SkillStackCondition.HIGHER,
-                  activateIfStack: 9,
-                  activateSkillId: "10140-passive-6",
-                },
-                {
-                  characterId: "10140",
-                  checkSkillId: "10140-passive-4-1",
-                  skillStackCondition: SkillStackCondition.HIGHER,
-                  activateIfStack: 9,
-                  activateSkillId: "10140-passive-7",
-                },
-              ],
             },
           },
           {
@@ -5307,7 +5291,9 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             type: 4,
             condition: Condition.BASIC_ATTACK,
             duration: 100,
-            deactivated: true,
+            disableOnStack: true,
+            disableOnStackBelowValue: 10,
+            disableOnStackSkill: "10140-passive-4-1",
             _4: {
               increaseStack: 3,
               targetSkill: "10140-passive-6-1",
