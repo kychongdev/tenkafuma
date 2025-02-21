@@ -10,10 +10,9 @@ export function parseCondition(
   state: GameState,
   oldState: GameState,
 ) {
-  const b = oldState.characters[position].buff;
   condition.forEach((c) => {
     if (position >= 0 && position < 5 && !state.characters[position].isDead) {
-      for (const char of b) {
+      for (const char of oldState.characters[position].buff) {
         if (char.deactivated || char.OffOnAction) continue;
         if (c === char.condition) {
           triggerSkill(char, state, position, oldState);
