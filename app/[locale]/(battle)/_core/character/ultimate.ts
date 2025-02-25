@@ -1922,18 +1922,91 @@ export function ultimateAttack(gameState: GameState, position: number) {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,
           {
-            id: "10122-basic-1",
-            name: "使我方全體造成傷害增加25%(1回合)",
+            id: "10122-ult-1",
+            name: "造成傷害增加(1回合)",
             type: 0,
             condition: Condition.NONE,
             duration: 1,
             _0: {
-              value: 0.25,
               affectType: AffectType.INCREASE_DMG,
+              value: bond === 1
+                ? 0.25
+                : bond === 2
+                ? 0.3
+                : bond === 3
+                ? 0.3
+                : bond === 4
+                ? 0.35
+                : 0.35,
+            },
+          },
+          {
+            id: "10122-ult-2",
+            name: "造成傷害增加(4回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.1
+                : bond === 3
+                ? 0.15
+                : bond === 4
+                ? 0.15
+                : 0.2,
             },
           },
         ];
       });
+      {
+        const buff: Skill = {
+          id: "10122-ult-3",
+          name: "攻擊力增加",
+          type: 4,
+          condition: Condition.NONE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10122-ult-3-1",
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: "10122-ult-3-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10122-ult-3-1",
+                name: "攻擊力增加",
+                value: bond === 1
+                  ? 0.1
+                  : bond === 2
+                  ? 0.15
+                  : bond === 3
+                  ? 0.2
+                  : bond === 4
+                  ? 0.25
+                  : 0.3,
+                stack: 1,
+                maxStack: bond === 1
+                  ? 3
+                  : bond === 2
+                  ? 2
+                  : bond === 3
+                  ? 2
+                  : bond === 4
+                  ? 2
+                  : 2,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        };
+        triggerSkill(buff, gameState, position);
+      }
       break;
     }
     // "10123": "惡魔貓娘 杏仁咪嚕",

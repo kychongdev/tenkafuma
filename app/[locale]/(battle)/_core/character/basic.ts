@@ -488,6 +488,25 @@ export function basicAttack(gameState: GameState, position: number) {
     }
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
+    case "10122": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10122-basic-1",
+            name: "使我方全體造成傷害增加25%(1回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.25,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10123": "惡魔貓娘 杏仁咪嚕",
     case "10123": {
       dealBasicDamage(
