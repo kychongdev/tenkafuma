@@ -23,6 +23,22 @@ import { ChartPie, Info, RotateCcw, Save, Sword, Undo } from "lucide-react";
 import { useStore } from "zustand";
 import { SaveBattle } from "./SaveBattle";
 import { CharacterState } from "../_types/Select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { GearIcon } from "@radix-ui/react-icons";
+import { Toggle } from "@/components/ui/toggle";
+import { Separator } from "@/components/ui/separator";
+import { Target } from "../_types/Skill";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -53,6 +69,9 @@ export default function Battle() {
     damage_log_4,
     damage_log_5,
     attackAll,
+    battleSettings,
+    enableEveryTurnAttack,
+    setEveryTurnAttackTarget,
   } = useStore(useGameState, (state) => state);
 
   const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
@@ -97,35 +116,24 @@ export default function Battle() {
         <div className="flex min-h-[100px] justify-center mt-4 items-center">
           {ready
             ? (
-              <div className="grid grid-cols-4">
-                <div className="mx-12 col-span-3">
-                  <Carousel
-                    setApi={setApi}
-                    className="w-full max-w-xs mb-3 "
-                  >
-                    <CarouselContent>
-                      {enemies.map((enemy, index) => (
-                        <CarouselItem key={index} className="">
-                          <EnemyStatus position={index} />
-                          <div className="text-white text-center">
-                            Enemy {index + 1}
-                          </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </Carousel>
-                </div>
-                <div className="flex flex-col gap-2 w-full">
-                  <Button
-                    onClick={() => {
-                      attackAll();
-                    }}
-                  >
-                    ATK ALL
-                  </Button>
-                </div>
+              <div className="mx-12 col-span-3">
+                <Carousel
+                  setApi={setApi}
+                  className="w-full max-w-xs mb-3 "
+                >
+                  <CarouselContent>
+                    {enemies.map((enemy, index) => (
+                      <CarouselItem key={index} className="">
+                        <EnemyStatus position={index} />
+                        <div className="text-white text-center">
+                          Enemy {index + 1}
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
               </div>
             )
             : (
@@ -147,29 +155,21 @@ export default function Battle() {
         </div>
         {!checkEnemyAlive(enemies) && stage !== "wood" ? <SaveBattle /> : null}
 
-        <div className="grid grid-cols-7 gap-2">
-          <Button
-            onClick={() => {
-              debug();
-            }}
-          >
-            <Info />
-          </Button>
+        <div className="flex flex-wrap gap-2">
           <BattleLog />
-
           <Button
             onClick={() => {
               router.push("/battle/stats");
             }}
           >
-            <ChartPie />
+            <ChartPie /> {t("Damage Stats")}
           </Button>
           <Button
             onClick={() => {
               if (select) initBattle(select);
             }}
           >
-            <RotateCcw />
+            <RotateCcw /> {t("Restart")}
           </Button>
 
           <Button
@@ -177,7 +177,7 @@ export default function Battle() {
               router.push("/stage");
             }}
           >
-            <Sword />
+            <Sword /> {t("Stage")}
           </Button>
 
           <Button
@@ -185,7 +185,7 @@ export default function Battle() {
               undoLastAction();
             }}
           >
-            <Undo />
+            <Undo /> {t("Undo")}
           </Button>
 
           <Button
@@ -208,8 +208,103 @@ export default function Battle() {
               }
             }}
           >
-            <Save />
+            <Save /> {t("Save To Calculator")}
           </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <GearIcon />
+                {t("Settings")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-[350px]">
+              <DialogHeader>
+                <DialogTitle>{t("Control Centre")}</DialogTitle>
+              </DialogHeader>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="attack"
+                    checked={battleSettings.everyTurnAttack}
+                    onCheckedChange={() => {
+                      enableEveryTurnAttack();
+                    }}
+                  />
+                  <Label htmlFor="attack">{t("Every Turn Enemy Attack")}</Label>
+                </div>
+                <Separator className="my-2" />
+
+                <Label>{t("Target")}:</Label>
+                <div className="flex flex-wrap mt-2">
+                  <Toggle
+                    onPressedChange={() => {
+                      setEveryTurnAttackTarget(Target.ALL_ALLIES);
+                    }}
+                    pressed={battleSettings.everyTurnAttackTarget ===
+                      Target.ALL_ALLIES}
+                    className="data-[state=on]:bg-green-500"
+                  >
+                    {t("ALL ALLIES")}
+                  </Toggle>
+
+                  <Toggle
+                    onPressedChange={() => {
+                      setEveryTurnAttackTarget(Target.POSITION_1);
+                    }}
+                    pressed={battleSettings.everyTurnAttackTarget ===
+                      Target.POSITION_1}
+                    className="data-[state=on]:bg-green-500"
+                  >
+                    {t("POSITION 1")}
+                  </Toggle>
+
+                  <Toggle
+                    onPressedChange={() => {
+                      setEveryTurnAttackTarget(Target.POSITION_2);
+                    }}
+                    pressed={battleSettings.everyTurnAttackTarget ===
+                      Target.POSITION_2}
+                    className="data-[state=on]:bg-green-500"
+                  >
+                    {t("POSITION 2")}
+                  </Toggle>
+
+                  <Toggle
+                    onPressedChange={() => {
+                      setEveryTurnAttackTarget(Target.POSITION_3);
+                    }}
+                    pressed={battleSettings.everyTurnAttackTarget ===
+                      Target.POSITION_3}
+                    className="data-[state=on]:bg-green-500"
+                  >
+                    {t("POSITION 3")}
+                  </Toggle>
+
+                  <Toggle
+                    onPressedChange={() => {
+                      setEveryTurnAttackTarget(Target.POSITION_4);
+                    }}
+                    pressed={battleSettings.everyTurnAttackTarget ===
+                      Target.POSITION_4}
+                    className="data-[state=on]:bg-green-500"
+                  >
+                    {t("POSITION 4")}
+                  </Toggle>
+
+                  <Toggle
+                    onPressedChange={() => {
+                      setEveryTurnAttackTarget(Target.POSITION_5);
+                    }}
+                    pressed={battleSettings.everyTurnAttackTarget ===
+                      Target.POSITION_5}
+                    className="data-[state=on]:bg-green-500"
+                  >
+                    {t("POSITION 5")}
+                  </Toggle>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>

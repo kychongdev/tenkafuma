@@ -146,6 +146,29 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
+    case "10060": {
+      //以自身攻擊力25%對我方全體進行治療，並以自身攻擊力25%每回合對我方全體進行治療(3回合)
+      heal(position, 0.25, gameState, true, Target.ALL_ALLIES);
+      gameState.characters.forEach((character) => {
+        character.buff = [
+          ...character.buff,
+          {
+            id: "10060-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: Math.floor(applyRawAttBuff(gameState, position) * 0.25),
+              affectType: AffectType.RAW_HEAL_OVER_TIME,
+            },
+          },
+        ];
+      });
+
+      break;
+    }
+
     // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",

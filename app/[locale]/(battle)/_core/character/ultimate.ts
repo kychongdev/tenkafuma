@@ -726,7 +726,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
-
     case "10060": {
       if (bond > 3) {
         gameState.characters.forEach((character, index) => {
@@ -763,6 +762,23 @@ export function ultimateAttack(gameState: GameState, position: number) {
             gameState.characters[index].cd = 0;
           }
         }
+      });
+      //並使我方全體被治療時回復量增加50%(5回合)，並獲得"每回合以攻擊力80/95/110/110/110%進行治療(5回合)"效果
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10060-ult-2",
+            name: "被治療時回復量增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 5,
+            _0: {
+              value: 0.5,
+              affectType: AffectType.INCREASE_HEAL_RECEIVED,
+            },
+          },
+        ];
       });
       break;
     }
@@ -830,7 +846,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
         };
         triggerSkill(buff, gameState, position);
         gameState.characters.forEach((_, index) => {
-          parseCondition(index, [Condition.GET_HEAL], gameState);
+          parseCondition(index, [Condition.GET_HEAL], gameState, gameState);
         });
 
         const buff2: Skill = {
@@ -1901,6 +1917,25 @@ export function ultimateAttack(gameState: GameState, position: number) {
     }
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
+    case "10122": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10122-basic-1",
+            name: "使我方全體造成傷害增加25%(1回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.25,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10123": "惡魔貓娘 杏仁咪嚕",
     case "10123": {
       gameState.characters.forEach((_, index) => {

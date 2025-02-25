@@ -1108,6 +1108,33 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         ...gameState.characters[position].buff,
         {
           id: "10060-passive-1",
+          name: '普攻時，觸發"使我方全體造成持續型治療增加10%(最多3層)"效果',
+          type: 4,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10060-passive-1-1",
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: "10060-passive-1-1",
+              name: "造成持續型治療增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10060-passive-1-1",
+                name: "造成持續型治療增加",
+                value: 0.1,
+                stack: 1,
+                maxStack: 3,
+                affectType: AffectType.INCREASE_HEAL_RATE_OVER_TIME,
+              },
+            },
+          },
+        },
+        {
+          id: "10060-passive-2",
           name:
             "攻擊時，觸發「以自身攻擊力25%使我方全體攻擊力增加(1回合)」效果",
           type: 6,
@@ -1127,23 +1154,23 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: "10060-passive-2",
+            id: "10060-passive-3",
             name: "攻擊時，觸發「使我方全體造成傷害增加(最多5層)」效果",
             type: 4,
             condition: Condition.ATTACK,
             duration: 100,
             _4: {
               increaseStack: 1,
-              targetSkill: "10060-passive-2-1",
+              targetSkill: "10060-passive-3-1",
               target: Target.ALL_ALLIES,
               applySkill: {
-                id: "10060-passive-2-1",
+                id: "10060-passive-3-1",
                 name: "造成傷害增加",
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: "10060-passive-2-1",
+                  id: "10060-passive-3-1",
                   name: "造成傷害增加",
                   value: 0.05,
                   stack: 1,
@@ -3670,6 +3697,144 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     }
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
+    case "10122": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "522-passive-1",
+          name: "必殺時，觸發「使我方全體必殺技傷害增加20%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "522-passive-1-1",
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: "522-passive-1-1",
+              name: "必殺技傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "522-passive-1-1",
+                name: "必殺技傷害增加20%",
+                value: 0.2,
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: "522-passive-2",
+          name: "必殺時，觸發「以自身攻擊力150%對目標造成傷害」",
+          type: 1,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _1: {
+            value: 1.5,
+            target: Target.ENEMY,
+            damageType: DamageType.TRIGGER,
+            action: CharacterAction.ULTIMATE,
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "522-passive-3",
+            name: "普攻時，觸發「以自身攻擊力50%對目標造成傷害」",
+            type: 1,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _1: {
+              value: 0.5,
+              target: Target.ENEMY,
+              damageType: DamageType.TRIGGER,
+              action: CharacterAction.BASIC,
+            },
+          },
+          {
+            id: "522-passive-4",
+            name: "必殺時，觸發「以自身攻擊力100%對目標造成傷害」",
+            type: 1,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _1: {
+              value: 1,
+              target: Target.ENEMY,
+              damageType: DamageType.TRIGGER,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+          {
+            id: "522-passive-5",
+            name:
+              "每經過4回合，觸發「給予我方全體必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)(施放必殺後會消除此效果)」",
+            type: 11,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 4,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "522-passive-5-1",
+                  // 必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)
+                  name:
+                    "必殺時，觸發「使我方全體觸發技效果增加30%(4回合)」(4回合)(施放必殺後會消除此效果)",
+                  type: 11,
+                  condition: Condition.ULTIMATE,
+                  duration: 4,
+                  _11: {
+                    target: Target.ALL_ALLIES,
+                    deleteSelf: true,
+                    applySkill: [
+                      {
+                        id: "522-passive-5-1-1",
+                        name: "觸發技效果增加",
+                        type: 0,
+                        condition: Condition.NONE,
+                        duration: 4,
+                        _0: {
+                          value: 0.3,
+                          affectType: AffectType.INCREASE_TRIGGER_DMG,
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "522-passive4",
+            name: "必殺時，觸發「以自身攻擊力30%對目標造成傷害」",
+            type: 1,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _1: {
+              value: 0.3,
+              target: Target.ENEMY,
+              damageType: DamageType.TRIGGER,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10123": "惡魔貓娘 杏仁咪嚕",
     case "10123": {
       gameState.characters[position].buff = [

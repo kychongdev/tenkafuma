@@ -48,9 +48,6 @@
     "menu4": "角色數值分析",
     "sign-in-button": "登入"
   },
-  "Battle": {
-    "turn": "第 {turn} 回合"
-  },
   "SimulatePage": {
     "label": "從戰鬥儲存的紀錄會這裡，可以調整練度再計算傷害"
   },

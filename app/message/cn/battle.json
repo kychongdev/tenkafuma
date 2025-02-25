@@ -2,7 +2,23 @@
   "Battle": {
     "turn": "第 {turn} 回合",
     "player_turn": "玩家回合",
-    "enemy_turn": "敵人回合"
+    "enemy_turn": "敵人回合",
+    "Settings": "設定",
+    "Control Centre": "控制中心",
+    "Every Turn Enemy Attack": "每回合敵人攻擊",
+    "Damage Stats": "傷害統計",
+    "Restart": "重開",
+    "Stage": "關卡",
+    "Undo": "撤銷",
+    "Battle Log": "戰鬥日誌",
+    "Save To Calculator": "保存到計算器",
+    "ALL ALLIES": "全體",
+    "Target": "目標",
+    "POSITION 1": "位置 1",
+    "POSITION 2": "位置 2",
+    "POSITION 3": "位置 3",
+    "POSITION 4": "位置 4",
+    "POSITION 5": "位置 5"
   },
   "Team": {
     "header": "创建您的队伍",

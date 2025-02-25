@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -8,19 +8,21 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { useGameState } from '@/core/GameState';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { BookA } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { useGameState } from "@/core/GameState";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { BookA } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function BattleLog() {
   const battleLog = useGameState((state) => state.battle_log);
+  const t = useTranslations("Battle");
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full">
-          <BookA />
+        <Button>
+          <BookA /> {t("Battle Log")}
         </Button>
       </DialogTrigger>
       <DialogContent className="p-3 sm:max-w-[425px]">

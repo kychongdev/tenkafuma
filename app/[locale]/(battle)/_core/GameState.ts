@@ -11,7 +11,7 @@ import { DamageLog } from "@/types/Game";
 import { basicAttack } from "./character/basic";
 import { parseConditionAddon } from "./triggerAddon";
 import { parseCondition } from "./parseCondition";
-import { Condition } from "@/app/[locale]/(battle)/_types/Skill";
+import { Condition, Target } from "@/app/[locale]/(battle)/_types/Skill";
 import { p } from "./utils";
 import { checkEndTurn, enemyCalculateDot, onTurnStart } from "./turn";
 import { initPassiveSkill } from "./character/passive";
@@ -47,6 +47,10 @@ export interface GameState {
   damage_log_3: DamageLog[];
   damage_log_4: DamageLog[];
   damage_log_5: DamageLog[];
+  battleSettings: {
+    everyTurnAttack: boolean;
+    everyTurnAttackTarget: Target;
+  };
   //heal_log_1: DamageLog[];
   //heal_log_2: DamageLog[];
   //heal_log_3: DamageLog[];
@@ -70,7 +74,8 @@ export interface GameState {
   undoLastAction: () => void;
   initStage: (stage: string) => void;
   debug: () => void;
-  attackAll: () => void;
+  enableEveryTurnAttack: () => void;
+  setEveryTurnAttackTarget: (target: Target) => void;
 }
 
 interface UndoLog {
@@ -136,6 +141,10 @@ export const useGameState = create<GameState>()(
         initCharacterState,
         initCharacterState,
       ],
+      battleSettings: {
+        everyTurnAttack: false,
+        everyTurnAttackTarget: Target.ALL_ALLIES,
+      },
       select: null,
       targeting: CharacterPosition.POSITION_1,
       undo: [],
@@ -390,14 +399,15 @@ export const useGameState = create<GameState>()(
           console.log(p(state));
         });
       },
-      attackAll: () => {
+      enableEveryTurnAttack: () => {
         set((state) => {
-          state.characters[1].hp = state.characters[1].hp - 500000;
-          parseCondition(1, [Condition.RECEIVED_ATTACK], state, state);
-          //state.characters.forEach((_, index) => {
-          //  state.characters[index].hp = state.characters[index].hp - 10;
-          //  parseCondition(index, [Condition.RECEIVED_ATTACK], state);
-          //});
+          state.battleSettings.everyTurnAttack = !state.battleSettings
+            .everyTurnAttack;
+        });
+      },
+      setEveryTurnAttackTarget: (target: Target) => {
+        set((state) => {
+          state.battleSettings.everyTurnAttackTarget = target;
         });
       },
     })),
