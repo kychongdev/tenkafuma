@@ -64,6 +64,7 @@ export function triggerSkill(
       switch (buff._1.damageType) {
         case DamageType.BASIC:
         case DamageType.BASIC_ADDON: {
+          // TODO ALL_ENEMIES
           if (buff._1.target === Target.ALL_ALLIES) {
             if (
               !gameState.characters[0].isDead && gameState.characters[0].isExist

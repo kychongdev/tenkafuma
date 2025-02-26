@@ -105,6 +105,26 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10028": "復生公主 千鶴",
     // "10029": "夏日 靜",
     // "10030": "夏日 露露",
+    case "10030": {
+      gameState.characters.forEach((_, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10030-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10031": "夏日 KS-Ⅷ",
     // "10032": "夏日 娜娜",
     // "10033": "食夢 阿爾蒂雅",
@@ -288,6 +308,17 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10081": "花嫁 伊布力斯",
+    case "10081": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",
     // "10084": "貓娘Vtuber 杏仁咪嚕",

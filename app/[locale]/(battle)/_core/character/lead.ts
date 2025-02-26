@@ -14,6 +14,7 @@ import { GameState } from "../GameState";
 
 export function triggerLead(gameState: GameState) {
   const leader = gameState.characters[0].id;
+  const lib = gameState.characters[0].lib;
   switch (leader) {
     // "10001": "魔王 巴爾",
     // "10002": "魔王 撒旦",
@@ -1082,6 +1083,384 @@ export function triggerLead(gameState: GameState) {
     }
     // "10079": "新春 凜月",
     // "10081": "花嫁 伊布力斯",
+    case "10081": {
+      if (lib < 3) {
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: "10081-Lead-1",
+            name: "普攻時，觸發「以自身攻擊力50%對敵方全體造成傷害」",
+            type: 1,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _1: {
+              value: 0.5,
+              action: CharacterAction.ULTIMATE,
+              target: Target.ALL_ENEMIES,
+              damageType: DamageType.TRIGGER,
+            },
+          },
+        ];
+        gameState.characters.forEach((character, index) => {
+          if (
+            character.attribute === CharacterAttribute.WATER ||
+            character.attribute === CharacterAttribute.LIGHT
+          ) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "10081-Lead-2",
+                name: "第一回合時，觸發「《高貴婚紗》」",
+                type: 11,
+                condition: Condition.ON_TURN_START,
+                duration: 100,
+                _11: {
+                  target: Target.SELF,
+                  applySkill: [
+                    {
+                      id: "10081-Lead-2-1",
+                      name: "攻擊力增加70%",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        value: 0.7,
+                        affectType: AffectType.INCREASE_ATK,
+                      },
+                    },
+                    {
+                      id: "10081-Lead-2-2",
+                      name:
+                        "必殺時，觸發「使目標受到觸發技傷害增加20%(最多5層)」",
+                      type: 4,
+                      condition: Condition.ULTIMATE,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-2-2-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-2-2-1",
+                          name: "受到觸發技傷害增加20%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-2-2-1",
+                            name: "受到觸發技傷害增加20%",
+                            stack: 1,
+                            maxStack: 5,
+                            affectType:
+                              AffectType.INCREASE_TRIGGER_DMG_RECEIVED,
+                            value: 0.2,
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: "10081-Lead-2-3",
+                      name:
+                        "普攻時，觸發「使目標受到必殺傷害增加2%(最多25層)」(50回合)",
+                      type: 4,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-2-3-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-2-3-1",
+                          name: "受到必殺傷害增加2%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-2-3-1",
+                            name: "受到必殺傷害增加2%",
+                            stack: 1,
+                            maxStack: 25,
+                            affectType:
+                              AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
+                            value: 0.02,
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: "10081-Lead-2-4",
+                      name:
+                        "普攻時，觸發「使目標受到水屬性傷害增加5%(最多4層)」(50回合)",
+                      type: 4,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-2-4-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-2-4-1",
+                          name: "受到水屬性傷害增加5%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-2-4-1",
+                            name: "受到水屬性傷害增加5%",
+                            stack: 1,
+                            maxStack: 4,
+                            affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                            value: 0.05,
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: "10081-Lead-2-5",
+                      name:
+                        "普攻時，觸發「使目標受到光屬性傷害增加5%(最多4層)」(50回合)",
+                      type: 4,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-2-5-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-2-5-1",
+                          name: "受到光屬性傷害增加5%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-2-5-1",
+                            name: "受到光屬性傷害增加5%",
+                            stack: 1,
+                            maxStack: 4,
+                            affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                            value: 0.05,
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            ];
+          }
+        });
+      }
+      if (lib > 2) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10081-Lead-1",
+              name: "最大HP增加40%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.MAX_HP,
+                value: 0.4,
+              },
+            },
+          ];
+        });
+
+        gameState.characters[0].buff = [
+          ...gameState.characters[0].buff,
+          {
+            id: "10081-Lead-2",
+            name: "普攻時，觸發「以自身攻擊力50%對敵方全體造成傷害」",
+            type: 1,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _1: {
+              value: 0.5,
+              action: CharacterAction.ULTIMATE,
+              target: Target.ALL_ENEMIES,
+              damageType: DamageType.TRIGGER,
+            },
+          },
+        ];
+
+        gameState.characters.forEach((character, index) => {
+          if (
+            character.attribute === CharacterAttribute.WATER ||
+            character.attribute === CharacterAttribute.LIGHT
+          ) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "10081-Lead-3",
+                name: "第一回合時，觸發「《高貴婚紗》」",
+                type: 11,
+                condition: Condition.ON_TURN_START,
+                duration: 100,
+                _11: {
+                  target: Target.SELF,
+                  applySkill: [
+                    {
+                      id: "10081-Lead-3-1",
+                      name: "攻擊力增加100%",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        value: 1,
+                        affectType: AffectType.INCREASE_ATK,
+                      },
+                    },
+                    {
+                      id: "10081-Lead-3-2",
+                      name:
+                        "必殺時，觸發「使目標受到觸發技傷害增加20%(最多5層)」",
+                      type: 4,
+                      condition: Condition.ULTIMATE,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-2-3-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-2-3-1",
+                          name: "受到觸發技傷害增加20%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-2-3-1",
+                            name: "受到觸發技傷害增加20%",
+                            stack: 1,
+                            maxStack: 5,
+                            affectType:
+                              AffectType.INCREASE_TRIGGER_DMG_RECEIVED,
+                            value: 0.2,
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: "10081-Lead-3-3",
+                      name:
+                        "攻擊時，觸發「使目標受到必殺傷害增加2%(最多60層)」(50回合)",
+                      type: 4,
+                      condition: Condition.ATTACK,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-3-3-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-3-3-1",
+                          name: "受到必殺傷害增加2%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-3-3-1",
+                            name: "受到必殺傷害增加2%",
+                            stack: 1,
+                            maxStack: 6,
+                            affectType:
+                              AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
+                            value: 0.02,
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: "10081-Lead-3-4",
+                      name: "攻擊時，觸發「使目標受到傷害增加1%(最多60層)」",
+                      type: 4,
+                      condition: Condition.ATTACK,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-3-4-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-3-4-1",
+                          name: "受到傷害增加1%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-3-4-1",
+                            name: "受到傷害增加1%",
+                            stack: 1,
+                            maxStack: 60,
+                            affectType: AffectType.INCREASE_DMG_RECEIVED,
+                            value: 0.01,
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: "10081-Lead-3-5",
+                      name:
+                        "普攻時，觸發「使目標受到水屬性傷害增加5%(最多7層)」(50回合)",
+                      type: 4,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-3-5-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-3-5-1",
+                          name: "受到水屬性傷害增加5%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-3-5-1",
+                            name: "受到水屬性傷害增加5%",
+                            stack: 1,
+                            maxStack: 7,
+                            affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                            value: 0.05,
+                          },
+                        },
+                      },
+                    },
+                    {
+                      id: "10081-Lead-3-6",
+                      name:
+                        "普攻時，觸發「使目標受到光屬性傷害增加5%(最多7層)」(50回合)",
+                      type: 4,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 50,
+                      _4: {
+                        increaseStack: 1,
+                        targetSkill: "10081-Lead-3-6-1",
+                        target: Target.ENEMY,
+                        applySkill: {
+                          id: "10081-Lead-3-6-1",
+                          name: "受到光屬性傷害增加5%",
+                          type: 3,
+                          condition: Condition.NONE,
+                          duration: 100,
+                          _3: {
+                            id: "10081-Lead-3-6-1",
+                            name: "受到光屬性傷害增加5%",
+                            stack: 1,
+                            maxStack: 7,
+                            affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                            value: 0.05,
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            ];
+          }
+        });
+      }
+      break;
+    }
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",
     // "10084": "貓娘Vtuber 杏仁咪嚕",
@@ -2554,6 +2933,9 @@ export function triggerLead(gameState: GameState) {
     }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
+    case "10139": {
+      break;
+    }
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",

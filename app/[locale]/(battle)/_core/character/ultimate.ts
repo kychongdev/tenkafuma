@@ -22,6 +22,7 @@ import { dealUltDamage } from "../dealUltDamage";
 import { dealUltHpDamage } from "../dealUltHpDamage";
 import { healUltDamage } from "../healUltDamage";
 import { healUltHpDamage } from "../healUltHpDamage";
+import { Gaegu } from "next/font/google";
 
 export function ultimateAttack(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;
@@ -468,6 +469,77 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10028": "復生公主 千鶴",
     // "10029": "夏日 靜",
     // "10030": "夏日 露露",
+    case "10030": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10030-ult-1",
+            name: "必殺技傷害增加",
+            type: 0,
+            duration: 2,
+            condition: Condition.NONE,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value: bond === 1
+                ? 0.2
+                : bond === 2
+                ? 0.25
+                : bond === 3
+                ? 0.25
+                : bond === 4
+                ? 0.3
+                : 0.3,
+            },
+          },
+        ];
+      });
+
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.SUPPORT ||
+          character.class === CharacterClass.HEALER
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10030-ult-2",
+              name:
+                '攻擊時，觸發"使我方全體攻擊力增加15/15/20/20/25%(1回合)"效果(2回合)',
+              type: 11,
+              duration: 2,
+              condition: Condition.NONE,
+              _11: {
+                target: Target.ALL_ALLIES,
+                applySkill: [
+                  {
+                    id: "10030-ult-2-1",
+                    name: '攻擊力增加15/15/20/20/25%(1回合)"效果(2回合)',
+                    type: 0,
+                    duration: 1,
+                    condition: Condition.NONE,
+                    _0: {
+                      affectType: AffectType.INCREASE_ATK,
+                      value: bond === 1
+                        ? 0.15
+                        : bond === 2
+                        ? 0.15
+                        : bond === 3
+                        ? 0.2
+                        : bond === 4
+                        ? 0.2
+                        : 0.25,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+
+      break;
+    }
     // "10031": "夏日 KS-Ⅷ",
     // "10032": "夏日 娜娜",
     // "10033": "食夢 阿爾蒂雅",
@@ -1321,6 +1393,76 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10081": "花嫁 伊布力斯",
+    case "10081": {
+      if (lib === 0) {
+        dealUltDamage(
+          position,
+          bond === 1
+            ? 3.88
+            : bond === 2
+            ? 4.45
+            : bond === 3
+            ? 5.03
+            : bond === 4
+            ? 5.6
+            : 6.18,
+          gameState,
+          Target.ENEMY,
+          DamageType.ULTIMATE,
+          CharacterAction.ULTIMATE,
+        );
+      }
+      //使自身與我方全體水屬性角色造成傷害增加30/35/40/45/50%(1回合)，再以自身攻擊力194/222.5/251.5/280/309%對目標造成傷害2次，CD: 4
+      if (lib > 0) {
+        gameState.characters.forEach((character, index) => {
+          if (
+            index === position ||
+            character.attribute === CharacterAttribute.WATER
+          ) {
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: "1081-ult-1",
+                name: "造成傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: bond === 1
+                    ? 0.3
+                    : bond === 2
+                    ? 0.35
+                    : bond === 3
+                    ? 0.4
+                    : bond === 4
+                    ? 0.45
+                    : 0.5,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            ];
+          }
+        });
+        dealUltDamage(
+          position,
+          bond === 1
+            ? 1.94
+            : bond === 2
+            ? 222.5
+            : bond === 3
+            ? 251.5
+            : bond === 4
+            ? 2.8
+            : 3.09,
+          gameState,
+          Target.ENEMY,
+          DamageType.ULTIMATE,
+          CharacterAction.ULTIMATE,
+        );
+      }
+
+      break;
+    }
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",
     // "10084": "貓娘Vtuber 杏仁咪嚕",
@@ -1349,7 +1491,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
           },
         },
       ];
-      dealUltDamage(
+      dealultdamage(
         position,
         bond === 1
           ? 2.65
