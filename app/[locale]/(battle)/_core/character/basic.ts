@@ -879,6 +879,23 @@ export function basicAttack(gameState: GameState, position: number) {
 
     // "10157": "純真祈願 牧愛菈"
     case "10157": {
+      gameState.characters.forEach((_, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10157-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
       break;
     }
 
@@ -889,6 +906,23 @@ export function basicAttack(gameState: GameState, position: number) {
 
     // "10159": "喜迎性春 菲歐菈",
     case "10159": {
+      gameState.characters.forEach((_, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10159-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
       break;
     }
 
@@ -902,6 +936,54 @@ export function basicAttack(gameState: GameState, position: number) {
         DamageType.BASIC,
         CharacterAction.BASIC,
       );
+      break;
+    }
+
+    // "10162": "虔信神祀 艾可",
+    case "10162": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
+
+    // "10163": "夜之影 凱薩",
+    case "10163": {
+      dealBasicDamage(
+        position,
+        1,
+        gameState,
+        Target.ENEMY,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+      break;
+    }
+
+    // "10164": "祭典花韻 香奈"
+    case "10164": {
+      gameState.characters.forEach((_, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.15);
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10164-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
       break;
     }
 

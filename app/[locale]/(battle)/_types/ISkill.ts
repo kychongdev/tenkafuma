@@ -119,6 +119,7 @@ export interface _11 {
   applySkill: Skill[];
   applyToSpecificChar?: string;
   deleteSelf?: boolean;
+  overlap?: boolean;
 }
 
 // Apply buff based on position, random it if position does not exist
@@ -272,6 +273,12 @@ export interface _29 {
   applyToSpecificChar?: string;
   duration: number;
   base: boolean;
+}
+
+export interface _30 {
+  reduceStack: number;
+  targetSkill: string;
+  target: Target | CharacterClass;
 }
 
 // ---------------------------- ADD ON BUFF ----------------------------

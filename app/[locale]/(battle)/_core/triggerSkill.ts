@@ -1065,10 +1065,9 @@ export function triggerSkill(
         console.log("Wrong data 11");
         break;
       }
+
       switch (buff._11.target) {
         case Target.SELF: {
-          console.log("test");
-          console.log(p(buff._11.applySkill));
           gameState.characters[position].buff = [
             ...gameState.characters[position].buff,
             ...buff._11.applySkill,
@@ -1076,6 +1075,13 @@ export function triggerSkill(
           break;
         }
         case Target.ENEMY: {
+          // If you use overlap then you can only use one apply buff
+          if (buff._11.overlap && buff._11.applySkill.length < 2) {
+            gameState.enemies[gameState.targeting].buff = gameState
+              .enemies[gameState.targeting].buff.filter((buff) =>
+                buff.id !== buff._11?.applySkill[0].id
+              );
+          }
           gameState.enemies[gameState.targeting].buff = [
             ...gameState.enemies[gameState.targeting].buff,
             ...buff._11.applySkill,
@@ -2261,6 +2267,44 @@ export function triggerSkill(
           }
           break;
       }
+    }
+
+    case 30: {
+      if (!buff._30) {
+        console.log("Wrong data _30");
+        break;
+      }
+
+      switch (buff._30.target) {
+        case Target.SELF: {
+          // x is gameState buff
+          const isExist = gameState.characters[position].buff.some((x) => {
+            return x.id === buff._30?.targetSkill;
+          });
+
+          if (isExist) {
+            gameState.characters[position].buff = gameState.characters[position]
+              .buff.map((x) => {
+                if (x.id === buff._30?.targetSkill) {
+                  if (x._3 && x._3.stack > 0) {
+                    if (x._3 && buff._30) {
+                      x._3.stack -= buff._30.reduceStack;
+                      if (x._3.stack < 0) {
+                        return;
+                      }
+                    } else {
+                      console.log("Wrong data buff._4");
+                    }
+                  }
+                }
+                return x;
+              })
+              .filter((item) => item !== undefined);
+          }
+          break;
+        }
+      }
+      break;
     }
   }
 

@@ -4592,6 +4592,21 @@ export function triggerLead(gameState: GameState) {
       break;
     }
 
+    // "10162": "虔信神祀 艾可",
+    case "10162": {
+      break;
+    }
+
+    // "10163": "夜之影 凱薩",
+    case "10163": {
+      break;
+    }
+
+    // "10164": "祭典花韻 香奈"
+    case "10164": {
+      break;
+    }
+
     // "10175": "翩舞雪花 初華"
     case "10175": {
       gameState.characters.forEach((_, index) => {

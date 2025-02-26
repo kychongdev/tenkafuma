@@ -4510,6 +4510,405 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
 
+    // "10162": "虔信神祀 艾可",
+    case "10162": {
+      //使自身獲得3/4/5/6/7層《凱薩大明神的加護》(最多7層)，並使自身造成傷害增加35/45/55/65/75%(最多1層)。CD:[4/5/6/7/8]
+      const stackIncrease = bond === 1
+        ? 3
+        : bond === 2
+        ? 4
+        : bond === 3
+        ? 5
+        : bond === 4
+        ? 6
+        : 7;
+      const skill: Skill = {
+        id: "10162-ult-1",
+        name: "凱薩大明神的加護",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: stackIncrease,
+          target: Target.ENEMY,
+          targetSkill: "10162-ult-1-1",
+          applySkill: {
+            id: "10162-ult-1-1",
+            name: "《凱薩大明神的加護》",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10162-ult-1-1",
+              name: "《凱薩大明神的加護》",
+              stack: stackIncrease,
+              maxStack: 7,
+              affectType: AffectType.NONE,
+              value: 0,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
+
+      const stackIncrease2 = bond === 1
+        ? 0.35
+        : bond === 2
+        ? 0.45
+        : bond === 3
+        ? 0.55
+        : bond === 4
+        ? 0.65
+        : 0.75;
+
+      const skill2: Skill = {
+        id: "10162-ult-2",
+        name: "造成傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10162-ult-2-1",
+          applySkill: {
+            id: "10162-ult-2-1",
+            name: "造成傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10162-ult-2-1",
+              name: "造成傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DMG,
+              value: stackIncrease2,
+            },
+          },
+        },
+      };
+      triggerSkill(skill2, gameState, position);
+      break;
+    }
+
+    // "10163": "夜之影 凱薩",
+    case "10163": {
+      //使自身造成傷害增加10/23/36/49/62%(最多1層)、再使目標受到全屬性傷害增加15/20/25/30/35%(最多1層)，再以自身攻擊力165/188/211/234/257%對目標造成傷害2次，CD:4
+
+      const valueIncrease = bond === 1
+        ? 0.1
+        : bond === 2
+        ? 0.23
+        : bond === 3
+        ? 0.36
+        : bond === 4
+        ? 0.49
+        : 0.62;
+      const skill: Skill = {
+        id: "10163-ult-1",
+        name: "造成傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-1-1",
+          applySkill: {
+            id: "10163-ult-1-1",
+            name: "造成傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-1-1",
+              name: "造成傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DMG,
+              value: valueIncrease,
+            },
+          },
+        },
+      };
+      triggerSkill(skill, gameState, position);
+
+      const valueIncrease2 = bond === 1
+        ? 0.15
+        : bond === 2
+        ? 0.2
+        : bond === 3
+        ? 0.25
+        : bond === 4
+        ? 0.3
+        : 0.35;
+
+      const skill2: Skill = {
+        id: "10163-ult-2",
+        name: "受到水屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-2-1",
+          applySkill: {
+            id: "10163-ult-2-1",
+            name: "受到水屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-2-1",
+              name: "受到水屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      triggerSkill(skill2, gameState, position);
+
+      const skill3: Skill = {
+        id: "10163-ult-3",
+        name: "受到火屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-3-1",
+          applySkill: {
+            id: "10163-ult-3-1",
+            name: "受到火屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-3-1",
+              name: "受到火屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      triggerSkill(skill3, gameState, position);
+
+      const skill4: Skill = {
+        id: "10163-ult-4",
+        name: "受到風屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-4-1",
+          applySkill: {
+            id: "10163-ult-4-1",
+            name: "受到風屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-4-1",
+              name: "受到風屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      triggerSkill(skill4, gameState, position);
+
+      const skill5: Skill = {
+        id: "10163-ult-5",
+        name: "受到光屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-5-1",
+          applySkill: {
+            id: "10163-ult-5-1",
+            name: "受到光屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-5-1",
+              name: "受到光屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      triggerSkill(skill5, gameState, position);
+
+      const skill6: Skill = {
+        id: "10163-ult-6",
+        name: "受到暗屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-6-1",
+          applySkill: {
+            id: "10163-ult-6-1",
+            name: "受到暗屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-6-1",
+              name: "受到暗屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      triggerSkill(skill6, gameState, position);
+
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1.65
+          : bond === 2
+          ? 1.88
+          : bond === 3
+          ? 2.11
+          : bond === 4
+          ? 2.34
+          : 2.57,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+      dealUltDamage(
+        position,
+        bond === 1
+          ? 1.65
+          : bond === 2
+          ? 1.88
+          : bond === 3
+          ? 2.11
+          : bond === 4
+          ? 2.34
+          : 2.57,
+        gameState,
+        Target.ENEMY,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
+      );
+
+      break;
+    }
+
+    // "10164": "祭典花韻 香奈"
+    case "10164": {
+      //使目標受到觸發技傷害增加60/70/80/90/100%(3回合)(不可疊加)，再以自身攻擊力20/22.5/25/27.5/30%使我方全體攻擊力增加(1回合)，並使自身獲得「被攻擊時，觸發『以自身攻擊力265/298/331/364/397%對目標造成傷害』(3回合)(觸發1次後解除)」。CD:3
+      const skill: Skill = {
+        id: "10164-ult-1",
+        name: "使目標受到觸發技傷害增加",
+        type: 11,
+        condition: Condition.NONE,
+        duration: 100,
+        _11: {
+          target: Target.ENEMY,
+          overlap: true,
+          applySkill: [
+            {
+              id: "10164-ult-1-2",
+              name: "觸發技傷害增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 3,
+              _0: {
+                value: bond === 1
+                  ? 0.6
+                  : bond === 2
+                  ? 0.7
+                  : bond === 3
+                  ? 0.8
+                  : bond === 4
+                  ? 0.9
+                  : 1,
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          ],
+        },
+      };
+      triggerSkill(skill, gameState, position);
+
+      gameState.characters.forEach((character) => {
+        const attack = Math.floor(
+          applyRawAttBuff(gameState, position) *
+            (bond === 1
+              ? 0.2
+              : bond === 2
+              ? 0.225
+              : bond === 3
+              ? 0.25
+              : bond === 4
+              ? 0.275
+              : 0.3),
+        );
+
+        character.buff = [
+          ...character.buff,
+          {
+            id: "10164-ult-2",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        //被攻擊時，觸發『以自身攻擊力265/298/331/364/397%對目標造成傷害』(3回合)(觸發1次後解除)
+        // TODO
+        {
+          id: "10164-ult-3",
+          name:
+            "被攻擊時，觸發『以自身攻擊力265/298/331/364/397%對目標造成傷害』(3回合)(觸發1次後解除)",
+          type: 1,
+          duration: 3,
+          condition: Condition.RECEIVED_ATTACK,
+          deleteSelf: true,
+        },
+      ];
+      break;
+    }
+
     // "10175": "翩舞雪花 初華"
     case "10175": {
       gameState.characters.forEach((_, index) => {
