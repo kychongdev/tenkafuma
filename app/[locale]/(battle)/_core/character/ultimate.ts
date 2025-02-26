@@ -421,6 +421,49 @@ export function ultimateAttack(gameState: GameState, position: number) {
     // "10024": "死靈女王 艾莉莎白",
     // "10025": "偶像 伊布力斯",
     // "10026": "偶像 黑白諾艾莉",
+    case "10026": {
+      //使我方全體獲得"每回合以攻擊力79.2/91.7/104.2/116.7/129.2%進行治療(6回合)"效果，並使自身以外的我方隊員當前必殺技CD減少1回合，CD: 6
+      const skill: Skill = {
+        id: "10026-ult-2",
+        name: "使自身以外的我方隊員當前必殺技CD減少1回合",
+        type: 14,
+        duration: 100,
+        condition: Condition.NONE,
+        _14: {
+          reduceCD: 1,
+          target: Target.ALL_EXCEPT_SELF,
+        },
+      };
+      triggerSkill(skill, gameState, position);
+      if (lib > 0) {
+        const valueIncrease = bond === 1
+          ? 0.1
+          : bond === 2
+          ? 0.125
+          : bond === 3
+          ? 0.15
+          : bond === 4
+          ? 0.2
+          : 0.2;
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10026-ult-3",
+              name: "必殺技傷害增加",
+              type: 0,
+              duration: bond > 4 ? 6 : 3,
+              condition: Condition.NONE,
+              _0: {
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                value: valueIncrease,
+              },
+            },
+          ];
+        });
+      }
+      break;
+    }
     // "10027": "復活節 撒旦",
     // "10028": "復生公主 千鶴",
     // "10029": "夏日 靜",
@@ -2246,7 +2289,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     case "10127": {
-      //使我方全體必殺技傷害增加10/15/20/25/30%(15回合)、使自身獲得攻擊時，觸發「以自身攻擊力20/22.5/25/27.5/30%使我方全體攻擊力增加(1回合)」(15回合)，CD:30
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
           ...gameState.characters[index].buff,

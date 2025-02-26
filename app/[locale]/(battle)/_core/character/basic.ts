@@ -81,6 +81,26 @@ export function basicAttack(gameState: GameState, position: number) {
     // "10024": "死靈女王 艾莉莎白",
     // "10025": "偶像 伊布力斯",
     // "10026": "偶像 黑白諾艾莉",
+    case "10026": {
+      gameState.characters.forEach((_, index) => {
+        const attack = Math.floor(applyRawAttBuff(gameState, position) * 0.3);
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10026-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10027": "復活節 撒旦",
     // "10028": "復生公主 千鶴",
     // "10029": "夏日 靜",

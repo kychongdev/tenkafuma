@@ -1382,6 +1382,21 @@ export function triggerSkill(
             gameState.characters[position].cd = 0;
           }
           break;
+
+        case Target.ALL_EXCEPT_SELF:
+          gameState.characters.forEach((_, index) => {
+            if (!buff._14) {
+              console.log("Wrong data 14");
+              return;
+            }
+            if (position !== index) {
+              gameState.characters[index].cd -= buff._14.reduceCD;
+              if (gameState.characters[index].cd < 0) {
+                gameState.characters[index].cd = 0;
+              }
+            }
+          });
+          break;
         case Target.ALL_ALLIES:
           gameState.characters.forEach((_, index) => {
             if (!buff._14) {
@@ -2425,6 +2440,59 @@ export function triggerSkill(
               })
               .filter((item) => item !== undefined);
           }
+          break;
+        }
+      }
+      break;
+    }
+    case 31: {
+      if (!buff._31) {
+        console.log("Wrong data _31");
+        break;
+      }
+
+      switch (buff._31.target) {
+        case Target.ALL_ALLIES: {
+          gameState.characters.forEach((_, index) => {
+            if (!buff._31) {
+              console.log("2.Wrong data 31");
+              return;
+            }
+
+            const rawAttSkill = applyRawAttBuff(gameState, position);
+            const shieldRate = gameState.characters[position].buff.reduce(
+              (prev, curr) => {
+                if (
+                  curr._0 &&
+                  curr._0.affectType === AffectType.INCREASE_SHIELD_RATE_OUTPUT
+                ) {
+                  return prev + curr._0.value;
+                }
+                if (
+                  curr._3 &&
+                  curr._3.affectType === AffectType.INCREASE_SHIELD_RATE_OUTPUT
+                ) {
+                  return prev + curr._3.value;
+                }
+                return prev;
+              },
+              0,
+            );
+            gameState.characters[index].buff = [
+              ...gameState.characters[index].buff,
+              {
+                id: `${buff.id}-shield`,
+                name: buff.name,
+                type: 0,
+                condition: Condition.NONE,
+                duration: buff._31.duration,
+                _0: {
+                  value: Math.floor(rawAttSkill * buff._31.value),
+                  affectType: buff._31?.affectType,
+                },
+              },
+            ];
+          });
           break;
         }
       }

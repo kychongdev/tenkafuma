@@ -679,6 +679,294 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10024": "死靈女王 艾莉莎白",
     // "10025": "偶像 伊布力斯",
     // "10026": "偶像 黑白諾艾莉",
+    case "10026": {
+      //攻擊時，觸發"使我方全體被治療時回復量增加12.5%(2回合)、受到護盾效果增加12.5%(2回合)"效果
+
+      if (lib === 0) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10026-passive-1",
+            name:
+              '攻擊時，觸發"使我方全體被治療時回復量增加12.5%(2回合)、受到護盾效果增加12.5%(2回合)"效果',
+            type: 11,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10026-passive-1-1",
+                  name: "被治療時回復量增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.125,
+                    affectType: AffectType.INCREASE_HEAL_RECEIVED,
+                  },
+                },
+                {
+                  id: "10026-passive-1-2",
+                  name: "受到護盾效果增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.125,
+                    affectType: AffectType.INCREASE_SHIELD_RATE_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10026-passive-2",
+            name: '必殺時，觸發"使我方全體攻擊力增加10%(12回合)"效果',
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10026-passive-2-1",
+                  name: "攻擊力增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 12,
+                  _0: {
+                    value: 0.1,
+                    affectType: AffectType.INCREASE_ATK,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10026-passive-3",
+            name: '必殺時，觸發"以攻擊力100%對我方全體施放護盾(4回合)" 效果',
+            type: 31,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            //_31: {
+            //  value: 1,
+            //  target: Target.ALL_ALLIES,
+            //  affectType: AffectType.RAW_SHIELD,
+            //  duration: 1,
+            //},
+          },
+        ];
+      }
+      if (lib === 1) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10026-passive-1",
+            name:
+              '攻擊時，觸發"使我方全體被治療時回復量增加12.5%(2回合)、受到護盾效果增加12.5%(2回合)"效果',
+            type: 11,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10026-passive-1-1",
+                  name: "被治療時回復量增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.125,
+                    affectType: AffectType.INCREASE_HEAL_RECEIVED,
+                  },
+                },
+                {
+                  id: "10026-passive-1-2",
+                  name: "受到護盾效果增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.125,
+                    affectType: AffectType.INCREASE_SHIELD_RATE_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10026-passive-2",
+            name: "必殺時，觸發「使我方全體攻擊力增加30%(最多1層)」",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              target: Target.ALL_ALLIES,
+              targetSkill: "10026-passive-2-1",
+              increaseStack: 1,
+              applySkill: {
+                id: "10026-passive-2-1",
+                name: "攻擊力增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10026-passive-2-1",
+                  name: "攻擊力增加",
+                  stack: 1,
+                  maxStack: 1,
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            },
+          },
+          //必殺時，觸發"以攻擊力100%對我方全體施放護盾(4回合)" 效果
+          {
+            id: "10026-passive-3",
+            name: '必殺時，觸發"以攻擊力100%對我方全體施放護盾(4回合)" 效果',
+            type: 31,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            //_31: {
+            //  value: 1,
+            //  target: Target.ALL_ALLIES,
+            //  affectType: AffectType.RAW_SHIELD,
+            //  duration: 1,
+            //},
+          },
+        ];
+      }
+      if (lib === 3) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10026-passive-1",
+            name: "使自身到護盾效果增加30%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.3,
+              affectType: AffectType.INCREASE_SHIELD_RATE_RECEIVED,
+            },
+          },
+          {
+            id: "10026-passive-2",
+            name:
+              '攻擊時，觸發"使我方全體被治療時回復量增加12.5%(2回合)、受到護盾效果增加12.5%(2回合)"效果',
+            type: 11,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10026-passive-2-1",
+                  name: "被治療時回復量增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.125,
+                    affectType: AffectType.INCREASE_HEAL_RECEIVED,
+                  },
+                },
+                {
+                  id: "10026-passive-2-2",
+                  name: "受到護盾效果增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.125,
+                    affectType: AffectType.INCREASE_SHIELD_RATE_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10026-passive-3",
+            name: "必殺時，觸發「使我方全體攻擊力增加30%(最多1層)」",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              target: Target.ALL_ALLIES,
+              targetSkill: "10026-passive-3-1",
+              increaseStack: 1,
+              applySkill: {
+                id: "10026-passive-3-1",
+                name: "攻擊力增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10026-passive-3-1",
+                  name: "攻擊力增加",
+                  stack: 1,
+                  maxStack: 1,
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            },
+          },
+          {
+            id: "10026-passive-4",
+            name: "必殺時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」",
+            type: 6,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _6: {
+              value: 0.3,
+              target: Target.ALL_ALLIES,
+              affectType: AffectType.RAW_ATK,
+              duration: 1,
+              base: false,
+            },
+          },
+          {
+            id: "10026-passive-5",
+            name: '必殺時，觸發"以攻擊力100%對我方全體施放護盾(4回合)" 效果',
+            type: 31,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            //_31: {
+            //  value: 1,
+            //  target: Target.ALL_ALLIES,
+            //  affectType: AffectType.RAW_SHIELD,
+            //  duration: 1,
+            //},
+          },
+        ];
+        //
+        //必殺時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」
+        //必殺時，觸發「以攻擊力100%對我方全體施放護盾(4回合)」
+      }
+
+      if (passive4) {
+        //使自身受到傷害減少5%
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10026-passive4",
+            name: "使自身受到傷害減少5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.05,
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10027": "復活節 撒旦",
     // "10028": "復生公主 千鶴",
     // "10029": "夏日 靜",

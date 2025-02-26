@@ -281,6 +281,14 @@ export interface _30 {
   target: Target | CharacterClass;
 }
 
+export interface _31 {
+  value: number;
+  affectType: AffectType.RAW_SHIELD;
+  target: Target | CharacterClass;
+  applyToSpecificChar?: string;
+  duration: number;
+}
+
 // ---------------------------- ADD ON BUFF ----------------------------
 export interface _101 {
   value: number;
