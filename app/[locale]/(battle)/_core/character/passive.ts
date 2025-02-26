@@ -4255,6 +4255,153 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       break;
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
+    case "10127": {
+      //第一回合時，觸發「使自身必殺技當前CD減少30回合」
+      //行動時，觸發「使自身必殺技當前CD減少1回合」
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10127-passive-1",
+          name: "第一回合時，觸發「使自身必殺技當前CD減少30回合」",
+          duration: 100,
+          type: 14,
+          condition: Condition.ON_TURN_START,
+          _14: {
+            reduceCD: 30,
+            target: Target.SELF,
+          },
+        },
+        {
+          id: "10127-passive-2",
+          name: "行動時，觸發「使自身必殺技當前CD減少1回合」",
+          duration: 100,
+          type: 14,
+          condition: Condition.MOVE,
+          _14: {
+            reduceCD: 1,
+            target: Target.SELF,
+          },
+        },
+        {
+          id: "10127-passive-3",
+          name: "普攻時，觸發「《強制入睡》」",
+          duration: 100,
+          type: 11,
+          condition: Condition.BASIC_ATTACK,
+          _11: {
+            target: Target.ALL_EXCEPT_SELF,
+            applySkill: [{
+              id: "10127-passive-3-1",
+              name: "攻擊時，觸發「以自身攻擊力25%對目標造成傷害」(1回合)",
+              duration: 1,
+              type: 1,
+              condition: Condition.ATTACK,
+              _1: {
+                target: Target.ENEMY,
+                value: 0.25,
+                damageType: DamageType.TRIGGER,
+                action: CharacterAction.NONE,
+              },
+            }],
+          },
+        },
+      ];
+
+      if (gameState.characters[position].stars === 5) {
+        //第4回合時，觸發「使我方全體必殺技傷害增加30%(16回合)」
+        //第7回合時，觸發「使我方全體必殺技傷害增加30%(13回合)」
+        //第10回合時，觸發「使我方全體必殺技傷害增加40%(10回合)」
+
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10127-passive-4",
+            name: "第4回合時，觸發「使我方全體必殺技傷害增加30%(16回合)」",
+            duration: 100,
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 4,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [{
+                id: "10127-passive-4-1",
+                name: "必殺技傷害增加",
+                duration: 16,
+                type: 0,
+                condition: Condition.NONE,
+                _0: {
+                  value: 0.25,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              }],
+            },
+          },
+          {
+            id: "10127-passive-5",
+            name: "第7回合時，觸發「使我方全體必殺技傷害增加30%(13回合)」",
+            duration: 100,
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 7,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [{
+                id: "10127-passive-5-1",
+                name: "必殺技傷害增加",
+                duration: 13,
+                type: 0,
+                condition: Condition.NONE,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              }],
+            },
+          },
+          {
+            id: "10127-passive-6",
+            name: "第10回合時，觸發「使我方全體必殺技傷害增加40%(10回合)」",
+            duration: 100,
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 10,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [{
+                id: "10127-passive-4-1",
+                name: "必殺技傷害增加",
+                duration: 10,
+                type: 0,
+                condition: Condition.NONE,
+                _0: {
+                  value: 0.4,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              }],
+            },
+          },
+        ];
+      }
+
+      if (gameState.characters[position].passive4) {
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10127-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10128": "性誕戀歌 伊布力斯",
     case "10128": {
       gameState.characters.forEach((character, index) => {
@@ -7263,7 +7410,36 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       });
 
       if (gameState.characters[position].stars === 5) {
-        //每經過一回合時，觸發「使自身被攻擊時，觸發『以自身最大HP10%對我方全體造成治療』(1回合)(此效果最多作用一次)」
+        gameState.characters[position].buff = [
+          ...gameState.characters[position].buff,
+          {
+            id: "10152-passive-5",
+            name:
+              "每經過一回合時，觸發「使自身被攻擊時，觸發『以自身最大HP10%對我方全體造成治療』(1回合)(此效果最多作用一次)」",
+            duration: 100,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            type: 11,
+            _11: {
+              target: Target.SELF,
+              applySkill: [{
+                id: "10152-passive-5-1",
+                name:
+                  "被攻擊時，觸發『以自身最大HP10%對我方全體造成治療』(1回合)(此效果最多作用一次)",
+                condition: Condition.RECEIVED_ATTACK,
+                type: 26,
+                duration: 100,
+                deleteSelf: true,
+                _26: {
+                  damageType: DamageType.TRIGGER_HP,
+                  value: 0.1,
+                  action: CharacterAction.NONE,
+                  target: Target.ALL_ALLIES,
+                },
+              }],
+            },
+          },
+        ];
         gameState.characters.forEach((character, index) => {
           if (
             character.attribute === CharacterAttribute.DARK ||

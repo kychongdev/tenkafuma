@@ -18,6 +18,7 @@ import { p, parseTargetToNum } from "./utils";
 import { checkSpecialCondition } from "./checkSpecialCondition";
 import { healUltDamage } from "./healUltDamage";
 import { dealDotDamage } from "./dealDotDamage";
+import { healUltHpDamage } from "./healUltHpDamage";
 
 export function triggerSkill(
   buff: Skill,
@@ -64,46 +65,70 @@ export function triggerSkill(
         case DamageType.BASIC:
         case DamageType.BASIC_ADDON: {
           if (buff._1.target === Target.ALL_ALLIES) {
-            dealBasicDamage(
-              position,
-              buff._1.value,
-              gameState,
-              Target.POSITION_1,
-              buff._1.damageType,
-              buff._1.action,
-            );
-            dealBasicDamage(
-              position,
-              buff._1.value,
-              gameState,
-              Target.POSITION_2,
-              buff._1.damageType,
-              buff._1.action,
-            );
-            dealBasicDamage(
-              position,
-              buff._1.value,
-              gameState,
-              Target.POSITION_3,
-              buff._1.damageType,
-              buff._1.action,
-            );
-            dealBasicDamage(
-              position,
-              buff._1.value,
-              gameState,
-              Target.POSITION_4,
-              buff._1.damageType,
-              buff._1.action,
-            );
-            dealBasicDamage(
-              position,
-              buff._1.value,
-              gameState,
-              Target.POSITION_5,
-              buff._1.damageType,
-              buff._1.action,
-            );
+            if (
+              !gameState.characters[0].isDead && gameState.characters[0].isExist
+            ) {
+              dealBasicDamage(
+                position,
+                buff._1.value,
+                gameState,
+                Target.POSITION_1,
+                buff._1.damageType,
+                buff._1.action,
+              );
+            }
+
+            if (
+              !gameState.characters[1].isDead && gameState.characters[1].isExist
+            ) {
+              dealBasicDamage(
+                position,
+                buff._1.value,
+                gameState,
+                Target.POSITION_2,
+                buff._1.damageType,
+                buff._1.action,
+              );
+            }
+
+            if (
+              !gameState.characters[2].isDead && gameState.characters[2].isExist
+            ) {
+              dealBasicDamage(
+                position,
+                buff._1.value,
+                gameState,
+                Target.POSITION_3,
+                buff._1.damageType,
+                buff._1.action,
+              );
+            }
+
+            if (
+              !gameState.characters[3].isDead && gameState.characters[3].isExist
+            ) {
+              dealBasicDamage(
+                position,
+                buff._1.value,
+                gameState,
+                Target.POSITION_4,
+                buff._1.damageType,
+                buff._1.action,
+              );
+            }
+
+            if (
+              !gameState.characters[4].isDead && gameState.characters[4].isExist
+            ) {
+              dealBasicDamage(
+                position,
+                buff._1.value,
+                gameState,
+                Target.POSITION_5,
+                buff._1.damageType,
+                buff._1.action,
+              );
+            }
           } else {
             dealBasicDamage(
               position,
@@ -2050,46 +2075,145 @@ export function triggerSkill(
         case DamageType.ULTIMATE_ADDON:
         case DamageType.TRIGGER: {
           if (buff._26.target === Target.ALL_ALLIES) {
+            if (
+              !gameState.characters[0].isDead && gameState.characters[0].isExist
+            ) {
+              healUltDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_1,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+
+            if (
+              !gameState.characters[1].isDead && gameState.characters[1].isExist
+            ) {
+              healUltDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_2,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+
+            if (
+              !gameState.characters[2].isDead && gameState.characters[2].isExist
+            ) {
+              healUltDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_3,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+
+            if (
+              !gameState.characters[3].isDead && gameState.characters[3].isExist
+            ) {
+              healUltDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_4,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+
+            if (
+              !gameState.characters[4].isDead && gameState.characters[4].isExist
+            ) {
+              healUltDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_5,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+          } else {
             healUltDamage(
               position,
               buff._26.value,
               gameState,
-              Target.POSITION_1,
+              buff._26.target,
               buff._26.damageType,
               buff._26.action,
             );
-            healUltDamage(
-              position,
-              buff._26.value,
-              gameState,
-              Target.POSITION_2,
-              buff._26.damageType,
-              buff._26.action,
-            );
-            healUltDamage(
-              position,
-              buff._26.value,
-              gameState,
-              Target.POSITION_3,
-              buff._26.damageType,
-              buff._26.action,
-            );
-            healUltDamage(
-              position,
-              buff._26.value,
-              gameState,
-              Target.POSITION_4,
-              buff._26.damageType,
-              buff._26.action,
-            );
-            healUltDamage(
-              position,
-              buff._26.value,
-              gameState,
-              Target.POSITION_5,
-              buff._26.damageType,
-              buff._26.action,
-            );
+          }
+          break;
+        }
+        case DamageType.TRIGGER_HP: {
+          if (buff._26.target === Target.ALL_ALLIES) {
+            if (
+              !gameState.characters[0].isDead && gameState.characters[0].isExist
+            ) {
+              healUltHpDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_1,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+
+            if (
+              !gameState.characters[1].isDead && gameState.characters[1].isExist
+            ) {
+              healUltHpDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_2,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+            if (
+              !gameState.characters[2].isDead && gameState.characters[2].isExist
+            ) {
+              healUltHpDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_3,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+            if (
+              !gameState.characters[3].isDead && gameState.characters[3].isExist
+            ) {
+              healUltHpDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_4,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
+            if (
+              !gameState.characters[4].isDead && gameState.characters[4].isExist
+            ) {
+              healUltHpDamage(
+                position,
+                buff._26.value,
+                gameState,
+                Target.POSITION_5,
+                buff._26.damageType,
+                buff._26.action,
+              );
+            }
           } else {
             healUltDamage(
               position,

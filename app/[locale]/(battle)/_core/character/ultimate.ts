@@ -21,6 +21,7 @@ import {
 import { dealUltDamage } from "../dealUltDamage";
 import { dealUltHpDamage } from "../dealUltHpDamage";
 import { healUltDamage } from "../healUltDamage";
+import { healUltHpDamage } from "../healUltHpDamage";
 
 export function ultimateAttack(gameState: GameState, position: number) {
   const bond = gameState.characters[position].bond;
@@ -2244,6 +2245,60 @@ export function ultimateAttack(gameState: GameState, position: number) {
       break;
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
+    case "10127": {
+      //使我方全體必殺技傷害增加10/15/20/25/30%(15回合)、使自身獲得攻擊時，觸發「以自身攻擊力20/22.5/25/27.5/30%使我方全體攻擊力增加(1回合)」(15回合)，CD:30
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10127-ult-1",
+            name: "必殺技傷害增加30%(15回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 15,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value: bond === 1
+                ? 0.1
+                : bond === 2
+                ? 0.15
+                : bond === 3
+                ? 0.2
+                : bond === 4
+                ? 0.25
+                : 0.3,
+            },
+          },
+        ];
+      });
+
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10127-ult-2",
+          name: "攻擊力",
+          type: 6,
+          condition: Condition.ATTACK,
+          duration: 15,
+          _6: {
+            affectType: AffectType.RAW_ATK,
+            value: bond === 1
+              ? 0.2
+              : bond === 2
+              ? 0.225
+              : bond === 3
+              ? 0.25
+              : bond === 4
+              ? 0.275
+              : 0.3,
+            target: Target.ALL_ALLIES,
+            duration: 1,
+            base: false,
+          },
+        },
+      ];
+      break;
+    }
     // "10128": "性誕戀歌 伊布力斯",
     case "10128": {
       {
@@ -3888,7 +3943,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
         ];
       });
 
-      healUltDamage(
+      healUltHpDamage(
         position,
         bond === 1
           ? 0.4
@@ -4512,7 +4567,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
 
     // "10162": "虔信神祀 艾可",
     case "10162": {
-      //使自身獲得3/4/5/6/7層《凱薩大明神的加護》(最多7層)，並使自身造成傷害增加35/45/55/65/75%(最多1層)。CD:[4/5/6/7/8]
       const stackIncrease = bond === 1
         ? 3
         : bond === 2
@@ -4594,8 +4648,6 @@ export function ultimateAttack(gameState: GameState, position: number) {
 
     // "10163": "夜之影 凱薩",
     case "10163": {
-      //使自身造成傷害增加10/23/36/49/62%(最多1層)、再使目標受到全屬性傷害增加15/20/25/30/35%(最多1層)，再以自身攻擊力165/188/211/234/257%對目標造成傷害2次，CD:4
-
       const valueIncrease = bond === 1
         ? 0.1
         : bond === 2

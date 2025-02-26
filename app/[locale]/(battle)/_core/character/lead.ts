@@ -4594,16 +4594,365 @@ export function triggerLead(gameState: GameState) {
 
     // "10162": "虔信神祀 艾可",
     case "10162": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10162-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10162-lead-2",
+            name: "攻擊力增加80%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.8,
+            },
+          },
+          {
+            id: "10162-lead-3",
+            name: "造成傷害增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value: 0.5,
+            },
+          },
+          {
+            id: "10162-lead-4",
+            name: "普攻傷害增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_BASIC_DMG,
+              value: 1,
+            },
+          },
+          {
+            id: "10162-Lead-5",
+            name:
+              "我方全體獲得「普攻時，觸發『使目標受到傷害增加1.5%(最多50層)』」",
+            type: 4,
+            condition: Condition.NONE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10162-Lead-5-1",
+              target: Target.ALL_ALLIES,
+              applySkill: {
+                id: "10162-Lead-5-1",
+                name: "受到傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10162-Lead-5-1",
+                  name: "受到傷害增加",
+                  stack: 1,
+                  maxStack: 50,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  value: 0.015,
+                },
+              },
+            },
+          },
+        ];
+      });
+
+      const supportExist = [
+        CharacterClass.SUPPORT,
+      ];
+      gameState.characters.forEach((character) => {
+        if (supportExist.includes(character.class)) {
+          const index = supportExist.indexOf(character.class);
+          if (index !== -1) {
+            supportExist.splice(
+              supportExist.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+
+      if (supportExist.length > 0) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10162-lead-6",
+              name: "造成傷害減少500%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.DECREASE_DMG,
+                value: 5,
+              },
+            },
+          ];
+        });
+      }
       break;
     }
 
     // "10163": "夜之影 凱薩",
     case "10163": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10163-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10163-lead-2",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+
+      gameState.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER
+        ) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10163-lead-3",
+              name: "免疫必殺技CD變動效果",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.IMMUNE_CD_CHANGE,
+                value: 0,
+              },
+            },
+            {
+              id: "10163-lead-4",
+              name: "防禦時，觸發「使我方全體造成傷害增加20%(2回合)」",
+              type: 11,
+              condition: Condition.GUARD,
+              duration: 100,
+              _11: {
+                target: Target.ALL_ALLIES,
+                applySkill: [
+                  {
+                    id: "10163-lead-4-1",
+                    name: "造成傷害增加",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      value: 0.2,
+                      affectType: AffectType.INCREASE_DMG,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: "10163-lead-5",
+              name: "防禦時，觸發「使自身必殺技傷害增加30%(2回合)」",
+              type: 11,
+              condition: Condition.GUARD,
+              duration: 100,
+              _11: {
+                target: Target.SELF,
+                applySkill: [
+                  {
+                    id: "10163-lead-5-1",
+                    name: "必殺技傷害增加",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      value: 0.3,
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: "10163-lead-6",
+              name: "防禦時，觸發「使自身攻擊力增加40%(2回合)」",
+              type: 11,
+              condition: Condition.GUARD,
+              duration: 100,
+              _11: {
+                target: Target.SELF,
+                applySkill: [
+                  {
+                    id: "10163-lead-6-1",
+                    name: "攻擊力增加",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      value: 0.4,
+                      affectType: AffectType.INCREASE_ATK,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: "10163-lead-7",
+              name: "必殺時，觸發「以自身攻擊力55%對目標造成傷害」",
+              type: 1,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _1: {
+                value: 0.55,
+                target: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                action: CharacterAction.ULTIMATE,
+              },
+            },
+          ];
+        }
+      });
       break;
     }
 
     // "10164": "祭典花韻 香奈"
     case "10164": {
+      //我方全體獲得「當我方隊伍恰好為2種角色屬性時，開啟『《才貌雙全》』」
+      //
+      //《才貌雙全》
+      //
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10164-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10164-lead-2",
+            name: "攻擊力增加60%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.6,
+            },
+          },
+        ];
+      });
+      const onlyTwoAttributes = [
+        CharacterAttribute.LIGHT,
+        CharacterAttribute.DARK,
+        CharacterAttribute.WIND,
+        CharacterAttribute.WATER,
+        CharacterAttribute.FIRE,
+      ];
+      gameState.characters.forEach((character) => {
+        if (onlyTwoAttributes.includes(character.attribute)) {
+          const index = onlyTwoAttributes.indexOf(character.attribute);
+          if (index !== -1) {
+            onlyTwoAttributes.splice(
+              onlyTwoAttributes.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (onlyTwoAttributes.length === 3) {
+        gameState.characters.forEach((_, index) => {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10162-lead-3",
+              name: "造成傷害增加50%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.5,
+              },
+            },
+            {
+              id: "10162-lead-4",
+              name: "造成觸發技效果增加100%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+                value: 1,
+              },
+            },
+            {
+              id: "10162-lead-5",
+              name: "被攻擊時，觸發「使目標受到傷害增加0.8%(最多50層)」",
+              type: 4,
+              condition: Condition.RECEIVED_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10162-Lead-5-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10162-Lead-5-1",
+                  name: "受到傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10162-Lead-5-1",
+                    name: "受到傷害增加",
+                    stack: 1,
+                    maxStack: 50,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                    value: 0.08,
+                  },
+                },
+              },
+            },
+          ];
+        });
+      }
+
       break;
     }
 

@@ -12,7 +12,7 @@ import { heal } from "../heal";
 import { parseCondition } from "../parseCondition";
 import { triggerSkill } from "../triggerSkill";
 import { GameState } from "../GameState";
-import { CharacterAction } from "../../_types/Character";
+import { CharacterAction, CharacterAttribute } from "../../_types/Character";
 
 export function basicAttack(gameState: GameState, position: number) {
   const id = gameState.characters[position].id;
@@ -562,6 +562,27 @@ export function basicAttack(gameState: GameState, position: number) {
       break;
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
+    case "10127": {
+      gameState.characters.forEach((character, index) => {
+        if (character.attribute === CharacterAttribute.WATER) {
+          gameState.characters[index].buff = [
+            ...gameState.characters[index].buff,
+            {
+              id: "10127-basic-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: 0.5,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10128": "性誕戀歌 伊布力斯",
     case "10128": {
       dealBasicDamage(

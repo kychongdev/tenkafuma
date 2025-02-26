@@ -43,6 +43,19 @@ export function triggerAddOn(
   position: number,
   oldState?: GameState,
 ) {
+  if (
+    buff.disableOnStack && buff.disableOnStackSkill &&
+    buff.disableOnStackBelowValue && oldState
+  ) {
+    const isExist = oldState.characters[position].buff.find((x) => {
+      return x.id === buff.disableOnStackSkill;
+    });
+    if (
+      isExist && isExist._3 && isExist._3.stack >= buff.disableOnStackBelowValue
+    ) {
+      return;
+    }
+  }
   switch (buff.type) {
     case 101:
       if (!buff._101) {
