@@ -51,6 +51,10 @@ export interface GameState {
     everyTurnAttack: boolean;
     everyTurnAttackTarget: Target;
   };
+  reflectDmg: {
+    attacker: Target;
+    defender: Target;
+  }[];
   //heal_log_1: DamageLog[];
   //heal_log_2: DamageLog[];
   //heal_log_3: DamageLog[];
@@ -134,6 +138,7 @@ export const useGameState = create<GameState>()(
       enemies: [initCharacterState],
       stage: "wood",
       stage_state: {} as any,
+      reflectDmg: [],
       characters: [
         initCharacterState,
         initCharacterState,

@@ -1594,6 +1594,39 @@
     "cd": 4,
     "leader": true
   },
+  "10162": {
+    "id": 10162,
+    "name": "虔信神祀 艾可",
+    "initHp": 3598.4,
+    "initAtk": 979.2,
+    "attribute": 9,
+    "class": 11,
+    "available": true,
+    "cd": 4,
+    "leader": true
+  },
+  "10163": {
+    "id": 10163,
+    "name": "夜之影 凱薩",
+    "initHp": 4112,
+    "initAtk": 857.6,
+    "attribute": 9,
+    "class": 11,
+    "available": true,
+    "cd": 4,
+    "leader": true
+  },
+  "10164": {
+    "id": 10164,
+    "name": "祭典花韻 香奈",
+    "initHp": 4900.8,
+    "initAtk": 718.4,
+    "attribute": 7,
+    "class": 12,
+    "available": true,
+    "cd": 3,
+    "leader": false
+  },
   "10175": {
     "id": 10175,
     "name": "翩舞雪花 初華",

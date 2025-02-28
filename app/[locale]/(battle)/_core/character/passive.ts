@@ -1865,6 +1865,15 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     }
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
+    case "10075": {
+      //每經過1回合，觸發「使我方全體攻擊力增加2.5%(最多8層)」
+      //第1回合時，觸發「使我方全體被治療時回復量增加30%(50回合)」
+      //每經過1回合，觸發「以自身攻擊力20%對我方全體進行治療」
+      //普攻時，觸發「使我方全體普攻傷害增加40%(1回合)」
+      //必殺時，觸發「使我方全體必殺傷害增加15%(1回合)」
+      //使自身受到傷害減少5%
+      break;
+    }
     // "10076": "夢遊魔境 露露",
     case "10076": {
       gameState.characters[position].buff = [
@@ -9599,7 +9608,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                     stack: 1,
                     maxStack: 3,
                     affectType: AffectType.INCREASE_ATK,
-                    value: 0,
+                    value: 0.5,
                   },
                 },
               },
