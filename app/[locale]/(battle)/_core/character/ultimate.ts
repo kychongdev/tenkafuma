@@ -4620,13 +4620,13 @@ export function ultimateAttack(gameState: GameState, position: number) {
           target: Target.SELF,
           applySkill: {
             id: "10157-ult-1-1",
-            name: "《向聖杯祈願》",
+            name: "《純真祈願》",
             type: 3,
             condition: Condition.NONE,
             duration: 100,
             _3: {
-              id: "10153-ult-1-1",
-              name: "《向聖杯祈願》",
+              id: "10157-ult-1-1",
+              name: "《純真祈願》",
               stack: bond === 1
                 ? 6
                 : bond === 2
@@ -4644,6 +4644,26 @@ export function ultimateAttack(gameState: GameState, position: number) {
         },
       };
       triggerSkill(skill, gameState, position);
+
+      gameState.characters.forEach((character) => {
+        const attack = Math.floor(
+          applyRawAttBuff(gameState, position) * 0.3,
+        );
+        character.buff = [
+          ...character.buff,
+          {
+            id: "10157-ult-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
       break;
     }
 

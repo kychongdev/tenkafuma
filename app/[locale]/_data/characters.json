@@ -321,11 +321,11 @@
   "10030": {
     "id": 10030,
     "name": "夏日 露露",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3748.8,
+    "initAtk": 940.8,
+    "attribute": 6,
+    "class": 15,
+    "available": true,
     "cd": 4,
     "leader": false
   },
@@ -827,11 +827,11 @@
   "10081": {
     "id": 10081,
     "name": "花嫁 伊布力斯",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
+    "initHp": 3528,
+    "initAtk": 998.4,
+    "attribute": 8,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4,
     "leader": false
   },
@@ -1223,11 +1223,11 @@
   "10127": {
     "id": 10127,
     "name": "雪夜幻夢 阿爾蒂雅",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
+    "initHp": 3332.8,
+    "initAtk": 1057.6,
+    "attribute": 6,
+    "class": 15,
+    "available": true,
     "cd": 30,
     "leader": false
   },
@@ -1557,9 +1557,9 @@
     "initAtk": 1019.2,
     "attribute": 8,
     "class": 15,
-    "available": false,
+    "available": true,
     "cd": 1,
-    "leader": false
+    "leader": true
   },
   "10158": {
     "id": 10158,

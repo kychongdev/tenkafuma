@@ -4862,6 +4862,66 @@ export function triggerLead(gameState: GameState) {
 
     // "10157": "純真祈願 牧愛菈"
     case "10157": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10157-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10157-lead-2",
+            name: "攻擊力增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 1,
+            },
+          },
+          {
+            id: "10157-lead-3",
+            name: "我方全體普攻時，追加『以自身攻擊力15%對目標造成傷害』",
+            type: 101,
+            duration: 100,
+            condition: Condition.BASIC_ATTACK,
+            _101: {
+              value: 0.15,
+              target: Target.ENEMY,
+              damageType: DamageType.BASIC_ADDON,
+              action: CharacterAction.BASIC,
+            },
+          },
+          {
+            id: "10157-lead-4",
+            name: "我方全體必殺時，追加「以自身攻擊力30%對目標造成傷害」",
+            type: 101,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _101: {
+              value: 0.3,
+              target: Target.ENEMY,
+              damageType: DamageType.ULTIMATE_ADDON,
+              action: CharacterAction.ULTIMATE,
+            },
+          },
+        ];
+      });
+
+      //自身攻擊時，根據自身《純真祈願》的層數，觸發《命中注定》
+      //
+      //《命中注定》
+      //使我方全體造成傷害增加0.75%(最多80層)
+      //使目標受到傷害增加0.25%(最多80層)
+      //使目標受到全屬性傷害增加0.25%(最多80層)
       break;
     }
 
