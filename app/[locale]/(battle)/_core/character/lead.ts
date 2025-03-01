@@ -4916,6 +4916,50 @@ export function triggerLead(gameState: GameState) {
         ];
       });
 
+      gameState.characters[0].buff = [
+        ...gameState.characters[0].buff,
+        {
+          id: "10157-lead-5",
+          name:
+            "攻擊時，根據自身《純真祈願》的層數，觸發「使我方全體造成傷害增加0.75%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-5-1",
+              name:
+                "攻擊時，根據自身《純真祈願》的層數，觸發「使我方全體造成傷害增加0.75%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ALL_ALLIES,
+                targetSkill: "10157-lead-5-1-1",
+                applySkill: {
+                  id: "10157-lead-5-1-1",
+                  name: "造成傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-5-1-1",
+                    name: "造成傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.025,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+
       //自身攻擊時，根據自身《純真祈願》的層數，觸發《命中注定》
       //
       //《命中注定》
