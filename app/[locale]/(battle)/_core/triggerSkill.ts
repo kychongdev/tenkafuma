@@ -30,6 +30,8 @@ export function triggerSkill(
     buff.disableOnStack && buff.disableOnStackSkill &&
     buff.disableOnStackBelowValue && oldState
   ) {
+    console.log("test");
+    console.log(buff.id);
     const isExist = oldState.characters[position].buff.find((x) => {
       return x.id === buff.disableOnStackSkill;
     });
@@ -42,6 +44,8 @@ export function triggerSkill(
       console.log("disableOnStack");
       return;
     }
+
+    console.log("active");
   }
   if (buff.id === "10140-passive-6") {
     console.log("test");
@@ -1005,7 +1009,6 @@ export function triggerSkill(
               return x.id === buff._8?.targetSkill;
             },
           );
-          console.log(skillStackNum);
 
           if (!skillStackNum || !skillStackNum._3) {
             // Does not have this skill
@@ -2436,7 +2439,7 @@ export function triggerSkill(
                   if (x._3 && x._3.stack > 0) {
                     if (x._3 && buff._30) {
                       x._3.stack -= buff._30.reduceStack;
-                      if (x._3.stack < 0) {
+                      if (x._3.stack < 0 || x._3.stack === 0) {
                         return;
                       }
                     } else {

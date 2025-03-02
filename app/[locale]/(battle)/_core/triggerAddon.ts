@@ -50,8 +50,13 @@ export function triggerAddOn(
     const isExist = oldState.characters[position].buff.find((x) => {
       return x.id === buff.disableOnStackSkill;
     });
+    console.log(buff.id);
+
+    if (!isExist) {
+      return;
+    }
     if (
-      isExist && isExist._3 && isExist._3.stack >= buff.disableOnStackBelowValue
+      isExist._3 && isExist._3.stack < buff.disableOnStackBelowValue
     ) {
       return;
     }

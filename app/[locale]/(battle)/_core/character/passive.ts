@@ -9090,46 +9090,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             ],
           },
         },
-        {
-          id: "10157-passive-5",
-          name:
-            "必殺時，根據自身《純真祈願》的層數，觸發「使我方全體必殺技傷害增加1.25%(最多50層)」",
-          type: 8,
-          condition: Condition.ULTIMATE,
-          duration: 100,
-          _8: {
-            target: Target.SELF,
-            targetSkill: "10157-ult-1-1",
-            triggerSkill: {
-              id: "10157-passive-5-1",
-              name:
-                "必殺時，根據自身《純真祈願》的層數，觸發「使我方全體必殺技傷害增加1.25%(最多50層)」",
-              type: 4,
-              condition: Condition.ULTIMATE,
-              duration: 100,
-              _4: {
-                increaseStack: 1,
-                target: Target.ALL_ALLIES,
-                targetSkill: "10157-passive-5-1-1",
-                applySkill: {
-                  id: "10157-passive-5-1-1",
-                  name: "必殺技傷害增加",
-                  type: 3,
-                  condition: Condition.NONE,
-                  duration: 100,
-                  _3: {
-                    id: "10157-passive-5-1-1",
-                    name: "必殺技傷害增加",
-                    stack: 1,
-                    maxStack: 50,
-                    value: 0.0125,
-                    affectType: AffectType.INCREASE_ULTIMATE_DMG,
-                  },
-                },
-              },
-            },
-          },
-        },
       ];
       gameState.characters.forEach((_, index) => {
         gameState.characters[index].buff = [
@@ -9176,7 +9136,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             targetSkill: "10157-ult-1-1",
             triggerSkill: {
               id: "10157-passive-5-1",
-              name: "使我方全體必殺技傷害增加1.25%",
+              name: "使我方全體普攻傷害增加1.25%",
               type: 4,
               condition: Condition.NONE,
               duration: 100,
@@ -9713,9 +9673,9 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           type: 0,
           condition: Condition.NONE,
           duration: 100,
-          disableOnStack: true,
-          disableOnStackBelowValue: 1,
-          disableOnStackSkill: "10162-ult-1-1",
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 0,
+          specialConditionSkill: "10162-ult-1-1",
           _0: {
             value: 1.25,
             affectType: AffectType.INCREASE_BASIC_DMG,
@@ -9725,7 +9685,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
           id: "10162-passive-4",
           name: "普攻時，追加「以自身攻擊力150%對目標造成傷害」",
           type: 101,
-          condition: Condition.NONE,
+          condition: Condition.BASIC_ATTACK,
           duration: 100,
           disableOnStack: true,
           disableOnStackBelowValue: 1,

@@ -708,13 +708,21 @@ export function dealBasicDamage(
     .round(0, Big.roundDown);
 
   console.log(
+    "攻擊力",
     attackerAtk.toNumber(),
+    "攻擊%",
     atkPercentage.toNumber(),
+    "定值攻擊力",
     rawAtk.toNumber(),
+    "普攻",
     basicBuff.toNumber(),
+    "造傷",
     increaseDamage.toNumber(),
+    "易傷",
     enemyDamageReceivedIncrease.toNumber(),
+    "屬傷",
     attributeDamage.toNumber(),
+    "倍率",
     value,
     defenderDefEffect.toNumber(),
   );

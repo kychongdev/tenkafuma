@@ -9,7 +9,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { Hourglass, Podcast, SwordsIcon, TowerControl } from "lucide-react";
 import NavigationLink from "./default/NavigationLink";

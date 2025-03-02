@@ -5141,7 +5141,7 @@ export function triggerLead(gameState: GameState) {
                 target: Target.ENEMY,
                 targetSkill: "10157-lead-11-1-1",
                 applySkill: {
-                  id: "10157-lead-10-1-1",
+                  id: "10157-lead-11-1-1",
                   name: "受到光屬性傷害增加",
                   type: 3,
                   condition: Condition.NONE,
