@@ -1,8 +1,8 @@
-import { AffectType } from '@/types/Skill';
-import { CharacterState } from '@/types/Select';
-import { f } from '../_core/utils';
-import { Card } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { AffectType } from "@/types/Skill";
+import { CharacterState } from "@/types/Select";
+import { f } from "../_core/utils";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const CharacterStats = (props: { character: CharacterState }) => {
   const atkBuff = props.character.atk;
@@ -386,90 +386,114 @@ export const CharacterStats = (props: { character: CharacterState }) => {
 
   return (
     <ScrollArea className="grid gap-1 h-96">
-      {roundNum(atkPercentage) !== '0.00' ? (
-        <Card className="p-2 text-sm ">HP: {f(props.character.maxHp)}</Card>
-      ) : null}
-      {roundNum(atkPercentage) !== '0.00' ? (
-        <Card className="p-2 text-sm ">
-          總攻擊力: {f(Math.floor(atkBuff * (atkPercentage + 1) + rawAtk))}
-        </Card>
-      ) : null}
-      {roundNum(atkPercentage) !== '0.00' ? (
-        <Card className="p-2 text-sm ">
-          最大HP加成 : {f(hpPercentage * 100)}%
-        </Card>
-      ) : null}
-      {f(rawAtk) !== '0' ? (
-        <Card className="p-2 text-sm ">攻擊力加成(定值): {f(rawAtk)}</Card>
-      ) : null}
-      {roundNum(atkPercentage) !== '0.00' ? (
-        <Card className="p-2 text-sm ">
-          ATK加成%: {roundNum(atkPercentage)}%
-        </Card>
-      ) : null}
-      {f(atkBuff) !== '0' ? (
-        <Card className="p-2 text-sm ">基礎攻擊力: {f(atkBuff)}</Card>
-      ) : null}
-      {roundNum(increaseDmg) !== '0.00' ? (
-        <Card className="p-2 text-sm ">
-          造成傷害加成%: {roundNum(increaseDmg)}%
-        </Card>
-      ) : null}
-      {roundNum(increaseDmgReceived) !== '0.00' ? (
-        <Card className="p-2 text-sm ">
-          受到傷害加成%: {roundNum(increaseDmgReceived)}%
-        </Card>
-      ) : null}
-      {f(fireAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          火屬性傷害加成%: {roundNum(fireAttribute)}%
-        </Card>
-      ) : null}
-      {f(waterAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          水屬性傷害加成%: {roundNum(waterAttribute)}%
-        </Card>
-      ) : null}
-      {f(windAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          風屬性傷害加成%: {roundNum(windAttribute)}%
-        </Card>
-      ) : null}
-      {f(lightAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          光屬性傷害加成%: {roundNum(lightAttribute)}%
-        </Card>
-      ) : null}
-      {f(darkAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          暗屬性傷害加成%: {roundNum(darkAttribute)}%
-        </Card>
-      ) : null}
-      {f(basicAtkBuff) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          普攻效果加成%: {roundNum(basicAtkBuff)}%
-        </Card>
-      ) : null}
-      {f(ultimateAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          必殺效果加成%: {roundNum(ultimateAttribute)}%
-        </Card>
-      ) : null}
-      {f(triggerEffectAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          觸發效果加成%: {roundNum(triggerEffectAttribute)}%
-        </Card>
-      ) : null}
-      {f(triggerAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          觸發傷害加成%: {roundNum(triggerAttribute)}%
-        </Card>
-      ) : null}
-      {f(otherAttribute) !== '0' ? (
-        <Card className="p-2 text-sm ">
-          其他類效果加成%: {roundNum(otherAttribute)}%
-        </Card>
-      ) : null}
+      <Card className="p-2 text-sm ">HP: {f(props.character.maxHp)}</Card>
+      <Card className="p-2 text-sm ">
+        總攻擊力: {f(Math.floor(atkBuff * (atkPercentage + 1) + rawAtk))}
+      </Card>
+      {roundNum(atkPercentage) !== "0.00"
+        ? (
+          <Card className="p-2 text-sm ">
+            最大HP加成 : {f(hpPercentage * 100)}%
+          </Card>
+        )
+        : null}
+      {f(rawAtk) !== "0"
+        ? <Card className="p-2 text-sm ">攻擊力加成(定值): {f(rawAtk)}</Card>
+        : null}
+      {roundNum(atkPercentage) !== "0.00"
+        ? (
+          <Card className="p-2 text-sm ">
+            ATK加成%: {roundNum(atkPercentage)}%
+          </Card>
+        )
+        : null}
+      {f(atkBuff) !== "0"
+        ? <Card className="p-2 text-sm ">基礎攻擊力: {f(atkBuff)}</Card>
+        : null}
+      {roundNum(increaseDmg) !== "0.00"
+        ? (
+          <Card className="p-2 text-sm ">
+            造成傷害加成%: {roundNum(increaseDmg)}%
+          </Card>
+        )
+        : null}
+      {roundNum(increaseDmgReceived) !== "0.00"
+        ? (
+          <Card className="p-2 text-sm ">
+            受到傷害加成%: {roundNum(increaseDmgReceived)}%
+          </Card>
+        )
+        : null}
+      {f(fireAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            火屬性傷害加成%: {roundNum(fireAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(waterAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            水屬性傷害加成%: {roundNum(waterAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(windAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            風屬性傷害加成%: {roundNum(windAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(lightAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            光屬性傷害加成%: {roundNum(lightAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(darkAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            暗屬性傷害加成%: {roundNum(darkAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(basicAtkBuff) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            普攻效果加成%: {roundNum(basicAtkBuff)}%
+          </Card>
+        )
+        : null}
+      {f(ultimateAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            必殺效果加成%: {roundNum(ultimateAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(triggerEffectAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            觸發效果加成%: {roundNum(triggerEffectAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(triggerAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            觸發傷害加成%: {roundNum(triggerAttribute)}%
+          </Card>
+        )
+        : null}
+      {f(otherAttribute) !== "0"
+        ? (
+          <Card className="p-2 text-sm ">
+            其他類效果加成%: {roundNum(otherAttribute)}%
+          </Card>
+        )
+        : null}
     </ScrollArea>
   );
 };

@@ -366,6 +366,7 @@ export function parseSkillName(buff: Skill) {
   if (buff.type === 7) {
     return `${buff.name}[${buff._7?.activated ? "已觸發" : "未觸發"}])`;
   }
+
   return `${
     buff.deactivated === true
       ? "(未發動)"

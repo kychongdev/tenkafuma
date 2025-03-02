@@ -248,7 +248,7 @@ export const useGameState = create<GameState>()(
           state.action.push({ position, targeting: state.targeting });
           state.characters[position].isMoved = true;
 
-          const oldState = state;
+          const oldState = p(state);
           basicAttack(state, position);
           parseConditionAddon(
             position,
@@ -356,7 +356,7 @@ export const useGameState = create<GameState>()(
             position: position + 10,
             targeting: state.targeting,
           });
-          const oldState = state;
+          const oldState = p(state);
           state.characters[position].isGuard = true;
           parseConditionAddon(
             position,

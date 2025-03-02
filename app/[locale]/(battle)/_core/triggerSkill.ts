@@ -33,11 +33,18 @@ export function triggerSkill(
     const isExist = oldState.characters[position].buff.find((x) => {
       return x.id === buff.disableOnStackSkill;
     });
-    if (
-      isExist && isExist._3 && isExist._3.stack >= buff.disableOnStackBelowValue
-    ) {
+    if (!isExist) {
       return;
     }
+    if (
+      isExist._3 && isExist._3.stack < buff.disableOnStackBelowValue
+    ) {
+      console.log("disableOnStack");
+      return;
+    }
+  }
+  if (buff.id === "10140-passive-6") {
+    console.log("test");
   }
 
   if (buff.disabledOnSkill) {
