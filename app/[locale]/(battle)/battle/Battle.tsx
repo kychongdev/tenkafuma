@@ -68,7 +68,6 @@ export default function Battle() {
     damage_log_3,
     damage_log_4,
     damage_log_5,
-    attackAll,
     battleSettings,
     enableEveryTurnAttack,
     setEveryTurnAttackTarget,

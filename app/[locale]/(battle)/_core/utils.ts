@@ -59,7 +59,7 @@ export function parseDamageTypeName(type: DamageType) {
   }
 }
 
-export function parseSkillName(buff: Skill) {
+export function parseSkillName(buff: Skill, charBuff: Skill[]) {
   if (buff.type === 0) {
     if (!buff.deactivated) {
       switch (buff._0?.affectType) {

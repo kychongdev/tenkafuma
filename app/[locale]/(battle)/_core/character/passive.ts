@@ -9112,14 +9112,14 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 target: Target.ALL_ALLIES,
                 targetSkill: "10157-passive-5-1-1",
                 applySkill: {
-                  id: "10158-passive-5-1",
+                  id: "10157-passive-5-1-1",
                   name: "必殺技傷害增加",
                   type: 3,
                   condition: Condition.NONE,
                   duration: 100,
                   _3: {
-                    id: "10158-passive-5-1",
-                    name: "被治療時回復量增加",
+                    id: "10157-passive-5-1-1",
+                    name: "必殺技傷害增加",
                     stack: 1,
                     maxStack: 50,
                     value: 0.0125,
@@ -9221,7 +9221,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               duration: 100,
               _4: {
                 increaseStack: 1,
-                targetSkill: "10157-6-1-1",
+                targetSkill: "10157-passive-6-1-1",
                 target: Target.ALL_ALLIES,
                 applySkill: {
                   id: "10157-passive-6-1-1",
@@ -9269,17 +9269,17 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                   target: Target.ENEMY,
                   targetSkill: "10157-passive-7-1-1",
                   applySkill: {
-                    id: "10157-passive-7-1",
+                    id: "10157-passive-7-1-1",
                     name: "受到傷害增加",
                     type: 3,
                     condition: Condition.NONE,
                     duration: 100,
                     _3: {
-                      id: "10157-passive-7-1",
+                      id: "10157-passive-7-1-1",
                       name: "受到傷害增加",
                       stack: 1,
                       maxStack: 80,
-                      value: 0.025,
+                      value: 0.0025,
                       affectType: AffectType.INCREASE_DMG_RECEIVED,
                     },
                   },
@@ -9319,7 +9319,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                       name: "受到水屬性傷害增加",
                       stack: 1,
                       maxStack: 80,
-                      value: 0.025,
+                      value: 0.0025,
                       affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
                     },
                   },
@@ -9359,7 +9359,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                       name: "受到火屬性傷害增加",
                       stack: 1,
                       maxStack: 80,
-                      value: 0.025,
+                      value: 0.0025,
                       affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
                     },
                   },
@@ -9399,7 +9399,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                       name: "受到風屬性傷害增加",
                       stack: 1,
                       maxStack: 80,
-                      value: 0.025,
+                      value: 0.0025,
                       affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
                     },
                   },
@@ -9439,7 +9439,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                       name: "受到光屬性傷害增加",
                       stack: 1,
                       maxStack: 80,
-                      value: 0.025,
+                      value: 0.0025,
                       affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
                     },
                   },
@@ -9479,7 +9479,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                       name: "受到暗屬性傷害增加",
                       stack: 1,
                       maxStack: 80,
-                      value: 0.025,
+                      value: 0.0025,
                       affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
                     },
                   },
@@ -10045,7 +10045,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {
-          id: "10158-passive-2",
+          id: "10175-passive-2",
           name: "每經過3回合時，觸發「使目標受到傷害增加20%(1回合)」",
           type: 11,
           condition: Condition.EVERY_X_TURN,
@@ -10055,7 +10055,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             target: Target.ENEMY,
             applySkill: [
               {
-                id: "10158-passive-1-1",
+                id: "10175-passive-2-1",
                 name: "受到傷害增加",
                 type: 0,
                 condition: Condition.NONE,
@@ -10074,7 +10074,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: "10158-passive-4",
+            id: "10175-passive-4",
             name: "攻擊力增加",
             type: 0,
             condition: Condition.NONE,
@@ -10085,7 +10085,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             },
           },
           {
-            id: "10158-passive-5",
+            id: "10175-passive-5",
             name: "必殺時，觸發「使我方全體被治療時回復量增加25%」(最多2層)",
             type: 4,
             condition: Condition.ULTIMATE,
@@ -10093,15 +10093,15 @@ export function initPassiveSkill(position: number, gameState: GameState) {
             _4: {
               increaseStack: 1,
               target: Target.ALL_ALLIES,
-              targetSkill: "10158-passive-5-1",
+              targetSkill: "10175-passive-5-1",
               applySkill: {
-                id: "10158-passive-5-1",
+                id: "10175-passive-5-1",
                 name: "被治療時回復量增加",
                 type: 3,
                 condition: Condition.NONE,
                 duration: 100,
                 _3: {
-                  id: "10158-passive-5-1",
+                  id: "10175-passive-5-1",
                   name: "被治療時回復量增加",
                   stack: 1,
                   maxStack: 2,
@@ -10118,7 +10118,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,
           {
-            id: "10158-passive4",
+            id: "10175-passive4",
             name: "使自身治療量增加10%",
             type: 0,
             condition: Condition.NONE,

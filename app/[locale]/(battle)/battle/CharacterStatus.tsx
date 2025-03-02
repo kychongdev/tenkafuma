@@ -18,6 +18,7 @@ import { CharacterStats } from "./CharacterStats";
 
 export function CharacterStatus({ position }: { position: number }) {
   const character = useGameState((state) => state.characters[position]);
+  const charBuff = useGameState((state) => state.characters[position].buff);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -41,7 +42,7 @@ export function CharacterStatus({ position }: { position: number }) {
                     }}
                   >
                     <Card className="p-2 align-middle  text-sm col-span-9">
-                      {parseSkillName(buff)}
+                      {parseSkillName(buff, charBuff)}
                     </Card>
                     <Card className="p-2 text-sm text-center">
                       {buff.duration === 100 ? "-" : buff.duration}
