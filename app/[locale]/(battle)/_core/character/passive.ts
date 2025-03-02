@@ -9418,7 +9418,7 @@ export function initPassiveSkill(position: number, gameState: GameState) {
               target: Target.SELF,
               targetSkill: "10157-ult-1-1",
               triggerSkill: {
-                id: "10157-passive-10-1",
+                id: "10157-passive-11-1",
                 name:
                   "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到光屬性傷害增加0.25%(最多80層)」",
                 type: 4,
@@ -9427,15 +9427,15 @@ export function initPassiveSkill(position: number, gameState: GameState) {
                 _4: {
                   increaseStack: 1,
                   target: Target.ENEMY,
-                  targetSkill: "10157-passive-10-1-1",
+                  targetSkill: "10157-passive-11-1-1",
                   applySkill: {
-                    id: "10157-passive-10-1-1",
+                    id: "10157-passive-11-1-1",
                     name: "受到光屬性傷害增加",
                     type: 3,
                     condition: Condition.NONE,
                     duration: 100,
                     _3: {
-                      id: "10157-passive-10-1-1",
+                      id: "10157-passive-11-1-1",
                       name: "受到光屬性傷害增加",
                       stack: 1,
                       maxStack: 80,

@@ -4788,7 +4788,7 @@ export function ultimateAttack(gameState: GameState, position: number) {
         duration: 100,
         _4: {
           increaseStack: stackIncrease,
-          target: Target.ENEMY,
+          target: Target.SELF,
           targetSkill: "10162-ult-1-1",
           applySkill: {
             id: "10162-ult-1-1",
