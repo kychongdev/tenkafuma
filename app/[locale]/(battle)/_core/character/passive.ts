@@ -9785,11 +9785,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
 
     // "10163": "夜之影 凱薩",
     case "10163": {
-      //防禦時，觸發「使自身必殺技傷害增加20%(最多5層)」
-      //防禦時，觸發「使自身獲得《魔分身》(最多2層)」
-      //必殺時，根據自身《魔分身》層數觸發「以自身攻擊力90%對目標造成傷害」幾次
-      //必殺時，觸發「清除自身所有《魔分身》」
-
       gameState.characters[position].buff = [
         ...gameState.characters[position].buff,
         {

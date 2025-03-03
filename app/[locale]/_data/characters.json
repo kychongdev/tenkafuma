@@ -277,10 +277,10 @@
   "10026": {
     "id": 10026,
     "name": "偶像 黑白諾艾莉",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3539.2,
+    "initAtk": 904,
     "attribute": 5,
-    "class": 11,
+    "class": 15,
     "available": true,
     "cd": 6,
     "leader": false
