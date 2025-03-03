@@ -191,29 +191,33 @@ export default function Battle() {
             <Undo /> {t("Undo")}
           </Button>
 
-          <Button
-            className="px-2 gap-1"
-            onClick={() => {
-              if (select) {
-                saveToTeam(
-                  p(select),
-                  p(action),
-                  p({
-                    damage_log_1,
-                    damage_log_2,
-                    damage_log_3,
-                    damage_log_4,
-                    damage_log_5,
-                  }),
-                  p(turn),
-                );
-              } else {
-                console.log("no team selected");
-              }
-            }}
-          >
-            <Save /> {t("Save To Calculator")}
-          </Button>
+          {stage == "wood"
+            ? (
+              <Button
+                className="px-2 gap-1"
+                onClick={() => {
+                  if (select) {
+                    saveToTeam(
+                      p(select),
+                      p(action),
+                      p({
+                        damage_log_1,
+                        damage_log_2,
+                        damage_log_3,
+                        damage_log_4,
+                        damage_log_5,
+                      }),
+                      p(turn),
+                    );
+                  } else {
+                    console.log("no team selected");
+                  }
+                }}
+              >
+                <Save /> {t("Save To Calculator")}
+              </Button>
+            )
+            : null}
           <Dialog>
             <DialogTrigger asChild>
               <Button className="px-2 gap-1">
