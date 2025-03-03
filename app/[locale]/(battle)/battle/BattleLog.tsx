@@ -21,7 +21,7 @@ export function BattleLog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="px-2 gap-1">
           <BookA /> {t("Battle Log")}
         </Button>
       </DialogTrigger>

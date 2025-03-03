@@ -11,7 +11,7 @@ import { DamageLog } from "@/types/Game";
 import { basicAttack } from "./character/basic";
 import { parseConditionAddon } from "./triggerAddon";
 import { parseCondition } from "./parseCondition";
-import { Condition } from "@/app/[locale]/(battle)/_types/Skill";
+import { Condition, Target } from "@/app/[locale]/(battle)/_types/Skill";
 import { p } from "./utils";
 import { checkEndTurn, onTurnStart } from "./turn";
 import { initPassiveSkill } from "./character/passive";
@@ -19,6 +19,7 @@ import { applyExtra } from "./character/extra";
 import { ultimateAttack } from "./character/ultimate";
 import { parseInitstage, parseStageAction } from "./stages/parseStage";
 import { useSimulateTeamState } from "./SimulateTeamState";
+import { customAlphabet } from "nanoid";
 
 export enum TurnState {
   ENEMY_TURN,
@@ -33,6 +34,7 @@ enum CharacterPosition {
 }
 
 export interface GameState {
+  client_id: string;
   wave: number;
   ready: boolean;
   turn: number;
@@ -46,6 +48,14 @@ export interface GameState {
   damage_log_3: DamageLog[];
   damage_log_4: DamageLog[];
   damage_log_5: DamageLog[];
+  battleSettings: {
+    everyTurnAttack: boolean;
+    everyTurnAttackTarget: Target;
+  };
+  reflectDmg: {
+    attacker: Target;
+    defender: Target;
+  }[];
   enemy_damage_log_1: DamageLog[];
   enemy_damage_log_2: DamageLog[];
   enemy_damage_log_3: DamageLog[];
@@ -65,7 +75,8 @@ export interface GameState {
   analysis: (position: number) => void;
   initStage: (stage: string) => void;
   debug: () => void;
-  attackAll: () => void;
+  enableEveryTurnAttack: () => void;
+  setEveryTurnAttackTarget: (target: Target) => void;
 }
 
 interface UndoLog {
@@ -123,9 +134,11 @@ export const useAnalysisState = create<GameState>()(
       ready: false,
       turn: 0,
       turn_state: TurnState.PLAYER_TURN,
+      client_id: "",
       enemies: [initCharacterState],
       stage: "wood",
       stage_state: {} as any,
+      reflectDmg: [],
       characters: [
         initCharacterState,
         initCharacterState,
@@ -133,6 +146,10 @@ export const useAnalysisState = create<GameState>()(
         initCharacterState,
         initCharacterState,
       ],
+      battleSettings: {
+        everyTurnAttack: false,
+        everyTurnAttackTarget: Target.ALL_ALLIES,
+      },
       select: null,
       targeting: CharacterPosition.POSITION_1,
       undo: [],
@@ -168,6 +185,10 @@ export const useAnalysisState = create<GameState>()(
       },
       initStage: (stage: string) => {
         set((state) => {
+          const alphabet =
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+          const nid = customAlphabet(alphabet, 20);
+          state.client_id = nid();
           resetBattle(state);
           state.stage = stage;
           if (state.select) {
@@ -184,6 +205,7 @@ export const useAnalysisState = create<GameState>()(
             state.turn = state.turn + 1;
             onTurnStart(state);
           }
+          // state.enemies = [initCharacterState];
         });
       },
       modifyBattle: () => {},
@@ -199,20 +221,24 @@ export const useAnalysisState = create<GameState>()(
         set((state) => {
           state.action.push({ position, targeting: state.targeting });
           state.characters[position].isMoved = true;
+
+          const oldState = p(state);
           basicAttack(state, position);
           parseConditionAddon(
             position,
             [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
           parseCondition(
             position,
             [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
           state.characters.forEach((character, index) => {
             if (character.isHeal === true) {
-              parseCondition(index, [Condition.GET_HEAL], state);
+              parseCondition(index, [Condition.GET_HEAL], state, oldState);
               character.isHeal = false;
             }
           });
@@ -221,25 +247,33 @@ export const useAnalysisState = create<GameState>()(
       },
       ultAction: (position: number) => {
         set((state) => {
-          state.action.push({ position, targeting: state.targeting });
+          state.action.push({
+            position: position + 5,
+            targeting: state.targeting,
+          });
           state.characters[position].isMoved = true;
           state.characters[position].cd = state.characters[position].maxCd;
 
+          const oldState = p(state);
           ultimateAttack(state, position);
+          console.log(p(state.characters[position].buff));
+
           parseConditionAddon(
             position,
             [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
           parseCondition(
             position,
             [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
             state,
+            oldState,
           );
 
           state.characters.forEach((character, index) => {
             if (character.isHeal === true) {
-              parseCondition(index, [Condition.GET_HEAL], state);
+              parseCondition(index, [Condition.GET_HEAL], state, oldState);
             }
             character.isHeal = false;
           });
@@ -250,14 +284,24 @@ export const useAnalysisState = create<GameState>()(
       },
       guardAction: (position: number) => {
         set((state) => {
-          state.action.push({ position, targeting: state.targeting });
+          state.action.push({
+            position: position + 10,
+            targeting: state.targeting,
+          });
+          const oldState = p(state);
           state.characters[position].isGuard = true;
           parseConditionAddon(
             position,
             [Condition.GUARD, Condition.MOVE],
             state,
+            oldState,
           );
-          parseCondition(position, [Condition.GUARD, Condition.MOVE], state);
+          parseCondition(
+            position,
+            [Condition.GUARD, Condition.MOVE],
+            state,
+            oldState,
+          );
           checkEndTurn(state);
         });
       },
@@ -288,7 +332,18 @@ export const useAnalysisState = create<GameState>()(
           console.log(p(state));
         });
       },
-      attackAll: () => {},
+
+      enableEveryTurnAttack: () => {
+        set((state) => {
+          state.battleSettings.everyTurnAttack = !state.battleSettings
+            .everyTurnAttack;
+        });
+      },
+      setEveryTurnAttackTarget: (target: Target) => {
+        set((state) => {
+          state.battleSettings.everyTurnAttackTarget = target;
+        });
+      },
     })),
     {
       name: "simulation",

@@ -157,6 +157,7 @@ export default function Battle() {
         <div className="flex flex-wrap gap-2">
           <BattleLog />
           <Button
+            className="px-2 gap-1"
             onClick={() => {
               router.push("/battle/stats");
             }}
@@ -164,6 +165,7 @@ export default function Battle() {
             <ChartPie /> {t("Damage Stats")}
           </Button>
           <Button
+            className="px-2 gap-1"
             onClick={() => {
               if (select) initBattle(select);
             }}
@@ -172,6 +174,7 @@ export default function Battle() {
           </Button>
 
           <Button
+            className="px-2 gap-1"
             onClick={() => {
               router.push("/stage");
             }}
@@ -180,6 +183,7 @@ export default function Battle() {
           </Button>
 
           <Button
+            className="px-2 gap-1"
             onClick={() => {
               undoLastAction();
             }}
@@ -188,6 +192,7 @@ export default function Battle() {
           </Button>
 
           <Button
+            className="px-2 gap-1"
             onClick={() => {
               if (select) {
                 saveToTeam(
@@ -211,7 +216,7 @@ export default function Battle() {
           </Button>
           <Dialog>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="px-2 gap-1">
                 <GearIcon />
                 {t("Settings")}
               </Button>

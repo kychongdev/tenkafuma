@@ -55,11 +55,6 @@ export interface GameState {
     attacker: Target;
     defender: Target;
   }[];
-  //heal_log_1: DamageLog[];
-  //heal_log_2: DamageLog[];
-  //heal_log_3: DamageLog[];
-  //heal_log_4: DamageLog[];
-  //heal_log_5: DamageLog[];
   enemy_damage_log_1: DamageLog[];
   enemy_damage_log_2: DamageLog[];
   enemy_damage_log_3: DamageLog[];
@@ -77,6 +72,7 @@ export interface GameState {
   setTargeting: (position: number) => void;
   undoLastAction: () => void;
   initStage: (stage: string) => void;
+  analysis: (position: number) => void;
   debug: () => void;
   enableEveryTurnAttack: () => void;
   setEveryTurnAttackTarget: (target: Target) => void;

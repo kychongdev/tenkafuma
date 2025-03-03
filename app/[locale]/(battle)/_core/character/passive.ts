@@ -681,8 +681,6 @@ export function initPassiveSkill(position: number, gameState: GameState) {
     // "10025": "偶像 伊布力斯",
     // "10026": "偶像 黑白諾艾莉",
     case "10026": {
-      //攻擊時，觸發"使我方全體被治療時回復量增加12.5%(2回合)、受到護盾效果增加12.5%(2回合)"效果
-
       if (lib === 0) {
         gameState.characters[position].buff = [
           ...gameState.characters[position].buff,

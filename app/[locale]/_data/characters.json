@@ -281,8 +281,8 @@
     "initAtk": 10,
     "attribute": 5,
     "class": 11,
-    "available": false,
-    "cd": 4,
+    "available": true,
+    "cd": 6,
     "leader": false
   },
   "10027": {
