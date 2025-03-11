@@ -21,6 +21,7 @@ enum CharacterAction {
   GUARD,
   ATTACK,
   SKILL,
+  ATTACKED,
   NONE,
 }
 

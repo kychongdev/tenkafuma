@@ -1,10 +1,5 @@
-import {
-  CharacterAction,
-  CharacterAttribute,
-  CharacterClass,
-} from "@/types/Character";
 import { GameState } from "../GameState";
-import { CharacterState } from "@/types/Select";
+import { CharacterState } from "../types/Select";
 import {
   AffectType,
   Condition,
@@ -12,13 +7,12 @@ import {
   Skill,
   SpecialCondition,
   Target,
-} from "@/types/Skill";
-import { triggerSkill } from "../triggerSkill";
-import { dealUltDamage } from "../dealUltDamage";
-import { hpSort, maxHpSort, p } from "../utils";
-import { dealBasicDamage } from "../dealBasicDamage";
-import { parseCondition } from "../parseCondition";
-import { randomizePos } from "../randomizePos";
+} from "../types/Skill";
+import {
+  CharacterAction,
+  CharacterAttribute,
+  CharacterClass,
+} from "../types/Character";
 
 export function s21_63(gameState: GameState) {
   const enemy1: CharacterState = {
@@ -40,7 +34,6 @@ export function s21_63(gameState: GameState) {
     cd: 5,
     maxCd: 5,
     ultName: "",
-    shield: 0,
     isMoved: false,
     isGuard: false,
     isBroken: false,
@@ -50,6 +43,7 @@ export function s21_63(gameState: GameState) {
     isHeal: false,
     isSilence: false,
     isDead: false,
+    attackedBy: [],
     buff: [
       {
         id: "42228-passive-1",
@@ -247,7 +241,7 @@ export function s21_63(gameState: GameState) {
   // PotSkill1	N/A
   // PotSkill2	N/A
   //
-  gameState.stage_state = {
+  gameState.stageState = {
     last_turn_hp: 6515412293,
     act_10_target: -1,
     skill_list: [
@@ -384,499 +378,499 @@ export function s21_63(gameState: GameState) {
   });
 }
 
-export function s21_63_action(gameState: GameState) {
-  if (gameState.enemies[0].isDead) {
-    return;
-  }
-  const startingHp = gameState.enemies[0].hp;
-  console.log("startingHp", startingHp);
-  console.log("gameState.last turn", gameState.stage_state.last_turn_hp);
-
-  // [模式01]：AI42228  [行动点]：5
-  if (gameState.turn === 0) {
-    // [Act01]  [类型：回合技能]  [模式：一次]  [结束行动：True]  [目标：Default]  [优先级：255]
-    // [触发条件：0回合时触发  『且』  回合数>0时，必杀技CD=10，仅触发1次]
-    // [台词]  呵呵～让我仔细检查一下您的身体吧♡
-    // [技能]：健检开始
-    // 使敌方全体护盾效果减少90%(50回合)
-    // gameState.characters.forEach((_, index) => {
-    //   gameState.characters[index].buff = [
-    //     ...gameState.characters[index].buff,
-    //     {
-    //       id: '42228-act01',
-    //       name: '护盾效果减少90%',
-    //       type: 0,
-    //       condition: Condition.NONE,
-    //       duration: 100,
-    //       _0: {
-    //         affectType: AffectType.DECREASE_SHIELD_RATE_RECEIVED,
-    //         value: 0.9,
-    //       },
-    //     },
-    //   ];
-    // });
-
-    // [Act02]  [类型：回合技能]  [模式：一次]  [结束行动：True]  [目标：Default]  [优先级：255]
-    // [触发条件：0回合时触发]
-    // [台词]  呵呵～让我不留馀地的检查您的身体吧♡
-    // [技能]：私蜜♡健检开始
-    // 使敌方全体护盾效果减少500%(50回合)
-    // 清除自身「必杀技最大CD增加10回合」效果
-    gameState.characters.forEach((_, index) => {
-      gameState.characters[index].buff = [
-        ...gameState.characters[index].buff,
-        {
-          id: "42228-act02",
-          name: "护盾效果减少500%",
-          type: 0,
-          condition: Condition.NONE,
-          duration: 100,
-          _0: {
-            affectType: AffectType.DECREASE_SHIELD_RATE_OUTPUT,
-            value: 0.9,
-          },
-        },
-      ];
-    });
-  }
-
-  // [Act03]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
-  // [触发条件：回合内玩家防御次数≥2]
-  // [台词]  不好好接受检查可不行喔～
-  // [技能]：可不能逃喔～
-  // 使敌方全体防禦减伤效果减少2.5%(最多20层)
+export function s21_63_action(gameState: GameState, oG: GameState) {
+  //if (gameState.enemies[0].isDead) {
+  //  return;
+  //}
+  //const startingHp = gameState.enemies[0].hp;
+  //console.log("startingHp", startingHp);
+  //console.log("gameState.last turn", gameState.stageState.last_turn_hp);
   //
-  const guardAmount = gameState.characters.reduce((acc, character) => {
-    return acc + (character.isGuard ? 1 : 0);
-  }, 0);
-  if (guardAmount > 1) {
-    const skill: Skill = {
-      id: "42228-act02",
-      name: "使敌方全体防禦减伤效果减少2.5%",
-      type: 4,
-      condition: Condition.NONE,
-      duration: 100,
-      _4: {
-        increaseStack: 1,
-        targetSkill: "42228-act03-1",
-        target: Target.ALL_ALLIES,
-        applySkill: {
-          id: "42228-act03-1",
-          name: "防禦减伤效果减少2.5%",
-          type: 3,
-          condition: Condition.NONE,
-          duration: 100,
-          _3: {
-            id: "42228-act03-1",
-            name: "防禦减伤效果减少2.5%",
-            stack: 1,
-            maxStack: 20,
-            affectType: AffectType.DECREASE_GUARD_EFFECT,
-            value: 0.025,
-          },
-        },
-      },
-    };
-    triggerSkill(skill, gameState, Target.ENEMY_1);
-  }
-
-  // [Act04]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
-  // [触发条件：自身 HP损伤量<1%]
-  // [台词]  不认真一点可无法确认身体的真实状况喔。
-  // [技能]：再更激烈一点♡
-  // 使自身造成伤害增加5%(最多10层)
-  // 使自身受到伤害增加5%(最多10层)
-
-  const hpLossLastTurnPercentage = Math.abs(
-    (startingHp - gameState.stage_state.last_turn_hp) /
-      gameState.enemies[0].maxHp,
-  ) * 100;
-
-  if (gameState.turn !== 0 && hpLossLastTurnPercentage < 1) {
-    console.log("hpLossLastTurnPercentage", hpLossLastTurnPercentage);
-    const buff: Skill = {
-      id: "42228-act04-1",
-      name: "自身HP损伤量<1%,使自身造成伤害增加5%",
-      type: 4,
-      condition: Condition.NONE,
-      duration: 100,
-      _4: {
-        increaseStack: 1,
-        target: Target.ENEMY_1,
-        targetSkill: "42228-act04-1-1",
-        applySkill: {
-          id: "42228-act04-1-1",
-          name: "使自身造成伤害增加5%(最多10层)",
-          type: 3,
-          condition: Condition.NONE,
-          duration: 100,
-          _3: {
-            id: "42228-act04-1-1",
-            name: "使自身造成伤害增加5%(最多10层)",
-            stack: 1,
-            maxStack: 10,
-            value: 0.05,
-            affectType: AffectType.INCREASE_DMG,
-          },
-        },
-      },
-    };
-    triggerSkill(buff, gameState, Target.ENEMY_1);
-
-    const buff2: Skill = {
-      id: "42228-act04-2",
-      name: "自身HP损伤量<1%,使自身造成伤害增加5%",
-      type: 4,
-      condition: Condition.NONE,
-      duration: 100,
-      _4: {
-        increaseStack: 1,
-        target: Target.ENEMY_1,
-        targetSkill: "42228-act04-2-1",
-        applySkill: {
-          id: "42228-act04-2-1",
-          name: "使自身造成伤害增加5%(最多10层)",
-          type: 3,
-          condition: Condition.NONE,
-          duration: 100,
-          _3: {
-            id: "42228-act04-2-1",
-            name: "使自身造成伤害增加5%(最多10层)",
-            stack: 1,
-            maxStack: 10,
-            value: 0.05,
-            affectType: AffectType.INCREASE_DMG_RECEIVED,
-          },
-        },
-      },
-    };
-    triggerSkill(buff2, gameState, Target.ENEMY_1);
-  }
-
-  // [Act05]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
-  // [触发条件：自身 HP损伤量>1%  『且』  玩家位置3 存活]
-  // [台词]  啊～这样的健检真的是太刺激了♡
-  // [技能]：让人家稍微喘口气
-  // 使自身「造成伤害增加5%(最多10层)」的层数减少1层
-  // 使自身「受到伤害增加5%(最多10层)」的层数减少1层
-  if (gameState.turn !== 0 && hpLossLastTurnPercentage >= 1) {
-    const buff: Skill = {
-      id: "42228-act04-1",
-      name: "自身HP损伤量>1%,『且』  玩家位置3 存活",
-      type: 20,
-      condition: Condition.NONE,
-      duration: 100,
-      _20: {
-        target: Target.ENEMY,
-        targetSkill: "42228-act04-1-1",
-        targetChar: "42228",
-        clearAll: false,
-        clearStack: 1,
-      },
-    };
-    triggerSkill(buff, gameState, Target.ENEMY_1);
-
-    const buff2: Skill = {
-      id: "42228-act04-2",
-      name: "自身HP损伤量>1%,『且』  玩家位置3 存活",
-      type: 20,
-      condition: Condition.NONE,
-      duration: 100,
-      _20: {
-        target: Target.ENEMY,
-        targetSkill: "42228-act04-2-1",
-        targetChar: "42228",
-        clearAll: false,
-        clearStack: 1,
-      },
-    };
-    triggerSkill(buff2, gameState, Target.ENEMY_1);
-  }
-
-  // [Act06]  [类型：必杀  ]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
-  // [触发条件：回合数>0时，必杀技CD=0]
-  // [台词]  还请您使出浑身解数，跟我来一场酣畅淋漓的极限性爱吧♡
-  if (gameState.turn !== 0 && gameState.enemies[0].cd === 0) {
-    // 使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」
-    // 使自身获得「普攻时，触发『清除自身《精力补充》的所有层数』(1回合)」
-    gameState.enemies[0].buff = [
-      ...gameState.enemies[0].buff,
-      {
-        id: "42228-act06-1",
-        name:
-          "使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」",
-        type: 8,
-        condition: Condition.ENEMY_BASIC_ATTACK,
-        duration: 1,
-        _8: {
-          target: Target.ENEMY_1,
-          targetSkill: "42228-passive-8-1",
-          triggerSkill: {
-            id: "42228-act06-1-1",
-            name: "以自身攻击力50%对敌方全体造成伤害",
-            type: 1,
-            condition: Condition.NONE,
-            duration: 100,
-            _1: {
-              target: Target.ALL_ALLIES,
-              value: 0.5,
-              damageType: DamageType.TRIGGER,
-              action: CharacterAction.BASIC,
-            },
-          },
-        },
-      },
-      {
-        id: "42228-act06-2",
-        name: "普攻时，触发『清除自身《精力补充》的所有层数』(1回合)",
-        type: 20,
-        condition: Condition.ENEMY_BASIC_ATTACK,
-        duration: 1,
-        _20: {
-          target: Target.ENEMY,
-          targetSkill: "42228-passive-8-1",
-          targetChar: "42228",
-          clearAll: true,
-        },
-      },
-    ];
-
-    gameState.enemies[0].cd = gameState.enemies[0].maxCd;
-  }
-
-  // [Act07]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：参数83]  [优先级：255]
-  // [触发条件：3n+1 回合，n≥0  『且』  玩家位置5 存活]
-  // [台词]  首先要麻烦您让性器勃起，这样我才能仔细观察您雄伟的性器。
-  // [技能]：性器检查
-  // 以自身攻击力400%对敌方最大HP最高者造成伤害
-  // 以自身攻击力250%对敌方最大HP第四高者造成伤害
-  if (
-    (gameState.turn !== 0 &&
-      (gameState.turn - 1) % 3 === 0 &&
-      (gameState.turn - 1) % 5 !== 0) ||
-    gameState.turn === 1
-  ) {
-    const hpSorted = maxHpSort(gameState.characters);
-    dealUltDamage(
-      Target.ENEMY_1,
-      2.5,
-      gameState,
-      hpSorted[1],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealUltDamage(
-      Target.ENEMY_1,
-      4,
-      gameState,
-      hpSorted[4],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-  }
-
-  // [Act08]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：参数81]  [优先级：255]
-  // [触发条件：3n+2 回合，n≥0  『且』  玩家位置5 存活]
-  // [台词]  现在要测验抽插力度，请尽情用力抽插人家的小穴吧♡
-  // [技能]：抽插测验
-  // 以自身攻击力350%对敌方最大HP第二高者造成伤害
-  // 以自身攻击力200%对敌方最大HP最低者造成伤害
-  if ((gameState.turn - 2) % 3 === 0 && (gameState.turn - 1) % 5 !== 0) {
-    const hpSorted = maxHpSort(gameState.characters);
-    dealUltDamage(
-      Target.ENEMY_1,
-      3.5,
-      gameState,
-      hpSorted[3],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-    dealUltDamage(
-      Target.ENEMY_1,
-      2,
-      gameState,
-      hpSorted[0],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-  }
-
-  // [Act09]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：参数82]  [优先级：255]
-  // [触发条件：3n 回合，n≥0  『且』  玩家位置5 存活]
-  // [台词]  还请您把性器勃起到极限，我会用小穴榨精的方式来检测您的性器硬度。
-  // [技能]：硬度检测
-  // 以自身攻击力300%对敌方最大HP第三高者造成伤害
-
-  if (
-    gameState.turn > 0 &&
-    gameState.turn % 3 === 0 &&
-    (gameState.turn - 1) % 5 !== 0
-  ) {
-    const hpSorted = maxHpSort(gameState.characters);
-    dealUltDamage(
-      Target.ENEMY_1,
-      2.75,
-      gameState,
-      hpSorted[2],
-      DamageType.ULTIMATE,
-      CharacterAction.SKILL,
-    );
-  }
-  // [Act10]  [类型：普攻  ]  [模式：循环]  [结束行动：False]  [目标：玩家当前HP百分比最高者]  [优先级：255]
-  // [触发条件：3n+2 回合，n≥0]
+  //// [模式01]：AI42228  [行动点]：5
+  //if (gameState.turn === 0) {
+  //  // [Act01]  [类型：回合技能]  [模式：一次]  [结束行动：True]  [目标：Default]  [优先级：255]
+  //  // [触发条件：0回合时触发  『且』  回合数>0时，必杀技CD=10，仅触发1次]
+  //  // [台词]  呵呵～让我仔细检查一下您的身体吧♡
+  //  // [技能]：健检开始
+  //  // 使敌方全体护盾效果减少90%(50回合)
+  //  // gameState.characters.forEach((_, index) => {
+  //  //   gameState.characters[index].buff = [
+  //  //     ...gameState.characters[index].buff,
+  //  //     {
+  //  //       id: '42228-act01',
+  //  //       name: '护盾效果减少90%',
+  //  //       type: 0,
+  //  //       condition: Condition.NONE,
+  //  //       duration: 100,
+  //  //       _0: {
+  //  //         affectType: AffectType.DECREASE_SHIELD_RATE_RECEIVED,
+  //  //         value: 0.9,
+  //  //       },
+  //  //     },
+  //  //   ];
+  //  // });
   //
-
-  if (gameState.turn !== 0) {
-    if ((gameState.turn - 2) % 3 === 0) {
-      const hpSorted = hpSort(gameState.characters);
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[0],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[1],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[2],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[3],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[4],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      parseCondition(
-        Target.ENEMY_1,
-        [Condition.ENEMY_BASIC_ATTACK],
-        gameState,
-        gameState,
-      );
-    } // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
-    // [触发条件：玩家位置9 存活]
-    else {
-      const hpSorted = hpSort(gameState.characters);
-
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[0],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[1],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[2],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[3],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      dealBasicDamage(
-        Target.ENEMY_1,
-        0.5,
-        gameState,
-        hpSorted[4],
-        DamageType.ULTIMATE,
-        CharacterAction.SKILL,
-      );
-      parseCondition(
-        Target.ENEMY_1,
-        [Condition.ENEMY_BASIC_ATTACK],
-        gameState,
-        gameState,
-      );
-
-      gameState.stage_state.last_turn_hp = gameState.enemies[0].hp;
-      return;
-    }
-  }
-
-  // [Act12]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：玩家最大HP最高者]  [优先级：10]
-  // [触发条件：3n+2 回合，n≥0]
-  // [台词]  在时间到之前可不能射出来喔～
-  // [技能]：自控力测试
-  // 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
-  if ((gameState.turn - 2) % 3 === 0) {
-    const randomPos = Math.floor(Math.random() * 4);
-    const hpSorted = maxHpSort(gameState.characters);
-    hpSorted.splice(2, 1);
-    const position = hpSorted[randomPos];
-
-    gameState.characters[position].buff = [
-      ...gameState.characters[position].buff,
-      {
-        id: "42228-act06-1-1",
-        name: "以自身攻击力500%对自身全体造成伤害",
-        type: 1,
-        condition: Condition.ATTACK,
-        duration: 2,
-        _1: {
-          target: Target.ALL_ALLIES,
-          value: 5,
-          damageType: DamageType.TRIGGER,
-          action: CharacterAction.BASIC,
-        },
-      },
-    ];
-
-    // randomizePos(position);
-  }
-
-  // [Act13]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：参数81]  [优先级：10]
-  // [触发条件：3n+2 回合，n≥0]
-  // [台词]  在时间到之前可不能射出来喔～
-  // [技能]：自控力测试
-  // 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
-  // [Act14]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：参数83]  [优先级：10]
-  // [触发条件：3n+2 回合，n≥0]
-  // [台词]  在时间到之前可不能射出来喔～
-  // [技能]：自控力测试
-  // 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
-  // [Act15]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：玩家最大HP最低者]  [优先级：10]
-  // [触发条件：3n+2 回合，n≥0]
-  // [台词]  在时间到之前可不能射出来喔～
-  // [技能]：自控力测试
-  // 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
-  gameState.stage_state.last_turn_hp = gameState.enemies[0].hp;
+  //  // [Act02]  [类型：回合技能]  [模式：一次]  [结束行动：True]  [目标：Default]  [优先级：255]
+  //  // [触发条件：0回合时触发]
+  //  // [台词]  呵呵～让我不留馀地的检查您的身体吧♡
+  //  // [技能]：私蜜♡健检开始
+  //  // 使敌方全体护盾效果减少500%(50回合)
+  //  // 清除自身「必杀技最大CD增加10回合」效果
+  //  gameState.characters.forEach((_, index) => {
+  //    gameState.characters[index].buff = [
+  //      ...gameState.characters[index].buff,
+  //      {
+  //        id: "42228-act02",
+  //        name: "护盾效果减少500%",
+  //        type: 0,
+  //        condition: Condition.NONE,
+  //        duration: 100,
+  //        _0: {
+  //          affectType: AffectType.DECREASE_SHIELD_RATE_OUTPUT,
+  //          value: 0.9,
+  //        },
+  //      },
+  //    ];
+  //  });
+  //}
+  //
+  //// [Act03]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
+  //// [触发条件：回合内玩家防御次数≥2]
+  //// [台词]  不好好接受检查可不行喔～
+  //// [技能]：可不能逃喔～
+  //// 使敌方全体防禦减伤效果减少2.5%(最多20层)
+  ////
+  //const guardAmount = gameState.characters.reduce((acc, character) => {
+  //  return acc + (character.isGuard ? 1 : 0);
+  //}, 0);
+  //if (guardAmount > 1) {
+  //  const skill: Skill = {
+  //    id: "42228-act02",
+  //    name: "使敌方全体防禦减伤效果减少2.5%",
+  //    type: 4,
+  //    condition: Condition.NONE,
+  //    duration: 100,
+  //    _4: {
+  //      increaseStack: 1,
+  //      targetSkill: "42228-act03-1",
+  //      target: Target.ALL_ALLIES,
+  //      applySkill: {
+  //        id: "42228-act03-1",
+  //        name: "防禦减伤效果减少2.5%",
+  //        type: 3,
+  //        condition: Condition.NONE,
+  //        duration: 100,
+  //        _3: {
+  //          id: "42228-act03-1",
+  //          name: "防禦减伤效果减少2.5%",
+  //          stack: 1,
+  //          maxStack: 20,
+  //          affectType: AffectType.DECREASE_GUARD_EFFECT,
+  //          value: 0.025,
+  //        },
+  //      },
+  //    },
+  //  };
+  //  //triggerSkill(skill, gameState, Target.ENEMY_1);
+  //}
+  //
+  //// [Act04]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
+  //// [触发条件：自身 HP损伤量<1%]
+  //// [台词]  不认真一点可无法确认身体的真实状况喔。
+  //// [技能]：再更激烈一点♡
+  //// 使自身造成伤害增加5%(最多10层)
+  //// 使自身受到伤害增加5%(最多10层)
+  //
+  //const hpLossLastTurnPercentage =
+  //  Math.abs(
+  //    (startingHp - gameState.stageState.last_turn_hp) /
+  //      gameState.enemies[0].maxHp,
+  //  ) * 100;
+  //
+  //if (gameState.turn !== 0 && hpLossLastTurnPercentage < 1) {
+  //  console.log("hpLossLastTurnPercentage", hpLossLastTurnPercentage);
+  //  const buff: Skill = {
+  //    id: "42228-act04-1",
+  //    name: "自身HP损伤量<1%,使自身造成伤害增加5%",
+  //    type: 4,
+  //    condition: Condition.NONE,
+  //    duration: 100,
+  //    _4: {
+  //      increaseStack: 1,
+  //      target: Target.ENEMY_1,
+  //      targetSkill: "42228-act04-1-1",
+  //      applySkill: {
+  //        id: "42228-act04-1-1",
+  //        name: "使自身造成伤害增加5%(最多10层)",
+  //        type: 3,
+  //        condition: Condition.NONE,
+  //        duration: 100,
+  //        _3: {
+  //          id: "42228-act04-1-1",
+  //          name: "使自身造成伤害增加5%(最多10层)",
+  //          stack: 1,
+  //          maxStack: 10,
+  //          value: 0.05,
+  //          affectType: AffectType.INCREASE_DMG,
+  //        },
+  //      },
+  //    },
+  //  };
+  //  //triggerSkill(buff, gameState, Target.ENEMY_1);
+  //
+  //  const buff2: Skill = {
+  //    id: "42228-act04-2",
+  //    name: "自身HP损伤量<1%,使自身造成伤害增加5%",
+  //    type: 4,
+  //    condition: Condition.NONE,
+  //    duration: 100,
+  //    _4: {
+  //      increaseStack: 1,
+  //      target: Target.ENEMY_1,
+  //      targetSkill: "42228-act04-2-1",
+  //      applySkill: {
+  //        id: "42228-act04-2-1",
+  //        name: "使自身造成伤害增加5%(最多10层)",
+  //        type: 3,
+  //        condition: Condition.NONE,
+  //        duration: 100,
+  //        _3: {
+  //          id: "42228-act04-2-1",
+  //          name: "使自身造成伤害增加5%(最多10层)",
+  //          stack: 1,
+  //          maxStack: 10,
+  //          value: 0.05,
+  //          affectType: AffectType.INCREASE_DMG_RECEIVED,
+  //        },
+  //      },
+  //    },
+  //  };
+  //  triggerSkill(buff2, gameState, Target.ENEMY_1);
+  //}
+  //
+  //// [Act05]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
+  //// [触发条件：自身 HP损伤量>1%  『且』  玩家位置3 存活]
+  //// [台词]  啊～这样的健检真的是太刺激了♡
+  //// [技能]：让人家稍微喘口气
+  //// 使自身「造成伤害增加5%(最多10层)」的层数减少1层
+  //// 使自身「受到伤害增加5%(最多10层)」的层数减少1层
+  //if (gameState.turn !== 0 && hpLossLastTurnPercentage >= 1) {
+  //  const buff: Skill = {
+  //    id: "42228-act04-1",
+  //    name: "自身HP损伤量>1%,『且』  玩家位置3 存活",
+  //    type: 20,
+  //    condition: Condition.NONE,
+  //    duration: 100,
+  //    _20: {
+  //      target: Target.ENEMY,
+  //      targetSkill: "42228-act04-1-1",
+  //      targetChar: "42228",
+  //      clearAll: false,
+  //      clearStack: 1,
+  //    },
+  //  };
+  //  //triggerSkill(buff, gameState, Target.ENEMY_1);
+  //
+  //  const buff2: Skill = {
+  //    id: "42228-act04-2",
+  //    name: "自身HP损伤量>1%,『且』  玩家位置3 存活",
+  //    type: 20,
+  //    condition: Condition.NONE,
+  //    duration: 100,
+  //    _20: {
+  //      target: Target.ENEMY,
+  //      targetSkill: "42228-act04-2-1",
+  //      targetChar: "42228",
+  //      clearAll: false,
+  //      clearStack: 1,
+  //    },
+  //  };
+  //  //triggerSkill(buff2, gameState, Target.ENEMY_1);
+  //}
+  //
+  //// [Act06]  [类型：必杀  ]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
+  //// [触发条件：回合数>0时，必杀技CD=0]
+  //// [台词]  还请您使出浑身解数，跟我来一场酣畅淋漓的极限性爱吧♡
+  //if (gameState.turn !== 0 && gameState.enemies[0].cd === 0) {
+  //  // 使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」
+  //  // 使自身获得「普攻时，触发『清除自身《精力补充》的所有层数』(1回合)」
+  //  gameState.enemies[0].buff = [
+  //    ...gameState.enemies[0].buff,
+  //    //{
+  //    //  id: "42228-act06-1",
+  //    //  name: "使自身获得「普攻时，根据自身《精力补充》的层数，触发『以自身攻击力50%对敌方全体造成伤害』(1回合)」",
+  //    //  type: 8,
+  //    //  condition: Condition.ENEMY_BASIC_ATTACK,
+  //    //  duration: 1,
+  //    //  _8: {
+  //    //    target: Target.ENEMY_1,
+  //    //    targetSkill: "42228-passive-8-1",
+  //    //    triggerSkill: {
+  //    //      id: "42228-act06-1-1",
+  //    //      name: "以自身攻击力50%对敌方全体造成伤害",
+  //    //      type: 1,
+  //    //      condition: Condition.NONE,
+  //    //      duration: 100,
+  //    //      _1: {
+  //    //        target: Target.ALL_ALLIES,
+  //    //        value: 0.5,
+  //    //        damageType: DamageType.TRIGGER,
+  //    //        action: CharacterAction.BASIC,
+  //    //      },
+  //    //    },
+  //    //  },
+  //    //},
+  //    {
+  //      id: "42228-act06-2",
+  //      name: "普攻时，触发『清除自身《精力补充》的所有层数』(1回合)",
+  //      type: 20,
+  //      condition: Condition.ENEMY_BASIC_ATTACK,
+  //      duration: 1,
+  //      _20: {
+  //        target: Target.ENEMY,
+  //        targetSkill: "42228-passive-8-1",
+  //        targetChar: "42228",
+  //        clearAll: true,
+  //      },
+  //    },
+  //  ];
+  //
+  //  gameState.enemies[0].cd = gameState.enemies[0].maxCd;
+  //}
+  //
+  //// [Act07]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：参数83]  [优先级：255]
+  //// [触发条件：3n+1 回合，n≥0  『且』  玩家位置5 存活]
+  //// [台词]  首先要麻烦您让性器勃起，这样我才能仔细观察您雄伟的性器。
+  //// [技能]：性器检查
+  //// 以自身攻击力400%对敌方最大HP最高者造成伤害
+  //// 以自身攻击力250%对敌方最大HP第四高者造成伤害
+  ////if (
+  ////  (gameState.turn !== 0 &&
+  ////    (gameState.turn - 1) % 3 === 0 &&
+  ////    (gameState.turn - 1) % 5 !== 0) ||
+  ////  gameState.turn === 1
+  ////) {
+  ////  const hpSorted = maxHpSort(gameState.characters);
+  ////  dealUltDamage(
+  ////    Target.ENEMY_1,
+  ////    2.5,
+  ////    gameState,
+  ////    hpSorted[1],
+  ////    DamageType.ULTIMATE,
+  ////    CharacterAction.SKILL,
+  ////  );
+  ////  dealUltDamage(
+  ////    Target.ENEMY_1,
+  ////    4,
+  ////    gameState,
+  ////    hpSorted[4],
+  ////    DamageType.ULTIMATE,
+  ////    CharacterAction.SKILL,
+  ////  );
+  ////}
+  //
+  //// [Act08]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：参数81]  [优先级：255]
+  //// [触发条件：3n+2 回合，n≥0  『且』  玩家位置5 存活]
+  //// [台词]  现在要测验抽插力度，请尽情用力抽插人家的小穴吧♡
+  //// [技能]：抽插测验
+  //// 以自身攻击力350%对敌方最大HP第二高者造成伤害
+  //// 以自身攻击力200%对敌方最大HP最低者造成伤害
+  //if ((gameState.turn - 2) % 3 === 0 && (gameState.turn - 1) % 5 !== 0) {
+  //  const hpSorted = maxHpSort(gameState.characters);
+  //  dealUltDamage(
+  //    Target.ENEMY_1,
+  //    3.5,
+  //    gameState,
+  //    hpSorted[3],
+  //    DamageType.ULTIMATE,
+  //    CharacterAction.SKILL,
+  //  );
+  //  dealUltDamage(
+  //    Target.ENEMY_1,
+  //    2,
+  //    gameState,
+  //    hpSorted[0],
+  //    DamageType.ULTIMATE,
+  //    CharacterAction.SKILL,
+  //  );
+  //}
+  //
+  //// [Act09]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：参数82]  [优先级：255]
+  //// [触发条件：3n 回合，n≥0  『且』  玩家位置5 存活]
+  //// [台词]  还请您把性器勃起到极限，我会用小穴榨精的方式来检测您的性器硬度。
+  //// [技能]：硬度检测
+  //// 以自身攻击力300%对敌方最大HP第三高者造成伤害
+  //
+  //if (
+  //  gameState.turn > 0 &&
+  //  gameState.turn % 3 === 0 &&
+  //  (gameState.turn - 1) % 5 !== 0
+  //) {
+  //  const hpSorted = maxHpSort(gameState.characters);
+  //  dealUltDamage(
+  //    Target.ENEMY_1,
+  //    2.75,
+  //    gameState,
+  //    hpSorted[2],
+  //    DamageType.ULTIMATE,
+  //    CharacterAction.SKILL,
+  //  );
+  //}
+  //// [Act10]  [类型：普攻  ]  [模式：循环]  [结束行动：False]  [目标：玩家当前HP百分比最高者]  [优先级：255]
+  //// [触发条件：3n+2 回合，n≥0]
+  ////
+  //
+  //if (gameState.turn !== 0) {
+  //  if ((gameState.turn - 2) % 3 === 0) {
+  //    const hpSorted = hpSort(gameState.characters);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[0],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[1],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[2],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[3],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[4],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //parseCondition(
+  //    //  Target.ENEMY_1,
+  //    //  [Condition.ENEMY_BASIC_ATTACK],
+  //    //  gameState,
+  //    //  gameState,
+  //    //);
+  //  } // [Act11]  [类型：普攻  ]  [模式：循环]  [结束行动：True]  [目标：玩家当前HP百分比最高者]  [优先级：255]
+  //  // [触发条件：玩家位置9 存活]
+  //  else {
+  //    const hpSorted = hpSort(gameState.characters);
+  //
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[0],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[1],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[2],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[3],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //dealBasicDamage(
+  //    //  Target.ENEMY_1,
+  //    //  0.5,
+  //    //  gameState,
+  //    //  hpSorted[4],
+  //    //  DamageType.ULTIMATE,
+  //    //  CharacterAction.SKILL,
+  //    //);
+  //    //parseCondition(
+  //    //  Target.ENEMY_1,
+  //    //  [Condition.ENEMY_BASIC_ATTACK],
+  //    //  gameState,
+  //    //  gameState,
+  //    //);
+  //
+  //    gameState.stageState.last_turn_hp = gameState.enemies[0].hp;
+  //    return;
+  //  }
+  //}
+  //
+  //// [Act12]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：玩家最大HP最高者]  [优先级：10]
+  //// [触发条件：3n+2 回合，n≥0]
+  //// [台词]  在时间到之前可不能射出来喔～
+  //// [技能]：自控力测试
+  //// 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
+  //if ((gameState.turn - 2) % 3 === 0) {
+  //  const randomPos = Math.floor(Math.random() * 4);
+  //  const hpSorted = maxHpSort(gameState.characters);
+  //  hpSorted.splice(2, 1);
+  //  const position = hpSorted[randomPos];
+  //
+  //  //gameState.characters[position].buff = [
+  //  //  ...gameState.characters[position].buff,
+  //  //  {
+  //  //    id: "42228-act06-1-1",
+  //  //    name: "以自身攻击力500%对自身全体造成伤害",
+  //  //    type: 1,
+  //  //    condition: Condition.ATTACK,
+  //  //    duration: 2,
+  //  //    _1: {
+  //  //      defender: Target.ALL_ALLIES,
+  //  //      value: 5,
+  //  //      damageType: DamageType.TRIGGER,
+  //  //      action: CharacterAction.BASIC,
+  //  //    },
+  //  //  },
+  //  //];
+  //
+  //  // randomizePos(position);
+  //}
+  //
+  //// [Act13]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：参数81]  [优先级：10]
+  //// [触发条件：3n+2 回合，n≥0]
+  //// [台词]  在时间到之前可不能射出来喔～
+  //// [技能]：自控力测试
+  //// 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
+  //// [Act14]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：参数83]  [优先级：10]
+  //// [触发条件：3n+2 回合，n≥0]
+  //// [台词]  在时间到之前可不能射出来喔～
+  //// [技能]：自控力测试
+  //// 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
+  //// [Act15]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：玩家最大HP最低者]  [优先级：10]
+  //// [触发条件：3n+2 回合，n≥0]
+  //// [台词]  在时间到之前可不能射出来喔～
+  //// [技能]：自控力测试
+  //// 使目标获得「攻击时，触发『以自身攻击力500%对我方全体造成伤害』(1回合)」
+  //gameState.stageState.last_turn_hp = gameState.enemies[0].hp;
 }

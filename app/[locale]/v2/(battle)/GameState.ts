@@ -172,8 +172,7 @@ export const useGameState = create<GameState>()(
             initPassiveSkill(state, 2);
             initPassiveSkill(state, 3);
             initPassiveSkill(state, 4);
-            //parseInitstage(state);
-            //parseStageAction(state);
+            parseInitstage(state);
             state.turn = state.turn + 1;
             newWaveStart(state, state);
             onTurnStart(state, state);

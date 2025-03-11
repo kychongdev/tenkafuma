@@ -159,3 +159,20 @@ export function parseCharacterName(G: GameState, target: Target) {
       return "無法讀取[BUG]";
   }
 }
+
+export function hpSort(arr: CharacterState[]) {
+  const hpList = arr.map((char) => char.hp / char.maxHp);
+  const result = Array.from(hpList.keys()).sort(
+    (a, b) => hpList[a] - hpList[b],
+  );
+  return result;
+}
+
+export function maxHpSort(arr: CharacterState[]) {
+  const hpList = arr.map((char) => char.maxHp);
+  const result = Array.from(hpList.keys()).sort(
+    (a, b) => hpList[a] - hpList[b],
+  );
+
+  return result;
+}

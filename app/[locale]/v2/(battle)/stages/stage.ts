@@ -6,7 +6,10 @@ export function stage(gameState: GameState) {
     case "s21_63": {
       break;
     }
-    case "wood": {
+    case "r21_sp": {
+      break;
+    }
+    case "dummy": {
       break;
     }
   }

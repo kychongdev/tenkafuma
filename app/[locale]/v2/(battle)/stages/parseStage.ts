@@ -1,31 +1,39 @@
 import { GameState } from "../GameState.ts";
 import { s21_63, s21_63_action } from "./s21_63.ts";
-import { wood, wood_action } from "./wood.ts";
+import { dummy, dummy_action } from "./dummy.ts";
+import { r21_sp, r21_sp_action } from "./r21_sp.ts";
 
 export function parseInitstage(gameState: GameState) {
   const stage = gameState.stage;
   switch (stage) {
-    case "wood": {
-      wood(gameState);
+    case "dummy": {
+      dummy(gameState);
       break;
     }
-
     case "s21_63": {
       s21_63(gameState);
+      break;
+    }
+    case "r21_sp": {
+      r21_sp(gameState);
       break;
     }
   }
 }
 
-export function parseStageAction(gameState: GameState) {
+export function parseStageAction(gameState: GameState, oG: GameState) {
   const stage = gameState.stage;
   switch (stage) {
-    case "wood": {
-      wood_action(gameState);
+    case "dummy": {
+      dummy_action(gameState, oG);
       break;
     }
     case "s21_63": {
-      s21_63_action(gameState);
+      s21_63_action(gameState, oG);
+      break;
+    }
+    case "r21_sp": {
+      r21_sp_action(gameState, oG);
       break;
     }
   }
