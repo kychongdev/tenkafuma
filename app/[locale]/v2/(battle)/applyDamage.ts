@@ -4,6 +4,7 @@ import { AffectType, DamageType, Skill, Target } from "./types/Skill";
 import { damageOnShield } from "./damageOnShield";
 import {
   checkAvailable,
+  checkAvailablePosition,
   formatNumber,
   p,
   parseActionName,
@@ -17,6 +18,7 @@ import {
   CharacterClass,
 } from "./types/Character";
 import { checkSpecialCondition } from "./condition";
+import { basicDamage } from "./calculations/basicDamage";
 
 export function applyDamage(
   G: GameState,
@@ -38,6 +40,25 @@ export function applyDamage(
   }
   dealDamage(G, damage, target, isTrueDamage);
   writeBattleLog(G, attacker, defender, damage, damageType, action);
+}
+
+// Basic Damage to G.targeting
+export function basicToTargeting(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  if (!checkAvailable(G.characters[G.targeting])) {
+    return;
+  }
+  const dmg = basicDamage(G, oG, value, attacker, Target.ENEMY, false);
+  dealDamage(G, dmg, defender, isTrueDamage);
+  writeBattleLog(G, attacker, defender, dmg, damageType, action);
 }
 
 export function applyDamageTrigger(

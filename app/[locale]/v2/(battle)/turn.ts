@@ -26,7 +26,7 @@ export function checkEndTurn(state: GameState, oldState: GameState) {
     //enemyOnTurnStart(state);
     //parseStageAction(state);
     //enemyCalculateDot(state);
-    endTurn(state);
+    endTurn(state, oldState);
     onTurnStart(state, oldState);
   }
 }
@@ -74,9 +74,10 @@ export function onTurnStart(gameState: GameState, oldState: GameState) {
     }
   });
   gameState.battleLog.push(`【第${gameState.turn}回合】`);
+  gameState.healLog.push(`【第${gameState.turn}回合】`);
 }
 
-export function endTurn(state: GameState) {
+export function endTurn(state: GameState, oG: GameState) {
   state.enemies.forEach((_, index) => {
     state.enemies[index].buff = state.enemies[index].buff.map((buff) => {
       if (buff.duration && buff.duration !== 100) {
@@ -113,7 +114,7 @@ export function endTurn(state: GameState) {
   });
 
   state.characters.forEach((_, index) => {
-    const heal = healOverTime(state, index);
+    const heal = healOverTime(state, oG, index);
     state.characters[index].hp += heal;
     if (state.characters[index].hp > state.characters[index].maxHp) {
       state.characters[index].hp = state.characters[index].maxHp;

@@ -1,9 +1,10 @@
 import { GameState } from "./GameState";
+import { AffectType, Condition } from "./types/Skill";
 
 export function ultimate(
-  position: number,
   gameState: GameState,
   oldState: GameState,
+  position: number,
 ) {
   const id = gameState.characters[position].id;
   const passive4 = gameState.characters[position].passive4;
@@ -116,6 +117,47 @@ export function ultimate(
     // "10117": "夏日 巴爾",
     // "10118": "夏日 菲歐菈",
     // "10119": "夏日 艾可",
+    case "10119": {
+      gameState.characters.forEach((_, index) => {
+        gameState.characters[index].buff = [
+          ...gameState.characters[index].buff,
+          {
+            id: "10119-ult-1",
+            name: "觸發技效果增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: bond === 1 ? 0.5 : bond === 2 || bond === 3 ? 0.75 : 1,
+              affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+            },
+          },
+          {
+            id: "10119-ult-2",
+            name: "造成傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: bond === 1 ? 0.1 : bond === 2 || bond === 3 ? 0.2 : 0.3,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: "10119-ult-3",
+            name: "攻擊力增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value: bond === 1 ? 0.2 : bond === 2 || bond === 3 ? 0.35 : 0.5,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10120": "乘風破浪 蘭兒",
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",

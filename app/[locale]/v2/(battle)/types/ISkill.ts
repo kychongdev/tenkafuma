@@ -98,9 +98,11 @@ export interface _8 {
   triggerSkill: Skill;
 }
 
-// 潛6的被動
+// heal
 export interface _9 {
-  applySkill: Skill;
+  value: number;
+  target: Target;
+  damageType: DamageType;
 }
 
 // Apply HP based shield
@@ -117,7 +119,6 @@ export interface _11 {
   target: Target | CharacterClass;
   applySkill: Skill[];
   applyToSpecificChar?: string;
-  deleteSelf?: boolean;
   overlap?: boolean;
 }
 

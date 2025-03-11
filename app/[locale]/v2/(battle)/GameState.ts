@@ -16,6 +16,7 @@ import { checkEndTurn, newWaveStart, onTurnStart } from "./turn";
 import { parseCondition } from "./parseCondition";
 import { CharacterAction } from "./types/Character";
 import { parseAddon } from "./parseAddon";
+import { ultimate } from "./ultimate";
 
 export interface GameState {
   clientId: string;
@@ -31,11 +32,7 @@ export interface GameState {
   damageLog3: any[];
   damageLog4: any[];
   damageLog5: any[];
-  healLog1: any[];
-  healLog2: any[];
-  healLog3: any[];
-  healLog4: any[];
-  healLog5: any[];
+  healLog: any[];
   battleSettings: {
     everyTurnAttack: boolean;
     everyTurnAttackTarget: Target[];
@@ -45,11 +42,6 @@ export interface GameState {
   enemyDamageLog3: any[];
   enemyDamageLog4: any[];
   enemyDamageLog5: any[];
-  enemyHealLog1: any[];
-  enemyHealLog2: any[];
-  enemyHealLog3: any[];
-  enemyHealLog4: any[];
-  enemyHealLog5: any[];
   action: any[];
   battleLog: string[];
   undo: any[];
@@ -77,11 +69,7 @@ function resetBattle(state: GameState) {
   state.damageLog3 = [];
   state.damageLog4 = [];
   state.damageLog4 = [];
-  state.healLog1 = [];
-  state.healLog2 = [];
-  state.healLog3 = [];
-  state.healLog4 = [];
-  state.healLog5 = [];
+  state.healLog = [];
   state.battleLog = [];
   state.action = [];
   state.undo = [];
@@ -90,11 +78,6 @@ function resetBattle(state: GameState) {
   state.enemyDamageLog1 = [];
   state.enemyDamageLog1 = [];
   state.enemyDamageLog1 = [];
-  state.enemyHealLog1 = [];
-  state.enemyHealLog2 = [];
-  state.enemyHealLog3 = [];
-  state.enemyHealLog4 = [];
-  state.enemyHealLog5 = [];
 }
 const initEnemyState = {
   ...initCharacterState,
@@ -140,11 +123,7 @@ export const useGameState = create<GameState>()(
       damageLog3: [],
       damageLog4: [],
       damageLog5: [],
-      healLog1: [],
-      healLog2: [],
-      healLog3: [],
-      healLog4: [],
-      healLog5: [],
+      healLog: [],
       battleLog: [],
       action: [],
       enemyDamageLog1: [],
@@ -152,11 +131,6 @@ export const useGameState = create<GameState>()(
       enemyDamageLog3: [],
       enemyDamageLog4: [],
       enemyDamageLog5: [],
-      enemyHealLog1: [],
-      enemyHealLog2: [],
-      enemyHealLog3: [],
-      enemyHealLog4: [],
-      enemyHealLog5: [],
       initBattle: (team: CharacterTeam): void => {
         set((state) => {
           state.clientId = generateClientId(20);
@@ -240,34 +214,33 @@ export const useGameState = create<GameState>()(
       },
       basicAction: (position: number) => {
         set((state) => {
-          const prevState = p(state);
+          const oG = p(state);
+          const prevState = {
+            wave: p(state.wave),
+            turn: p(state.turn),
+            targeting: p(state.targeting),
+            enemies: p(state.enemies),
+            characters: p(state.characters),
+            damageLog1: p(state.damageLog1),
+            damageLog2: p(state.damageLog2),
+            damageLog3: p(state.damageLog3),
+            damageLog4: p(state.damageLog4),
+            damageLog5: p(state.damageLog5),
+            battleLog: p(state.battleLog),
+            healLog: p(state.healLog),
+            action: p(state.action),
+            enemyDamageLog1: p(state.enemyDamageLog1),
+            enemyDamageLog2: p(state.enemyDamageLog2),
+            enemyDamageLog3: p(state.enemyDamageLog3),
+            enemyDamageLog4: p(state.enemyDamageLog4),
+            enemyDamageLog5: p(state.enemyDamageLog5),
+            stageState: p(state.stageState),
+          };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;
-          const oG = p(state);
-          basic(position, state, oG);
-          //const prevState = {
-          //  wave: p(state.wave),
-          //  turn: p(state.turn),
-          //  turn_state: p(state.turn_state),
-          //  enemies: p(state.enemies),
-          //  characters: p(state.characters),
-          //  damage_log_1: p(state.damage_log_1),
-          //  damage_log_2: p(state.damage_log_2),
-          //  damage_log_3: p(state.damage_log_3),
-          //  damage_log_4: p(state.damage_log_4),
-          //  damage_log_5: p(state.damage_log_5),
-          //  battle_log: p(state.battle_log),
-          //  action: p(state.action),
-          //  enemy_damage_log_1: p(state.enemy_damage_log_1),
-          //  enemy_damage_log_2: p(state.enemy_damage_log_2),
-          //  enemy_damage_log_3: p(state.enemy_damage_log_3),
-          //  enemy_damage_log_4: p(state.enemy_damage_log_4),
-          //  enemy_damage_log_5: p(state.enemy_damage_log_5),
-          //  stage_state: p(state.stage_state),
-          //};
-          //state.undo.push(prevState);
           //state.action.push({ position, targeting: state.targeting });
-          //
+
+          basic(position, state, oG);
           parseAddon(
             state,
             oG,
@@ -300,107 +273,129 @@ export const useGameState = create<GameState>()(
       },
       ultAction: (position: number) => {
         set((state) => {
-          const prevState = p(state);
+          const oG = p(state);
+          const prevState = {
+            wave: p(state.wave),
+            turn: p(state.turn),
+            targeting: p(state.targeting),
+            enemies: p(state.enemies),
+            characters: p(state.characters),
+            damageLog1: p(state.damageLog1),
+            damageLog2: p(state.damageLog2),
+            damageLog3: p(state.damageLog3),
+            damageLog4: p(state.damageLog4),
+            damageLog5: p(state.damageLog5),
+            battleLog: p(state.battleLog),
+            healLog: p(state.healLog),
+            action: p(state.action),
+            enemyDamageLog1: p(state.enemyDamageLog1),
+            enemyDamageLog2: p(state.enemyDamageLog2),
+            enemyDamageLog3: p(state.enemyDamageLog3),
+            enemyDamageLog4: p(state.enemyDamageLog4),
+            enemyDamageLog5: p(state.enemyDamageLog5),
+            //stageState: p(state.stageState),
+          };
           state.undo.push(prevState);
-          //const prevState = {
-          //  wave: p(state.wave),
-          //  turn: p(state.turn),
-          //  turn_state: p(state.turn_state),
-          //  enemies: p(state.enemies),
-          //  characters: p(state.characters),
-          //  damage_log_1: p(state.damage_log_1),
-          //  damage_log_2: p(state.damage_log_2),
-          //  damage_log_3: p(state.damage_log_3),
-          //  damage_log_4: p(state.damage_log_4),
-          //  damage_log_5: p(state.damage_log_5),
-          //  battle_log: p(state.battle_log),
-          //  action: p(state.action),
-          //  enemy_damage_log_1: p(state.enemy_damage_log_1),
-          //  enemy_damage_log_2: p(state.enemy_damage_log_2),
-          //  enemy_damage_log_3: p(state.enemy_damage_log_3),
-          //  enemy_damage_log_4: p(state.enemy_damage_log_4),
-          //  enemy_damage_log_5: p(state.enemy_damage_log_5),
-          //  stage_state: p(state.stage_state),
-          //};
-          //state.undo.push(prevState);
+          state.characters[position].isMoved = true;
           //state.action.push({
           //  position: position + 5,
           //  targeting: state.targeting,
           //});
-          state.characters[position].isMoved = true;
           //state.characters[position].cd = state.characters[position].maxCd;
+          ultimate(state, oG, position);
+
+          parseAddon(
+            state,
+            oG,
+            position,
+            [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
+            CharacterAction.ULTIMATE,
+          );
+          parseCondition(
+            state,
+            oG,
+            position,
+            [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
+            CharacterAction.ULTIMATE,
+          );
           //
-          //const oldState = p(state);
-          //ultimateAttack(state, position);
-          //console.log(p(state.characters[position].buff));
-          //
-          //parseConditionAddon(
-          //  position,
-          //  [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
-          //  state,
-          //  oldState,
-          //);
-          //parseCondition(
-          //  position,
-          //  [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
-          //  state,
-          //  oldState,
-          //);
-          //
-          //state.characters.forEach((character, index) => {
-          //  if (character.isHeal === true) {
-          //    parseCondition(index, [Condition.GET_HEAL], state, oldState);
-          //  }
-          //  character.isHeal = false;
-          //});
-          //
+          state.characters.forEach((character, index) => {
+            if (character.isHeal === true) {
+              parseCondition(
+                state,
+                oG,
+                index,
+                [Condition.GET_HEAL],
+                CharacterAction.BASIC,
+              );
+              character.isHeal = false;
+            }
+          });
+
           //applyExtra(state, position);
-          //checkEndTurn(state);
+          checkEndTurn(state, oG);
         });
       },
       guardAction: (position: number) => {
         set((state) => {
-          const prevState = p(state);
+          const oG = p(state);
+          const prevState = {
+            wave: p(state.wave),
+            turn: p(state.turn),
+            enemies: p(state.enemies),
+            targeting: p(state.targeting),
+            characters: p(state.characters),
+            damageLog1: p(state.damageLog1),
+            damageLog2: p(state.damageLog2),
+            damageLog3: p(state.damageLog3),
+            damageLog4: p(state.damageLog4),
+            damageLog5: p(state.damageLog5),
+            battleLog: p(state.battleLog),
+            healLog: p(state.healLog),
+            action: p(state.action),
+            enemyDamageLog1: p(state.enemyDamageLog1),
+            enemyDamageLog2: p(state.enemyDamageLog2),
+            enemyDamageLog3: p(state.enemyDamageLog3),
+            enemyDamageLog4: p(state.enemyDamageLog4),
+            enemyDamageLog5: p(state.enemyDamageLog5),
+            //stageState: p(state.stageState),
+          };
           state.undo.push(prevState);
-          //const prevState = {
-          //  wave: p(state.wave),
-          //  turn: p(state.turn),
-          //  turn_state: p(state.turn_state),
-          //  enemies: p(state.enemies),
-          //  characters: p(state.characters),
-          //  damage_log_1: p(state.damage_log_1),
-          //  damage_log_2: p(state.damage_log_2),
-          //  damage_log_3: p(state.damage_log_3),
-          //  damage_log_4: p(state.damage_log_4),
-          //  damage_log_5: p(state.damage_log_5),
-          //  battle_log: p(state.battle_log),
-          //  action: p(state.action),
-          //  enemy_damage_log_1: p(state.enemy_damage_log_1),
-          //  enemy_damage_log_2: p(state.enemy_damage_log_2),
-          //  enemy_damage_log_3: p(state.enemy_damage_log_3),
-          //  enemy_damage_log_4: p(state.enemy_damage_log_4),
-          //  enemy_damage_log_5: p(state.enemy_damage_log_5),
-          //  stage_state: p(state.stage_state),
-          //};
+          state.characters[position].isMoved = true;
           //state.action.push({
           //  position: position + 10,
           //  targeting: state.targeting,
           //});
-          //const oldState = p(state);
           state.characters[position].isGuard = true;
-          //parseConditionAddon(
-          //  position,
-          //  [Condition.GUARD, Condition.MOVE],
-          //  state,
-          //  oldState,
-          //);
-          //parseCondition(
-          //  position,
-          //  [Condition.GUARD, Condition.MOVE],
-          //  state,
-          //  oldState,
-          //);
-          //checkEndTurn(state);
+
+          parseAddon(
+            state,
+            oG,
+            position,
+            [Condition.GUARD, Condition.MOVE],
+            CharacterAction.GUARD,
+          );
+          parseCondition(
+            state,
+            oG,
+            position,
+            [Condition.GUARD, Condition.MOVE],
+            CharacterAction.GUARD,
+          );
+          //
+          state.characters.forEach((character, index) => {
+            if (character.isHeal === true) {
+              parseCondition(
+                state,
+                oG,
+                index,
+                [Condition.GET_HEAL],
+                CharacterAction.GUARD,
+              );
+              character.isHeal = false;
+            }
+          });
+          checkEndTurn(state, oG);
         });
       },
       healAction: () => {},
@@ -409,8 +404,11 @@ export const useGameState = create<GameState>()(
           const lastState = state.undo.pop();
           if (lastState) {
             state.turn = lastState.turn;
-            state.targeting = lastState.targeting;
             state.enemies = lastState.enemies;
+            console.log(p(state.enemies));
+            console.log(lastState.targeting);
+            state.targeting = lastState.targeting;
+            console.log(state.targeting);
             state.characters = lastState.characters;
             state.damageLog1 = lastState.damageLog1;
             state.damageLog2 = lastState.damageLog2;
@@ -418,14 +416,16 @@ export const useGameState = create<GameState>()(
             state.damageLog4 = lastState.damageLog4;
             state.damageLog5 = lastState.damageLog5;
             state.battleLog = lastState.battleLog;
+            state.healLog = lastState.healLog;
             state.action = lastState.action;
             state.enemyDamageLog1 = lastState.enemyDamageLog1;
             state.enemyDamageLog2 = lastState.enemyDamageLog2;
             state.enemyDamageLog3 = lastState.enemyDamageLog3;
             state.enemyDamageLog4 = lastState.enemyDamageLog4;
             state.enemyDamageLog5 = lastState.enemyDamageLog5;
-            state.stageState = lastState.stageStage;
+            //state.stageState = lastState.stageStage;
           }
+          console.log(p(state.enemies));
         });
       },
       enableEveryTurnAttack: () => {

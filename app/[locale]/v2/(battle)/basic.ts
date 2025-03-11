@@ -1,4 +1,5 @@
-import { applyDamage } from "./applyDamage";
+import { applyDamage, basicToTargeting } from "./applyDamage";
+import { applyRawAttBuff } from "./applyRawAtk";
 import { basicDamage } from "./calculations/basicDamage";
 import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
@@ -18,8 +19,7 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10003": "魔王 伊布力斯",
     // "10004": "精靈王 賽露西亞",
     case "10004": {
-      const dmg = basicDamage(G, oG, 1, p, Target.ENEMY, false);
-      applyDamage(G, oG, dmg, p, Target.ENEMY, false, dt, ca);
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
       break;
     }
     // "10005": "矮人王 蘭兒",
@@ -100,6 +100,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10084": "貓娘Vtuber 杏仁咪嚕",
     // "10085": "花魁 香奈",
     // "10088": "雙星之紅 安絲蒂",
+    case "10088": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
@@ -130,6 +134,26 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
     // "10126": "調皮搗蛋 白",
+    case "10126": {
+      G.characters.forEach((_, index) => {
+        const attack = Math.floor(applyRawAttBuff(G, p) * 0.3);
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10126-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
     // "10129": "性誕馴鹿 希依",
@@ -153,6 +177,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
+    case "10149": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10150": "勇者兔女郎 神田綾音",
     // "10151": "性感兔女郎 伊布力斯",
     // "10152": "治癒之星 蘇珊",

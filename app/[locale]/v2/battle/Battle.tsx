@@ -47,6 +47,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { Separator } from "@/components/ui/separator";
 import { Target } from "../(battle)/types/Skill";
 import { useGameState } from "../(battle)/GameState";
+import { HealLog } from "./HealLog";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -142,6 +143,7 @@ export default function Battle() {
 
         <div className="flex flex-wrap gap-2">
           <BattleLog />
+          <HealLog />
           <Button
             className="px-2 gap-1"
             onClick={() => {

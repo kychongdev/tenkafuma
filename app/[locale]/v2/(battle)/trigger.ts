@@ -1,9 +1,12 @@
 import { applyDamage, applyDamageTrigger, checkOpponent } from "./applyDamage";
+import { ultHealAllAllies } from "./applyHeal";
+import { applyRawAttBuff } from "./applyRawAtk";
 import { basicDamage } from "./calculations/basicDamage";
+import { healUltDamage } from "./calculations/healUltDamage";
 import { ultDamage } from "./calculations/ultDamage";
 import { checkSpecialCondition } from "./condition";
 import { GameState } from "./GameState";
-import { CharacterAction } from "./types/Character";
+import { CharacterAction, CharacterAttribute } from "./types/Character";
 import {
   AffectType,
   Condition,
@@ -11,7 +14,7 @@ import {
   Skill,
   Target,
 } from "./types/Skill";
-import { checkAvailable, checkAvailablepos } from "./utils";
+import { checkAvailable, checkAvailablePosition } from "./utils";
 
 export function trigger(
   G: GameState,
@@ -43,7 +46,7 @@ export function trigger(
               break;
             }
             for (let i = 0; i < buff._1.multipleValue; i++) {
-              const checkAgain = checkAvailablepos(G, opponent);
+              const checkAgain = checkAvailablePosition(G, opponent);
               if (checkAgain === -1) {
                 break;
               }
@@ -51,7 +54,7 @@ export function trigger(
               applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
             }
           } else {
-            const checkAgain = checkAvailablepos(G, opponent);
+            const checkAgain = checkAvailablePosition(G, opponent);
             if (checkAgain === -1) {
               break;
             }
@@ -71,7 +74,7 @@ export function trigger(
             }
             for (let i = 0; i < buff._1.multipleValue; i++) {
               console.log(opponent);
-              const checkAgain = checkAvailablepos(G, opponent);
+              const checkAgain = checkAvailablePosition(G, opponent);
               if (checkAgain === -1) {
                 break;
               }
@@ -79,7 +82,8 @@ export function trigger(
               applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
             }
           } else {
-            const checkAgain = checkAvailablepos(G, opponent);
+            const checkAgain = checkAvailablePosition(G, opponent);
+            console.log(checkAgain);
             if (checkAgain === -1) {
               break;
             }
@@ -312,18 +316,12 @@ export function trigger(
           });
           break;
         }
-        case Target.pos_1:
-        case Target.pos_2:
-        case Target.pos_3:
-        case Target.pos_4:
-        case Target.pos_5: {
-          const pos = parseTargetToNum(buff._4.target);
-          if (pos === -1) {
-            console.log(buff.id);
-            console.log("Wrong data buff._4.target");
-            break;
-          }
-          // x is G buff
+        case Target.POSITION_1:
+        case Target.POSITION_2:
+        case Target.POSITION_3:
+        case Target.POSITION_4:
+        case Target.POSITION_5: {
+          const pos = buff._4.target;
           const isExist = G.characters[pos].buff.some((x) => {
             return x.id === buff._4?.targetSkill;
           });
@@ -344,7 +342,6 @@ export function trigger(
               return x;
             });
           } else {
-            // purely typescript problem
             if (buff._4?.applySkill) {
               G.characters[pos].buff = [
                 ...G.characters[pos].buff,
@@ -456,8 +453,8 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, pos);
-            const baseAtk = G.characters[pos].atk;
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = G.characters[p].atk;
             G.characters[index].buff = [
               ...G.characters[index].buff,
               {
@@ -480,11 +477,11 @@ export function trigger(
           break;
         }
         case Target.SELF: {
-          const rawAttSkill = applyRawAttBuff(G, pos);
-          const baseAtk = G.characters[pos].atk;
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = G.characters[p].atk;
           console.log("test");
-          G.characters[pos].buff = [
-            ...G.characters[pos].buff,
+          G.characters[p].buff = [
+            ...G.characters[p].buff,
             {
               id: `${buff.id}-buff`,
               name: buff.name,
@@ -508,9 +505,9 @@ export function trigger(
               console.log("2.Wrong data 6");
               return;
             }
-            const rawAttSkill = applyRawAttBuff(G, pos);
-            const baseAtk = G.characters[pos].atk;
-            if (index !== pos) {
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = G.characters[p].atk;
+            if (index !== p) {
               G.characters[index].buff = [
                 ...G.characters[index].buff,
                 {
@@ -543,8 +540,8 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, pos);
-            const baseAtk = G.characters[pos].atk;
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = G.characters[p].atk;
             if (character.class === buff._6?.target) {
               G.characters[index].buff = [
                 ...G.characters[index].buff,
@@ -567,21 +564,20 @@ export function trigger(
           });
           break;
         }
-        case Target.pos_1:
-        case Target.pos_2:
-        case Target.pos_3:
-        case Target.pos_4:
-        case Target.pos_5: {
-          const rawAttSkill = applyRawAttBuff(G, pos);
-          const baseAtk = G.characters[pos].atk;
-          const pos = parseTargetToNum(buff._6.target);
+        case Target.POSITION_1:
+        case Target.POSITION_2:
+        case Target.POSITION_3:
+        case Target.POSITION_4:
+        case Target.POSITION_5: {
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = G.characters[p].atk;
 
-          if (pos === -1) {
+          if (p === -1) {
             console.log("Target Parsing is Wrong!");
             break;
           }
-          G.characters[pos].buff = [
-            ...G.characters[pos].buff,
+          G.characters[buff._6.target].buff = [
+            ...G.characters[buff._6.target].buff,
             {
               id: `${buff.id}-buff`,
               name: buff.name,
@@ -605,8 +601,8 @@ export function trigger(
         }
 
         case Target.SPECIFIC_CHARACTER: {
-          const rawAttSkill = applyRawAttBuff(G, pos);
-          const baseAtk = G.characters[pos].atk;
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = G.characters[p].atk;
           const pos = G.characters.findIndex((character) => {
             return character.id === buff._6?.applyToSpecificChar;
           });
@@ -642,6 +638,294 @@ export function trigger(
         }
       }
 
+      break;
+    }
+    case 8: {
+      if (!buff._8) {
+        console.log("Wrong data 8");
+        break;
+      }
+      if (!oG) {
+        console.log("Can't find old state");
+        break;
+      }
+      switch (buff._8.target) {
+        case Target.SELF: {
+          const skillStackNum = oG.characters[p].buff.find((x) => {
+            return x.id === buff._8?.targetSkill;
+          });
+
+          if (!skillStackNum || !skillStackNum._3) {
+            // Does not have this skill
+            break;
+          }
+          for (let i = 0; i < skillStackNum._3.stack; i++) {
+            trigger(G, oG, p, buff._8.triggerSkill, ca);
+          }
+          break;
+        }
+        //case Target.ENEMY_1:
+        //case Target.ENEMY_2:
+        //case Target.ENEMY_3:
+        //case Target.ENEMY_4:
+        //case Target.ENEMY_5: {
+        //  const enemyIndex = buff._8.target - 20;
+        //  const skillStackNum = G.enemies[enemyIndex].buff.find((x) => {
+        //    return x.id === buff._8?.targetSkill;
+        //  });
+        //  if (!skillStackNum || !skillStackNum._3) {
+        //    break;
+        //  }
+        //  for (let i = 0; i < skillStackNum._3.stack; i++) {
+        //    triggerSkill(
+        //      buff._8.triggerSkill,
+        //      G,
+        //      buff._8.target,
+        //      oldState,
+        //    );
+        //  }
+        //  break;
+        //}
+      }
+      break;
+    }
+    case 9: {
+      if (!buff._9) {
+        console.log(buff.id);
+        console.log("Wrong data 9");
+        break;
+      }
+      switch (buff._9.damageType) {
+        case DamageType.BASIC: {
+          break;
+        }
+        case DamageType.ULTIMATE: {
+          break;
+        }
+        case DamageType.TRIGGER: {
+          if (buff._9.target === Target.ALL_ALLIES) {
+            ultHealAllAllies(G, oG, buff._9.value, p, true, false);
+          }
+          break;
+        }
+      }
+      break;
+    }
+    case 11: {
+      if (!buff._11) {
+        console.log(buff.id);
+        console.log("Wrong data 11");
+        break;
+      }
+
+      if (buff._11.overlap) {
+        const buffIndex = G.characters[p].buff.findIndex(
+          (x) => x.id === buff.id,
+        );
+        if (buffIndex === -1) {
+          break;
+        }
+        const clone = [...G.characters[p].buff];
+        clone.splice(buffIndex, 1);
+        G.characters[p].buff = clone;
+      }
+
+      switch (buff._11.target) {
+        case Target.SELF: {
+          G.characters[p].buff = [
+            ...G.characters[p].buff,
+            ...buff._11.applySkill,
+          ];
+          break;
+        }
+        case Target.ENEMY: {
+          // If you use overlap then you can only use one apply buff
+          //if (buff._11.overlap && buff._11.applySkill.length < 2) {
+          //  G.enemies[G.targeting].buff = G.enemies[G.targeting].buff.filter(
+          //    (buff) => buff.id !== buff._11?.applySkill[0].id,
+          //  );
+          //}
+          G.enemies[G.targeting].buff = [
+            ...G.enemies[G.targeting].buff,
+            ...buff._11.applySkill,
+          ];
+          break;
+        }
+
+        case Target.ALL_ENEMIES: {
+          G.enemies.forEach((_, index) => {
+            if (!buff._11) {
+              console.log("_11 Apply buff don't exist");
+              return;
+            }
+            G.enemies[index].buff = [
+              ...G.enemies[index].buff,
+              ...buff._11.applySkill,
+            ];
+          });
+        }
+        case Target.DARK_ENEMY: {
+          G.enemies.forEach((enemy, index) => {
+            if (enemy.attribute === CharacterAttribute.DARK) {
+              if (!buff._11) {
+                console.log("Wrong data 11");
+                return;
+              }
+              G.enemies[index].buff = [
+                ...G.enemies[index].buff,
+                ...buff._11.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+        case Target.ALL_ALLIES: {
+          G.characters.forEach((_, index) => {
+            if (!buff._11) {
+              console.log("_11 Apply buff don't exist");
+              return;
+            }
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              ...buff._11.applySkill,
+            ];
+          });
+          break;
+        }
+
+        case Target.ALL_EXCEPT_SELF: {
+          G.characters.forEach((_, index) => {
+            if (index !== p) {
+              if (!buff._11) {
+                console.log("_11 Apply buff don't exist");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._11.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.ATTACKER:
+        case Target.OBSTRUCTER:
+        case Target.HEALER:
+        case Target.PROTECTOR:
+        case Target.SUPPORT: {
+          G.characters.forEach((character, index) => {
+            if (character.class === buff._11?.target) {
+              if (!buff._11) {
+                console.log("Wrong data 11");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._11?.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.FIRE:
+        case Target.WIND:
+        case Target.DARK:
+        case Target.LIGHT:
+        case Target.WATER: {
+          G.characters.forEach((character, index) => {
+            //@ts-ignore
+            if (character.attribute === buff._11?.target) {
+              if (!buff._11) {
+                console.log("Wrong data 11");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._11?.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.ALL_FIRE_EXCEPT_SELF:
+        case Target.ALL_WATER_EXCEPT_SELF:
+        case Target.ALL_DARK_EXCEPT_SELF:
+        case Target.ALL_WIND_EXCEPT_SELF:
+        case Target.ALL_LIGHT_EXCEPT_SELF: {
+          G.characters.forEach((character, index) => {
+            if (
+              //@ts-ignore
+              character.attribute === buff._11?.target - 20 &&
+              index !== p
+            ) {
+              if (!buff._11) {
+                console.log("Wrong data 11");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._11?.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.POSITION_1:
+        case Target.POSITION_2:
+        case Target.POSITION_3:
+        case Target.POSITION_4:
+        case Target.POSITION_5: {
+          G.characters[buff._11.target].buff = [
+            ...G.characters[buff._11.target].buff,
+            ...buff._11.applySkill,
+          ];
+          break;
+        }
+
+        case Target.ALL_LIGHT_EXCEPT_SELF: {
+          G.characters.forEach((character, index) => {
+            if (
+              index !== p &&
+              character.attribute === CharacterAttribute.LIGHT
+            ) {
+              if (!buff._11) {
+                console.log("_11 Apply buff don't exist");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._11.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.SPECIFIC_CHARACTER: {
+          const pos = G.characters.findIndex((character) => {
+            return character.id === buff._11?.applyToSpecificChar;
+          });
+
+          if (pos === -1) {
+            console.log(
+              `_11 Error: Can't find this specific character ${buff._11.applyToSpecificChar}`,
+            );
+            break;
+          }
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            ...buff._11.applySkill,
+          ];
+          break;
+        }
+
+        default:
+          break;
+      }
       break;
     }
   }

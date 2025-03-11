@@ -104,7 +104,7 @@ export function checkSpecialCondition(
           if (!buff.specialConditionSkill) {
             return;
           }
-          const skill = G.characters[position].buff.find(
+          const skill = oG.characters[position].buff.find(
             (x) => x.id === buff.specialConditionSkill,
           );
           if (
@@ -125,7 +125,7 @@ export function checkSpecialCondition(
           if (!buff.specialConditionSkill) {
             return;
           }
-          const skill = G.characters[position].buff.find(
+          const skill = oG.characters[position].buff.find(
             (x) => x.id === buff.specialConditionSkill,
           );
           if (
