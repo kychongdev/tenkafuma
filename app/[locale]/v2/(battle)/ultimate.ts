@@ -1,5 +1,7 @@
+import { ultToTargeting } from "./applyDamage";
 import { GameState } from "./GameState";
-import { AffectType, Condition } from "./types/Skill";
+import { CharacterAction } from "./types/Character";
+import { AffectType, Condition, Target } from "./types/Skill";
 
 export function ultimate(
   gameState: GameState,
@@ -11,6 +13,7 @@ export function ultimate(
   const lib = gameState.characters[position].lib;
   const bond = gameState.characters[position].bond;
   const stars = gameState.characters[position].stars;
+  const ca = CharacterAction.ULTIMATE;
   switch (id) {
     // "10001": "魔王 巴爾",
     // "10002": "魔王 撒旦",
@@ -94,6 +97,50 @@ export function ultimate(
     // "10084": "貓娘Vtuber 杏仁咪嚕",
     // "10085": "花魁 香奈",
     // "10088": "雙星之紅 安絲蒂",
+    case "10088": {
+      gameState.enemies[gameState.targeting].buff = [
+        ...gameState.enemies[gameState.targeting].buff,
+        {
+          id: "10088-ult-1",
+          name: "受到傷害增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 7,
+          _0: {
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.18
+                : bond === 2
+                  ? 0.18
+                  : bond === 3
+                    ? 0.2
+                    : bond === 4
+                      ? 0.2
+                      : 0.2,
+          },
+        },
+      ];
+      ultToTargeting(
+        gameState,
+        oldState,
+        bond === 1
+          ? 2.65
+          : bond === 2
+            ? 2.98
+            : bond === 3
+              ? 3.31
+              : bond === 4
+                ? 3.64
+                : 3.97,
+        position,
+        Target.ENEMY,
+        false,
+        false,
+        ca,
+      );
+      break;
+    }
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
@@ -194,6 +241,75 @@ export function ultimate(
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     // "10155": "甜蜜女僕",
+    case "10155": {
+      gameState.characters[position].buff = [
+        ...gameState.characters[position].buff,
+        {
+          id: "10155-ultimate-1",
+          name: "攻擊力增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value:
+              bond === 1
+                ? 1
+                : bond === 2
+                  ? 1.25
+                  : bond === 3
+                    ? 1.5
+                    : bond === 4
+                      ? 1.75
+                      : 2,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10155-ultimate-2",
+          name: "觸發技效果增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 3,
+          _0: {
+            value:
+              bond === 1
+                ? 1
+                : bond === 2
+                  ? 1.5
+                  : bond === 3
+                    ? 2
+                    : bond === 4
+                      ? 2.5
+                      : 3,
+            affectType: AffectType.INCREASE_TRIGGER_EFFECT,
+          },
+        },
+      ];
+      gameState.enemies[gameState.targeting].buff = [
+        ...gameState.enemies[gameState.targeting].buff,
+        {
+          id: "10155-ultimate-3",
+          name: "觸發技效果增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 3,
+          _0: {
+            value:
+              bond === 1
+                ? 0.6
+                : bond === 2
+                  ? 0.7
+                  : bond === 3
+                    ? 0.8
+                    : bond === 4
+                      ? 0.9
+                      : 1,
+            affectType: AffectType.INCREASE_TRIGGER_DMG_RECEIVED,
+          },
+        },
+      ];
+      break;
+    }
     // "10156": "性誕魔王 巴爾"
     // "10157": "純真祈願 牧愛菈"
     // "10158": "聖夜奇謀 布蘭妮"

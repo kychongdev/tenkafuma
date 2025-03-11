@@ -1,6 +1,7 @@
 import { applyDamage, applyDamageTrigger, checkOpponent } from "./applyDamage";
 import { ultHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff } from "./applyRawAtk";
+import { ultHpShieldAllAllies } from "./applyShield";
 import { basicDamage } from "./calculations/basicDamage";
 import { healUltDamage } from "./calculations/healUltDamage";
 import { ultDamage } from "./calculations/ultDamage";
@@ -83,7 +84,6 @@ export function trigger(
             }
           } else {
             const checkAgain = checkAvailablePosition(G, opponent);
-            console.log(checkAgain);
             if (checkAgain === -1) {
               break;
             }
@@ -704,7 +704,31 @@ export function trigger(
         }
         case DamageType.TRIGGER: {
           if (buff._9.target === Target.ALL_ALLIES) {
-            ultHealAllAllies(G, oG, buff._9.value, p, true, false);
+            ultHealAllAllies(G, oG, buff._9.value, p, true, false, ca);
+          }
+          break;
+        }
+      }
+      break;
+    }
+    case 10: {
+      if (!buff._10) {
+        console.log(buff.id);
+        console.log("Wrong data 10");
+        break;
+      }
+      const v = buff._10.value;
+      const d = buff._10.duration;
+      switch (buff._10.damageType) {
+        case DamageType.BASIC: {
+          break;
+        }
+        case DamageType.ULTIMATE: {
+          break;
+        }
+        case DamageType.TRIGGER: {
+          if (buff._10.target === Target.ALL_ALLIES) {
+            ultHpShieldAllAllies(G, oG, v, p, true, false, ca, d);
           }
           break;
         }

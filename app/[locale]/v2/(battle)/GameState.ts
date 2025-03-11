@@ -301,7 +301,7 @@ export const useGameState = create<GameState>()(
           //  position: position + 5,
           //  targeting: state.targeting,
           //});
-          //state.characters[position].cd = state.characters[position].maxCd;
+          state.characters[position].cd = state.characters[position].maxCd;
           ultimate(state, oG, position);
 
           parseAddon(

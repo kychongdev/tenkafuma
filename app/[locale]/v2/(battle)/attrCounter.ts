@@ -4,7 +4,6 @@ export function attrCounter(
   active: CharacterAttribute,
   passive: CharacterAttribute,
 ) {
-  console.log(active, passive);
   switch (active) {
     case CharacterAttribute.DARK:
       if (passive === CharacterAttribute.LIGHT) return 1.5;

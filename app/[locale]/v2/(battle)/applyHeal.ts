@@ -17,6 +17,7 @@ export function ultHealAllAllies(
   attacker: Target,
   isTrigger: boolean,
   isTrueDamage: boolean,
+  ca: CharacterAction,
 ) {
   for (let i = 0; i < 5; i++) {
     const dmg = healUltDamage(
@@ -29,6 +30,14 @@ export function ultHealAllAllies(
       isTrueDamage,
     );
     healTarget(G, dmg, i);
+    writeToHealLog(
+      G,
+      attacker,
+      i,
+      dmg,
+      isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
+      ca,
+    );
   }
 }
 

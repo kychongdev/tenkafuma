@@ -105,13 +105,12 @@ export interface _9 {
   damageType: DamageType;
 }
 
-// Apply HP based shield
-// 必殺時，觸發「以自身最大HP10%給予我方全體護盾(1回合)」
+// Apply Hp Based Shield
 export interface _10 {
+  target: Target;
+  damageType: DamageType;
   value: number;
-  hpBased: string;
-  target: Target | CharacterClass;
-  affectType: AffectType;
+  duration: number;
 }
 
 // Apply Simple buff

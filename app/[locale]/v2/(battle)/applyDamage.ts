@@ -19,6 +19,7 @@ import {
 } from "./types/Character";
 import { checkSpecialCondition } from "./condition";
 import { basicDamage } from "./calculations/basicDamage";
+import { ultDamage } from "./calculations/ultDamage";
 
 export function applyDamage(
   G: GameState,
@@ -59,6 +60,39 @@ export function basicToTargeting(
   const dmg = basicDamage(G, oG, value, attacker, Target.ENEMY, false);
   dealDamage(G, dmg, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, dmg, damageType, action);
+}
+
+export function ultToTargeting(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  isTrigger: boolean,
+  action: CharacterAction,
+) {
+  if (!checkAvailable(G.characters[G.targeting])) {
+    return;
+  }
+  const dmg = ultDamage(
+    G,
+    oG,
+    value,
+    attacker,
+    Target.ENEMY,
+    isTrigger,
+    isTrueDamage,
+  );
+  dealDamage(G, dmg, defender, isTrueDamage);
+  writeBattleLog(
+    G,
+    attacker,
+    defender,
+    dmg,
+    isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
+    action,
+  );
 }
 
 export function applyDamageTrigger(

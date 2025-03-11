@@ -25,7 +25,6 @@ export function checkAvailable(character: CharacterState) {
 }
 
 export function checkAvailablePosition(G: GameState, position: number) {
-  console.log(position);
   if (position >= 0 && position < 5)
     return !G.characters[position].isDead && G.characters[position].isExist;
   else if (position >= 20 && position < 25)

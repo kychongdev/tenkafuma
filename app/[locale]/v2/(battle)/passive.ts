@@ -323,8 +323,20 @@ export function initPassiveSkill(G: GameState, pos: number) {
             affectType: AffectType.INCREASE_TRIGGER_EFFECT,
           },
         },
+        {
+          id: "10119-passive-6",
+          name: "必殺時，觸發「以自身最大HP15%給予我方全體護盾(1回合)」",
+          type: 10,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _10: {
+            target: Target.ALL_ALLIES,
+            value: 0.15,
+            damageType: DamageType.TRIGGER,
+            duration: 1,
+          },
+        },
       ];
-      // TODO: 必殺時，觸發「以自身最大HP15%給予我方全體護盾(1回合)」
 
       if (passive4) {
         G.characters[pos].buff = [
