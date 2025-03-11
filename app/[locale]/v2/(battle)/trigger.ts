@@ -15,7 +15,7 @@ import {
   Skill,
   Target,
 } from "./types/Skill";
-import { checkAvailable, checkAvailablePosition } from "./utils";
+import { checkAvailable, checkTargetAlive } from "./utils";
 
 export function trigger(
   G: GameState,
@@ -47,20 +47,16 @@ export function trigger(
               break;
             }
             for (let i = 0; i < buff._1.multipleValue; i++) {
-              const checkAgain = checkAvailablePosition(G, opponent);
-              if (checkAgain === -1) {
-                break;
+              if (checkTargetAlive(G, opponent)) {
+                const dmg = basicDamage(G, oG, buff._1.value, p, d, false);
+                applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
               }
+            }
+          } else {
+            if (checkTargetAlive(G, opponent)) {
               const dmg = basicDamage(G, oG, buff._1.value, p, d, false);
               applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
             }
-          } else {
-            const checkAgain = checkAvailablePosition(G, opponent);
-            if (checkAgain === -1) {
-              break;
-            }
-            const dmg = basicDamage(G, oG, buff._1.value, p, d, false);
-            applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
           }
         }
         case DamageType.ULTIMATE: {
@@ -74,21 +70,16 @@ export function trigger(
               break;
             }
             for (let i = 0; i < buff._1.multipleValue; i++) {
-              console.log(opponent);
-              const checkAgain = checkAvailablePosition(G, opponent);
-              if (checkAgain === -1) {
-                break;
+              if (checkTargetAlive(G, opponent)) {
+                const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
+                applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
               }
+            }
+          } else {
+            if (checkTargetAlive(G, opponent)) {
               const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
               applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
             }
-          } else {
-            const checkAgain = checkAvailablePosition(G, opponent);
-            if (checkAgain === -1) {
-              break;
-            }
-            const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
-            applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
           }
         }
       }

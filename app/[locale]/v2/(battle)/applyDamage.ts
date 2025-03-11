@@ -4,7 +4,7 @@ import { AffectType, DamageType, Skill, Target } from "./types/Skill";
 import { damageOnShield } from "./damageOnShield";
 import {
   checkAvailable,
-  checkAvailablePosition,
+  checkTargetAlive,
   formatNumber,
   p,
   parseActionName,
@@ -105,6 +105,10 @@ export function applyDamageTrigger(
   damageType: DamageType,
   action: CharacterAction,
 ) {
+  if (!checkTargetAlive(G, defender)) {
+    console.log("Target is dead");
+    return;
+  }
   dealDamage(G, damage, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, damage, damageType, action);
 }

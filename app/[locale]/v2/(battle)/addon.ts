@@ -5,7 +5,7 @@ import { checkSpecialCondition } from "./condition";
 import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
 import { AffectType, DamageType, Skill, Target } from "./types/Skill";
-import { checkAvailable, checkAvailablePosition } from "./utils";
+import { checkAvailable } from "./utils";
 
 export function addOn(
   G: GameState,

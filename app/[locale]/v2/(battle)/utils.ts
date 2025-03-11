@@ -24,13 +24,33 @@ export function checkAvailable(character: CharacterState) {
   return !character.isDead && character.isExist;
 }
 
-export function checkAvailablePosition(G: GameState, position: number) {
-  if (position >= 0 && position < 5)
-    return !G.characters[position].isDead && G.characters[position].isExist;
-  else if (position >= 20 && position < 25)
-    return !G.enemies[position - 20].isDead && G.enemies[position - 20].isExist;
-  else if (position === Target.ENEMY) return position;
-  return -1;
+export function checkTargetAlive(G: GameState, target: Target) {
+  switch (target) {
+    case Target.POSITION_1:
+      return !G.characters[0].isDead && G.characters[0].isExist;
+    case Target.POSITION_2:
+      return !G.characters[1].isDead && G.characters[1].isExist;
+    case Target.POSITION_3:
+      return !G.characters[2].isDead && G.characters[2].isExist;
+    case Target.POSITION_4:
+      return !G.characters[3].isDead && G.characters[3].isExist;
+    case Target.POSITION_5:
+      return !G.characters[4].isDead && G.characters[4].isExist;
+    case Target.ENEMY_1:
+      return !G.enemies[0].isDead && G.enemies[0].isExist;
+    case Target.ENEMY_2:
+      return !G.enemies[1].isDead && G.enemies[1].isExist;
+    case Target.ENEMY_3:
+      return !G.enemies[2].isDead && G.enemies[2].isExist;
+    case Target.ENEMY_4:
+      return !G.enemies[3].isDead && G.enemies[3].isExist;
+    case Target.ENEMY_5:
+      return !G.enemies[4].isDead && G.enemies[4].isExist;
+    case Target.ENEMY:
+      return !G.enemies[G.targeting].isDead && G.enemies[G.targeting].isExist;
+    default:
+      return false;
+  }
 }
 
 export function parseCharacterLocation(position: number) {
