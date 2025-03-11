@@ -331,8 +331,6 @@ export const useGameState = create<GameState>()(
               character.isHeal = false;
             }
           });
-
-          //applyExtra(state, position);
           checkEndTurn(state, oG);
         });
       },

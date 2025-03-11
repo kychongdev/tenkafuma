@@ -158,11 +158,12 @@ function dealDamage(
     case Target.ENEMY: {
       if (!isTrueDamage) {
         const damageAfterShield = damageOnShield(gameState, dmg, defender);
-        gameState.enemies[gameState.targeting].hp = Math.floor(
-          Big(gameState.enemies[gameState.targeting].hp)
-            .minus(damageAfterShield)
-            .toNumber(),
-        );
+        console.log(damageAfterShield.toNumber());
+        gameState.enemies[gameState.targeting].hp = Big(
+          gameState.enemies[gameState.targeting].hp,
+        )
+          .minus(damageAfterShield)
+          .toNumber();
       } else {
         gameState.enemies[gameState.targeting].hp = Math.floor(
           Big(gameState.enemies[gameState.targeting].hp).minus(dmg).toNumber(),

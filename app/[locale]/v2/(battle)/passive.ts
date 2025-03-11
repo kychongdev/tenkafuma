@@ -443,7 +443,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
           duration: 100,
           specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
           specialConditionSkill: "10126-passive-2-1",
-          specialConditionValue: 5,
+          specialConditionValue: 6,
           _0: {
             value: 0.2,
             affectType: AffectType.INCREASE_ATK,

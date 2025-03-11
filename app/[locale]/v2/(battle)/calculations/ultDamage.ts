@@ -784,6 +784,7 @@ export function ultDamage(
       .round(0, Big.roundDown)
       .add(rawAtk)
       .round(0, Big.roundDown);
+    console.log("最終攻擊力", finalAtk.toNumber());
     res =
       defenderisGuard && !isTrueDamage
         ? Big(0)
@@ -808,6 +809,8 @@ export function ultDamage(
       .round(0, Big.roundDown)
       .add(rawAtk)
       .round(0, Big.roundDown);
+    console.log("最終攻擊力", finalAtk.toNumber());
+
     res =
       defenderisGuard && !isTrueDamage
         ? Big(0)
@@ -817,7 +820,6 @@ export function ultDamage(
             .mul(enemyDamageReceivedIncrease)
             .mul(attributeDamage)
             .mul(attributeX)
-            .round(0, Big.roundDown)
             .mul(value)
             .mul(defenderDefEffect)
         : Big(0)
@@ -827,7 +829,6 @@ export function ultDamage(
             .mul(enemyDamageReceivedIncrease)
             .mul(attributeDamage)
             .mul(attributeX)
-            .round(0, Big.roundDown)
             .mul(value);
   }
 
