@@ -1627,6 +1627,28 @@
     "cd": 3,
     "leader": false
   },
+  "10165": {
+    "id": 10165,
+    "name": "銀鴞武裝 米婭",
+    "initHp": 3441.6,
+    "initAtk": 1024,
+    "attribute": 7,
+    "class": 11,
+    "available": true,
+    "cd": 8,
+    "leader": true
+  },
+  "10166": {
+    "id": 10166,
+    "name": "銀鴞武裝 米婭",
+    "initHp": 3748.8,
+    "initAtk": 940.8,
+    "attribute": 8,
+    "class": 15,
+    "available": true,
+    "cd": 4,
+    "leader": true
+  },
   "10175": {
     "id": 10175,
     "name": "翩舞雪花 初華",
