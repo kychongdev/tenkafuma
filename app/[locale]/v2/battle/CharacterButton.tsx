@@ -24,13 +24,13 @@ export const CharacterButton = ({ position }: { position: number }) => {
   return (
     <div>
       <div className="relative h-2">
-        <div className="absolute w-full ">
+        <div className="absolute w-full">
           <Progress
             value={(character.hp / character.maxHp) * 100}
             className="rounded-none"
           />
         </div>
-        <div className="absolute w-full ">
+        <div className="absolute w-full">
           <HpBar value={(shield / character.maxHp) * 100} />
         </div>
       </div>

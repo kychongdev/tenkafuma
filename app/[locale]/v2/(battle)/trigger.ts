@@ -459,7 +459,7 @@ export function trigger(
                     buff._6?.base === true
                       ? Math.floor(baseAtk * buff._6.value)
                       : Math.floor(rawAttSkill * buff._6.value),
-                  affectType: buff._6?.affectType,
+                  affectType: AffectType.RAW_ATK,
                 },
               },
             ];
@@ -484,7 +484,7 @@ export function trigger(
                   buff._6?.base === true
                     ? Math.floor(baseAtk * buff._6.value)
                     : Math.floor(rawAttSkill * buff._6.value),
-                affectType: buff._6?.affectType,
+                affectType: AffectType.RAW_ATK,
               },
             },
           ];
@@ -512,7 +512,7 @@ export function trigger(
                       buff._6?.base === true
                         ? Math.floor(baseAtk * buff._6.value)
                         : Math.floor(rawAttSkill * buff._6.value),
-                    affectType: buff._6?.affectType,
+                    affectType: AffectType.RAW_ATK,
                   },
                 },
               ];
@@ -547,7 +547,7 @@ export function trigger(
                       buff._6?.base === true
                         ? Math.floor(baseAtk * buff._6.value)
                         : Math.floor(rawAttSkill * buff._6.value),
-                    affectType: buff._6?.affectType,
+                    affectType: AffectType.RAW_ATK,
                   },
                 },
               ];
@@ -580,7 +580,7 @@ export function trigger(
                   buff._6?.base === true
                     ? Math.floor(baseAtk * buff._6.value)
                     : Math.floor(rawAttSkill * buff._6.value),
-                affectType: buff._6?.affectType,
+                affectType: AffectType.RAW_ATK,
               },
             },
           ];
@@ -616,7 +616,7 @@ export function trigger(
                   buff._6?.base === true
                     ? Math.floor(baseAtk * buff._6.value)
                     : Math.floor(rawAttSkill * buff._6.value),
-                affectType: buff._6?.affectType,
+                affectType: AffectType.RAW_ATK,
               },
             },
           ];

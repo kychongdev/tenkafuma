@@ -71,7 +71,6 @@ export interface _5 {
 // 傳功
 export interface _6 {
   value: number;
-  affectType: AffectType.RAW_ATK;
   target: Target | CharacterClass;
   applyToSpecificChar?: string;
   duration: number;

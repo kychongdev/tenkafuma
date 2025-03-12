@@ -5,7 +5,7 @@ import localforage from "localforage";
 import { CharacterState, CharacterTeam } from "./types/Select";
 import { Condition, Target } from "./types/Skill";
 import { initCharacterState } from "./data/placeholder";
-import { generateClientId, p } from "./utils";
+import { checkTargetAlive, generateClientId, p } from "./utils";
 import { initTeam } from "./init/initTeam";
 import { initHp } from "./init/initHp";
 import { basic } from "./basic";

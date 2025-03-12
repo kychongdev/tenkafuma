@@ -1,5 +1,8 @@
-import { CharacterAttribute, CharacterClass } from "../types/Character";
-import { CharacterSelect, CharacterState } from "../types/Select";
+import {
+  CharacterAttribute,
+  CharacterClass,
+} from "../(battle)/types/Character";
+import { CharacterSelect, CharacterState } from "../(battle)/types/Select";
 
 const initCharacterState: CharacterState = {
   name: "",

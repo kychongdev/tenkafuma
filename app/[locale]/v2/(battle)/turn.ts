@@ -6,6 +6,7 @@ import { parseStageAction } from "./stages/parseStage";
 import { CharacterAction } from "./types/Character";
 import { trigger } from "./trigger";
 import { healOverTime } from "./calculations/healOverTime";
+import { checkAvailable, formatNumber } from "./utils";
 
 export function checkEndTurn(state: GameState, oldState: GameState) {
   //checkGameEnd
@@ -78,6 +79,21 @@ export function onTurnStart(gameState: GameState, oldState: GameState) {
 }
 
 export function endTurn(state: GameState, oG: GameState) {
+  state.characters.forEach((_, index) => {
+    if (checkAvailable(state.characters[index])) {
+      const heal = healOverTime(state, oG, index);
+      state.characters[index].hp = state.characters[index].hp + heal.toNumber();
+      const defender = state.characters[index].name;
+      state.healLog.push(
+        `${defender}受到 ${formatNumber(heal.toNumber())} 持續型治療`,
+      );
+
+      if (state.characters[index].hp > state.characters[index].maxHp) {
+        state.characters[index].hp = state.characters[index].maxHp;
+      }
+    }
+  });
+
   state.enemies.forEach((_, index) => {
     state.enemies[index].buff = state.enemies[index].buff.map((buff) => {
       if (buff.duration && buff.duration !== 100) {
@@ -111,14 +127,6 @@ export function endTurn(state: GameState, oG: GameState) {
     character.buff = character.buff.filter((buff) => {
       return buff.duration !== 0 || buff.duration === undefined;
     });
-  });
-
-  state.characters.forEach((_, index) => {
-    const heal = healOverTime(state, oG, index);
-    state.characters[index].hp += heal;
-    if (state.characters[index].hp > state.characters[index].maxHp) {
-      state.characters[index].hp = state.characters[index].maxHp;
-    }
   });
 
   for (const character of state.characters) {

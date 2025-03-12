@@ -1,5 +1,5 @@
 import { applyDamage, basicToTargeting } from "./applyDamage";
-import { applyRawAttBuff } from "./applyRawAtk";
+import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { basicDamage } from "./calculations/basicDamage";
 import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
@@ -127,6 +127,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10117": "夏日 巴爾",
     // "10118": "夏日 菲歐菈",
     // "10119": "夏日 艾可",
+    case "10119": {
+      rawHotAll(G, p, 0.5, "10119-basic-1", 3);
+      break;
+    }
     // "10120": "乘風破浪 蘭兒",
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
@@ -212,6 +216,12 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10162": "虔信神祀 艾可",
     // "10163": "夜之影 凱薩",
     // "10164": "祭典花韻 香奈"
+    // "10165": "銀鴞武裝 米婭",
+    // "10166": "白熊武裝 冬。艾妮",
+    case "10166": {
+      rawAtkBuffAll(G, p, 0.3, "10166-basic-1", 1);
+      break;
+    }
     // "10175": "翩舞雪花 初華"
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",

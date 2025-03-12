@@ -1,7 +1,7 @@
-import { AffectType } from "@/app/[locale]/(battle)/_types/Skill";
 import { GameState } from "./GameState";
 import { checkSpecialCondition } from "./condition";
 import Big from "big.js";
+import { AffectType, Condition } from "./types/Skill";
 
 //傳功
 export function applyRawAttBuff(gameState: GameState, position: number) {
@@ -33,4 +33,56 @@ export function applyRawAttBuff(gameState: GameState, position: number) {
   }
 
   return atk.mul(atkPercentage).add(tempAtk).toNumber();
+}
+
+export function rawAtkBuffAll(
+  G: GameState,
+  p: number,
+  value: number,
+  name: string,
+  duration: number,
+) {
+  G.characters.forEach((_, index) => {
+    const attack = Math.floor(applyRawAttBuff(G, p) * value);
+    G.characters[index].buff = [
+      ...G.characters[index].buff,
+      {
+        id: name,
+        name: "攻擊力",
+        type: 0,
+        condition: Condition.NONE,
+        duration: duration,
+        _0: {
+          value: attack,
+          affectType: AffectType.RAW_ATK,
+        },
+      },
+    ];
+  });
+}
+
+export function rawHotAll(
+  G: GameState,
+  p: number,
+  value: number,
+  name: string,
+  duration: number,
+) {
+  G.characters.forEach((_, index) => {
+    const attack = Math.floor(applyRawAttBuff(G, p) * value);
+    G.characters[index].buff = [
+      ...G.characters[index].buff,
+      {
+        id: name,
+        name: "治療",
+        type: 0,
+        condition: Condition.NONE,
+        duration: duration,
+        _0: {
+          value: attack,
+          affectType: AffectType.RAW_HEAL_OVER_TIME,
+        },
+      },
+    ];
+  });
 }

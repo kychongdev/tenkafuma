@@ -477,6 +477,74 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10162": "虔信神祀 艾可",
     // "10163": "夜之影 凱薩",
     // "10164": "祭典花韻 香奈"
+    // "10165": "銀鴞武裝 米婭",
+    // "10166": "白熊武裝 冬。艾妮",
+    case "10166": {
+      const buff: Skill = {
+        id: "10166-ult-1",
+        name: "使我方全體攻擊力增加15/15/15/20/25%(最多2層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.SELF,
+          targetSkill: "10166-ult-1",
+          applySkill: {
+            id: "10166-ult-1",
+            name: "攻擊力增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10166-ult-1",
+              name: "攻擊力增加",
+              stack: 1,
+              maxStack: 2,
+              value:
+                bond === 1
+                  ? 0.14
+                  : bond === 2
+                    ? 0.165
+                    : bond === 3
+                      ? 0.19
+                      : bond === 4
+                        ? 0.215
+                        : 0.24,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10166-ult-2",
+            name: "攻擊力增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.36
+                  : bond === 2
+                    ? 0.42
+                    : bond === 3
+                      ? 0.48
+                      : bond === 4
+                        ? 0.54
+                        : 0.6,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10175": "翩舞雪花 初華"
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
