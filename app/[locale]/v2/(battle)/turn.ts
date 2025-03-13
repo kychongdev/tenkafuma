@@ -37,6 +37,7 @@ export function newWaveStart(gameState: GameState, oldState: GameState) {
     const charBuff = checkSpecialCondition(gameState, oldState, position);
     for (const buff of charBuff) {
       if (buff.condition === Condition.ON_WAVE_FIRST_TURN) {
+        console.log("trigger wave first turn");
         trigger(gameState, oldState, position, buff, CharacterAction.NONE);
       }
     }
@@ -82,14 +83,17 @@ export function endTurn(state: GameState, oG: GameState) {
   state.characters.forEach((_, index) => {
     if (checkAvailable(state.characters[index])) {
       const heal = healOverTime(state, oG, index);
-      state.characters[index].hp = state.characters[index].hp + heal.toNumber();
-      const defender = state.characters[index].name;
-      state.healLog.push(
-        `${defender}受到 ${formatNumber(heal.toNumber())} 持續型治療`,
-      );
+      if (heal.gt(0)) {
+        state.characters[index].hp =
+          state.characters[index].hp + heal.toNumber();
+        const defender = state.characters[index].name;
+        state.healLog.push(
+          `${defender}受到 ${formatNumber(heal.toNumber())} 持續型治療`,
+        );
 
-      if (state.characters[index].hp > state.characters[index].maxHp) {
-        state.characters[index].hp = state.characters[index].maxHp;
+        if (state.characters[index].hp > state.characters[index].maxHp) {
+          state.characters[index].hp = state.characters[index].maxHp;
+        }
       }
     }
   });

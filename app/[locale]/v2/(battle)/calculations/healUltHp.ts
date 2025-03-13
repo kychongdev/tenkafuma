@@ -53,6 +53,7 @@ export function healUltHp(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
+      rawHp = Big(gameState.characters[position].hp);
       break;
   }
 
@@ -200,9 +201,6 @@ export function healUltHp(
   if (healReceived.lt(0)) {
     healReceived = Big(0);
   }
-  if (atkPercentage.lt(0)) {
-    atkPercentage = Big(0);
-  }
 
   if (isTrigger) {
     for (const buff of attacker) {
@@ -234,17 +232,15 @@ export function healUltHp(
     for (const buff of defender) {
     }
 
-    const finalAtk = Big(attackerAtk).add(rawHp).round(0, Big.roundDown);
     res = Big(0)
-      .add(finalAtk)
+      .add(rawHp)
       .mul(ultBuff)
       .mul(healIncrease)
       .mul(healReceived)
       .mul(value);
   } else {
-    const finalAtk = Big(attackerAtk).add(rawHp).round(0, Big.roundDown);
     res = Big(0)
-      .add(finalAtk)
+      .add(rawHp)
       .mul(ultBuff)
       .mul(healIncrease)
       .mul(healReceived)
@@ -266,98 +262,4 @@ export function healUltHp(
     value,
   );
   return res;
-
-  //console.log("heal", res.round(0, Big.roundDown).toNumber());
-  //switch (target) {
-  //  case Target.ENEMY: {
-  //    gameState.enemies[gameState.targeting].hp = Math.floor(
-  //      Big(gameState.enemies[gameState.targeting].hp)
-  //        .add(res.round(0, Big.roundDown))
-  //        .toNumber(),
-  //    );
-  //    if (
-  //      gameState.enemies[gameState.targeting].hp >
-  //      gameState.enemies[gameState.targeting].maxHp
-  //    ) {
-  //      gameState.enemies[gameState.targeting].hp =
-  //        gameState.enemies[gameState.targeting].maxHp;
-  //    }
-  //    break;
-  //  }
-  //  case Target.ENEMY_1: {
-  //    gameState.enemies[0].hp = Math.floor(
-  //      Big(gameState.enemies[0].hp)
-  //        .add(res.round(0, Big.roundDown))
-  //        .toNumber(),
-  //    );
-  //
-  //    if (gameState.enemies[0].hp > gameState.enemies[0].maxHp) {
-  //      gameState.enemies[0].hp = gameState.enemies[0].maxHp;
-  //    }
-  //    break;
-  //  }
-  //  case Target.ENEMY_2: {
-  //    gameState.enemies[1].hp = Math.floor(
-  //      Big(gameState.enemies[1].hp)
-  //        .add(res.round(0, Big.roundDown))
-  //        .toNumber(),
-  //    );
-  //    if (gameState.enemies[1].hp > gameState.enemies[1].maxHp) {
-  //      gameState.enemies[1].hp = gameState.enemies[1].maxHp;
-  //    }
-  //    break;
-  //  }
-  //  case Target.ENEMY_3: {
-  //    gameState.enemies[2].hp = Math.floor(
-  //      Big(gameState.enemies[2].hp)
-  //        .add(res.round(0, Big.roundDown))
-  //        .toNumber(),
-  //    );
-  //    if (gameState.enemies[2].hp > gameState.enemies[2].maxHp) {
-  //      gameState.enemies[2].hp = gameState.enemies[2].maxHp;
-  //    }
-  //    break;
-  //  }
-  //  case Target.ENEMY_4: {
-  //    gameState.enemies[3].hp = Math.floor(
-  //      Big(gameState.enemies[3].hp)
-  //        .add(res.round(0, Big.roundDown))
-  //        .toNumber(),
-  //    );
-  //    if (gameState.enemies[3].hp > gameState.enemies[3].maxHp) {
-  //      gameState.enemies[3].hp = gameState.enemies[3].maxHp;
-  //    }
-  //    break;
-  //  }
-  //  case Target.ENEMY_5: {
-  //    gameState.enemies[4].hp = Math.floor(
-  //      Big(gameState.enemies[4].hp)
-  //        .add(res.round(0, Big.roundDown))
-  //        .toNumber(),
-  //    );
-  //    if (gameState.enemies[4].hp > gameState.enemies[4].maxHp) {
-  //      gameState.enemies[4].hp = gameState.enemies[4].maxHp;
-  //    }
-  //    break;
-  //  }
-  //
-  //  case Target.POSITION_1:
-  //  case Target.POSITION_2:
-  //  case Target.POSITION_3:
-  //  case Target.POSITION_4:
-  //  case Target.POSITION_5:
-  //    gameState.characters[target].hp = Math.floor(
-  //      Big(gameState.characters[target].hp)
-  //        .add(res.round(0, Big.roundDown))
-  //        .toNumber(),
-  //    );
-  //
-  //    if (
-  //      gameState.characters[target].hp > gameState.characters[target].maxHp
-  //    ) {
-  //      gameState.characters[target].hp = gameState.characters[target].maxHp;
-  //    }
-  //
-  //    break;
-  //}
 }

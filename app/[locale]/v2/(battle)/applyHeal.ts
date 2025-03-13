@@ -10,6 +10,7 @@ import {
 } from "./utils";
 import { healUltDamage } from "./calculations/healUltDamage";
 import { healBasicDamage } from "./calculations/healBasicDamage";
+import { healUltHp } from "./calculations/healUltHp";
 
 export function ultHealAllAllies(
   G: GameState,
@@ -37,6 +38,30 @@ export function ultHealAllAllies(
       i,
       dmg,
       isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
+      ca,
+    );
+  }
+}
+
+export function ultHpHealAll(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  isTrigger: boolean,
+  isTrueDamage: boolean,
+  ca: CharacterAction,
+) {
+  for (let i = 0; i < 5; i++) {
+    const dmg = healUltHp(G, oG, value, attacker, i, isTrigger, isTrueDamage);
+    console.log(dmg);
+    healTarget(G, dmg, i);
+    writeToHealLog(
+      G,
+      attacker,
+      i,
+      dmg,
+      isTrigger ? DamageType.TRIGGER_HP : DamageType.ULTIMATE_HP,
       ca,
     );
   }

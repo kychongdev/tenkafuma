@@ -1,4 +1,9 @@
-import { applyDamage, applyDamageTrigger, checkOpponent } from "./applyDamage";
+import {
+  applyDamage,
+  triggerDmgToPos,
+  checkOpponent,
+  triggerDmgToTargeting,
+} from "./applyDamage";
 import { ultHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff } from "./applyRawAtk";
 import { ultHpShieldAllAllies } from "./applyShield";
@@ -49,13 +54,13 @@ export function trigger(
             for (let i = 0; i < buff._1.multipleValue; i++) {
               if (checkTargetAlive(G, opponent)) {
                 const dmg = basicDamage(G, oG, buff._1.value, p, d, false);
-                applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
+                triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
               }
             }
           } else {
             if (checkTargetAlive(G, opponent)) {
               const dmg = basicDamage(G, oG, buff._1.value, p, d, false);
-              applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
+              triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
             }
           }
         }
@@ -63,22 +68,35 @@ export function trigger(
           break;
         }
         case DamageType.TRIGGER: {
-          const opponent = checkOpponent(oG, d);
-          if (buff._1.multiple) {
-            if (!buff._1.multipleValue) {
-              console.log("Missing Multiple Value");
-              break;
-            }
-            for (let i = 0; i < buff._1.multipleValue; i++) {
+          if (d === Target.ENEMY) {
+            const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
+            triggerDmgToTargeting(G, oG, dmg, p, d, false, dt, ca);
+          } else {
+            const opponent = checkOpponent(oG, d);
+            if (buff._1.multiple) {
+              if (!buff._1.multipleValue) {
+                console.log("Missing Multiple Value");
+                break;
+              }
+              for (let i = 0; i < buff._1.multipleValue; i++) {
+                if (checkTargetAlive(G, opponent)) {
+                  const dmg = ultDamage(
+                    G,
+                    oG,
+                    buff._1.value,
+                    p,
+                    d,
+                    true,
+                    false,
+                  );
+                  triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
+                }
+              }
+            } else {
               if (checkTargetAlive(G, opponent)) {
                 const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
-                applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
+                triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
               }
-            }
-          } else {
-            if (checkTargetAlive(G, opponent)) {
-              const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
-              applyDamageTrigger(G, oG, dmg, p, d, false, dt, ca);
             }
           }
         }
@@ -264,11 +282,13 @@ export function trigger(
           break;
         }
         case Target.ALL_ENEMIES: {
+          console.log("trigger all enemy");
           G.enemies.forEach((_, index) => {
             const isExist = G.enemies[index].buff.some((x) => {
               return x.id === buff._4?.targetSkill;
             });
 
+            console.log("trigger all enemy", isExist);
             if (isExist) {
               G.enemies[index].buff = G.enemies[index].buff.map((x) => {
                 if (x.id === buff._4?.targetSkill) {
@@ -295,11 +315,15 @@ export function trigger(
             } else {
               // purely typescript problem
               // console.log('give first buff, suppose only 5');
+              //
+              console.log("give original buff");
+
               if (buff._4?.applySkill) {
                 G.enemies[index].buff = [
                   ...G.enemies[index].buff,
                   buff._4.applySkill,
                 ];
+                console.log("give original buff", G.enemies[index].buff);
               } else {
                 console.log("Wrong data buff._4.applySkill");
               }
@@ -432,9 +456,30 @@ export function trigger(
     }
     case 5: {
       if (!buff._5) {
+        console.log(buff.id);
         console.log("Wrong data 5");
         break;
       }
+
+      switch (buff._5.damageType) {
+        case DamageType.BASIC: {
+          break;
+        }
+        case DamageType.ULTIMATE: {
+          break;
+        }
+        case DamageType.TRIGGER: {
+          if (buff._5.target === Target.ALL_ALLIES) {
+            ultHealAllAllies(G, oG, buff._5.value, p, true, false, ca);
+          }
+          break;
+        }
+      }
+      break;
+
+      //target: Target.ALL_ALLIES,
+      //value: 0.1,
+      //damageType: DamageType.TRIGGER,
       break;
     }
     case 6: {
@@ -638,6 +683,39 @@ export function trigger(
 
       break;
     }
+    case 7: {
+      if (!buff._7) {
+        console.log(`${buff.id} Wrong Data trigger 7`);
+        break;
+      }
+      switch (buff._7.target) {
+        case Target.ALL_EXCEPT_SELF: {
+          G.characters.forEach((_, charIndex) => {
+            if (charIndex !== p) {
+              buff._7?.clearSkill.forEach((deleteBuffId) => {
+                G.characters[charIndex].buff = G.characters[
+                  charIndex
+                ].buff.filter((x) => x.id !== deleteBuffId);
+              });
+            }
+          });
+
+          break;
+        }
+
+        case Target.SELF: {
+          console.log("7 self trigger");
+          buff._7?.clearSkill.forEach((deleteBuffId) => {
+            G.characters[p].buff = G.characters[p].buff.filter(
+              (x) => x.id !== deleteBuffId,
+            );
+          });
+          break;
+        }
+      }
+      break;
+    }
+
     case 8: {
       if (!buff._8) {
         console.log("Wrong data 8");
@@ -647,12 +725,14 @@ export function trigger(
         console.log("Can't find old state");
         break;
       }
+      console.log("Trigger 8");
       switch (buff._8.target) {
         case Target.SELF: {
           const skillStackNum = oG.characters[p].buff.find((x) => {
             return x.id === buff._8?.targetSkill;
           });
 
+          console.log("Trigger 8", skillStackNum);
           if (!skillStackNum || !skillStackNum._3) {
             // Does not have this skill
             break;

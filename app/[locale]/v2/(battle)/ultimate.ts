@@ -1,4 +1,5 @@
 import { ultToTargeting } from "./applyDamage";
+import { ultHpHealAll } from "./applyHeal";
 import { GameState } from "./GameState";
 import { trigger } from "./trigger";
 import {
@@ -6,7 +7,13 @@ import {
   CharacterAttribute,
   CharacterClass,
 } from "./types/Character";
-import { AffectType, Condition, Skill, Target } from "./types/Skill";
+import {
+  AffectType,
+  Condition,
+  DamageType,
+  Skill,
+  Target,
+} from "./types/Skill";
 
 export function ultimate(G: GameState, oG: GameState, pos: number) {
   const id = G.characters[pos].id;
@@ -297,6 +304,100 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
+    case "10128": {
+      const buff: Skill = {
+        id: "10128-ult-1",
+        name: "受到攻擊者傷害增加30%(2回合)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10128-ult-1",
+          applySkill: {
+            id: "10128-ult-1",
+            name: "受到攻擊者傷害增加30%(2回合)",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10128-ult-1",
+              name: "受到攻擊者傷害增加(最多2層)",
+              affectType: AffectType.INCREASE_ATTACKER_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.3
+                  : bond === 2
+                    ? 0.365
+                    : bond === 3
+                      ? 0.4
+                      : bond === 4
+                        ? 0.465
+                        : 0.5,
+              stack: 1,
+              maxStack: 2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10128-ult-2",
+          name: `普攻時，追加『以攻擊力${
+            bond === 1
+              ? "50"
+              : bond === 2
+                ? "56.5"
+                : bond === 3
+                  ? "70"
+                  : bond === 4
+                    ? "76.5"
+                    : "90"
+          }對目標造成傷害』(4回合)`,
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 0.5
+                : bond === 2
+                  ? 0.565
+                  : bond === 3
+                    ? 0.7
+                    : bond === 4
+                      ? 0.765
+                      : 0.9,
+            defender: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            multiple: false,
+          },
+        },
+      ];
+
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.86
+                : 5.14,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        ca,
+      );
+      break;
+    }
     // "10129": "性誕馴鹿 希依",
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
@@ -315,6 +416,130 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10144": "夏日 凱薩",
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
+    case "10146": {
+      const buff: Skill = {
+        id: "10146-ultimate-1",
+        name: "普攻傷害減少",
+        condition: Condition.NONE,
+        type: 4,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10146-ultimate-1-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10146-ultimate-1-1",
+            name: "普攻傷害減少",
+            condition: Condition.NONE,
+            type: 3,
+            duration: 100,
+            _3: {
+              id: "10146-ultimate-1-1",
+              name: "普攻傷害減少",
+              stack: 1,
+              maxStack: 1,
+              value: 1.5,
+              affectType: AffectType.DECREASE_BASIC_DMG,
+            },
+          },
+        },
+      };
+      const buff2: Skill = {
+        id: "10146-ultimate-2",
+        name: "必殺技傷害增加",
+        condition: Condition.NONE,
+        type: 4,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10146-ultimate-2-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10146-ultimate-2-1",
+            name: "必殺技傷害增加",
+            condition: Condition.NONE,
+            type: 3,
+            duration: 100,
+            _3: {
+              id: "10146-ultimate-2-1",
+              name: "必殺技傷害增加",
+              stack: 1,
+              maxStack: 1,
+              value:
+                bond === 1
+                  ? 0.6
+                  : bond === 2
+                    ? 0.7
+                    : bond === 3
+                      ? 0.8
+                      : bond === 4
+                        ? 0.9
+                        : 1,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        },
+      };
+
+      const buff3: Skill = {
+        id: "10146-ultimate-3",
+        name: "受到暗屬性傷害增加",
+        condition: Condition.NONE,
+        type: 4,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10146-ultimate-3-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10146-ultimate-3-1",
+            name: "受到暗屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10146-ultimate-3-1",
+              name: "受到暗屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.3
+                        : 0.4,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      trigger(G, oG, pos, buff2, ca);
+      trigger(G, oG, pos, buff3, ca);
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.86
+                : 5.14,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        ca,
+      );
+      break;
+    }
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
@@ -398,9 +623,6 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10151": "性感兔女郎 伊布力斯",
     // "10152": "治癒之星 蘇珊",
     case "10152": {
-      //(使我方全體被治療時回復量增加60 / 70 / 80 / 90 / 100) % (1回合);
-      //，以自身最大HP40/45/50/50/50%對我方全體造成治療，再使我方全體造成傷害增加25/30/40/50/60%(4回合)，再使自身攻擊力增加20/40/60/80/100%(最多1層)，CD：4
-
       G.characters.forEach((_, index) => {
         G.characters[index].buff = [
           ...G.characters[index].buff,
@@ -427,22 +649,23 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         ];
       });
 
-      //healUltHpDamage(
-      //  pos,
-      //  bond === 1
-      //    ? 0.4
-      //    : bond === 2
-      //      ? 0.45
-      //      : bond === 3
-      //        ? 0.5
-      //        : bond === 4
-      //          ? 0.5
-      //          : 0.5,
-      //  G,
-      //  Target.ALL_ALLIES,
-      //  DamageType.ULTIMATE,
-      //  CharacterAction.ULTIMATE,
-      //);
+      ultHpHealAll(
+        G,
+        oG,
+        bond === 1
+          ? 0.4
+          : bond === 2
+            ? 0.45
+            : bond === 3
+              ? 0.5
+              : bond === 4
+                ? 0.5
+                : 0.5,
+        pos,
+        false,
+        false,
+        ca,
+      );
 
       G.characters.forEach((_, index) => {
         G.characters[index].buff = [
@@ -587,6 +810,239 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10161": "舞焰赤龍 薩夏",
     // "10162": "虔信神祀 艾可",
     // "10163": "夜之影 凱薩",
+    case "10163": {
+      const valueIncrease =
+        bond === 1
+          ? 0.1
+          : bond === 2
+            ? 0.23
+            : bond === 3
+              ? 0.36
+              : bond === 4
+                ? 0.49
+                : 0.62;
+      const skill: Skill = {
+        id: "10163-ult-1",
+        name: "造成傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.SELF,
+          targetSkill: "10163-ult-1-1",
+          applySkill: {
+            id: "10163-ult-1-1",
+            name: "造成傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-1-1",
+              name: "造成傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DMG,
+              value: valueIncrease,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+
+      const valueIncrease2 =
+        bond === 1
+          ? 0.15
+          : bond === 2
+            ? 0.2
+            : bond === 3
+              ? 0.25
+              : bond === 4
+                ? 0.3
+                : 0.35;
+
+      const skill2: Skill = {
+        id: "10163-ult-2",
+        name: "受到水屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-2-1",
+          applySkill: {
+            id: "10163-ult-2-1",
+            name: "受到水屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-2-1",
+              name: "受到水屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill2, ca);
+
+      const skill3: Skill = {
+        id: "10163-ult-3",
+        name: "受到火屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-3-1",
+          applySkill: {
+            id: "10163-ult-3-1",
+            name: "受到火屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-3-1",
+              name: "受到火屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill3, ca);
+
+      const skill4: Skill = {
+        id: "10163-ult-4",
+        name: "受到風屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-4-1",
+          applySkill: {
+            id: "10163-ult-4-1",
+            name: "受到風屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-4-1",
+              name: "受到風屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill4, ca);
+      const skill5: Skill = {
+        id: "10163-ult-5",
+        name: "受到光屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-5-1",
+          applySkill: {
+            id: "10163-ult-5-1",
+            name: "受到光屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-5-1",
+              name: "受到光屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill5, ca);
+
+      const skill6: Skill = {
+        id: "10163-ult-6",
+        name: "受到暗屬性傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10163-ult-6-1",
+          applySkill: {
+            id: "10163-ult-6-1",
+            name: "受到暗屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10163-ult-6-1",
+              name: "受到暗屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+              value: valueIncrease2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill6, ca);
+
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 1.65
+          : bond === 2
+            ? 1.88
+            : bond === 3
+              ? 2.11
+              : bond === 4
+                ? 2.34
+                : 2.57,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        ca,
+      );
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 1.65
+          : bond === 2
+            ? 1.88
+            : bond === 3
+              ? 2.11
+              : bond === 4
+                ? 2.34
+                : 2.57,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        ca,
+      );
+      break;
+    }
     // "10164": "祭典花韻 香奈"
     // "10165": "銀鴞武裝 米婭",
     // "10166": "白熊武裝 冬。艾妮",

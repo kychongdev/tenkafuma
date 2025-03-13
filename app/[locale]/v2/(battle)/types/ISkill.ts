@@ -75,13 +75,8 @@ export interface _6 {
 
 // Check skill stack and apply buff
 export interface _7 {
-  stackCondition: SkillStackCondition;
-  stack: number;
-  target: Target | CharacterClass;
-  targetSkill: string;
-  activateSkill: Skill;
-  applyTarget: Target | CharacterClass;
-  activated: boolean;
+  clearSkill: string[];
+  target: Target;
 }
 
 // apply debuff/buff
@@ -286,12 +281,10 @@ export interface _31 {
 // ---------------------------- ADD ON BUFF ----------------------------
 export interface _101 {
   value: number;
-  target: Target;
-  // 0 is basic, 1 is ultimate
+  defender: Target;
   damageType: DamageType;
-  action: CharacterAction;
-  isTrueDamage?: boolean;
-  multiple?: number;
+  multiple: boolean;
+  multipleValue?: number;
 }
 
 // increase _3 stack buff

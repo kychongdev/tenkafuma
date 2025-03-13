@@ -10,6 +10,7 @@ import { AffectType } from "../(battle)/types/Skill";
 
 export const CharacterButton = ({ position }: { position: number }) => {
   const character = useGameState((state) => state.characters[position]);
+  const enemies = useGameState((state) => state.enemies);
   const { basicAction, ultAction, guardAction } = useGameState(
     (state) => state,
   );
@@ -20,6 +21,7 @@ export const CharacterButton = ({ position }: { position: number }) => {
     }
     return acc;
   }, 0);
+  const isGameEnd = enemies.every((enemy) => !enemy.isExist || enemy.isDead);
 
   return (
     <div>
@@ -37,7 +39,7 @@ export const CharacterButton = ({ position }: { position: number }) => {
       <div>
         <Image
           className={`border-solid border-2 border-white ${
-            isMoveable(character) ? "" : "opacity-50"
+            isMoveable(character) && !isGameEnd ? "" : "opacity-50"
           }`}
           src={`/characters/full/${
             character.id == "" || !character.id ? "char_nr" : character.id
@@ -47,14 +49,14 @@ export const CharacterButton = ({ position }: { position: number }) => {
           priority
           alt={`char_${position}`}
           onClick={() => {
-            if (isMoveable(character)) {
+            if (isMoveable(character) && !isGameEnd) {
               basicAction(position);
             }
           }}
         />
         <div className="text-center text-xs">{f(character.hp)}</div>
         <Button
-          disabled={!isMoveable(character) || character.cd !== 0}
+          disabled={!isMoveable(character) || isGameEnd || character.cd !== 0}
           className="py-0 h-6 my-1 w-full"
           onClick={() => {
             if (isMoveable(character) || character.cd !== 0) {
@@ -65,7 +67,7 @@ export const CharacterButton = ({ position }: { position: number }) => {
           必殺
         </Button>
         <Button
-          disabled={!isMoveable(character)}
+          disabled={!isMoveable(character) || isGameEnd}
           className="py-0 h-6 my-1 w-full"
           onClick={() => {
             if (isMoveable(character)) {

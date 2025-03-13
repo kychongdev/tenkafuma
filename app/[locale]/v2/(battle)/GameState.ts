@@ -17,6 +17,7 @@ import { parseCondition } from "./parseCondition";
 import { CharacterAction } from "./types/Character";
 import { parseAddon } from "./parseAddon";
 import { ultimate } from "./ultimate";
+import { dummy } from "./stages/dummy";
 
 export interface GameState {
   clientId: string;
@@ -101,7 +102,7 @@ export const useGameState = create<GameState>()(
         { ...initEnemyState, name: "4" },
         { ...initEnemyState, name: "5" },
       ],
-      stage: "wood",
+      stage: "dummy",
       stageState: {} as any,
       reflectDmg: [],
       characters: [
@@ -113,7 +114,7 @@ export const useGameState = create<GameState>()(
       ],
       battleSettings: {
         everyTurnAttack: false,
-        everyTurnAttackTarget: [Target.ALL_ALLIES],
+        everyTurnAttackTarget: [],
       },
       select: null,
       targeting: Target.ENEMY_1 - 20,
@@ -144,18 +145,13 @@ export const useGameState = create<GameState>()(
           initPassiveSkill(state, 2);
           initPassiveSkill(state, 3);
           initPassiveSkill(state, 4);
-          //parseInitstage(state);
-          //parseStageAction(state);
+          state.stage = "dummy";
+          parseInitstage(state);
+          parseStageAction(state, state);
           state.turn = state.turn + 1;
+          state.targeting = 0;
           newWaveStart(state, state);
           onTurnStart(state, state);
-          state.enemies = [
-            { ...initEnemyState, name: "1" },
-            { ...initEnemyState, name: "2" },
-            { ...initEnemyState, name: "3" },
-            { ...initEnemyState, name: "4" },
-            { ...initEnemyState, name: "5" },
-          ];
         });
       },
       initStage: (stage: string) => {
@@ -173,17 +169,18 @@ export const useGameState = create<GameState>()(
             initPassiveSkill(state, 3);
             initPassiveSkill(state, 4);
             parseInitstage(state);
+            state.targeting = 0;
             state.turn = state.turn + 1;
             newWaveStart(state, state);
             onTurnStart(state, state);
           }
-          state.enemies = [
-            { ...initEnemyState, name: "1" },
-            { ...initEnemyState, name: "2" },
-            { ...initEnemyState, name: "3" },
-            { ...initEnemyState, name: "4" },
-            { ...initEnemyState, name: "5" },
-          ];
+          //state.enemies = [
+          //  { ...initEnemyState, name: "1" },
+          //  { ...initEnemyState, name: "2" },
+          //  { ...initEnemyState, name: "3" },
+          //  { ...initEnemyState, name: "4" },
+          //  { ...initEnemyState, name: "5" },
+          //];
         });
       },
       modifyBattle: () => {},
@@ -192,18 +189,27 @@ export const useGameState = create<GameState>()(
       nextWave: () => {},
       moveLeft: () => {
         set((state) => {
+          //if (
+          //  !state.enemies[state.targeting - 1].isExist ||
+          //  state.enemies[state.targeting - 1].isDead
+          //) {
+          //  state.targeting = state.targeting - 1;
+          //  return;
+          //}
           if (state.targeting === 0) {
             state.targeting = 4;
-          }
-          state.targeting = state.targeting - 1;
+          } else state.targeting = state.targeting - 1;
         });
       },
       moveRight: () => {
         set((state) => {
+          console.log(state.targeting);
           if (state.targeting === 4) {
+            console.log("why");
             state.targeting = 0;
+          } else {
+            state.targeting = state.targeting + 1;
           }
-          state.targeting = state.targeting + 1;
         });
       },
       debug: () => {

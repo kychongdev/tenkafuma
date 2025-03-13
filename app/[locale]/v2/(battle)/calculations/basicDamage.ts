@@ -674,7 +674,6 @@ export function basicDamage(
           .mul(enemyDamageReceivedIncrease)
           .mul(attributeDamage)
           .mul(attributeX)
-          .round(0, Big.roundDown)
           .mul(value)
           .mul(defenderDefEffect)
       : Big(0)
@@ -684,7 +683,6 @@ export function basicDamage(
           .mul(enemyDamageReceivedIncrease)
           .mul(attributeDamage)
           .mul(attributeX)
-          .round(0, Big.roundDown)
           .mul(value);
 
   console.log("最終攻擊", res.toNumber());

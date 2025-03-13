@@ -24,11 +24,7 @@ export function EnemyStatus({ position }: { position: number }) {
       <DialogTrigger asChild>
         <Image
           className=""
-          src={
-            enemy.id === "wood"
-              ? "/icons/enemy.png"
-              : `/enemies/${enemy.id}.png`
-          }
+          src={`/enemies/${enemy.id}.png`}
           width={50}
           height={50}
           priority

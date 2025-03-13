@@ -161,6 +161,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",
     // "10128": "性誕戀歌 伊布力斯",
+    case "10128": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10129": "性誕馴鹿 希依",
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
@@ -179,6 +183,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10144": "夏日 凱薩",
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
+    case "10146": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
     // "10149": "千年靈狐 椿",
@@ -220,6 +228,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10161": "舞焰赤龍 薩夏",
     // "10162": "虔信神祀 艾可",
     // "10163": "夜之影 凱薩",
+    case "10163": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10164": "祭典花韻 香奈"
     // "10165": "銀鴞武裝 米婭",
     // "10166": "白熊武裝 冬。艾妮",

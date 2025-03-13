@@ -54,10 +54,41 @@ export function basicToTargeting(
   damageType: DamageType,
   action: CharacterAction,
 ) {
-  if (!checkAvailable(G.characters[G.targeting])) {
+  if (!checkAvailable(G.enemies[G.targeting])) {
     return;
   }
   const dmg = basicDamage(G, oG, value, attacker, Target.ENEMY, false);
+  dealDamage(G, dmg, defender, isTrueDamage);
+  writeBattleLog(G, attacker, defender, dmg, damageType, action);
+}
+
+export function basicToSpecificPos(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  if (
+    defender !== Target.POSITION_1 &&
+    defender !== Target.POSITION_2 &&
+    defender !== Target.POSITION_3 &&
+    defender !== Target.POSITION_4 &&
+    defender !== Target.POSITION_5 &&
+    defender !== Target.ENEMY_1 &&
+    defender !== Target.ENEMY_2 &&
+    defender !== Target.ENEMY_3 &&
+    defender !== Target.ENEMY_4 &&
+    defender !== Target.ENEMY_5
+  ) {
+    console.log("Wrong Target parse in!!");
+    return;
+  }
+  const opponent = checkOpponent(G, defender);
+  const dmg = basicDamage(G, oG, value, attacker, opponent, false);
   dealDamage(G, dmg, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, dmg, damageType, action);
 }
@@ -72,7 +103,8 @@ export function ultToTargeting(
   isTrigger: boolean,
   action: CharacterAction,
 ) {
-  if (!checkAvailable(G.characters[G.targeting])) {
+  if (!checkAvailable(G.enemies[G.targeting])) {
+    console.log("Target is dead");
     return;
   }
   const dmg = ultDamage(
@@ -95,7 +127,24 @@ export function ultToTargeting(
   );
 }
 
-export function applyDamageTrigger(
+export function triggerDmgToTargeting(
+  G: GameState,
+  oG: GameState,
+  damage: Big,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  if (!checkAvailable(G.enemies[G.targeting])) {
+    return;
+  }
+  dealDamage(G, damage, defender, isTrueDamage);
+  writeBattleLog(G, attacker, defender, damage, damageType, action);
+}
+
+export function triggerDmgToPos(
   G: GameState,
   oG: GameState,
   damage: Big,
@@ -169,9 +218,11 @@ function dealDamage(
           .minus(damageAfterShield)
           .toNumber();
       } else {
-        gameState.enemies[gameState.targeting].hp = Math.floor(
-          Big(gameState.enemies[gameState.targeting].hp).minus(dmg).toNumber(),
-        );
+        gameState.enemies[gameState.targeting].hp = Big(
+          gameState.enemies[gameState.targeting].hp,
+        )
+          .minus(dmg)
+          .toNumber();
       }
       if (gameState.enemies[gameState.targeting].hp < 0) {
         gameState.enemies[gameState.targeting].hp = 0;
@@ -186,17 +237,17 @@ function dealDamage(
     case Target.ENEMY_5: {
       if (!isTrueDamage) {
         const damageAfterShield = damageOnShield(gameState, dmg, defender);
-        gameState.enemies[defender - 20].hp = Math.floor(
-          Big(gameState.enemies[defender - 20].hp)
-            .minus(damageAfterShield)
-            .toNumber(),
-        );
+        gameState.enemies[defender - 20].hp = Big(
+          gameState.enemies[defender - 20].hp,
+        )
+          .minus(damageAfterShield)
+          .toNumber();
       } else {
-        gameState.enemies[defender - 20].hp = Math.floor(
-          Big(gameState.enemies[defender - 20].hp)
-            .minus(dmg)
-            .toNumber(),
-        );
+        gameState.enemies[defender - 20].hp = Big(
+          gameState.enemies[defender - 20].hp,
+        )
+          .minus(dmg)
+          .toNumber();
       }
       if (gameState.enemies[defender - 20].hp < 0) {
         gameState.enemies[defender - 20].hp = 0;
@@ -211,11 +262,9 @@ function dealDamage(
     case Target.POSITION_4:
     case Target.POSITION_5: {
       const damageAfterShield = damageOnShield(gameState, dmg, defender);
-      gameState.characters[defender].hp = Math.floor(
-        Big(gameState.characters[defender].hp)
-          .minus(damageAfterShield)
-          .toNumber(),
-      );
+      gameState.characters[defender].hp = Big(gameState.characters[defender].hp)
+        .minus(damageAfterShield)
+        .toNumber();
       if (gameState.characters[defender].hp < 0) {
         gameState.characters[defender].hp = 0;
         gameState.characters[defender].isDead = true;
@@ -226,11 +275,9 @@ function dealDamage(
       gameState.characters.forEach((_, index) => {
         const damageAfterShield = damageOnShield(gameState, dmg, defender);
         if (checkAvailable(gameState.characters[index])) {
-          gameState.characters[index].hp = Math.floor(
-            Big(gameState.characters[index].hp)
-              .minus(damageAfterShield)
-              .toNumber(),
-          );
+          gameState.characters[index].hp = Big(gameState.characters[index].hp)
+            .minus(damageAfterShield)
+            .toNumber();
           if (gameState.characters[index].hp < 0) {
             gameState.characters[index].hp = 0;
             gameState.characters[index].isDead = true;
