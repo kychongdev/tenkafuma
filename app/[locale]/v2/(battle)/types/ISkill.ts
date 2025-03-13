@@ -284,6 +284,7 @@ export interface _101 {
   value: number;
   defender: Target;
   damageType: DamageType;
+  isTrueDamage: boolean;
   multiple: boolean;
   multipleValue?: number;
 }

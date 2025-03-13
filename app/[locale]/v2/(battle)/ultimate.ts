@@ -594,6 +594,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
             defender: Target.ENEMY,
             damageType: DamageType.BASIC_ADDON,
             multiple: false,
+            isTrueDamage: false,
           },
         },
       ];
@@ -665,6 +666,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
                 defender: Target.ENEMY,
                 damageType: DamageType.ULTIMATE_ADDON,
                 multiple: false,
+                isTrueDamage: false,
               },
             },
           ];

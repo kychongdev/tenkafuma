@@ -42,7 +42,7 @@ export function basicHpDamage(
       attackerClass = G.enemies[position - 20].class;
       attackerAttribute = G.enemies[position - 20].attribute;
       attackerId = G.enemies[position - 20].id;
-      hp = Big(G.enemies[position - 20].hp);
+      hp = Big(G.enemies[position - 20].maxHp);
       break;
     }
     case Target.POSITION_1:
@@ -54,7 +54,7 @@ export function basicHpDamage(
       attackerClass = G.characters[position].class;
       attackerAttribute = G.characters[position].attribute;
       attackerId = G.characters[position].id;
-      hp = Big(G.characters[position].hp);
+      hp = Big(G.characters[position].maxHp);
       break;
   }
 
@@ -570,6 +570,13 @@ export function basicHpDamage(
         buff._3?.value * buff._3?.stack,
       );
     }
+  }
+
+  if (isTrueDamage) {
+    if (defenderisGuard) {
+      return Big(0).add(hp).mul(value).mul(defenderDefEffect);
+    }
+    return Big(0).add(hp).mul(value);
   }
 
   if (basicBuff.lt(0)) {

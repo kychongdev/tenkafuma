@@ -15,10 +15,16 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CharacterStats } from "./CharacterStats";
+import {
+  checkSpecialCondition,
+  parseNameCondition,
+} from "../(battle)/condition";
+import { parseSkillName } from "../(battle)/utils";
 
 export function CharacterStatus({ position }: { position: number }) {
-  const character = useGameState((state) => state.characters[position]);
   const gameState = useGameState((state) => state);
+  const buff = parseNameCondition(gameState, position);
+  const buff2 = checkSpecialCondition(gameState, gameState, position);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -32,7 +38,7 @@ export function CharacterStatus({ position }: { position: number }) {
         <Tabs defaultValue="account" className="w-full">
           <TabsContent value="buff" className="">
             <ScrollArea className="grid gap-1 h-96">
-              {character.buff.map((buff, index) => {
+              {buff.map((buff, index) => {
                 return (
                   <div
                     key={buff.id + index}
@@ -42,7 +48,7 @@ export function CharacterStatus({ position }: { position: number }) {
                     }}
                   >
                     <Card className="p-2 align-middle  text-sm col-span-9">
-                      {buff.name}
+                      {parseSkillName(buff)}
                     </Card>
                     <Card className="p-2 text-sm text-center">
                       {buff.duration === 100 ? "-" : buff.duration}
@@ -53,7 +59,10 @@ export function CharacterStatus({ position }: { position: number }) {
             </ScrollArea>
           </TabsContent>
           <TabsContent value="stat">
-            <CharacterStats character={character} />
+            <CharacterStats
+              character={gameState.characters[position]}
+              buff={buff2}
+            />
           </TabsContent>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="buff">Buff</TabsTrigger>

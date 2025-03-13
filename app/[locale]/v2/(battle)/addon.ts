@@ -8,8 +8,11 @@ import {
   Target,
 } from "./types/Skill";
 import {
+  basicHpToSelf,
+  basicToSelf,
   basicToSpecificPos,
   basicToTargeting,
+  ultToSelf,
   ultToTargeting,
 } from "./applyDamage";
 import { checkSpecialCondition } from "./condition";
@@ -53,25 +56,49 @@ export function addOn(
       const d = buff._101.defender;
       const dt = buff._101.damageType;
       const v = buff._101.value;
+      const isTrueDamage = buff._101.isTrueDamage;
 
       switch (buff._101.damageType) {
         case DamageType.BASIC_ADDON: {
           if (d === Target.ENEMY) {
-            basicToTargeting(G, oG, v, p, d, false, dt, ca);
+            basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
           } else {
-            basicToSpecificPos(G, oG, v, p, d, false, dt, ca);
+            basicToSpecificPos(G, oG, v, p, d, isTrueDamage, dt, ca);
+          }
+          break;
+        }
+        case DamageType.BASIC_HP: {
+          if (d === Target.SELF) {
+            basicHpToSelf(G, oG, v, p, isTrueDamage, dt, ca);
+            G.receivedAttack = [
+              ...G.receivedAttack,
+              {
+                attacker: p,
+                defender: p,
+              },
+            ];
           }
           break;
         }
         case DamageType.ULTIMATE: {
           if (d === Target.ENEMY) {
-            ultToTargeting(G, oG, v, p, d, false, false, dt, ca);
+            ultToTargeting(G, oG, v, p, d, isTrueDamage, false, dt, ca);
           }
           break;
         }
         case DamageType.ULTIMATE_ADDON: {
           if (d === Target.ENEMY) {
-            ultToTargeting(G, oG, v, p, d, false, false, dt, ca);
+            ultToTargeting(G, oG, v, p, d, isTrueDamage, false, dt, ca);
+          }
+          if (d === Target.SELF) {
+            ultToSelf(G, oG, v, p, isTrueDamage, false, dt, ca);
+            G.receivedAttack = [
+              ...G.receivedAttack,
+              {
+                attacker: p,
+                defender: p,
+              },
+            ];
           }
           break;
         }

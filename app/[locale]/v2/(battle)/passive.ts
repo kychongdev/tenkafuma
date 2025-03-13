@@ -609,7 +609,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
                 targetSkill: "10081-passive-4-1",
                 target: Target.ENEMY,
                 applySkill: {
-                  id: "10081-passive-3-1",
+                  id: "10081-passive-4-1",
                   name: "受到光屬性傷增加",
                   type: 3,
                   condition: Condition.NONE,
@@ -1488,6 +1488,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
               defender: Target.ENEMY,
               damageType: DamageType.ULTIMATE_ADDON,
               multiple: false,
+              isTrueDamage: false,
             },
           },
           {
@@ -1533,8 +1534,15 @@ export function initPassiveSkill(G: GameState, pos: number) {
           id: "10145-passive-1",
           name: "普攻時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
           condition: Condition.BASIC_ATTACK,
-          type: 105,
+          type: 101,
           duration: 100,
+          _101: {
+            value: 0.01,
+            defender: Target.SELF,
+            damageType: DamageType.BASIC_HP,
+            isTrueDamage: true,
+            multiple: false,
+          },
         },
         {
           id: "10145-passive-2",
@@ -1567,8 +1575,15 @@ export function initPassiveSkill(G: GameState, pos: number) {
           id: "10145-passive-3",
           name: "必殺時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
           condition: Condition.ULTIMATE,
-          type: 105,
+          type: 101,
           duration: 100,
+          _101: {
+            value: 0.01,
+            defender: Target.SELF,
+            damageType: DamageType.ULTIMATE_HP,
+            isTrueDamage: true,
+            multiple: false,
+          },
         },
         {
           id: "10145-passive-4",
@@ -1832,6 +1847,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
               defender: Target.ENEMY,
               damageType: DamageType.ULTIMATE,
               multiple: false,
+              isTrueDamage: false,
             },
           },
         ];

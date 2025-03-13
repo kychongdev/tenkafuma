@@ -19,6 +19,7 @@ import { parseAddon } from "./parseAddon";
 import { ultimate } from "./ultimate";
 import { dummy } from "./stages/dummy";
 import { useSimulateTeamState } from "../(simulate)/useSimulateState";
+import _ from "lodash";
 
 export interface GameState {
   clientId: string;
@@ -49,6 +50,10 @@ export interface GameState {
   undo: any[];
   stageState: any;
   stage: string;
+  receivedAttack: {
+    attacker: number;
+    defender: number;
+  }[];
   debug: () => void;
   basicAction: (position: number) => void;
   ultAction: (position: number) => void;
@@ -76,6 +81,7 @@ function resetBattle(state: GameState) {
   state.battleLog = [];
   state.action = [];
   state.undo = [];
+  state.receivedAttack = [];
   state.enemyDamageLog1 = [];
   state.enemyDamageLog1 = [];
   state.enemyDamageLog1 = [];
@@ -84,7 +90,7 @@ function resetBattle(state: GameState) {
 }
 const initEnemyState = {
   ...initCharacterState,
-  id: "wood",
+  id: "dummy",
   maxHp: 5063653034,
   hp: 5063653034,
   isExist: true,
@@ -99,6 +105,7 @@ export const useGameState = create<GameState>()(
       wave: 0,
       ready: false,
       turn: 0,
+      receivedAttack: [],
       enemies: [
         { ...initEnemyState, name: "1" },
         { ...initEnemyState, name: "2" },
@@ -121,7 +128,7 @@ export const useGameState = create<GameState>()(
         everyTurnAttackTarget: [],
       },
       select: null,
-      targeting: Target.ENEMY_1 - 20,
+      targeting: 0,
       undo: [],
       damageLog1: [],
       damageLog2: [],
@@ -283,6 +290,40 @@ export const useGameState = create<GameState>()(
             [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
             CharacterAction.BASIC,
           );
+
+          const allyRA = state.receivedAttack.filter(
+            (x) => x.defender >= 0 && x.defender <= 4,
+          );
+
+          // TODO Enemy Received Attack
+          //const enemyRA = state.receivedAttack.filter(
+          //  (x) => x.defender >= 20 && x.defender <= 24,
+          //);
+          //
+          //const enemyParseRA = _.uniqBy(enemyRA, "defender");
+          //const enemySortedRA = _.sortBy(enemyParseRA, "defender");
+          //enemySortedRA.forEach((x) => {
+          //  parseCondition(
+          //    state,
+          //    oG,
+          //    x.defender,
+          //    [Condition.RECEIVED_ATTACK],
+          //    CharacterAction.BASIC,
+          //  );
+          //});
+
+          const allyParseRA = _.uniqBy(allyRA, "defender");
+          const allSortedRA = _.sortBy(allyParseRA, "defender");
+          allSortedRA.forEach((x) => {
+            parseCondition(
+              state,
+              oG,
+              x.defender,
+              [Condition.RECEIVED_ATTACK],
+              CharacterAction.BASIC,
+            );
+          });
+          state.receivedAttack = [];
           parseCondition(
             state,
             oG,
@@ -290,6 +331,7 @@ export const useGameState = create<GameState>()(
             [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
             CharacterAction.BASIC,
           );
+
           // Trigger Reflect
           state.characters.forEach((character, index) => {
             if (character.isHeal === true) {
@@ -303,6 +345,7 @@ export const useGameState = create<GameState>()(
               character.isHeal = false;
             }
           });
+
           checkEndTurn(state, oG);
         });
       },
@@ -346,6 +389,48 @@ export const useGameState = create<GameState>()(
             [Condition.ULTIMATE, Condition.ATTACK, Condition.MOVE],
             CharacterAction.ULTIMATE,
           );
+
+          const allyRA = state.receivedAttack.filter(
+            (x) => x.defender >= 0 && x.defender <= 4,
+          );
+
+          // TODO Enemy Received Attack
+          //const enemyRA = state.receivedAttack.filter(
+          //  (x) => x.defender >= 20 && x.defender <= 24,
+          //);
+          //
+          //const enemyParseRA = _.uniqBy(enemyRA, "defender");
+          //const enemySortedRA = _.sortBy(enemyParseRA, "defender");
+          //enemySortedRA.forEach((x) => {
+          //  parseCondition(
+          //    state,
+          //    oG,
+          //    x.defender,
+          //    [Condition.RECEIVED_ATTACK],
+          //    CharacterAction.BASIC,
+          //  );
+          //});
+
+          const allyParseRA = _.uniqBy(allyRA, "defender");
+          const allSortedRA = _.sortBy(allyParseRA, "defender");
+          allSortedRA.forEach((x) => {
+            parseCondition(
+              state,
+              oG,
+              x.defender,
+              [Condition.RECEIVED_ATTACK],
+              CharacterAction.BASIC,
+            );
+          });
+          parseCondition(
+            state,
+            oG,
+            position,
+            [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
+            CharacterAction.BASIC,
+          );
+
+          state.receivedAttack = [];
           parseCondition(
             state,
             oG,

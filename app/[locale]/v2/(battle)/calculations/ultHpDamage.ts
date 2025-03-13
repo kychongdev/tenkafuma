@@ -44,7 +44,7 @@ export function ultHpDamage(
       attackerClass = gameState.enemies[position - 20].class;
       attackerAttribute = gameState.enemies[position - 20].attribute;
       attackerId = gameState.enemies[position - 20].id;
-      hp = Big(gameState.enemies[position - 20].hp);
+      hp = Big(gameState.enemies[position - 20].maxHp);
       break;
     }
     case Target.POSITION_1:
@@ -57,7 +57,7 @@ export function ultHpDamage(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
-      hp = Big(gameState.characters[position].hp);
+      hp = Big(gameState.characters[position].maxHp);
       break;
   }
 

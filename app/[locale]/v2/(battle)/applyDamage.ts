@@ -110,6 +110,49 @@ export function basicHpToTargeting(
   });
 }
 
+export function basicHpToSelf(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  const dmg = basicHpDamage(G, oG, value, attacker, attacker, isTrueDamage);
+  dealDamage(G, dmg, attacker, isTrueDamage);
+  writeBattleLog(G, attacker, attacker, dmg, damageType, action);
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender: attacker,
+    action,
+  });
+}
+export function basicToSelf(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  const dmg = basicDamage(G, oG, value, attacker, attacker, isTrueDamage);
+  dealDamage(G, dmg, attacker, isTrueDamage);
+  writeBattleLog(G, attacker, attacker, dmg, damageType, action);
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender: attacker,
+    action,
+  });
+}
+
 export function basicToSpecificPos(
   G: GameState,
   oG: GameState,
@@ -145,6 +188,37 @@ export function basicToSpecificPos(
     turn: G.turn,
     attacker,
     defender,
+    action,
+  });
+}
+export function ultToSelf(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  isTrueDamage: boolean,
+  isTrigger: boolean,
+  dt: DamageType,
+  action: CharacterAction,
+) {
+  const dmg = ultDamage(
+    G,
+    oG,
+    value,
+    attacker,
+    attacker,
+    isTrigger,
+    isTrueDamage,
+  );
+  dealDamage(G, dmg, attacker, isTrueDamage);
+  writeBattleLog(G, attacker, attacker, dmg, dt, action);
+
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: dt,
+    turn: G.turn,
+    attacker,
+    defender: attacker,
     action,
   });
 }
@@ -221,6 +295,33 @@ export function ultHpToTargeting(
   });
 }
 
+export function triggerDmgToAll(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  for (let i = 0; i < 5; i++) {
+    if (!checkAvailable(G.enemies[i])) {
+      return;
+    }
+    const enemy = i + 20;
+    const dmg = ultDamage(G, oG, value, attacker, enemy, true, false);
+    dealDamage(G, dmg, enemy, isTrueDamage);
+    writeBattleLog(G, attacker, enemy, dmg, damageType, action);
+    writeDamageLog(G, attacker, {
+      damage: dmg.round(0, Big.roundDown).toNumber(),
+      type: damageType,
+      turn: G.turn,
+      attacker,
+      defender: enemy,
+      action,
+    });
+  }
+}
 export function triggerDmgToTargeting(
   G: GameState,
   oG: GameState,

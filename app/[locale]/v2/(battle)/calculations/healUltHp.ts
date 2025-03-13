@@ -41,7 +41,7 @@ export function healUltHp(
       attackerClass = gameState.enemies[position - 20].class;
       attackerAttribute = gameState.enemies[position - 20].attribute;
       attackerId = gameState.enemies[position - 20].id;
-      rawHp = Big(gameState.enemies[position - 20].hp);
+      rawHp = Big(gameState.enemies[position - 20].maxHp);
       break;
     }
     case Target.POSITION_1:
@@ -53,7 +53,7 @@ export function healUltHp(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
-      rawHp = Big(gameState.characters[position].hp);
+      rawHp = Big(gameState.characters[position].maxHp);
       break;
   }
 

@@ -16,9 +16,18 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CharacterStats } from "./CharacterStats";
 import Image from "next/image";
+import {
+  checkSpecialCondition,
+  parseNameCondition,
+} from "../(battle)/condition";
+import { parseSkillName } from "../(battle)/utils";
 
 export function EnemyStatus({ position }: { position: number }) {
   const enemy = useGameState((state) => state.enemies[position]);
+  const gameState = useGameState((state) => state);
+
+  const buff = parseNameCondition(gameState, position + 20);
+  const buff2 = checkSpecialCondition(gameState, gameState, position + 20);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -39,7 +48,7 @@ export function EnemyStatus({ position }: { position: number }) {
         <Tabs defaultValue="account" className="w-full">
           <TabsContent value="buff" className="">
             <ScrollArea className="grid gap-1 h-96">
-              {enemy.buff.map((buff, index) => {
+              {buff.map((buff, index) => {
                 return (
                   <div key={buff.id + index} className="grid grid-cols-10">
                     <Card
@@ -48,7 +57,7 @@ export function EnemyStatus({ position }: { position: number }) {
                         console.log(buff);
                       }}
                     >
-                      {buff.name}
+                      {parseSkillName(buff)}
                     </Card>
 
                     <Card className="p-2 text-sm text-center">
@@ -60,7 +69,7 @@ export function EnemyStatus({ position }: { position: number }) {
             </ScrollArea>
           </TabsContent>
           <TabsContent value="stat">
-            <CharacterStats character={enemy} />
+            <CharacterStats character={enemy} buff={buff2} />
           </TabsContent>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="buff">Buff</TabsTrigger>

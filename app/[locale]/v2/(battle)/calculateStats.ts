@@ -12,12 +12,9 @@ export function calculateStats(
   const levelStats = level - 1;
   const libStats = lib > 1 ? 1.1 : 1;
   const res = Math.floor(
-    initStats *
-      1.1 ** levelStats *
-      starStats *
-      roomStats *
-      (1 + pot / 100) *
-      libStats,
+    Math.floor(
+      initStats * 1.1 ** levelStats * starStats * roomStats * (1 + pot / 100),
+    ) * libStats,
   );
   return res;
 }

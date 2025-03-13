@@ -3,6 +3,7 @@ import {
   triggerDmgToPos,
   checkOpponent,
   triggerDmgToTargeting,
+  triggerDmgToAll,
 } from "./applyDamage";
 import { basicHealAllAllies, ultHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff } from "./applyRawAtk";
@@ -33,6 +34,25 @@ export function trigger(
   buff: Skill,
   ca: CharacterAction,
 ) {
+  if (
+    buff.disableOnStack &&
+    buff.disableOnStackSkill &&
+    buff.disableOnStackBelowValue &&
+    oG
+  ) {
+    console.log("test");
+    console.log(buff.id);
+    const isExist = oG.characters[p].buff.find((x) => {
+      return x.id === buff.disableOnStackSkill;
+    });
+    if (!isExist) {
+      return;
+    }
+    if (isExist._3 && isExist._3.stack < buff.disableOnStackBelowValue) {
+      console.log("disableOnStack");
+      return;
+    }
+  }
   switch (buff.type) {
     case 0: {
       break;
@@ -75,6 +95,8 @@ export function trigger(
           if (d === Target.ENEMY) {
             const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
             triggerDmgToTargeting(G, oG, dmg, p, d, false, dt, ca);
+          } else if (d === Target.ALL_ENEMIES) {
+            triggerDmgToAll(G, oG, buff._1.value, p, false, dt, ca);
           } else {
             const opponent = checkOpponent(oG, d);
             if (buff._1.multiple) {
@@ -703,7 +725,6 @@ export function trigger(
         }
 
         case Target.SELF: {
-          console.log("7 self trigger");
           buff._7?.clearSkill.forEach((deleteBuffId) => {
             G.characters[p].buff = G.characters[p].buff.filter(
               (x) => x.id !== deleteBuffId,
@@ -717,6 +738,7 @@ export function trigger(
 
     case 8: {
       if (!buff._8) {
+        console.log(buff.id);
         console.log("Wrong data 8");
         break;
       }
@@ -724,14 +746,12 @@ export function trigger(
         console.log("Can't find old state");
         break;
       }
-      console.log("Trigger 8");
       switch (buff._8.target) {
         case Target.SELF: {
           const skillStackNum = oG.characters[p].buff.find((x) => {
             return x.id === buff._8?.targetSkill;
           });
 
-          console.log("Trigger 8", skillStackNum);
           if (!skillStackNum || !skillStackNum._3) {
             // Does not have this skill
             break;

@@ -215,6 +215,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10145": "夏日 撒旦",
+    case "10145": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10146": "魔獸獵手 神無雪",
     case "10146": {
       basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
