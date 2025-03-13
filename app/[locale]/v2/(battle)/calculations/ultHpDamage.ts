@@ -57,6 +57,7 @@ export function ultHpDamage(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
+      hp = Big(gameState.characters[position].hp);
       break;
   }
 

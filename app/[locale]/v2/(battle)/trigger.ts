@@ -1043,6 +1043,207 @@ export function trigger(
       });
       break;
     }
+    case 16: {
+      if (!buff._16) {
+        console.log("Wrong data 6");
+        break;
+      }
+      //傳功
+      switch (buff._16.target) {
+        case Target.ALL_ALLIES: {
+          G.characters.forEach((_, index) => {
+            if (!buff._16) {
+              console.log("2.Wrong data 16");
+              return;
+            }
+
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = G.characters[p].atk;
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: `${buff.id}-heal`,
+                name: buff.name,
+                type: 0,
+                condition: Condition.NONE,
+                duration: buff._16.duration,
+                _0: {
+                  value:
+                    buff._16?.base === true
+                      ? Math.floor(baseAtk * buff._16.value)
+                      : Math.floor(rawAttSkill * buff._16.value),
+                  affectType: AffectType.RAW_HEAL_OVER_TIME,
+                },
+              },
+            ];
+          });
+
+          break;
+        }
+        case Target.SELF: {
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = G.characters[p].atk;
+          console.log("test");
+          G.characters[p].buff = [
+            ...G.characters[p].buff,
+            {
+              id: `${buff.id}-heal`,
+              name: buff.name,
+              type: 0,
+              condition: Condition.NONE,
+              duration: buff._16.duration,
+              _0: {
+                value:
+                  buff._16?.base === true
+                    ? Math.floor(baseAtk * buff._16.value)
+                    : Math.floor(rawAttSkill * buff._16.value),
+                affectType: AffectType.RAW_HEAL_OVER_TIME,
+              },
+            },
+          ];
+          break;
+        }
+        case Target.ALL_EXCEPT_SELF: {
+          G.characters.forEach((_, index) => {
+            if (!buff._16) {
+              console.log("2.Wrong data 16");
+              return;
+            }
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = G.characters[p].atk;
+            if (index !== p) {
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                {
+                  id: `${buff.id}-heal`,
+                  name: buff.name,
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: buff._16.duration,
+                  _0: {
+                    value:
+                      buff._16?.base === true
+                        ? Math.floor(baseAtk * buff._16.value)
+                        : Math.floor(rawAttSkill * buff._16.value),
+                    affectType: AffectType.RAW_HEAL_OVER_TIME,
+                  },
+                },
+              ];
+            }
+          });
+          break;
+        }
+        case Target.OBSTRUCTER:
+        case Target.HEALER:
+        case Target.ATTACKER:
+        case Target.PROTECTOR:
+        case Target.SUPPORT: {
+          G.characters.forEach((character, index) => {
+            if (!buff._16) {
+              console.log("2.Wrong data 16");
+              return;
+            }
+
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = G.characters[p].atk;
+            if (character.class === buff._16?.target) {
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                {
+                  id: `${buff.id}-buff`,
+                  name: buff.name,
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: buff._16.duration,
+                  _0: {
+                    value:
+                      buff._16?.base === true
+                        ? Math.floor(baseAtk * buff._16.value)
+                        : Math.floor(rawAttSkill * buff._16.value),
+                    affectType: AffectType.RAW_HEAL_OVER_TIME,
+                  },
+                },
+              ];
+            }
+          });
+          break;
+        }
+        case Target.POSITION_1:
+        case Target.POSITION_2:
+        case Target.POSITION_3:
+        case Target.POSITION_4:
+        case Target.POSITION_5: {
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = G.characters[p].atk;
+
+          if (p === -1) {
+            console.log("Target Parsing is Wrong!");
+            break;
+          }
+          G.characters[buff._16.target].buff = [
+            ...G.characters[buff._16.target].buff,
+            {
+              id: `${buff.id}-heal`,
+              name: buff.name,
+              type: 0,
+              condition: Condition.NONE,
+              duration: buff._16.duration,
+              _0: {
+                value:
+                  buff._16?.base === true
+                    ? Math.floor(baseAtk * buff._16.value)
+                    : Math.floor(rawAttSkill * buff._16.value),
+                affectType: AffectType.RAW_HEAL_OVER_TIME,
+              },
+            },
+          ];
+          break;
+        }
+
+        case Target.ALL_LIGHT_EXCEPT_SELF: {
+          break;
+        }
+
+        case Target.SPECIFIC_CHARACTER: {
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = G.characters[p].atk;
+          const pos = G.characters.findIndex((character) => {
+            return character.id === buff._16?.applyToSpecificChar;
+          });
+
+          if (pos === -1) {
+            console.log("_16 Error: Could not find Character listed");
+            break;
+          }
+          console.log("_16 Test", rawAttSkill);
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            {
+              id: `${buff.id}-heal`,
+              name: buff.name,
+              type: 0,
+              condition: Condition.NONE,
+              duration: buff._16.duration,
+              _0: {
+                value:
+                  buff._16?.base === true
+                    ? Math.floor(baseAtk * buff._16.value)
+                    : Math.floor(rawAttSkill * buff._16.value),
+                affectType: AffectType.RAW_HEAL_OVER_TIME,
+              },
+            },
+          ];
+
+          break;
+        }
+
+        default: {
+          break;
+        }
+      }
+
+      break;
+    }
   }
 
   if (buff.deleteSelf) {

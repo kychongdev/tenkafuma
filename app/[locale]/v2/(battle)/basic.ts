@@ -201,7 +201,7 @@ export function basic(p: number, G: GameState, oG: GameState) {
       basicHpToTargeting(
         G,
         oG,
-        1,
+        0.5,
         p,
         Target.ENEMY,
         false,

@@ -895,25 +895,27 @@ export function initPassiveSkill(G: GameState, pos: number) {
         {
           id: "10134-passive-3",
           name: "普攻時，觸發「以自身攻擊力40%每回合對我方全體進行治療(1回合)」",
-          type: 9,
+          type: 16,
           condition: Condition.BASIC_ATTACK,
           duration: 100,
-          _9: {
-            value: 0.8,
+          _16: {
+            base: false,
+            duration: 1,
+            value: 0.4,
             target: Target.ALL_ALLIES,
-            damageType: DamageType.TRIGGER,
           },
         },
         {
           id: "10134-passive-4",
           name: "必殺時，觸發「以自身攻擊力80%每回合對我方全體進行治療(1回合)」",
-          type: 9,
+          type: 16,
           condition: Condition.ULTIMATE,
           duration: 100,
-          _9: {
+          _16: {
+            base: false,
+            duration: 1,
             value: 0.8,
             target: Target.ALL_ALLIES,
-            damageType: DamageType.TRIGGER,
           },
         },
       ];
@@ -936,13 +938,14 @@ export function initPassiveSkill(G: GameState, pos: number) {
           {
             id: "10134-passive-6",
             name: "防禦時，觸發「以自身攻擊力120每回合對我方全體進行治療(1回合)」",
-            type: 9,
+            type: 16,
             condition: Condition.GUARD,
             duration: 100,
-            _9: {
+            _16: {
+              base: false,
+              duration: 1,
               value: 1.2,
               target: Target.ALL_ALLIES,
-              damageType: DamageType.TRIGGER,
             },
           },
         ];

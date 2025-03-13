@@ -54,7 +54,7 @@ export function ultHpHealAll(
 ) {
   for (let i = 0; i < 5; i++) {
     const dmg = healUltHp(G, oG, value, attacker, i, isTrigger, isTrueDamage);
-    console.log(dmg);
+    console.log(dmg.toNumber());
     healTarget(G, dmg, i);
     writeToHealLog(
       G,

@@ -135,12 +135,13 @@ export interface _15 {
   reduceCD: number;
 }
 
-//用HP傳功
+// HEAL OVER TIME
 export interface _16 {
   value: number;
-  affectType: AffectType.RAW_ATK;
   target: Target | CharacterClass;
+  applyToSpecificChar?: string;
   duration: number;
+  base: boolean;
 }
 
 // based on multiple condition apply buff

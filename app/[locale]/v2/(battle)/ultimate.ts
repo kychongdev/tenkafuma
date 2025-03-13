@@ -1,5 +1,5 @@
 import { ultToTargeting, ultHpToTargeting } from "./applyDamage";
-import { ultHpHealAll } from "./applyHeal";
+import { ultHealAllAllies, ultHpHealAll } from "./applyHeal";
 import { GameState } from "./GameState";
 import { trigger } from "./trigger";
 import {
@@ -595,7 +595,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           },
         ];
       });
-      ultHpHealAll(
+      ultHealAllAllies(
         G,
         oG,
         bond === 1
