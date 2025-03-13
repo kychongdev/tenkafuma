@@ -430,6 +430,13 @@ export function trigger(
       }
       break;
     }
+    case 5: {
+      if (!buff._5) {
+        console.log("Wrong data 5");
+        break;
+      }
+      break;
+    }
     case 6: {
       if (!buff._6) {
         console.log("Wrong data 6");
@@ -943,5 +950,31 @@ export function trigger(
       }
       break;
     }
+    case 13: {
+      if (!buff._13) {
+        console.log("Wrong data 13");
+        break;
+      }
+      G.characters.forEach((character, index) => {
+        if (character.id === buff._13?.target) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            ...buff._13.applySkill,
+          ];
+        }
+      });
+      break;
+    }
+  }
+
+  if (buff.deleteSelf) {
+    const buffIndex = G.characters[p].buff.findIndex((x) => x.id === buff.id);
+    if (buffIndex === -1) {
+      console.log("Skill not found, delete self error");
+      return;
+    }
+    const clone = [...G.characters[p].buff];
+    clone.splice(buffIndex, 1);
+    G.characters[p].buff = clone;
   }
 }

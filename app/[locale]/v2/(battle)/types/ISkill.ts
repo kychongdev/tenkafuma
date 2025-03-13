@@ -57,15 +57,11 @@ export interface _4 {
   applyToSpecificChar?: string;
 }
 
-// immediately effect buff
-// 立即生效的BUFF
-// 未寫
+// Heal with Hp
 export interface _5 {
-  condition: SpecialCondition;
-  conditionValue: number;
   value: number;
-  affectType: AffectType;
-  target: Target | CharacterClass;
+  target: Target;
+  damageType: DamageType;
 }
 
 // 傳功

@@ -397,6 +397,117 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10150": "勇者兔女郎 神田綾音",
     // "10151": "性感兔女郎 伊布力斯",
     // "10152": "治癒之星 蘇珊",
+    case "10152": {
+      //(使我方全體被治療時回復量增加60 / 70 / 80 / 90 / 100) % (1回合);
+      //，以自身最大HP40/45/50/50/50%對我方全體造成治療，再使我方全體造成傷害增加25/30/40/50/60%(4回合)，再使自身攻擊力增加20/40/60/80/100%(最多1層)，CD：4
+
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10152-ult-1",
+            name: "受到治療增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              affectType: AffectType.INCREASE_HEAL_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.6
+                  : bond === 2
+                    ? 0.7
+                    : bond === 3
+                      ? 0.8
+                      : bond === 4
+                        ? 0.9
+                        : 1,
+            },
+          },
+        ];
+      });
+
+      //healUltHpDamage(
+      //  pos,
+      //  bond === 1
+      //    ? 0.4
+      //    : bond === 2
+      //      ? 0.45
+      //      : bond === 3
+      //        ? 0.5
+      //        : bond === 4
+      //          ? 0.5
+      //          : 0.5,
+      //  G,
+      //  Target.ALL_ALLIES,
+      //  DamageType.ULTIMATE,
+      //  CharacterAction.ULTIMATE,
+      //);
+
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10152-ult-2",
+            name: "造成傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value:
+                bond === 1
+                  ? 0.25
+                  : bond === 2
+                    ? 0.3
+                    : bond === 3
+                      ? 0.4
+                      : bond === 4
+                        ? 0.5
+                        : 0.6,
+            },
+          },
+        ];
+      });
+      const skill: Skill = {
+        id: "10152-ult-3",
+        name: "攻擊力增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10152-ult-3-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10152-ult-3-1",
+            name: "攻擊力增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10152-ult-3-1",
+              name: "攻擊力增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_ATK,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.4
+                    : bond === 3
+                      ? 0.6
+                      : bond === 4
+                        ? 0.8
+                        : 1,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+      break;
+    }
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     // "10155": "甜蜜女僕",

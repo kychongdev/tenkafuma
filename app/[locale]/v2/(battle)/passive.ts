@@ -1,5 +1,5 @@
 import { GameState } from "./GameState";
-import { CharacterAction } from "./types/Character";
+import { CharacterAction, CharacterAttribute } from "./types/Character";
 import {
   AffectType,
   Condition,
@@ -653,6 +653,146 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10150": "勇者兔女郎 神田綾音",
     // "10151": "性感兔女郎 伊布力斯",
     // "10152": "治癒之星 蘇珊",
+    case "10152": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10152-passive-1",
+          name: "必殺時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            value: 0.3,
+            target: Target.ALL_ALLIES,
+            duration: 1,
+            base: false,
+          },
+        },
+      ];
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10152-passive-2",
+            name: "防禦時，觸發「使自身受到傷害減少10%(1回合)」",
+            type: 11,
+            condition: Condition.GUARD,
+            duration: 100,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10152-passive-2-1",
+                  name: "受到傷害減少",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 1,
+                  _0: {
+                    value: 0.1,
+                    affectType: AffectType.DECREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10152-passive-3",
+            name: "防禦時，觸發「使我方『治癒之星 蘇珊』造成治療增加10%(2回合)」",
+            type: 13,
+            condition: Condition.GUARD,
+            duration: 100,
+            _13: {
+              target: "10152",
+              applySkill: [
+                {
+                  id: "10152-passive-3-1",
+                  name: "造成治療增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 2,
+                  _0: {
+                    value: 0.1,
+                    affectType: AffectType.INCREASE_HEAL_RATE,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      });
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10152-passive-5",
+            name: "每經過一回合時，觸發「使自身被攻擊時，觸發『以自身最大HP10%對我方全體造成治療』(1回合)(此效果最多作用一次)」",
+            duration: 100,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            type: 11,
+            _11: {
+              target: Target.SELF,
+              applySkill: [
+                {
+                  id: "10152-passive-5-1",
+                  name: "被攻擊時，觸發『以自身最大HP10%對我方全體造成治療』(1回合)(此效果最多作用一次)",
+                  condition: Condition.RECEIVED_ATTACK,
+                  type: 5,
+                  duration: 1,
+                  deleteSelf: true,
+                  _5: {
+                    target: Target.ALL_ALLIES,
+                    value: 0.1,
+                    damageType: DamageType.TRIGGER,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+        G.characters.forEach((character, index) => {
+          if (
+            character.attribute === CharacterAttribute.DARK ||
+            character.attribute === CharacterAttribute.LIGHT
+          ) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10152-passive-5",
+                name: "攻擊力增加40%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  value: 0.4,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ];
+          }
+        });
+      }
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10152-passive4",
+            name: "使自身造成治療增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_HEAL_RATE,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     // "10155": "甜蜜女僕",

@@ -1,4 +1,5 @@
 import { applyDamage, basicToTargeting } from "./applyDamage";
+import { basicHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { basicDamage } from "./calculations/basicDamage";
 import { GameState } from "./GameState";
@@ -188,6 +189,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10150": "勇者兔女郎 神田綾音",
     // "10151": "性感兔女郎 伊布力斯",
     // "10152": "治癒之星 蘇珊",
+    case "10152": {
+      basicHealAllAllies(G, oG, 0.75, p, ca);
+      break;
+    }
     // "10153": "純真殺意 撒旦",
     // "10154": "星空奈奈美",
     // "10155": "甜蜜女僕",

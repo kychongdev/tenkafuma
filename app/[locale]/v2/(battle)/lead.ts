@@ -309,7 +309,7 @@ export function initLeadSkill(G: GameState) {
             duration: 100,
             _0: {
               affectType: AffectType.INCREASE_ATK,
-              value: 0.3,
+              value: 0.5,
             },
           },
           {
@@ -340,106 +340,95 @@ export function initLeadSkill(G: GameState) {
             ...G.characters[index].buff,
             {
               id: "10166-lead-4",
-              name: "《白白的超額輔助》",
+              name: "每經過4回合，觸發「使目標受到傷害增加20%(1回合)」",
+              type: 11,
+              condition: Condition.EVERY_X_TURN,
+              conditionTurn: 4,
               duration: 100,
-              condition: Condition.ON_TURN_START,
-              type: 21,
-              _21: {
-                trigger: [
+              _11: {
+                target: Target.ENEMY,
+                applySkill: [
                   {
                     id: "10166-lead-4-1",
-                    name: "每經過4回合，觸發「使目標受到傷害增加20%(1回合)」",
-                    type: 11,
-                    condition: Condition.EVERY_X_TURN,
-                    conditionTurn: 4,
-                    duration: 100,
-                    _11: {
-                      target: Target.ENEMY,
-                      applySkill: [
-                        {
-                          id: "10166-lead-4-1",
-                          name: "使目標受到傷害增加20%",
-                          type: 0,
-                          condition: Condition.NONE,
-                          duration: 1,
-                          _0: {
-                            value: 0.2,
-                            affectType: AffectType.INCREASE_DMG_RECEIVED,
-                          },
-                        },
-                      ],
+                    name: "使目標受到傷害增加20%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.2,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
                     },
                   },
+                ],
+              },
+            },
+            {
+              id: "10166-lead-5",
+              name: "每經過4回合，觸發「使自身攻擊力增加80%(1回合)」",
+              type: 11,
+              condition: Condition.EVERY_X_TURN,
+              conditionTurn: 4,
+              duration: 100,
+              _11: {
+                target: Target.SELF,
+                applySkill: [
                   {
-                    id: "10166-lead-4-2",
-                    name: "每經過4回合，觸發「使自身攻擊力增加80%(1回合)」",
-                    type: 11,
-                    condition: Condition.EVERY_X_TURN,
-                    conditionTurn: 4,
-                    duration: 100,
-                    _11: {
-                      target: Target.SELF,
-                      applySkill: [
-                        {
-                          id: "10166-lead-4-2-1",
-                          name: "使自身攻擊力增加80%",
-                          type: 0,
-                          condition: Condition.NONE,
-                          duration: 1,
-                          _0: {
-                            value: 0.8,
-                            affectType: AffectType.INCREASE_ATK,
-                          },
-                        },
-                      ],
+                    id: "10166-lead-5",
+                    name: "使自身攻擊力增加80%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.8,
+                      affectType: AffectType.INCREASE_ATK,
                     },
                   },
+                ],
+              },
+            },
+            {
+              id: "10166-lead-6",
+              name: "每經過4回合，觸發「使自身必殺技傷害增加45%(1回合)」",
+              type: 11,
+              condition: Condition.EVERY_X_TURN,
+              conditionTurn: 4,
+              duration: 100,
+              _11: {
+                target: Target.SELF,
+                applySkill: [
                   {
-                    id: "10166-lead-4-3",
-                    name: "每經過4回合，觸發「使自身必殺技傷害增加45%(1回合)」",
-                    type: 11,
-                    condition: Condition.EVERY_X_TURN,
-                    conditionTurn: 4,
-                    duration: 100,
-                    _11: {
-                      target: Target.SELF,
-                      applySkill: [
-                        {
-                          id: "10166-lead-4-3-1",
-                          name: "使必殺技傷害增加80%",
-                          type: 0,
-                          condition: Condition.NONE,
-                          duration: 1,
-                          _0: {
-                            value: 0.45,
-                            affectType: AffectType.INCREASE_ULTIMATE_DMG,
-                          },
-                        },
-                      ],
+                    id: "10166-lead-6",
+                    name: "使必殺技傷害增加80%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.45,
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
                     },
                   },
+                ],
+              },
+            },
+            {
+              id: "10166-lead-7",
+              name: "每經過4回合，觸發「使自身造成傷害增加50%(1回合)」",
+              type: 11,
+              condition: Condition.EVERY_X_TURN,
+              conditionTurn: 4,
+              duration: 100,
+              _11: {
+                target: Target.SELF,
+                applySkill: [
                   {
-                    id: "10166-lead-4-4",
-                    name: "每經過4回合，觸發「使自身造成傷害增加50%(1回合)」",
-                    type: 11,
-                    condition: Condition.EVERY_X_TURN,
-                    conditionTurn: 4,
-                    duration: 100,
-                    _11: {
-                      target: Target.SELF,
-                      applySkill: [
-                        {
-                          id: "10166-lead-4-4-1",
-                          name: "造成傷害增加50%",
-                          type: 0,
-                          condition: Condition.NONE,
-                          duration: 1,
-                          _0: {
-                            value: 0.5,
-                            affectType: AffectType.INCREASE_DMG,
-                          },
-                        },
-                      ],
+                    id: "10166-lead-7",
+                    name: "造成傷害增加50%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.5,
+                      affectType: AffectType.INCREASE_DMG,
                     },
                   },
                 ],
@@ -448,15 +437,6 @@ export function initLeadSkill(G: GameState) {
           ];
         }
       });
-
-      //使我方全體光屬性攻擊者、妨礙者獲得《白白的超額輔助》
-      //使我方全體闇屬性攻擊者、妨礙者獲得《白白的超額輔助》
-      //
-      //《白白的超額輔助》
-      //每經過4回合，觸發「使目標受到傷害增加20%(1回合)」
-      //每經過4回合，觸發「使自身攻擊力增加80%(1回合)」
-      //每經過4回合，觸發「使自身必殺技傷害增加45%(1回合)」
-      //每經過4回合，觸發「使自身造成傷害增加50%(1回合)」
       break;
     }
 

@@ -620,6 +620,10 @@ export function basicDamage(
     }
   }
 
+  if (atkPercentage.lt(0)) {
+    atkPercentage = Big(0);
+  }
+
   if (basicBuff.lt(0)) {
     basicBuff = Big(0);
   }

@@ -4,7 +4,7 @@ import { AffectType, Skill, Target } from "../types/Skill";
 import { CharacterAttribute, CharacterClass } from "../types/Character";
 import { checkSpecialCondition } from "../condition";
 
-export function healUltDamage(
+export function healUltHp(
   gameState: GameState,
   oG: GameState,
   value: number,
@@ -14,8 +14,7 @@ export function healUltDamage(
   // TODO true damage heal
   isTrueDamage: boolean,
 ) {
-  let rawAtk = Big(0);
-  let atkPercentage = Big(1);
+  let rawHp = Big(0);
   let ultBuff = Big(1);
   let healReceived = Big(1);
   let healIncrease = Big(1);
@@ -27,51 +26,22 @@ export function healUltDamage(
   let attackerClass = CharacterClass.NONE;
   let attackerAttribute = CharacterAttribute.NONE;
   let attackerId = "";
-  let attackerAtk = Big(0);
 
   let defenderClass = CharacterClass.NONE;
   let defenderAttribute = CharacterAttribute.NONE;
   let defenderId = "";
 
   switch (position) {
-    case Target.ENEMY_1: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[0].class;
-      attackerAttribute = gameState.enemies[0].attribute;
-      attackerId = gameState.enemies[0].id;
-      attackerAtk = Big(gameState.enemies[0].atk);
-      break;
-    }
-    case Target.ENEMY_2: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[1].class;
-      attackerAttribute = gameState.enemies[1].attribute;
-      attackerId = gameState.enemies[1].id;
-      attackerAtk = Big(gameState.enemies[1].atk);
-      break;
-    }
-    case Target.ENEMY_3: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[2].class;
-      attackerAttribute = gameState.enemies[2].attribute;
-      attackerId = gameState.enemies[2].id;
-      attackerAtk = Big(gameState.enemies[2].atk);
-      break;
-    }
-    case Target.ENEMY_4: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[3].class;
-      attackerAttribute = gameState.enemies[3].attribute;
-      attackerId = gameState.enemies[3].id;
-      attackerAtk = Big(gameState.enemies[3].atk);
-      break;
-    }
+    case Target.ENEMY_1:
+    case Target.ENEMY_2:
+    case Target.ENEMY_3:
+    case Target.ENEMY_4:
     case Target.ENEMY_5: {
       attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[4].class;
-      attackerAttribute = gameState.enemies[4].attribute;
-      attackerId = gameState.enemies[4].id;
-      attackerAtk = Big(gameState.enemies[4].atk);
+      attackerClass = gameState.enemies[position - 20].class;
+      attackerAttribute = gameState.enemies[position - 20].attribute;
+      attackerId = gameState.enemies[position - 20].id;
+      rawHp = Big(gameState.enemies[position - 20].hp);
       break;
     }
     case Target.POSITION_1:
@@ -83,8 +53,6 @@ export function healUltDamage(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
-      attackerAtk = Big(gameState.characters[position].atk);
-
       break;
   }
 
@@ -138,28 +106,6 @@ export function healUltDamage(
   }
 
   for (const buff of attacker) {
-    if (buff.type === 0 && buff._0?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(buff._0.value);
-    }
-    if (buff.type === 0 && buff._0?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(buff._0.value);
-    }
-
-    if (buff.type === 3 && buff._3?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(
-        Big(buff._3?.value).mul(buff._3?.stack),
-      );
-    }
-    if (buff.type === 3 && buff._3?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(
-        Big(buff._3?.value).mul(buff._3?.stack),
-      );
-    }
-
-    if (buff.type === 0 && buff._0?.affectType === AffectType.RAW_ATK) {
-      rawAtk = rawAtk.add(buff._0?.value);
-    }
-
     if (
       buff.type === 0 &&
       buff._0?.affectType === AffectType.INCREASE_ULTIMATE_DMG
@@ -288,11 +234,7 @@ export function healUltDamage(
     for (const buff of defender) {
     }
 
-    const finalAtk = Big(attackerAtk)
-      .mul(atkPercentage)
-      .round(0, Big.roundDown)
-      .add(rawAtk)
-      .round(0, Big.roundDown);
+    const finalAtk = Big(attackerAtk).add(rawHp).round(0, Big.roundDown);
     res = Big(0)
       .add(finalAtk)
       .mul(ultBuff)
@@ -300,11 +242,7 @@ export function healUltDamage(
       .mul(healReceived)
       .mul(value);
   } else {
-    const finalAtk = Big(attackerAtk)
-      .mul(atkPercentage)
-      .round(0, Big.roundDown)
-      .add(rawAtk)
-      .round(0, Big.roundDown);
+    const finalAtk = Big(attackerAtk).add(rawHp).round(0, Big.roundDown);
     res = Big(0)
       .add(finalAtk)
       .mul(ultBuff)
@@ -314,12 +252,10 @@ export function healUltDamage(
   }
 
   console.log(
-    "攻擊力",
-    attackerAtk,
-    "攻擊%",
-    atkPercentage.toNumber(),
+    "Hp",
+    rawHp.toNumber(),
     "定值攻擊力",
-    rawAtk.toNumber(),
+    rawHp.toNumber(),
     "必殺",
     ultBuff.toNumber(),
     "進行治療時回復量",
