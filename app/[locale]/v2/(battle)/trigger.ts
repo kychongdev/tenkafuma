@@ -12,7 +12,11 @@ import { healUltDamage } from "./calculations/healUltDamage";
 import { ultDamage } from "./calculations/ultDamage";
 import { checkSpecialCondition } from "./condition";
 import { GameState } from "./GameState";
-import { CharacterAction, CharacterAttribute } from "./types/Character";
+import {
+  CharacterAction,
+  CharacterAttribute,
+  CharacterClass,
+} from "./types/Character";
 import {
   AffectType,
   Condition,
@@ -1043,12 +1047,124 @@ export function trigger(
       });
       break;
     }
+    case 14: {
+      if (!buff._14) {
+        console.log("Wrong data 14");
+        break;
+      }
+      switch (buff._14.target) {
+        case Target.SELF:
+          G.characters[p].cd -= buff._14.reduceCD;
+          if (G.characters[p].cd < 0) {
+            G.characters[p].cd = 0;
+          }
+          break;
+
+        case Target.ALL_EXCEPT_SELF:
+          G.characters.forEach((_, index) => {
+            if (!buff._14) {
+              console.log("Wrong data 14");
+              return;
+            }
+            if (p !== index) {
+              G.characters[index].cd -= buff._14.reduceCD;
+              if (G.characters[index].cd < 0) {
+                G.characters[index].cd = 0;
+              }
+            }
+          });
+          break;
+        case Target.ALL_ALLIES:
+          G.characters.forEach((_, index) => {
+            if (!buff._14) {
+              console.log("Wrong data 14");
+              return;
+            }
+            G.characters[index].cd -= buff._14.reduceCD;
+            if (G.characters[index].cd < 0) {
+              G.characters[index].cd = 0;
+            }
+          });
+          break;
+        case Target.ATTACKER:
+          G.characters.forEach((character, index) => {
+            if (character.class === CharacterClass.ATTACKER) {
+              if (!buff._14) {
+                console.log("Wrong data 14");
+                return;
+              }
+              G.characters[index].cd -= buff._14.reduceCD;
+              if (G.characters[index].cd < 0) {
+                G.characters[index].cd = 0;
+              }
+            }
+          });
+          break;
+        case Target.OBSTRUCTER:
+          G.characters.forEach((character, index) => {
+            if (character.class === CharacterClass.OBSTRUCTER) {
+              if (!buff._14) {
+                console.log("Wrong data 14");
+                return;
+              }
+              G.characters[index].cd -= buff._14.reduceCD;
+              if (G.characters[index].cd < 0) {
+                G.characters[index].cd = 0;
+              }
+            }
+          });
+          break;
+        case Target.PROTECTOR:
+          G.characters.forEach((character, index) => {
+            if (character.class === CharacterClass.PROTECTOR) {
+              if (!buff._14) {
+                console.log("Wrong data 14");
+                return;
+              }
+              G.characters[index].cd -= buff._14.reduceCD;
+              if (G.characters[index].cd < 0) {
+                G.characters[index].cd = 0;
+              }
+            }
+          });
+
+          break;
+        case Target.SUPPORT:
+          G.characters.forEach((character, index) => {
+            if (character.class === CharacterClass.SUPPORT) {
+              if (!buff._14) {
+                console.log("Wrong data 14");
+                return;
+              }
+              G.characters[index].cd -= buff._14.reduceCD;
+              if (G.characters[index].cd < 0) {
+                G.characters[index].cd = 0;
+              }
+            }
+          });
+          break;
+        case Target.HEALER:
+          G.characters.forEach((character, index) => {
+            if (character.class === CharacterClass.HEALER) {
+              if (!buff._14) {
+                console.log("Wrong data 14");
+                return;
+              }
+              G.characters[index].cd -= buff._14.reduceCD;
+              if (G.characters[index].cd < 0) {
+                G.characters[index].cd = 0;
+              }
+            }
+          });
+          break;
+      }
+      break;
+    }
     case 16: {
       if (!buff._16) {
         console.log("Wrong data 6");
         break;
       }
-      //傳功
       switch (buff._16.target) {
         case Target.ALL_ALLIES: {
           G.characters.forEach((_, index) => {
@@ -1236,6 +1352,82 @@ export function trigger(
 
           break;
         }
+
+        case 17:
+          // TODO remove Math floor
+          if (!buff._17) {
+            console.log("Wrong data 17");
+            break;
+          }
+          G.characters.forEach((character, index) => {
+            const hp = G.characters[p].maxHp;
+            if (character.class === buff._17?.target) {
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                {
+                  id: `${buff.id}-buff`,
+                  name: buff.name,
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: buff._17?.duration,
+                  _0: {
+                    value: Math.floor(hp * buff._17.value),
+                    affectType: AffectType.RAW_ATK,
+                  },
+                },
+              ];
+            } else if (buff._17?.target === Target.ALL_ALLIES) {
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                {
+                  id: `${buff.id}-buff`,
+                  name: buff.name,
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: buff._17?.duration,
+                  _0: {
+                    value: Math.floor(hp * buff._17.value),
+                    affectType: AffectType.RAW_ATK,
+                  },
+                },
+              ];
+            } else if (buff._17?.target === Target.ALL_EXCEPT_SELF) {
+              if (index !== p) {
+                G.characters[index].buff = [
+                  ...G.characters[index].buff,
+                  {
+                    id: `${buff.id}-buff`,
+                    name: buff.name,
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: buff._17?.duration,
+                    _0: {
+                      value: Math.floor(hp * buff._17.value),
+                      affectType: AffectType.RAW_ATK,
+                    },
+                  },
+                ];
+              }
+            }
+          });
+          if (buff._17?.target === Target.SELF) {
+            const hp = G.characters[p].maxHp;
+            G.characters[p].buff = [
+              ...G.characters[p].buff,
+              {
+                id: `${buff.id}-buff`,
+                name: buff.name,
+                type: 0,
+                condition: Condition.NONE,
+                duration: buff._17?.duration,
+                _0: {
+                  value: Math.floor(hp * buff._17.value),
+                  affectType: AffectType.RAW_ATK,
+                },
+              },
+            ];
+          }
+          break;
 
         default: {
           break;

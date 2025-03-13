@@ -12,6 +12,7 @@ import {
   basicToTargeting,
   ultToTargeting,
 } from "./applyDamage";
+import { checkSpecialCondition } from "./condition";
 
 export function addOn(
   G: GameState,
@@ -74,6 +75,356 @@ export function addOn(
           }
           break;
         }
+      }
+      break;
+    }
+    case 104: {
+      // 增加層次型狀態
+      // 如果沒有就會贈與初始層次
+      // Increase stack buff,if don't exist then it will apply
+      if (!buff._104) {
+        console.log("Wrong data");
+        break;
+      }
+
+      switch (buff._104.target) {
+        case Target.SELF: {
+          // x is G buff
+          const isExist = G.characters[p].buff.some((x) => {
+            return x.id === buff._104?.targetSkill;
+          });
+
+          if (isExist) {
+            G.characters[p].buff.map((x) => {
+              if (x.id === buff._104?.targetSkill) {
+                if (x._3 && x._3.stack < x._3.maxStack) {
+                  if (x._3 && buff._104) {
+                    x._3.stack += buff._104.increaseStack;
+                    if (x._3.stack > x._3.maxStack) {
+                      x._3.stack = x._3.maxStack;
+                    }
+                  } else {
+                    console.log("Wrong data buff._104");
+                  }
+                }
+              }
+              return x;
+            });
+          } else {
+            // purely typescript problem
+            if (buff._104?.applySkill) {
+              G.characters[p].buff = [
+                ...G.characters[p].buff,
+                buff._104.applySkill,
+              ];
+            } else {
+              console.log("Wrong data buff._104.applySkill");
+            }
+          }
+          break;
+        }
+        case Target.SPECIFIC_CHARACTER: {
+          const char = G.characters.findIndex((character) => {
+            return character.id === buff._104?.applyToSpecificChar;
+          });
+          if (char === -1) {
+            break;
+          }
+
+          const isExist = G.characters[char].buff.some((x) => {
+            return x.id === buff._104?.targetSkill;
+          });
+
+          if (isExist) {
+            G.characters[char].buff.map((x) => {
+              if (x.id === buff._104?.targetSkill) {
+                if (x._3 && x._3.stack < x._3.maxStack) {
+                  if (x._3 && buff._104) {
+                    x._3.stack += buff._104.increaseStack;
+                    if (x._3.stack > x._3.maxStack) {
+                      x._3.stack = x._3.maxStack;
+                    }
+                  } else {
+                    console.log("Wrong data buff._104");
+                  }
+                }
+              }
+              return x;
+            });
+          } else {
+            if (buff._104?.applySkill) {
+              G.characters[char].buff = [
+                ...G.characters[char].buff,
+                buff._104.applySkill,
+              ];
+            } else {
+              console.log("Wrong data buff._104.applySkill");
+            }
+          }
+          break;
+        }
+
+        case Target.ALL_ALLIES: {
+          G.characters.forEach((_, index) => {
+            const isExist = G.characters[index].buff.some((x) => {
+              return x.id === buff._104?.targetSkill;
+            });
+            const charBuff = checkSpecialCondition(G, oG, index);
+            const isHealImmune = charBuff.some((x) => {
+              return (
+                x._0?.affectType === AffectType.IMMUNE_DECREASE_HEAL_RECEIVED
+              );
+            });
+            if (
+              isHealImmune &&
+              buff._104 &&
+              buff._104.applySkill &&
+              buff._104.applySkill._3 &&
+              buff._104?.applySkill._3.affectType ===
+                AffectType.DECREASE_HEAL_RECEIVED
+            ) {
+              return;
+            }
+
+            if (isExist) {
+              G.characters[index].buff = G.characters[index].buff.map((x) => {
+                if (x.id === buff._104?.targetSkill) {
+                  if (x._3 && x._3.stack < x._3.maxStack) {
+                    if (x._3 && buff._104) {
+                      if (x._3.stack > x._3.maxStack) {
+                        x._3.stack = x._3.maxStack;
+                      }
+                      const clone = {
+                        ...x,
+                        _3: {
+                          ...x._3,
+                          stack: x._3.stack + buff._104.increaseStack,
+                        },
+                      };
+                      return clone;
+                    } else {
+                      console.log("Wrong data buff._104");
+                    }
+                  }
+                }
+                return x;
+              });
+            } else {
+              // purely typescript problem
+              if (buff._104?.applySkill) {
+                G.characters[index].buff = [
+                  ...G.characters[index].buff,
+                  buff._104.applySkill,
+                ];
+              } else {
+                console.log("Wrong data buff._104.applySkill");
+              }
+            }
+          });
+          break;
+        }
+        case Target.ENEMY: {
+          const isExist = G.enemies[G.targeting].buff.some((x) => {
+            return x.id === buff._104?.targetSkill;
+          });
+          if (isExist) {
+            G.enemies[G.targeting].buff.map((x) => {
+              if (x.id === buff._104?.targetSkill) {
+                if (x._3 && x._3.stack < x._3.maxStack) {
+                  if (x._3 && buff._104) {
+                    x._3.stack += buff._104.increaseStack;
+                    if (x._3.stack > x._3.maxStack) {
+                      x._3.stack = x._3.maxStack;
+                    }
+                  } else {
+                    console.log("Wrong data buff._104");
+                  }
+                }
+              }
+              return x;
+            });
+          } else {
+            if (buff._104?.applySkill) {
+              G.enemies[G.targeting].buff = [
+                ...G.enemies[G.targeting].buff,
+                buff._104.applySkill,
+              ];
+            } else {
+              console.log("Wrong data buff._104.applySkill");
+            }
+          }
+          break;
+        }
+        case Target.ALL_ENEMIES: {
+          console.log("trigger all enemy");
+          G.enemies.forEach((_, index) => {
+            const isExist = G.enemies[index].buff.some((x) => {
+              return x.id === buff._104?.targetSkill;
+            });
+
+            console.log("trigger all enemy", isExist);
+            if (isExist) {
+              G.enemies[index].buff = G.enemies[index].buff.map((x) => {
+                if (x.id === buff._104?.targetSkill) {
+                  if (x._3 && x._3.stack < x._3.maxStack) {
+                    if (x._3 && buff._104) {
+                      if (x._3.stack > x._3.maxStack) {
+                        x._3.stack = x._3.maxStack;
+                      }
+                      const clone = {
+                        ...x,
+                        _3: {
+                          ...x._3,
+                          stack: x._3.stack + buff._104.increaseStack,
+                        },
+                      };
+                      return clone;
+                    } else {
+                      console.log("Wrong data buff._104");
+                    }
+                  }
+                }
+                return x;
+              });
+            } else {
+              // purely typescript problem
+              // console.log('give first buff, suppose only 5');
+              //
+              console.log("give original buff");
+
+              if (buff._104?.applySkill) {
+                G.enemies[index].buff = [
+                  ...G.enemies[index].buff,
+                  buff._104.applySkill,
+                ];
+                console.log("give original buff", G.enemies[index].buff);
+              } else {
+                console.log("Wrong data buff._104.applySkill");
+              }
+            }
+          });
+          break;
+        }
+        case Target.POSITION_1:
+        case Target.POSITION_2:
+        case Target.POSITION_3:
+        case Target.POSITION_4:
+        case Target.POSITION_5: {
+          const pos = buff._104.target;
+          const isExist = G.characters[pos].buff.some((x) => {
+            return x.id === buff._104?.targetSkill;
+          });
+          if (isExist) {
+            G.characters[pos].buff.map((x) => {
+              if (x.id === buff._104?.targetSkill) {
+                if (x._3 && x._3.stack < x._3.maxStack) {
+                  if (x._3 && buff._104) {
+                    x._3.stack += buff._104.increaseStack;
+                    if (x._3.stack > x._3.maxStack) {
+                      x._3.stack = x._3.maxStack;
+                    }
+                  } else {
+                    console.log("Wrong data buff._104");
+                  }
+                }
+              }
+              return x;
+            });
+          } else {
+            if (buff._104?.applySkill) {
+              G.characters[pos].buff = [
+                ...G.characters[pos].buff,
+                buff._104.applySkill,
+              ];
+            } else {
+              console.log("Wrong data buff._104.applySkill");
+            }
+          }
+        }
+
+        case Target.FIRE:
+        case Target.LIGHT:
+        case Target.DARK:
+        case Target.WIND:
+        case Target.WATER: {
+          const attribute = buff._104.target;
+          G.characters.forEach((character, index) => {
+            //@ts-ignore
+            if (character.attribute === attribute) {
+              const isExist = G.characters[index].buff.some((x) => {
+                return x.id === buff._104?.targetSkill;
+              });
+
+              if (isExist) {
+                G.characters[index].buff.map((x) => {
+                  if (x.id === buff._104?.targetSkill) {
+                    if (x._3 && x._3.stack < x._3.maxStack) {
+                      if (x._3 && buff._104) {
+                        x._3.stack += buff._104.increaseStack;
+                        if (x._3.stack > x._3.maxStack) {
+                          x._3.stack = x._3.maxStack;
+                        }
+                      } else {
+                        console.log("Wrong data buff._104");
+                      }
+                    }
+                  }
+                  return x;
+                });
+              } else {
+                if (buff._104?.applySkill) {
+                  G.characters[index].buff = [
+                    ...G.characters[index].buff,
+                    buff._104.applySkill,
+                  ];
+                } else {
+                  console.log("Wrong data buff._104.applySkill");
+                }
+              }
+            }
+          });
+          break;
+        }
+        case Target.ENEMY_1:
+        case Target.ENEMY_2:
+        case Target.ENEMY_3:
+        case Target.ENEMY_4:
+        case Target.ENEMY_5: {
+          const target = buff._104.target - 20;
+          const isExist = G.enemies[target].buff.some((x) => {
+            return x.id === buff._104?.targetSkill;
+          });
+          if (isExist) {
+            G.enemies[target].buff.map((x) => {
+              if (x.id === buff._104?.targetSkill) {
+                if (x._3 && x._3.stack < x._3.maxStack) {
+                  if (x._3 && buff._104) {
+                    x._3.stack += buff._104.increaseStack;
+                    if (x._3.stack > x._3.maxStack) {
+                      x._3.stack = x._3.maxStack;
+                    }
+                  } else {
+                    console.log("Wrong data buff._104");
+                  }
+                }
+              }
+              return x;
+            });
+          } else {
+            if (buff._104?.applySkill) {
+              G.enemies[target].buff = [
+                ...G.enemies[target].buff,
+                buff._104.applySkill,
+              ];
+            } else {
+              console.log("Wrong data buff._104.applySkill");
+            }
+          }
+          break;
+        }
+        default:
+          console.log("No target found");
+          break;
       }
       break;
     }

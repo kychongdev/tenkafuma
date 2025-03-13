@@ -1,5 +1,6 @@
 import { ultToTargeting, ultHpToTargeting } from "./applyDamage";
 import { ultHealAllAllies, ultHpHealAll } from "./applyHeal";
+import { applyRawAttBuff, rawAtkBuffAll } from "./applyRawAtk";
 import { GameState } from "./GameState";
 import { trigger } from "./trigger";
 import {
@@ -221,6 +222,103 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     // "10081": "花嫁 伊布力斯",
+    case "10081": {
+      if (lib === 0) {
+        ultToTargeting(
+          G,
+          oG,
+          bond === 1
+            ? 3.88
+            : bond === 2
+              ? 4.45
+              : bond === 3
+                ? 5.03
+                : bond === 4
+                  ? 5.6
+                  : 6.18,
+          pos,
+          Target.ENEMY,
+          false,
+          false,
+          dt,
+          ca,
+        );
+      }
+      if (lib > 0) {
+        G.characters.forEach((character, index) => {
+          if (
+            index === pos ||
+            character.attribute === CharacterAttribute.WATER
+          ) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "1081-ult-1",
+                name: "造成傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value:
+                    bond === 1
+                      ? 0.3
+                      : bond === 2
+                        ? 0.35
+                        : bond === 3
+                          ? 0.4
+                          : bond === 4
+                            ? 0.45
+                            : 0.5,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            ];
+          }
+        });
+
+        ultToTargeting(
+          G,
+          oG,
+          bond === 1
+            ? 1.94
+            : bond === 2
+              ? 222.5
+              : bond === 3
+                ? 251.5
+                : bond === 4
+                  ? 2.8
+                  : 3.09,
+          pos,
+          Target.ENEMY,
+          false,
+          false,
+          dt,
+          ca,
+        );
+        ultToTargeting(
+          G,
+          oG,
+          bond === 1
+            ? 1.94
+            : bond === 2
+              ? 222.5
+              : bond === 3
+                ? 251.5
+                : bond === 4
+                  ? 2.8
+                  : 3.09,
+          pos,
+          Target.ENEMY,
+          false,
+          false,
+          dt,
+          ca,
+        );
+      }
+
+      break;
+    }
+
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",
     // "10084": "貓娘Vtuber 杏仁咪嚕",
@@ -666,6 +764,60 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
 
     // "10145": "夏日 撒旦",
+    case "10145": {
+      if (bond < 3) {
+        ultToTargeting(
+          G,
+          oG,
+          bond === 1 ? 3.3 : 3.76,
+          pos,
+          Target.ENEMY,
+          false,
+          false,
+          dt,
+          ca,
+        );
+        const buff: Skill = {
+          id: "10145-ult-1",
+          name: "以自身最大HP5/6.25%使我方全體攻擊力增加(5回合)",
+          type: 17,
+          condition: Condition.ULTIMATE,
+          duration: 1,
+          _17: {
+            value: bond === 1 ? 0.05 : 0.0625,
+            target: Target.ALL_ALLIES,
+            duration: 5,
+          },
+        };
+        trigger(G, oG, pos, buff, ca);
+      } else {
+        const buff: Skill = {
+          id: "10145-ult-1",
+          name: "以自身最大HP5/6.25%使我方全體攻擊力增加(5回合)",
+          type: 17,
+          condition: Condition.ULTIMATE,
+          duration: 1,
+          _17: {
+            value: bond === 3 ? 0.075 : bond === 4 ? 0.0875 : 0.1,
+            target: Target.ALL_ALLIES,
+            duration: 5,
+          },
+        };
+        trigger(G, oG, pos, buff, ca);
+        ultToTargeting(
+          G,
+          oG,
+          bond === 3 ? 4.2 : bond === 4 ? 4.68 : 5.14,
+          pos,
+          Target.ENEMY,
+          false,
+          false,
+          dt,
+          ca,
+        );
+      }
+      break;
+    }
     // "10146": "魔獸獵手 神無雪",
     case "10146": {
       const buff: Skill = {
@@ -1058,6 +1210,48 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10156": "性誕魔王 巴爾"
     // "10157": "純真祈願 牧愛菈"
+    case "10157": {
+      const skill: Skill = {
+        id: "10157-ult-1",
+        name: "《純真祈願》",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        disabledOnSkill: "10157-passive-1-1",
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10157-ult-1-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10157-ult-1-1",
+            name: "《純真祈願》",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10157-ult-1-1",
+              name: "《純真祈願》",
+              stack:
+                bond === 1
+                  ? 6
+                  : bond === 2
+                    ? 7
+                    : bond === 3
+                      ? 8
+                      : bond === 4
+                        ? 9
+                        : 10,
+              maxStack: 10,
+              value: 0,
+              affectType: AffectType.NONE,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+      rawAtkBuffAll(G, pos, 0.3, "10157-ult-2", 1);
+      break;
+    }
     // "10158": "聖夜奇謀 布蘭妮"
     // "10159": "喜迎性春 菲歐菈",
     // "10161": "舞焰赤龍 薩夏",

@@ -104,6 +104,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     // "10081": "花嫁 伊布力斯",
+    case "10081": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",
     // "10084": "貓娘Vtuber 杏仁咪嚕",
@@ -255,6 +259,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     }
     // "10156": "性誕魔王 巴爾"
     // "10157": "純真祈願 牧愛菈"
+    case "10157": {
+      rawAtkBuffAll(G, p, 0.3, "10157-basic-1", 1);
+      break;
+    }
     // "10158": "聖夜奇謀 布蘭妮"
     // "10159": "喜迎性春 菲歐菈",
     // "10161": "舞焰赤龍 薩夏",

@@ -270,10 +270,396 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
     // "10077": "黑鷹 貝里絲",
-
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     // "10081": "花嫁 伊布力斯",
+    case "10081": {
+      if (lib === 0) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10081-passive-1",
+            name: "必殺時，觸發「以自身攻擊力120%對目標進行追擊」",
+            type: 1,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _1: {
+              value: 1.2,
+              defender: Target.ENEMY,
+              damageType: DamageType.TRIGGER,
+              multiple: false,
+            },
+          },
+          {
+            id: "10081-passive-2",
+            name: "每經過1回合，觸發「使自身必殺傷害增加3%(最多33層)」",
+            type: 4,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10081-passive-2-1",
+              target: Target.SELF,
+              applySkill: {
+                id: "10081-passive-2-1",
+                name: "必殺傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10081-passive-2-1",
+                  name: "必殺傷害增加",
+                  value: 0.03,
+                  stack: 1,
+                  maxStack: 33,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            },
+          },
+        ];
+
+        if (stars === 5) {
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            {
+              id: "10081-passive-3",
+              name: "普攻時，觸發「使目標受到水屬性傷增加5%(最多3層)」",
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10081-passive-3-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10081-passive-3-1",
+                  name: "受到水屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10081-passive-3-1",
+                    name: "受到水屬性傷害增加5%",
+                    value: 0.05,
+                    stack: 1,
+                    maxStack: 3,
+                    affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+            {
+              id: "10081-passive-4",
+              name: "普攻時，觸發「使目標受到光屬性傷增加5%(最多3層)」",
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10081-passive-4-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10081-passive-3-1",
+                  name: "受到光屬性傷增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10081-passive-4-1",
+                    name: "受到光屬性傷增加5%",
+                    value: 0.05,
+                    stack: 1,
+                    maxStack: 3,
+                    affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+            {
+              id: "10081-passive-5",
+              name: "必殺時，觸發「以自身攻擊力150%對目標進行追擊」",
+              type: 1,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _1: {
+                value: 1.5,
+                defender: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                multiple: false,
+              },
+            },
+          ];
+        }
+      }
+      if (lib === 1 || lib === 2) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10081-passive-1",
+            name: "必殺時，觸發「以自身攻擊力120%對目標進行追擊」",
+            type: 1,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _1: {
+              value: 1.2,
+              defender: Target.ENEMY,
+              damageType: DamageType.TRIGGER,
+              multiple: false,
+            },
+          },
+          {
+            id: "10081-passive-2",
+            name: "每經過1回合，觸發「使自身與我方全體水屬性角色必殺技傷害增加9%(最多11層)」",
+            type: 4,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10081-passive-2-1",
+              target: Target.ALL_ALLIES,
+              applySkill: {
+                id: "10081-passive-2-1",
+                name: "必殺傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10081-passive-2-1",
+                  name: "必殺傷害增加",
+                  value: 0.09,
+                  stack: 1,
+                  maxStack: 11,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            },
+          },
+        ];
+
+        if (stars === 5) {
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            {
+              id: "10081-passive-3",
+              name: "普攻時，觸發「使目標受到水屬性傷增加5%(最多3層)」",
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10081-passive-3-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10081-passive-3-1",
+                  name: "受到水屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10081-passive-3-1",
+                    name: "受到水屬性傷害增加5%",
+                    value: 0.05,
+                    stack: 1,
+                    maxStack: 3,
+                    affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+            {
+              id: "10081-passive-4",
+              name: "普攻時，觸發「使目標受到光屬性傷增加5%(最多3層)」",
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10081-passive-4-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10081-passive-3-1",
+                  name: "受到光屬性傷增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10081-passive-4-1",
+                    name: "受到光屬性傷增加5%",
+                    value: 0.05,
+                    stack: 1,
+                    maxStack: 3,
+                    affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+            {
+              id: "10081-passive-5",
+              name: "必殺時，觸發「以自身攻擊力150%對目標進行追擊」",
+              type: 1,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _1: {
+                value: 1.5,
+                defender: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                multiple: false,
+              },
+            },
+          ];
+        }
+      }
+      if (lib === 3) {
+        G.characters.forEach((character, index) => {
+          if (
+            index === pos ||
+            character.attribute === CharacterAttribute.WATER
+          ) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10081-passive-1",
+                name: "必殺時，觸發「以自身攻擊力120%對目標進行追擊」",
+                type: 1,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _1: {
+                  value: 1.2,
+                  defender: Target.ENEMY,
+                  damageType: DamageType.TRIGGER,
+                  multiple: false,
+                },
+              },
+            ];
+          }
+        });
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10081-passive-2",
+            name: "每經過1回合，觸發「使自身與我方全體水屬性角色必殺技傷害增加9%(最多11層)」",
+            type: 4,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10081-passive-2-1",
+              target: Target.ALL_ALLIES,
+              applySkill: {
+                id: "10081-passive-2-1",
+                name: "必殺傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10081-passive-2-1",
+                  name: "必殺傷害增加",
+                  value: 0.09,
+                  stack: 1,
+                  maxStack: 11,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            },
+          },
+        ];
+
+        if (stars === 5) {
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            {
+              id: "10081-passive-3",
+              name: "普攻時，觸發「使目標受到水屬性傷增加5%(最多7層)」",
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10081-passive-3-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10081-passive-3-1",
+                  name: "受到水屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10081-passive-3-1",
+                    name: "受到水屬性傷害增加5%",
+                    value: 0.05,
+                    stack: 1,
+                    maxStack: 7,
+                    affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+            {
+              id: "10081-passive-4",
+              name: "普攻時，觸發「使目標受到光屬性傷增加5%(最多7層)」",
+              type: 4,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10081-passive-4-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10081-passive-3-1",
+                  name: "受到光屬性傷增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10081-passive-4-1",
+                    name: "受到光屬性傷增加5%",
+                    value: 0.05,
+                    stack: 1,
+                    maxStack: 7,
+                    affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+            {
+              id: "10081-passive-5",
+              name: "必殺時，觸發「以自身攻擊力150%對目標進行追擊」",
+              type: 1,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _1: {
+                value: 1.5,
+                defender: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                multiple: false,
+              },
+            },
+          ];
+        }
+      }
+
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10081-passive4",
+            name: "自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10082": "花嫁 撒旦",
     // "10083": "夢天堂店長 咲野夢",
     // "10084": "貓娘Vtuber 杏仁咪嚕",
@@ -1140,6 +1526,156 @@ export function initPassiveSkill(G: GameState, pos: number) {
       break;
     }
     // "10145": "夏日 撒旦",
+    case "10145": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10145-passive-1",
+          name: "普攻時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
+          condition: Condition.BASIC_ATTACK,
+          type: 105,
+          duration: 100,
+        },
+        {
+          id: "10145-passive-2",
+          name: "普攻時，追加「並使我方全體普攻傷害增加5%(最多10層)」)",
+          condition: Condition.BASIC_ATTACK,
+          type: 104,
+          duration: 100,
+          _104: {
+            increaseStack: 1,
+            targetSkill: "10145-passive-2-1",
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: "10145-passive-2-1",
+              name: "普攻傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10145-passive-2-1",
+                name: "普攻傷害增加5%",
+                value: 0.05,
+                stack: 1,
+                maxStack: 10,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: "10145-passive-3",
+          name: "必殺時，追加「以自身當前HP1%對自身造成真實傷害(可觸發「被攻擊時」觸發效果)」",
+          condition: Condition.ULTIMATE,
+          type: 105,
+          duration: 100,
+        },
+        {
+          id: "10145-passive-4",
+          name: "必殺時，追加「並使我方全體必殺傷害增加10%(最多3層)」)",
+          condition: Condition.ULTIMATE,
+          type: 104,
+          duration: 100,
+          _104: {
+            increaseStack: 1,
+            targetSkill: "10145-passive-4-1",
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: "10145-passive-4-1",
+              name: "普攻傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10145-passive-4-1",
+                name: "普攻傷害增加5%",
+                value: 0.1,
+                stack: 1,
+                maxStack: 3,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: "10145-passive-5",
+          name: "被攻擊時，觸發「使我方全體造成傷害增加1.33%(最多15層)」",
+          type: 4,
+          condition: Condition.RECEIVED_ATTACK,
+          duration: 100,
+          _4: {
+            target: Target.ALL_ALLIES,
+            increaseStack: 1,
+            targetSkill: "10145-passive-5-1",
+            applySkill: {
+              id: "10145-passive-5-1",
+              name: "造成傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10145-passive-5-1",
+                stack: 1,
+                maxStack: 15,
+                value: 0.0133,
+                name: "造成傷害增加1.33%",
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10145-passive-6",
+            name: "被攻擊時，觸發「使敵方全體受到傷害增加1.33%(最多15層)」",
+            type: 4,
+            condition: Condition.RECEIVED_ATTACK,
+            duration: 100,
+            _4: {
+              target: Target.ENEMY,
+              increaseStack: 1,
+              targetSkill: "10145-passive-6-1",
+              applySkill: {
+                id: "10145-passive-6-1",
+                name: "受到傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10145-passive-6-1",
+                  stack: 1,
+                  maxStack: 15,
+                  value: 0.0133,
+                  name: "受到傷害",
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10145-passive4",
+            name: "使自身造成傷害增加7.5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.075,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10146": "魔獸獵手 神無雪",
     case "10146": {
       G.characters[pos].buff = [
@@ -1670,6 +2206,408 @@ export function initPassiveSkill(G: GameState, pos: number) {
     }
     // "10156": "性誕魔王 巴爾"
     // "10157": "純真祈願 牧愛菈"
+    case "10157": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10157-passive-1",
+          name: "第1回合，「使自身當前必殺技CD減少1回合」(觸發1次後清除)",
+          type: 14,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _14: {
+            reduceCD: 1,
+            target: Target.SELF,
+          },
+          deleteSelf: true,
+        },
+        {
+          id: "10157-passive-2",
+          name: "必殺時，觸發「使自身不受《純真祈願》層數變動效果影響(50回合)」(觸發1次後解除)",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          deleteSelf: true,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10157-passive-2-1",
+                name: "使自身不受《純真祈願》層數變動效果影響",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0,
+                  affectType: AffectType.NONE,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10157-passive-3",
+            name: "使我方全體獲得「普攻時，觸發「清除自身『只要心懷戀慕』所給予『普攻傷害增加』效果」",
+            type: 7,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _7: {
+              clearSkill: ["10157-passive-5-1-1"],
+              target: Target.SELF,
+            },
+          },
+
+          {
+            id: "10157-passive-4",
+            name: "使我方全體獲得「必殺時，觸發「清除自身『只要心懷戀慕』所給予『必殺技傷害增加』效果」",
+            type: 7,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _7: {
+              clearSkill: ["10157-passive-6-1-1"],
+              target: Target.SELF,
+            },
+          },
+        ];
+      });
+
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10157-passive-5",
+          name: "普攻時，根據自身《純真祈願》的層數，觸發「使我方全體普攻傷害增加8%(最多20層)」",
+          type: 8,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-passive-5-1",
+              name: "使我方全體普攻傷害增加1.25%",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10157-passive-5-1-1",
+                target: Target.ALL_ALLIES,
+                applySkill: {
+                  id: "10157-passive-5-1-1",
+                  name: "普攻傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-passive-5-1-1",
+                    name: "普攻傷害增加",
+                    value: 0.08,
+                    stack: 1,
+                    maxStack: 20,
+                    affectType: AffectType.INCREASE_BASIC_DMG,
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: "10157-passive-6",
+          name: "必殺時，根據自身《純真祈願》的層數，觸發「使我方全體必殺技傷害增加1.25%(最多50層)」",
+          type: 8,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-passive-6-1",
+              name: "使我方全體必殺技傷害增加1.25%",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10157-passive-6-1-1",
+                target: Target.ALL_ALLIES,
+                applySkill: {
+                  id: "10157-passive-6-1-1",
+                  name: "必殺技傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-passive-6-1-1",
+                    name: "必殺技傷害增加",
+                    value: 0.0125,
+                    stack: 1,
+                    maxStack: 50,
+                    affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+
+      if (stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10157-passive-7",
+            name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到傷害增加0.25%(最多80層)」",
+            type: 8,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _8: {
+              target: Target.SELF,
+              targetSkill: "10157-ult-1-1",
+              triggerSkill: {
+                id: "10157-passive-7-1",
+                name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到傷害增加0.25%(最多80層)」",
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  target: Target.ENEMY,
+                  targetSkill: "10157-passive-7-1-1",
+                  applySkill: {
+                    id: "10157-passive-7-1-1",
+                    name: "受到傷害增加",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10157-passive-7-1-1",
+                      name: "受到傷害增加",
+                      stack: 1,
+                      maxStack: 80,
+                      value: 0.0025,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            id: "10157-passive-8",
+            name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到水屬性傷害增加0.25%(最多80層)」",
+            type: 8,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _8: {
+              target: Target.SELF,
+              targetSkill: "10157-ult-1-1",
+              triggerSkill: {
+                id: "10157-passive-8-1",
+                name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到水屬性傷害增加0.25%(最多80層)」",
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  target: Target.ENEMY,
+                  targetSkill: "10157-passive-8-1-1",
+                  applySkill: {
+                    id: "10157-passive-8-1-1",
+                    name: "受到水屬性傷害增加",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10157-passive-8-1-1",
+                      name: "受到水屬性傷害增加",
+                      stack: 1,
+                      maxStack: 80,
+                      value: 0.0025,
+                      affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            id: "10157-passive-9",
+            name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到火屬性傷害增加0.25%(最多80層)」",
+            type: 8,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _8: {
+              target: Target.SELF,
+              targetSkill: "10157-ult-1-1",
+              triggerSkill: {
+                id: "10157-passive-9-1",
+                name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到火屬性傷害增加0.25%(最多80層)」",
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  target: Target.ENEMY,
+                  targetSkill: "10157-passive-9-1-1",
+                  applySkill: {
+                    id: "10157-passive-9-1-1",
+                    name: "受到火屬性傷害增加",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10157-passive-9-1-1",
+                      name: "受到火屬性傷害增加",
+                      stack: 1,
+                      maxStack: 80,
+                      value: 0.0025,
+                      affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            id: "10157-passive-10",
+            name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到風屬性傷害增加0.25%(最多80層)」",
+            type: 8,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _8: {
+              target: Target.SELF,
+              targetSkill: "10157-ult-1-1",
+              triggerSkill: {
+                id: "10157-passive-10-1",
+                name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到風屬性傷害增加0.25%(最多80層)」",
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  target: Target.ENEMY,
+                  targetSkill: "10157-passive-10-1-1",
+                  applySkill: {
+                    id: "10157-passive-10-1-1",
+                    name: "受到風屬性傷害增加",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10157-passive-10-1-1",
+                      name: "受到風屬性傷害增加",
+                      stack: 1,
+                      maxStack: 80,
+                      value: 0.0025,
+                      affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            id: "10157-passive-11",
+            name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到光屬性傷害增加0.25%(最多80層)」",
+            type: 8,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _8: {
+              target: Target.SELF,
+              targetSkill: "10157-ult-1-1",
+              triggerSkill: {
+                id: "10157-passive-11-1",
+                name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到光屬性傷害增加0.25%(最多80層)」",
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  target: Target.ENEMY,
+                  targetSkill: "10157-passive-11-1-1",
+                  applySkill: {
+                    id: "10157-passive-11-1-1",
+                    name: "受到光屬性傷害增加",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10157-passive-11-1-1",
+                      name: "受到光屬性傷害增加",
+                      stack: 1,
+                      maxStack: 80,
+                      value: 0.0025,
+                      affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            id: "10157-passive-12",
+            name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到暗屬性傷害增加0.25%(最多80層)」",
+            type: 8,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _8: {
+              target: Target.SELF,
+              targetSkill: "10157-ult-1-1",
+              triggerSkill: {
+                id: "10157-passive-12-1",
+                name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到暗屬性傷害增加0.25%(最多80層)」",
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  target: Target.ENEMY,
+                  targetSkill: "10157-passive-12-1-1",
+                  applySkill: {
+                    id: "10157-passive-12-1-1",
+                    name: "受到暗屬性傷害增加",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10157-passive-12-1-1",
+                      name: "受到暗屬性傷害增加",
+                      stack: 1,
+                      maxStack: 80,
+                      value: 0.0025,
+                      affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10157-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10158": "聖夜奇謀 布蘭妮"
     // "10159": "喜迎性春 菲歐菈",
     // "10161": "舞焰赤龍 薩夏",

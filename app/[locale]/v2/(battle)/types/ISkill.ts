@@ -146,10 +146,10 @@ export interface _16 {
 
 // based on multiple condition apply buff
 export interface _17 {
-  target: CharacterClass[];
-  attributeTarget: CharacterAttribute;
-  applySkill: Skill[];
-  includeSelf: boolean;
+  value: number;
+  target: Target | CharacterClass;
+  applyToSpecificChar?: string;
+  duration: number;
 }
 
 // reduce CD to specific attribute (include self or not )
@@ -295,6 +295,7 @@ export interface _104 {
   targetSkill: string;
   target: Target | CharacterClass;
   applySkill?: Skill;
+  applyToSpecificChar?: string;
 }
 
 // damage self

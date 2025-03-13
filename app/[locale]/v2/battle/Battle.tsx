@@ -2,18 +2,9 @@
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { CharacterButton } from "./CharacterButton";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "@/app/i18n/routing";
-import { useEffect, useState } from "react";
 import { f, p } from "../(battle)/utils";
 import { BattleLog } from "./BattleLog";
 import { EnemyStatus } from "./EnemyStatus";
@@ -21,7 +12,6 @@ import {
   ArrowLeft,
   ArrowRight,
   ChartPie,
-  Info,
   RotateCcw,
   Save,
   Sword,
@@ -33,19 +23,14 @@ import { CharacterState } from "../(battle)/types/Select";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { GearIcon } from "@radix-ui/react-icons";
-import { Toggle } from "@/components/ui/toggle";
 import { Separator } from "@/components/ui/separator";
-import { Target } from "../(battle)/types/Skill";
 import { useGameState } from "../(battle)/GameState";
 import { HealLog } from "./HealLog";
 import { useSimulateTeamState } from "../(simulate)/useSimulateState";
@@ -56,7 +41,6 @@ function checkEnemyAlive(enemies: CharacterState[]) {
 
 export default function Battle() {
   const t = useTranslations("Battle");
-  const [api, setApi] = useState<CarouselApi>();
   const router = useRouter();
 
   const {
