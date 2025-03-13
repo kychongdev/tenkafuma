@@ -361,7 +361,7 @@ export function initLeadSkill(G: GameState) {
                             id: "10081-Lead-3-3-1",
                             name: "受到必殺傷害增加2%",
                             stack: 1,
-                            maxStack: 6,
+                            maxStack: 60,
                             affectType:
                               AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
                             value: 0.02,

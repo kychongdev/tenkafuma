@@ -65,6 +65,7 @@ export interface GameState {
   initStage: (stage: string) => void;
   enableEveryTurnAttack: () => void;
   addEveryTurnAttackTarget: (target: Target) => void;
+  clearAllTarget: () => void;
   analysis: (index: number) => void;
 }
 
@@ -422,13 +423,6 @@ export const useGameState = create<GameState>()(
               CharacterAction.BASIC,
             );
           });
-          parseCondition(
-            state,
-            oG,
-            position,
-            [Condition.BASIC_ATTACK, Condition.ATTACK, Condition.MOVE],
-            CharacterAction.BASIC,
-          );
 
           state.receivedAttack = [];
           parseCondition(
@@ -558,6 +552,11 @@ export const useGameState = create<GameState>()(
             ...state.battleSettings.everyTurnAttackTarget,
             target,
           ];
+        });
+      },
+      clearAllTarget: () => {
+        set((state) => {
+          state.battleSettings.everyTurnAttackTarget = [];
         });
       },
     })),

@@ -25,7 +25,7 @@ import {
   Skill,
   Target,
 } from "./types/Skill";
-import { checkAvailable, checkTargetAlive } from "./utils";
+import { checkTargetAlive } from "./utils";
 
 export function trigger(
   G: GameState,
@@ -53,6 +53,8 @@ export function trigger(
       return;
     }
   }
+
+  console.log(buff.name);
   switch (buff.type) {
     case 0: {
       break;

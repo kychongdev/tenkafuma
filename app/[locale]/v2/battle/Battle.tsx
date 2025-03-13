@@ -34,6 +34,7 @@ import { Separator } from "@/components/ui/separator";
 import { useGameState } from "../(battle)/GameState";
 import { HealLog } from "./HealLog";
 import { useSimulateTeamState } from "../(simulate)/useSimulateState";
+import { Target } from "../(battle)/types/Skill";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -65,6 +66,7 @@ export default function Battle() {
     debug,
     enableEveryTurnAttack,
     addEveryTurnAttackTarget,
+    clearAllTarget,
   } = useStore(useGameState, (state) => state);
 
   const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
@@ -223,6 +225,72 @@ export default function Battle() {
                 </div>
                 <Separator className="my-2" />
                 <Label>{t("Target")}:</Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    className="p-2 h-6"
+                    onClick={() => {
+                      addEveryTurnAttackTarget(Target.ALL_ALLIES);
+                    }}
+                  >
+                    {t("ALL ALLIES")}
+                  </Button>
+
+                  <Button
+                    className="p-2 h-6"
+                    onClick={() => {
+                      addEveryTurnAttackTarget(Target.POSITION_1);
+                    }}
+                  >
+                    {t("POSITION 1")}
+                  </Button>
+                  <Button
+                    className="p-2 h-6"
+                    onClick={() => {
+                      addEveryTurnAttackTarget(Target.POSITION_2);
+                    }}
+                  >
+                    {t("POSITION 2")}
+                  </Button>
+                  <Button
+                    className="p-2 h-6"
+                    onClick={() => {
+                      addEveryTurnAttackTarget(Target.POSITION_3);
+                    }}
+                  >
+                    {t("POSITION 3")}
+                  </Button>
+                  <Button
+                    className="p-2 h-6"
+                    onClick={() => {
+                      addEveryTurnAttackTarget(Target.POSITION_4);
+                    }}
+                  >
+                    {t("POSITION 4")}
+                  </Button>
+                  <Button
+                    className="p-2 h-6"
+                    onClick={() => {
+                      addEveryTurnAttackTarget(Target.POSITION_5);
+                    }}
+                  >
+                    {t("POSITION 5")}
+                  </Button>
+                  <Button
+                    className="p-2 h-6"
+                    onClick={() => {
+                      clearAllTarget();
+                    }}
+                  >
+                    {t("CLEAR")}
+                  </Button>
+                </div>
+                <div className="flex flex-wrap">
+                  {battleSettings.everyTurnAttackTarget.map((target) => {
+                    return (
+                      <div className="p-2 h-6">{t(target.toString())}</div>
+                    );
+                  })}
+                </div>
               </div>
             </DialogContent>
           </Dialog>

@@ -414,6 +414,38 @@ export const CharacterStats = (props: {
     return acc;
   }, 0);
 
+  const triggerReceivedAttribute = props.buff.reduce((acc, buff) => {
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.INCREASE_TRIGGER_DMG_RECEIVED
+    ) {
+      return acc + buff._0?.value;
+    }
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.INCREASE_TRIGGER_DMG_RECEIVED
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc + _value;
+    }
+
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.DECREASE_TRIGGER_DMG_RECEIVED
+    ) {
+      return acc - buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.DECREASE_TRIGGER_DMG_RECEIVED
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc - _value;
+    }
+    return acc;
+  }, 0);
+
   const triggerAttribute = props.buff.reduce((acc, buff) => {
     if (
       buff.type === 0 &&
@@ -478,6 +510,36 @@ export const CharacterStats = (props: {
     return acc;
   }, 0);
 
+  const ultimateReceivedAttribute = props.buff.reduce((acc, buff) => {
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.INCREASE_ULTIMATE_DMG_RECEIVED
+    ) {
+      return acc + buff._0?.value;
+    }
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.INCREASE_ULTIMATE_DMG_RECEIVED
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc + _value;
+    }
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.DECREASE_ULTIMATE_DMG_RECEIVED
+    ) {
+      return acc - buff._0?.value;
+    }
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.DECREASE_ULTIMATE_DMG_RECEIVED
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc - _value;
+    }
+    return acc;
+  }, 0);
+
   const ultimateAttribute = props.buff.reduce((acc, buff) => {
     if (
       buff.type === 0 &&
@@ -529,7 +591,7 @@ export const CharacterStats = (props: {
 
   return (
     <ScrollArea className="grid gap-1 h-96">
-      <Card className="p-2 text-sm ">HP: {f(props.character.maxHp)}</Card>
+      <Card className="p-2 text-sm ">HP: {f(props.character.hp)}</Card>
       <Card className="p-2 text-sm ">
         總攻擊力: {f(Math.floor(atkBuff * (atkPercentage + 1) + rawAtk))}
       </Card>
@@ -557,6 +619,38 @@ export const CharacterStats = (props: {
       {roundNum(increaseDmgReceived) !== 0 ? (
         <Card className="p-2 text-sm ">
           受到傷害加成%: {roundNum(increaseDmgReceived)}%
+        </Card>
+      ) : null}
+      {roundNum(basicAtkBuff) !== 0 ? (
+        <Card className="p-2 text-sm ">
+          普攻效果加成%: {roundNum(basicAtkBuff)}%
+        </Card>
+      ) : null}
+
+      {roundNum(ultimateReceivedAttribute) !== 0 ? (
+        <Card className="p-2 text-sm ">
+          受到必殺技傷害加成%: {roundNum(ultimateReceivedAttribute)}%
+        </Card>
+      ) : null}
+      {roundNum(ultimateAttribute) !== 0 ? (
+        <Card className="p-2 text-sm ">
+          必殺效果加成%: {roundNum(ultimateAttribute)}%
+        </Card>
+      ) : null}
+
+      {roundNum(triggerReceivedAttribute) !== 0 ? (
+        <Card className="p-2 text-sm ">
+          受到觸發傷技傷害加成%: {roundNum(triggerReceivedAttribute)}%
+        </Card>
+      ) : null}
+      {roundNum(triggerEffectAttribute) !== 0 ? (
+        <Card className="p-2 text-sm ">
+          觸發效果加成%: {roundNum(triggerEffectAttribute)}%
+        </Card>
+      ) : null}
+      {roundNum(triggerAttribute) !== 0 ? (
+        <Card className="p-2 text-sm ">
+          觸發傷害加成%: {roundNum(triggerAttribute)}%
         </Card>
       ) : null}
       {roundNum(fireAttribute) !== 0 ? (
@@ -608,26 +702,6 @@ export const CharacterStats = (props: {
       {roundNum(darkReceivedAttribute) !== 0 ? (
         <Card className="p-2 text-sm ">
           受到暗屬性傷害加成%: {roundNum(darkReceivedAttribute)}%
-        </Card>
-      ) : null}
-      {roundNum(basicAtkBuff) !== 0 ? (
-        <Card className="p-2 text-sm ">
-          普攻效果加成%: {roundNum(basicAtkBuff)}%
-        </Card>
-      ) : null}
-      {roundNum(ultimateAttribute) !== 0 ? (
-        <Card className="p-2 text-sm ">
-          必殺效果加成%: {roundNum(ultimateAttribute)}%
-        </Card>
-      ) : null}
-      {roundNum(triggerEffectAttribute) !== 0 ? (
-        <Card className="p-2 text-sm ">
-          觸發效果加成%: {roundNum(triggerEffectAttribute)}%
-        </Card>
-      ) : null}
-      {roundNum(triggerAttribute) !== 0 ? (
-        <Card className="p-2 text-sm ">
-          觸發傷害加成%: {roundNum(triggerAttribute)}%
         </Card>
       ) : null}
       {roundNum(otherAttribute) !== 0 ? (
