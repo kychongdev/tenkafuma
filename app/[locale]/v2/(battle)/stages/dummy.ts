@@ -26,7 +26,6 @@ export function dummy(gameState: GameState) {
       //hp: 10854389981,
       maxHp: 5063653034,
       hp: 5063653034,
-      //attribute: CharacterAttribute.WATER,
     },
     {
       ...initCharacterState,
@@ -37,7 +36,6 @@ export function dummy(gameState: GameState) {
       //hp: 10854389981,
       maxHp: 5063653034,
       hp: 5063653034,
-      //attribute: CharacterAttribute.WATER,
     },
     {
       ...initCharacterState,
@@ -48,7 +46,6 @@ export function dummy(gameState: GameState) {
       //hp: 10854389981,
       maxHp: 5063653034,
       hp: 5063653034,
-      //attribute: CharacterAttribute.WATER,
     },
     {
       ...initCharacterState,
@@ -59,13 +56,12 @@ export function dummy(gameState: GameState) {
       //hp: 10854389981,
       maxHp: 5063653034,
       hp: 5063653034,
-      //attribute: CharacterAttribute.WATER,
     },
   ];
 }
 
 export function dummy_action(gameState: GameState, oG: GameState) {
-  if (gameState.battleSettings.everyTurnAttack) {
+  if (gameState.battleSettings.everyTurnAttack && gameState.turn !== 0) {
     gameState.battleSettings.everyTurnAttackTarget.forEach((target) => {
       switch (target) {
         case Target.POSITION_1:

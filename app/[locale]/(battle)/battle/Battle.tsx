@@ -96,8 +96,8 @@ export default function Battle() {
             {turnState === TurnState.PLAYER_TURN
               ? t("player_turn")
               : turnState === TurnState.ENEMY_TURN
-              ? t("enemy_turn")
-              : t("data_error")}
+                ? t("enemy_turn")
+                : t("data_error")}
           </Badge>
         </div>
         <Progress
@@ -105,7 +105,8 @@ export default function Battle() {
           className="mt-3 w-full"
         />
         <div className="text-end text-sm">
-          {f(enemies[targeting].hp)}{"      "}(
+          {f(enemies[targeting].hp)}
+          {"      "}(
           {((enemies[targeting].hp / enemies[targeting].maxHp) * 100).toFixed(
             2,
           )}
@@ -113,37 +114,32 @@ export default function Battle() {
         </div>
 
         <div className="flex min-h-[100px] justify-center mt-4 items-center">
-          {ready
-            ? (
-              <div className="mx-12 col-span-3">
-                <Carousel
-                  setApi={setApi}
-                  className="w-full max-w-xs mb-3 "
-                >
-                  <CarouselContent>
-                    {enemies.map((enemy, index) => (
-                      <CarouselItem key={index} className="">
-                        <EnemyStatus position={index} />
-                        <div className="text-white text-center">
-                          Enemy {index + 1}
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              </div>
-            )
-            : (
-              <Button
-                onClick={() => {
-                  router.push("/team");
-                }}
-              >
-                Please pick a team
-              </Button>
-            )}
+          {ready ? (
+            <div className="mx-12 col-span-3">
+              <Carousel setApi={setApi} className="w-full max-w-xs mb-3 ">
+                <CarouselContent>
+                  {enemies.map((enemy, index) => (
+                    <CarouselItem key={index} className="">
+                      <EnemyStatus position={index} />
+                      <div className="text-white text-center">
+                        Enemy {index + 1}
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
+          ) : (
+            <Button
+              onClick={() => {
+                router.push("/team");
+              }}
+            >
+              Please pick a team
+            </Button>
+          )}
         </div>
         <div className="grid grid-cols-5 gap-2 mb-5">
           <CharacterButton position={0} />
@@ -191,33 +187,31 @@ export default function Battle() {
             <Undo /> {t("Undo")}
           </Button>
 
-          {stage == "wood"
-            ? (
-              <Button
-                className="px-2 gap-1"
-                onClick={() => {
-                  if (select) {
-                    saveToTeam(
-                      p(select),
-                      p(action),
-                      p({
-                        damage_log_1,
-                        damage_log_2,
-                        damage_log_3,
-                        damage_log_4,
-                        damage_log_5,
-                      }),
-                      p(turn),
-                    );
-                  } else {
-                    console.log("no team selected");
-                  }
-                }}
-              >
-                <Save /> {t("Save To Calculator")}
-              </Button>
-            )
-            : null}
+          {stage == "wood" ? (
+            <Button
+              className="px-2 gap-1"
+              onClick={() => {
+                if (select) {
+                  saveToTeam(
+                    p(select),
+                    p(action),
+                    p({
+                      damage_log_1,
+                      damage_log_2,
+                      damage_log_3,
+                      damage_log_4,
+                      damage_log_5,
+                    }),
+                    p(turn),
+                  );
+                } else {
+                  console.log("no team selected");
+                }
+              }}
+            >
+              <Save /> {t("Save To Calculator")}
+            </Button>
+          ) : null}
           <Dialog>
             <DialogTrigger asChild>
               <Button className="px-2 gap-1">
@@ -248,8 +242,9 @@ export default function Battle() {
                     onPressedChange={() => {
                       setEveryTurnAttackTarget(Target.ALL_ALLIES);
                     }}
-                    pressed={battleSettings.everyTurnAttackTarget ===
-                      Target.ALL_ALLIES}
+                    pressed={
+                      battleSettings.everyTurnAttackTarget === Target.ALL_ALLIES
+                    }
                     className="data-[state=on]:bg-green-500"
                   >
                     {t("ALL ALLIES")}
@@ -259,8 +254,9 @@ export default function Battle() {
                     onPressedChange={() => {
                       setEveryTurnAttackTarget(Target.POSITION_1);
                     }}
-                    pressed={battleSettings.everyTurnAttackTarget ===
-                      Target.POSITION_1}
+                    pressed={
+                      battleSettings.everyTurnAttackTarget === Target.POSITION_1
+                    }
                     className="data-[state=on]:bg-green-500"
                   >
                     {t("POSITION 1")}
@@ -270,8 +266,9 @@ export default function Battle() {
                     onPressedChange={() => {
                       setEveryTurnAttackTarget(Target.POSITION_2);
                     }}
-                    pressed={battleSettings.everyTurnAttackTarget ===
-                      Target.POSITION_2}
+                    pressed={
+                      battleSettings.everyTurnAttackTarget === Target.POSITION_2
+                    }
                     className="data-[state=on]:bg-green-500"
                   >
                     {t("POSITION 2")}
@@ -281,8 +278,9 @@ export default function Battle() {
                     onPressedChange={() => {
                       setEveryTurnAttackTarget(Target.POSITION_3);
                     }}
-                    pressed={battleSettings.everyTurnAttackTarget ===
-                      Target.POSITION_3}
+                    pressed={
+                      battleSettings.everyTurnAttackTarget === Target.POSITION_3
+                    }
                     className="data-[state=on]:bg-green-500"
                   >
                     {t("POSITION 3")}
@@ -292,8 +290,9 @@ export default function Battle() {
                     onPressedChange={() => {
                       setEveryTurnAttackTarget(Target.POSITION_4);
                     }}
-                    pressed={battleSettings.everyTurnAttackTarget ===
-                      Target.POSITION_4}
+                    pressed={
+                      battleSettings.everyTurnAttackTarget === Target.POSITION_4
+                    }
                     className="data-[state=on]:bg-green-500"
                   >
                     {t("POSITION 4")}
@@ -303,8 +302,9 @@ export default function Battle() {
                     onPressedChange={() => {
                       setEveryTurnAttackTarget(Target.POSITION_5);
                     }}
-                    pressed={battleSettings.everyTurnAttackTarget ===
-                      Target.POSITION_5}
+                    pressed={
+                      battleSettings.everyTurnAttackTarget === Target.POSITION_5
+                    }
                     className="data-[state=on]:bg-green-500"
                   >
                     {t("POSITION 5")}

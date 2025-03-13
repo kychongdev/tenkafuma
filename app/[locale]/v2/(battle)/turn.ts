@@ -25,7 +25,7 @@ export function checkEndTurn(state: GameState, oldState: GameState) {
   if (isEnd) {
     calculateDot(state, oldState);
     //enemyOnTurnStart(state);
-    //parseStageAction(state);
+    parseStageAction(state, oldState);
     //enemyCalculateDot(state);
     endTurn(state, oldState);
     onTurnStart(state, oldState);

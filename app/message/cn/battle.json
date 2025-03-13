@@ -11,6 +11,7 @@
     "Stage": "關卡",
     "Undo": "撤銷",
     "Battle Log": "戰鬥日誌",
+    "Heal Log": "治療日誌",
     "Save To Calculator": "存至計算器",
     "ALL ALLIES": "全體",
     "Target": "目標",
@@ -18,7 +19,14 @@
     "POSITION 2": "位置 2",
     "POSITION 3": "位置 3",
     "POSITION 4": "位置 4",
-    "POSITION 5": "位置 5"
+    "POSITION 5": "位置 5",
+    "CLEAR": "清除全部",
+    "19": "全體",
+    "0": "位置 1",
+    "1": "位置 2",
+    "2": "位置 3",
+    "3": "位置 4",
+    "4": "位置 5"
   },
   "Team": {
     "header": "创建您的队伍",
@@ -34,5 +42,8 @@
     "Edit": "編輯",
     "Delete": "刪除",
     "Battle": "戰鬥"
+  },
+  "Skill": {
+    "Shield": "護盾"
   }
 }
