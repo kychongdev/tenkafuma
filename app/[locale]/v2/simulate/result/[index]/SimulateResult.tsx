@@ -233,6 +233,7 @@ export function SimulateResult() {
           result.turn,
         );
         console.log("Ult Action:", eachTurnDmg);
+        console.log(value.damageLog5);
 
         const dmg1 = value.damageLog1.reduce((acc, cur) => acc + cur.damage, 0);
         const dmg2 = value.damageLog2.reduce((acc, cur) => acc + cur.damage, 0);

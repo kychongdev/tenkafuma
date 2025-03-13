@@ -21,6 +21,8 @@ import { checkSpecialCondition } from "./condition";
 import { basicDamage } from "./calculations/basicDamage";
 import { ultDamage } from "./calculations/ultDamage";
 import { DamageLog } from "./types/GameState";
+import { ultHpDamage } from "./calculations/ultHpDamage";
+import { basicHpDamage } from "./calculations/basicHpDamage";
 
 export function applyDamage(
   G: GameState,
@@ -81,6 +83,33 @@ export function basicToTargeting(
   });
 }
 
+export function basicHpToTargeting(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  if (!checkAvailable(G.enemies[G.targeting])) {
+    return;
+  }
+  const dmg = basicHpDamage(G, oG, value, attacker, Target.ENEMY, false);
+  dealDamage(G, dmg, defender, isTrueDamage);
+  writeBattleLog(G, attacker, defender, dmg, damageType, action);
+
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
+}
+
 export function basicToSpecificPos(
   G: GameState,
   oG: GameState,
@@ -128,6 +157,7 @@ export function ultToTargeting(
   defender: Target,
   isTrueDamage: boolean,
   isTrigger: boolean,
+  dt: DamageType,
   action: CharacterAction,
 ) {
   if (!checkAvailable(G.enemies[G.targeting])) {
@@ -144,18 +174,46 @@ export function ultToTargeting(
     isTrueDamage,
   );
   dealDamage(G, dmg, defender, isTrueDamage);
-  writeBattleLog(
-    G,
-    attacker,
-    defender,
-    dmg,
-    isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
-    action,
-  );
+  writeBattleLog(G, attacker, defender, dmg, dt, action);
 
   writeDamageLog(G, attacker, {
     damage: dmg.round(0, Big.roundDown).toNumber(),
-    type: isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
+    type: dt,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
+}
+export function ultHpToTargeting(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  isTrigger: boolean,
+  dt: DamageType,
+  action: CharacterAction,
+) {
+  if (!checkAvailable(G.enemies[G.targeting])) {
+    console.log("Target is dead");
+    return;
+  }
+  const dmg = ultHpDamage(
+    G,
+    oG,
+    value,
+    attacker,
+    Target.ENEMY,
+    isTrigger,
+    isTrueDamage,
+  );
+  dealDamage(G, dmg, defender, isTrueDamage);
+  writeBattleLog(G, attacker, defender, dmg, dt, action);
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: dt,
     turn: G.turn,
     attacker,
     defender,

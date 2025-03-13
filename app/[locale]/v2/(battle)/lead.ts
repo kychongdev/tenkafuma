@@ -143,7 +143,189 @@ export function initLeadSkill(G: GameState) {
     // "10142": "夏日 千鶴",
     // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
-    // "10145": "夏日 撒旦",
+    case "10144": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10144-lead-1",
+            name: "最大HP增加20%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.2,
+            },
+          },
+          {
+            id: "10144-lead-2",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10144-lead-3",
+          name: "最大HP增加20%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.MAX_HP,
+            value: 0.2,
+          },
+        },
+        {
+          id: "10144-passive-3-1",
+          name: "攻擊力增加",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: "10144-passive-3-1",
+            name: "攻擊力增加5%",
+            value: 0.05,
+            stack: 20,
+            maxStack: 20,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10144-passive-5-1",
+          name: "造成傷害增加",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: "10144-passive-5-1",
+            name: "造成傷害增加20%",
+            value: 0.2,
+            stack: 4,
+            maxStack: 4,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+        {
+          id: "10144-lead-11",
+          name: "每Wave的第1回合時，觸發『使自身《婚紗兵裝。能量汲取》的疊層效果達到滿層』",
+          type: 11,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ENEMIES,
+            applySkill: [
+              {
+                id: "10144-passive-4-1",
+                name: "受到夏日凱撒的傷害增加60%",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10144-passive-4-1",
+                  name: "受到夏日凱撒的傷害增加60%",
+                  value: 0.04,
+                  stack: 15,
+                  maxStack: 15,
+                  specificCharId: "10144",
+                  affectType:
+                    AffectType.INCREASE_SPECIFIC_CHARACTER_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      G.characters.forEach((_, index) => {
+        if (index !== 0) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10144-lead-4",
+              name: "防禦時，觸發「使目標受到傷害增加9%（2回合）」",
+              type: 11,
+              condition: Condition.GUARD,
+              duration: 100,
+              _11: {
+                target: Target.ENEMY,
+                applySkill: [
+                  {
+                    id: "10144-lead-4-1",
+                    name: "受到傷害增加9%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      value: 0.09,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: "10144-lead-5",
+              name: "防禦時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
+              type: 6,
+              condition: Condition.GUARD,
+              duration: 100,
+              _6: {
+                value: 0.75,
+                target: Target.POSITION_1,
+                base: true,
+                duration: 1,
+              },
+            },
+            {
+              id: "10144-lead-6",
+              name: "必殺時，觸發「使目標受到傷害增加9%（2回合）」",
+              type: 11,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _11: {
+                target: Target.ENEMY,
+                applySkill: [
+                  {
+                    id: "10144-lead-4-1",
+                    name: "受到傷害增加9%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      value: 0.09,
+                      affectType: AffectType.INCREASE_DMG_RECEIVED,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: "10144-lead-7",
+              name: "必殺時，觸發『以自身基礎攻擊力75%使我方站位位攻擊力增加』(1回合)",
+              type: 6,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _6: {
+                value: 0.75,
+                target: Target.POSITION_1,
+                base: true,
+                duration: 1,
+              },
+            },
+          ];
+        }
+      });
+      break;
+    } // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",

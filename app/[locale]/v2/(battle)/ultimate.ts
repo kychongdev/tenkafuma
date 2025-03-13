@@ -1,4 +1,4 @@
-import { ultToTargeting } from "./applyDamage";
+import { ultToTargeting, ultHpToTargeting } from "./applyDamage";
 import { ultHpHealAll } from "./applyHeal";
 import { GameState } from "./GameState";
 import { trigger } from "./trigger";
@@ -22,6 +22,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
   const bond = G.characters[pos].bond;
   const stars = G.characters[pos].stars;
   const ca = CharacterAction.ULTIMATE;
+  const dt = DamageType.ULTIMATE;
   switch (id) {
     // "10001": "魔王 巴爾",
     // "10002": "魔王 撒旦",
@@ -65,6 +66,126 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10040": "小惡魔 布蘭妮",
     // "10041": "公會看板娘 小螢",
     // "10042": "夏日 伊布力斯",
+    case "10042": {
+      G.characters.forEach((character, index) => {
+        if (
+          character.attribute === CharacterAttribute.WATER ||
+          character.attribute === CharacterAttribute.FIRE
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10042-ult-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: bond < 3 ? 0.3 : 0.4,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          ];
+        }
+      });
+      const buff1: Skill = {
+        id: "10042-ult-2",
+        name: "受到傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "144-ult-2-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10042-ult-2-1",
+            name: "受到水傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10042-ult-2-1",
+              name: "受到水傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.05
+                  : bond === 2
+                    ? 0.075
+                    : bond === 3
+                      ? 0.1
+                      : bond === 4
+                        ? 0.125
+                        : 0.15,
+            },
+          },
+        },
+      };
+
+      const buff2: Skill = {
+        id: "10042-ult-3",
+        name: "受到火傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10042-ult-3-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10042-ult-3-1",
+            name: "受到火傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10042-ult-3-1",
+              name: "受到火傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.05
+                  : bond === 2
+                    ? 0.075
+                    : bond === 3
+                      ? 0.1
+                      : bond === 4
+                        ? 0.125
+                        : 0.15,
+            },
+          },
+        },
+      };
+
+      trigger(G, oG, pos, buff1, ca);
+      trigger(G, oG, pos, buff2, ca);
+
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.68
+                : 5.14,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
     // "10045": "極樂之鬼 伊吹朱點",
@@ -145,6 +266,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         Target.ENEMY,
         false,
         false,
+        dt,
         ca,
       );
       break;
@@ -394,6 +516,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         Target.ENEMY,
         false,
         false,
+        dt,
         ca,
       );
       break;
@@ -404,7 +527,93 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10132": "幽夜女爵 卡蒂雅",
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
-    // "10135": "偶像經紀人 梅絲米奈雅",
+    case "10134": {
+      // 使自身獲得『攻擊時，觸發「以自身攻擊力0/0/10/12.5/15使自身以外我方全體攻擊力增加(1回合)」』(5回合)
+      if (G.characters[pos].bond > 2) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10134-ult-1",
+            name: "攻擊時，觸發『以自身攻擊力使自身以外我方全體攻擊力增加』(1回合)",
+            type: 6,
+            condition: Condition.ATTACK,
+            duration: 5,
+            _6: {
+              value: bond === 3 ? 0.1 : bond === 4 ? 0.125 : 0.15,
+              target: Target.ALL_EXCEPT_SELF,
+              base: false,
+              duration: 1,
+            },
+          },
+        ];
+      }
+      G.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10134-ult-2",
+              name: `必殺時，追加『以自身攻擊力${
+                bond === 1 ? 65 : 75
+              }對目標造成傷害』(1回合)`,
+              type: 101,
+              condition: Condition.ULTIMATE,
+              duration: 1,
+              _101: {
+                value: bond === 1 ? 0.65 : 0.75,
+                defender: Target.ENEMY,
+                damageType: DamageType.ULTIMATE_ADDON,
+                multiple: false,
+              },
+            },
+          ];
+        }
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10134-ult-2",
+            name: "造成傷害增加(1回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value:
+                bond === 1
+                  ? 0.3
+                  : bond === 2
+                    ? 0.375
+                    : bond === 3
+                      ? 0.45
+                      : bond === 4
+                        ? 0.10125
+                        : 0.6,
+            },
+          },
+        ];
+      });
+      ultHpHealAll(
+        G,
+        oG,
+        bond === 1
+          ? 1.65
+          : bond === 2
+            ? 1.88
+            : bond === 3
+              ? 2.11
+              : bond === 4
+                ? 2.34
+                : 2.57,
+        pos,
+        false,
+        false,
+        ca,
+      );
+      break;
+    } // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
     // "10138": "迷情薄紗 露露",
@@ -414,6 +623,48 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10142": "夏日 千鶴",
     // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
+    case "10144": {
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 2.95
+          : bond === 2
+            ? 3.64
+            : bond === 3
+              ? 4.33
+              : bond === 4
+                ? 5.02
+                : 5.71,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      ultHpToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 0.89
+          : bond === 2
+            ? 1.07
+            : bond === 3
+              ? 1.25
+              : bond === 4
+                ? 1.43
+                : 1.61,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
+
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
     case "10146": {
@@ -536,6 +787,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         Target.ENEMY,
         false,
         false,
+        dt,
         ca,
       );
       break;
@@ -615,6 +867,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         Target.ENEMY,
         false,
         false,
+        dt,
         ca,
       );
       break;
@@ -1021,6 +1274,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         Target.ENEMY,
         false,
         false,
+        dt,
         ca,
       );
       ultToTargeting(
@@ -1039,6 +1293,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         Target.ENEMY,
         false,
         false,
+        dt,
         ca,
       );
       break;
@@ -1067,7 +1322,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
               id: "10166-ult-1",
               name: "攻擊力增加",
               stack: 1,
-              maxStack: 2,
+              maxStack: 3,
               value:
                 bond === 1
                   ? 0.14

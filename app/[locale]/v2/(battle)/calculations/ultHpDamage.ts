@@ -5,7 +5,7 @@ import { GameState } from "../GameState";
 import { checkSpecialCondition } from "../condition";
 import { attrCounter } from "../attrCounter";
 
-export function ultDamage(
+export function ultHpDamage(
   gameState: GameState,
   oG: GameState,
   value: number,
@@ -14,8 +14,7 @@ export function ultDamage(
   isTrigger: boolean,
   isTrueDamage: boolean,
 ) {
-  let rawAtk = Big(0);
-  let atkPercentage = Big(1);
+  let hp = Big(0);
   let increaseDamage = Big(1);
   let enemyDamageReceivedIncrease = Big(1);
   let attributeDamage = Big(1);
@@ -28,9 +27,6 @@ export function ultDamage(
   let attackerClass = CharacterClass.NONE;
   let attackerAttribute = CharacterAttribute.NONE;
   let attackerId = "";
-  let attackerAtk = Big(0);
-
-  //let attackSuckHpPercentage = Big(0);
 
   let defenderClass = CharacterClass.NONE;
   let defenderAttribute = CharacterAttribute.NONE;
@@ -39,48 +35,16 @@ export function ultDamage(
   let defenderDefEffect = Big(0.5);
 
   switch (position) {
-    case Target.ENEMY_1: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[0].class;
-      attackerAttribute = gameState.enemies[0].attribute;
-      attackerId = gameState.enemies[0].id;
-      attackerAtk = Big(gameState.enemies[0].atk);
-      break;
-    }
-    case Target.ENEMY_2: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[0].class;
-      attackerClass = gameState.enemies[1].class;
-      attackerAttribute = gameState.enemies[1].attribute;
-      attackerId = gameState.enemies[1].id;
-      attackerAtk = Big(gameState.enemies[1].atk);
-      break;
-    }
-    case Target.ENEMY_3: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[0].class;
-      attackerClass = gameState.enemies[2].class;
-      attackerAttribute = gameState.enemies[2].attribute;
-      attackerId = gameState.enemies[2].id;
-      attackerAtk = Big(gameState.enemies[2].atk);
-      break;
-    }
-    case Target.ENEMY_4: {
-      attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[0].class;
-      attackerClass = gameState.enemies[3].class;
-      attackerAttribute = gameState.enemies[3].attribute;
-      attackerId = gameState.enemies[3].id;
-      attackerAtk = Big(gameState.enemies[3].atk);
-      break;
-    }
+    case Target.ENEMY_1:
+    case Target.ENEMY_2:
+    case Target.ENEMY_3:
+    case Target.ENEMY_4:
     case Target.ENEMY_5: {
       attacker = checkSpecialCondition(gameState, oG, position);
-      attackerClass = gameState.enemies[0].class;
-      attackerClass = gameState.enemies[4].class;
-      attackerAttribute = gameState.enemies[4].attribute;
-      attackerId = gameState.enemies[4].id;
-      attackerAtk = Big(gameState.enemies[4].atk);
+      attackerClass = gameState.enemies[position - 20].class;
+      attackerAttribute = gameState.enemies[position - 20].attribute;
+      attackerId = gameState.enemies[position - 20].id;
+      hp = Big(gameState.enemies[position - 20].hp);
       break;
     }
     case Target.POSITION_1:
@@ -93,8 +57,6 @@ export function ultDamage(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
-      attackerAtk = Big(gameState.characters[position].atk);
-
       break;
   }
 
@@ -157,28 +119,6 @@ export function ultDamage(
   const attributeX = attrCounter(attackerAttribute, defenderAttribute);
 
   for (const buff of attacker) {
-    if (buff.type === 0 && buff._0?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(buff._0.value);
-    }
-    if (buff.type === 0 && buff._0?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(buff._0.value);
-    }
-
-    if (buff.type === 3 && buff._3?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(
-        Big(buff._3?.value).mul(buff._3?.stack),
-      );
-    }
-    if (buff.type === 3 && buff._3?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(
-        Big(buff._3?.value).mul(buff._3?.stack),
-      );
-    }
-
-    if (buff.type === 0 && buff._0?.affectType === AffectType.RAW_ATK) {
-      rawAtk = rawAtk.add(buff._0?.value);
-    }
-
     if (
       buff.type === 0 &&
       buff._0?.affectType === AffectType.INCREASE_ULTIMATE_DMG
@@ -386,15 +326,6 @@ export function ultDamage(
     ) {
       attributeDamage = attributeDamage.minus(buff._0?.value);
     }
-
-    //if (buff.type === 3 && buff._3?.affectType === AffectType.SUCK_HP_ON_DMG) {
-    //  attackSuckHpPercentage = attackSuckHpPercentage.add(
-    //    Big(buff._3?.value).mul(buff._3?.stack),
-    //  );
-    //}
-    //if (buff.type === 0 && buff._0?.affectType === AffectType.SUCK_HP_ON_DMG) {
-    //  attackSuckHpPercentage = attackSuckHpPercentage.add(buff._0?.value);
-    //}
   }
 
   for (const buff of defender) {
@@ -779,16 +710,10 @@ export function ultDamage(
       }
     }
 
-    const finalAtk = Big(attackerAtk)
-      .mul(atkPercentage)
-      .round(0, Big.roundDown)
-      .add(rawAtk)
-      .round(0, Big.roundDown);
-    console.log("最終攻擊力", finalAtk.toNumber());
     res =
       defenderisGuard && !isTrueDamage
         ? Big(0)
-            .add(finalAtk)
+            .add(hp)
             .mul(ultBuff)
             .mul(increaseDamage)
             .mul(enemyDamageReceivedIncrease)
@@ -796,7 +721,7 @@ export function ultDamage(
             .mul(value)
             .mul(defenderDefEffect)
         : Big(0)
-            .add(finalAtk)
+            .add(hp)
             .mul(ultBuff)
             .mul(increaseDamage)
             .mul(enemyDamageReceivedIncrease)
@@ -804,17 +729,10 @@ export function ultDamage(
             .mul(attributeX)
             .mul(value);
   } else {
-    const finalAtk = Big(attackerAtk)
-      .mul(atkPercentage)
-      .round(0, Big.roundDown)
-      .add(rawAtk)
-      .round(0, Big.roundDown);
-    console.log("最終攻擊力", finalAtk.toNumber());
-
     res =
       defenderisGuard && !isTrueDamage
         ? Big(0)
-            .add(finalAtk)
+            .add(hp)
             .mul(ultBuff)
             .mul(increaseDamage)
             .mul(enemyDamageReceivedIncrease)
@@ -823,7 +741,7 @@ export function ultDamage(
             .mul(value)
             .mul(defenderDefEffect)
         : Big(0)
-            .add(finalAtk)
+            .add(hp)
             .mul(ultBuff)
             .mul(increaseDamage)
             .mul(enemyDamageReceivedIncrease)
@@ -833,12 +751,10 @@ export function ultDamage(
   }
 
   console.log(
-    "基礎攻擊力",
-    attackerAtk.toNumber(),
-    "攻擊%",
-    atkPercentage.toNumber(),
+    "HP",
+    hp.toNumber(),
     "攻擊力",
-    rawAtk.toNumber(),
+    hp.toNumber(),
     "必殺",
     ultBuff.toNumber(),
     "造傷",

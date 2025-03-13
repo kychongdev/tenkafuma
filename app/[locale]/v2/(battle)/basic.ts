@@ -1,4 +1,8 @@
-import { applyDamage, basicToTargeting } from "./applyDamage";
+import {
+  applyDamage,
+  basicHpToTargeting,
+  basicToTargeting,
+} from "./applyDamage";
 import { basicHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { basicDamage } from "./calculations/basicDamage";
@@ -61,6 +65,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10040": "小惡魔 布蘭妮",
     // "10041": "公會看板娘 小螢",
     // "10042": "夏日 伊布力斯",
+    case "10042": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
     // "10045": "極樂之鬼 伊吹朱點",
@@ -171,6 +179,13 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10132": "幽夜女爵 卡蒂雅",
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
+    case "10134": {
+      basicHealAllAllies(G, oG, 0.75, p, ca);
+      G.characters.forEach((_, index) => {
+        G.characters[index].isHeal = true;
+      });
+      break;
+    }
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
@@ -181,6 +196,20 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10142": "夏日 千鶴",
     // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
+    case "10144": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      basicHpToTargeting(
+        G,
+        oG,
+        1,
+        p,
+        Target.ENEMY,
+        false,
+        DamageType.BASIC_HP,
+        ca,
+      );
+      break;
+    }
     // "10145": "夏日 撒旦",
     // "10146": "魔獸獵手 神無雪",
     case "10146": {
@@ -199,6 +228,9 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10152": "治癒之星 蘇珊",
     case "10152": {
       basicHealAllAllies(G, oG, 0.75, p, ca);
+      G.characters.forEach((_, index) => {
+        G.characters[index].isHeal = true;
+      });
       break;
     }
     // "10153": "純真殺意 撒旦",

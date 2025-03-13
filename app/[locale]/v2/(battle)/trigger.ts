@@ -4,7 +4,7 @@ import {
   checkOpponent,
   triggerDmgToTargeting,
 } from "./applyDamage";
-import { ultHealAllAllies } from "./applyHeal";
+import { basicHealAllAllies, ultHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff } from "./applyRawAtk";
 import { ultHpShieldAllAllies } from "./applyShield";
 import { basicDamage } from "./calculations/basicDamage";
@@ -476,11 +476,6 @@ export function trigger(
         }
       }
       break;
-
-      //target: Target.ALL_ALLIES,
-      //value: 0.1,
-      //damageType: DamageType.TRIGGER,
-      break;
     }
     case 6: {
       if (!buff._6) {
@@ -775,6 +770,9 @@ export function trigger(
       }
       switch (buff._9.damageType) {
         case DamageType.BASIC: {
+          if (buff._9.target === Target.ALL_ALLIES) {
+            basicHealAllAllies(G, oG, buff._9.value, p, ca);
+          }
           break;
         }
         case DamageType.ULTIMATE: {
