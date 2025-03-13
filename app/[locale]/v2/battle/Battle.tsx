@@ -48,6 +48,7 @@ import { Separator } from "@/components/ui/separator";
 import { Target } from "../(battle)/types/Skill";
 import { useGameState } from "../(battle)/GameState";
 import { HealLog } from "./HealLog";
+import { useSimulateTeamState } from "../(simulate)/useSimulateState";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -81,6 +82,8 @@ export default function Battle() {
     enableEveryTurnAttack,
     addEveryTurnAttackTarget,
   } = useStore(useGameState, (state) => state);
+
+  const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
 
   return (
     <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)]">
@@ -139,7 +142,7 @@ export default function Battle() {
           <CharacterButton position={3} />
           <CharacterButton position={4} />
         </div>
-        {!checkEnemyAlive(enemies) && stage !== "wood" ? <SaveBattle /> : null}
+        {!checkEnemyAlive(enemies) && stage !== "dummy" ? <SaveBattle /> : null}
 
         <div className="flex flex-wrap gap-2">
           <BattleLog />
@@ -147,7 +150,7 @@ export default function Battle() {
           <Button
             className="px-2 gap-1"
             onClick={() => {
-              router.push("/battle/stats");
+              router.push("/v2/battle/stats");
             }}
           >
             <ChartPie /> {t("Damage Stats")}
@@ -164,7 +167,7 @@ export default function Battle() {
           <Button
             className="px-2 gap-1"
             onClick={() => {
-              router.push("/stage");
+              router.push("/v2/stage");
             }}
           >
             <Sword /> {t("Stage")}
@@ -187,26 +190,26 @@ export default function Battle() {
             <Undo /> {t("Undo")}
           </Button>
 
-          {stage == "wood" ? (
+          {stage == "dummy" ? (
             <Button
               className="px-2 gap-1"
               onClick={() => {
-                //if (select) {
-                //  saveToTeam(
-                //    p(select),
-                //    p(action),
-                //    p({
-                //      damage_log_1,
-                //      damage_log_2,
-                //      damage_log_3,
-                //      damage_log_4,
-                //      damage_log_5,
-                //    }),
-                //    p(turn),
-                //  );
-                //} else {
-                //  console.log("no team selected");
-                //}
+                if (select) {
+                  saveToTeam(
+                    p(select),
+                    p(action),
+                    p({
+                      damageLog1,
+                      damageLog2,
+                      damageLog3,
+                      damageLog4,
+                      damageLog5,
+                    }),
+                    p(turn),
+                  );
+                } else {
+                  console.log("no team selected");
+                }
               }}
             >
               <Save /> {t("Save To Calculator")}

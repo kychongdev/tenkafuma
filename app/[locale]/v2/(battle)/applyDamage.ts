@@ -20,6 +20,7 @@ import {
 import { checkSpecialCondition } from "./condition";
 import { basicDamage } from "./calculations/basicDamage";
 import { ultDamage } from "./calculations/ultDamage";
+import { DamageLog } from "./types/GameState";
 
 export function applyDamage(
   G: GameState,
@@ -41,6 +42,15 @@ export function applyDamage(
   }
   dealDamage(G, damage, target, isTrueDamage);
   writeBattleLog(G, attacker, defender, damage, damageType, action);
+
+  writeDamageLog(G, attacker, {
+    damage: damage.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
 }
 
 // Basic Damage to G.targeting
@@ -60,6 +70,15 @@ export function basicToTargeting(
   const dmg = basicDamage(G, oG, value, attacker, Target.ENEMY, false);
   dealDamage(G, dmg, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, dmg, damageType, action);
+
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
 }
 
 export function basicToSpecificPos(
@@ -91,6 +110,14 @@ export function basicToSpecificPos(
   const dmg = basicDamage(G, oG, value, attacker, opponent, false);
   dealDamage(G, dmg, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, dmg, damageType, action);
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
 }
 
 export function ultToTargeting(
@@ -125,6 +152,15 @@ export function ultToTargeting(
     isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
     action,
   );
+
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
 }
 
 export function triggerDmgToTargeting(
@@ -142,6 +178,15 @@ export function triggerDmgToTargeting(
   }
   dealDamage(G, damage, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, damage, damageType, action);
+
+  writeDamageLog(G, attacker, {
+    damage: damage.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
 }
 
 export function triggerDmgToPos(
@@ -160,6 +205,14 @@ export function triggerDmgToPos(
   }
   dealDamage(G, damage, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, damage, damageType, action);
+  writeDamageLog(G, attacker, {
+    damage: damage.round(0, Big.roundDown).toNumber(),
+    type: damageType,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
 }
 
 export function checkOpponent(gameState: GameState, defender: Target) {
@@ -471,4 +524,45 @@ function writeBattleLog(
   );
 }
 
-function writeDamageLog() {}
+function writeDamageLog(
+  gameState: GameState,
+  position: number,
+  content: DamageLog,
+) {
+  switch (position) {
+    case 0:
+      gameState.damageLog1.push(content);
+      break;
+    case 1:
+      gameState.damageLog2.push(content);
+      break;
+    case 2:
+      gameState.damageLog3.push(content);
+      break;
+    case 3:
+      gameState.damageLog4.push(content);
+      break;
+    case 4:
+      gameState.damageLog5.push(content);
+      break;
+    case Target.ENEMY_1:
+      gameState.damageLog1.push(content);
+      break;
+    case Target.ENEMY_2:
+      gameState.damageLog2.push(content);
+      break;
+    case Target.ENEMY_3:
+      gameState.damageLog3.push(content);
+      break;
+    case Target.ENEMY_4:
+      gameState.damageLog4.push(content);
+      break;
+    case Target.ENEMY_5:
+      gameState.damageLog5.push(content);
+      break;
+    case Target.ENEMY: {
+      writeDamageLog(gameState, gameState.targeting + 20, content);
+      break;
+    }
+  }
+}

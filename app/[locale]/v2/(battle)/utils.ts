@@ -21,7 +21,6 @@ export function p(obj: unknown) {
 }
 
 export function checkAvailable(character: CharacterState) {
-  console.log(character.isDead, character.isExist);
   return !character.isDead && character.isExist;
 }
 

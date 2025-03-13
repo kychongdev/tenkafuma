@@ -18,6 +18,7 @@ import { CharacterAction } from "./types/Character";
 import { parseAddon } from "./parseAddon";
 import { ultimate } from "./ultimate";
 import { dummy } from "./stages/dummy";
+import { useSimulateTeamState } from "../(simulate)/useSimulateState";
 
 export interface GameState {
   clientId: string;
@@ -59,6 +60,7 @@ export interface GameState {
   initStage: (stage: string) => void;
   enableEveryTurnAttack: () => void;
   addEveryTurnAttackTarget: (target: Target) => void;
+  analysis: (index: number) => void;
 }
 
 function resetBattle(state: GameState) {
@@ -69,7 +71,7 @@ function resetBattle(state: GameState) {
   state.damageLog2 = [];
   state.damageLog3 = [];
   state.damageLog4 = [];
-  state.damageLog4 = [];
+  state.damageLog5 = [];
   state.healLog = [];
   state.battleLog = [];
   state.action = [];
@@ -87,6 +89,8 @@ const initEnemyState = {
   hp: 5063653034,
   isExist: true,
 };
+
+const saveToAnalysis = useSimulateTeamState.getState().saveToAnalysis;
 
 export const useGameState = create<GameState>()(
   persist(
@@ -132,6 +136,23 @@ export const useGameState = create<GameState>()(
       enemyDamageLog3: [],
       enemyDamageLog4: [],
       enemyDamageLog5: [],
+      analysis: (position) => {
+        set((state) => {
+          if (state.select) {
+            saveToAnalysis(
+              position,
+              p({
+                select: state.select,
+                damageLog1: state.damageLog1,
+                damageLog2: state.damageLog2,
+                damageLog3: state.damageLog3,
+                damageLog4: state.damageLog4,
+                damageLog5: state.damageLog5,
+              }),
+            );
+          }
+        });
+      },
       initBattle: (team: CharacterTeam): void => {
         set((state) => {
           state.clientId = generateClientId(20);
@@ -252,7 +273,7 @@ export const useGameState = create<GameState>()(
           };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;
-          //state.action.push({ position, targeting: state.targeting });
+          state.action.push({ position, targeting: state.targeting });
 
           basic(position, state, oG);
           parseAddon(
@@ -311,10 +332,10 @@ export const useGameState = create<GameState>()(
           };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;
-          //state.action.push({
-          //  position: position + 5,
-          //  targeting: state.targeting,
-          //});
+          state.action.push({
+            position: position + 5,
+            targeting: state.targeting,
+          });
           state.characters[position].cd = state.characters[position].maxCd;
           ultimate(state, oG, position);
 
@@ -374,10 +395,10 @@ export const useGameState = create<GameState>()(
           };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;
-          //state.action.push({
-          //  position: position + 10,
-          //  targeting: state.targeting,
-          //});
+          state.action.push({
+            position: position + 10,
+            targeting: state.targeting,
+          });
           state.characters[position].isGuard = true;
 
           parseAddon(

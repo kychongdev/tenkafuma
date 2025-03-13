@@ -5,7 +5,6 @@ import { CharacterAction } from "../types/Character.ts";
 import { Condition, Target } from "../types/Skill.ts";
 
 export function dummy(gameState: GameState) {
-  console.log("dummy");
   gameState.enemies = [
     {
       ...initCharacterState,
