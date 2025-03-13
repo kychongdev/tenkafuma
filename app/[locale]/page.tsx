@@ -4,6 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import localforage from "localforage";
+import { ResetButton } from "./reset";
 
 export default function Home() {
   return (
@@ -13,7 +16,6 @@ export default function Home() {
           <AccordionTrigger>免責聲明</AccordionTrigger>
           <AccordionContent>
             本站工具所提供的數據與實際情形發生差異而導致的利害一概不負責，最終請以官方及遊戲內數據為主。
-
             本站圖源來自與tkfmdata.com
           </AccordionContent>
         </AccordionItem>
@@ -41,6 +43,7 @@ export default function Home() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+      <ResetButton />
     </div>
   );
 }
