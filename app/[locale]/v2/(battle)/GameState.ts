@@ -189,26 +189,35 @@ export const useGameState = create<GameState>()(
       nextWave: () => {},
       moveLeft: () => {
         set((state) => {
-          //if (
-          //  !state.enemies[state.targeting - 1].isExist ||
-          //  state.enemies[state.targeting - 1].isDead
-          //) {
-          //  state.targeting = state.targeting - 1;
-          //  return;
-          //}
-          if (state.targeting === 0) {
-            state.targeting = 4;
-          } else state.targeting = state.targeting - 1;
+          for (let i = 0; i < 5; i++) {
+            if (state.targeting === 0) {
+              state.targeting = 4;
+            } else {
+              state.targeting = state.targeting - 1;
+            }
+            if (
+              state.enemies[state.targeting].isExist &&
+              !state.enemies[state.targeting].isDead
+            ) {
+              break;
+            }
+          }
         });
       },
       moveRight: () => {
         set((state) => {
-          console.log(state.targeting);
-          if (state.targeting === 4) {
-            console.log("why");
-            state.targeting = 0;
-          } else {
-            state.targeting = state.targeting + 1;
+          for (let i = 0; i < 5; i++) {
+            if (state.targeting === 4) {
+              state.targeting = 0;
+            } else {
+              state.targeting = state.targeting + 1;
+            }
+            if (
+              state.enemies[state.targeting].isExist &&
+              !state.enemies[state.targeting].isDead
+            ) {
+              break;
+            }
           }
         });
       },

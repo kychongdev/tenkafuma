@@ -59,7 +59,7 @@ export const CharacterButton = ({ position }: { position: number }) => {
           disabled={!isMoveable(character) || isGameEnd || character.cd !== 0}
           className="py-0 h-6 my-1 w-full"
           onClick={() => {
-            if (isMoveable(character) || character.cd !== 0) {
+            if ((isMoveable(character) && !isGameEnd) || character.cd !== 0) {
               ultAction(position);
             }
           }}
@@ -70,7 +70,7 @@ export const CharacterButton = ({ position }: { position: number }) => {
           disabled={!isMoveable(character) || isGameEnd}
           className="py-0 h-6 my-1 w-full"
           onClick={() => {
-            if (isMoveable(character)) {
+            if (isMoveable(character) && !isGameEnd) {
               guardAction(position);
             }
           }}
