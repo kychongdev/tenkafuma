@@ -2841,6 +2841,129 @@ export function initPassiveSkill(G: GameState, pos: number) {
     }
     // "10164": "祭典花韻 香奈"
     // "10165": "銀鴞武裝 米婭",
+    case "10165": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10165-passive-1",
+          name: "攻擊力增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.3,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10165-passive-2",
+          name: "普攻增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.6,
+            affectType: AffectType.INCREASE_BASIC_DMG,
+          },
+        },
+        {
+          id: "10165-passive-3",
+          name: "每經過2回合時，觸發「《羽毛追蹤導彈》」",
+          type: 21,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 2,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: "10165-passive-3-1",
+                name: "使自身獲得「普攻時，追加『以自身攻擊力30%對目標造成傷害6次』(1回合)」",
+                type: 11,
+                condition: Condition.NONE,
+                duration: 100,
+                _11: {
+                  target: Target.SELF,
+                  applySkill: [
+                    {
+                      id: "10165-passive-3-1-1",
+                      name: "普攻時，追加「以自身攻擊力30%對目標造成傷害6次」",
+                      type: 101,
+                      condition: Condition.BASIC_ATTACK,
+                      duration: 100,
+                      _101: {
+                        value: 0.3,
+                        defender: Target.ENEMY,
+                        damageType: DamageType.BASIC_ADDON,
+                        multiple: true,
+                        multipleValue: 6,
+                        isTrueDamage: false,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10165-passive-4",
+          name: "攻擊力增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.7,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+
+      if (stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10165-passive-5",
+            name: "造成傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.25,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: "10165-passive-6",
+            name: "第1回合，「使自身當前必殺技CD減少3回合」(觸發1次後清除)",
+            type: 14,
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            _14: {
+              reduceCD: 3,
+              target: Target.SELF,
+            },
+            deleteSelf: true,
+          },
+        ];
+      }
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10165-passive4",
+            name: "普攻傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10166": "白熊武裝 冬。艾妮",
     case "10166": {
       G.characters[pos].buff = [

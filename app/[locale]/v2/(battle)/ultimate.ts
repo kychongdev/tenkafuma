@@ -1499,6 +1499,104 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10164": "祭典花韻 香奈"
     // "10165": "銀鴞武裝 米婭",
+    case "10166": {
+      const b1 =
+        bond === 1
+          ? 0.6
+          : bond === 2
+            ? 0.7
+            : bond === 3
+              ? 0.8
+              : bond === 4
+                ? 0.9
+                : 1;
+      const buff: Skill = {
+        id: "10166-ult-1",
+        name: "使自身攻擊力增加60/70/80/90/100%(8回合)(不可疊加)",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _11: {
+          target: Target.SELF,
+          overlap: true,
+          applySkill: [
+            {
+              id: "10166-ult-1-1",
+              name: "攻擊力增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: b1,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          ],
+        },
+      };
+      const buff2: Skill = {
+        id: "10166-ult-2",
+        name: "普攻傷害增加60/70/80/90/100%(8回合)(不可疊加)",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _11: {
+          target: Target.SELF,
+          overlap: true,
+          applySkill: [
+            {
+              id: "10166-ult-1-1",
+              name: "普攻傷害增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: b1,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          ],
+        },
+      };
+      const b2 =
+        bond === 1
+          ? 0.4
+          : bond === 2
+            ? 0.45
+            : bond === 3
+              ? 0.5
+              : bond === 4
+                ? 0.55
+                : 0.6;
+      const buff3: Skill = {
+        id: "10166-ult-3",
+        name: "造成傷害增加40/45/50/55/60%(8回合)(不可疊加)",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _11: {
+          target: Target.SELF,
+          overlap: true,
+          applySkill: [
+            {
+              id: "10166-ult-1-1",
+              name: "造成傷害",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: b2,
+                affectType: AffectType.INCREASE_DMG,
+              },
+            },
+          ],
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      trigger(G, oG, pos, buff2, ca);
+      trigger(G, oG, pos, buff3, ca);
+      break;
+    }
     // "10166": "白熊武裝 冬。艾妮",
     case "10166": {
       const buff: Skill = {

@@ -836,6 +836,242 @@ export function initLeadSkill(G: GameState) {
     // "10163": "夜之影 凱薩",
     // "10164": "祭典花韻 香奈"
     // "10165": "銀鴞武裝 米婭",
+    case "10165": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10165-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10165-lead-2",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+
+      const atLeastOneFire = [CharacterAttribute.FIRE];
+
+      G.characters.forEach((character) => {
+        if (atLeastOneFire.includes(character.attribute)) {
+          const index = atLeastOneFire.indexOf(character.attribute);
+          if (index !== -1) {
+            atLeastOneFire.splice(
+              atLeastOneFire.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (atLeastOneFire.length === 0) {
+        G.characters[0].buff = [
+          ...G.characters[0].buff,
+          {
+            id: "10165-lead-3",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+          {
+            id: "10165-lead-5",
+            name: "普攻時，觸發「使目標受到火、風屬性傷害增加4%(最多10層)」",
+            type: 21,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _21: {
+              trigger: [
+                {
+                  id: "10165-lead-5-1",
+                  name: "普攻時，觸發「使目標受到火屬性傷害增加4%(最多10層)」",
+                  type: 4,
+                  condition: Condition.BASIC_ATTACK,
+                  duration: 100,
+                  _4: {
+                    increaseStack: 1,
+                    targetSkill: "10165-lead-5-1-1",
+                    target: Target.ENEMY,
+                    applySkill: {
+                      id: "10165-lead-5-1-1",
+                      name: "受到火屬性傷害增加4%",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10165-lead-5-1-1",
+                        name: "受到火屬性傷害增加4%",
+                        stack: 1,
+                        maxStack: 10,
+                        affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                        value: 0.04,
+                      },
+                    },
+                  },
+                },
+                {
+                  id: "10165-lead-5-2",
+                  name: "普攻時，觸發「使目標受到風屬性傷害增加4%(最多10層)」",
+                  type: 4,
+                  condition: Condition.BASIC_ATTACK,
+                  duration: 100,
+                  _4: {
+                    increaseStack: 1,
+                    targetSkill: "10165-lead-5-2-1",
+                    target: Target.ENEMY,
+                    applySkill: {
+                      id: "10165-lead-5-2-1",
+                      name: "受到風屬性傷害增加4%",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10165-lead-5-2-1",
+                        name: "受到風屬性傷害增加4%",
+                        stack: 1,
+                        maxStack: 10,
+                        affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+                        value: 0.04,
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
+      const onlyTwoAttribute = [
+        CharacterAttribute.DARK,
+        CharacterAttribute.LIGHT,
+        CharacterAttribute.WIND,
+        CharacterAttribute.WATER,
+        CharacterAttribute.FIRE,
+      ];
+
+      G.characters.forEach((character) => {
+        if (onlyTwoAttribute.includes(character.attribute)) {
+          const index = onlyTwoAttribute.indexOf(character.attribute);
+          if (index !== -1) {
+            onlyTwoAttribute.splice(
+              onlyTwoAttribute.indexOf(character.attribute),
+              1,
+            );
+          }
+        }
+      });
+
+      if (onlyTwoAttribute.length === 0) {
+        G.characters[0].buff = [
+          ...G.characters[0].buff,
+          {
+            id: "10165-lead-7",
+            name: "普攻傷害增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_BASIC_DMG,
+              value: 1,
+            },
+          },
+          {
+            id: "10165-lead-8",
+            name: "普攻時，觸發「使目標受到傷害增加4%(最多10層)」",
+            type: 4,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10165-lead-8-1",
+              target: Target.ENEMY,
+              applySkill: {
+                id: "10165-lead-8-1",
+                name: "受到傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10165-lead-8-1",
+                  name: "受到傷害增加",
+                  stack: 1,
+                  maxStack: 10,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  value: 0.04,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      const threeAttacker = [
+        CharacterClass.ATTACKER,
+        CharacterClass.ATTACKER,
+        CharacterClass.ATTACKER,
+      ];
+
+      G.characters.forEach((character) => {
+        if (threeAttacker.includes(character.class)) {
+          const index = threeAttacker.indexOf(character.class);
+          if (index !== -1) {
+            threeAttacker.splice(threeAttacker.indexOf(character.class), 1);
+          }
+        }
+      });
+
+      if (threeAttacker.length === 0) {
+        G.characters[0].buff = [
+          ...G.characters[0].buff,
+          {
+            id: "10165-lead-9",
+            name: "造成傷害增加35%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_DMG,
+              value: 0.35,
+            },
+          },
+          {
+            id: "10165-lead-10",
+            name: "普攻時，追加「以自身攻擊力20%對目標造成傷害」",
+            type: 101,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _101: {
+              value: 0.2,
+              defender: Target.ENEMY,
+              damageType: DamageType.BASIC_ADDON,
+              multiple: false,
+              isTrueDamage: false,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10166": "白熊武裝 冬。艾妮",
     case "10166": {
       G.characters.forEach((_, index) => {

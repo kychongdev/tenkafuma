@@ -278,6 +278,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     }
     // "10164": "祭典花韻 香奈"
     // "10165": "銀鴞武裝 米婭",
+    case "10165": {
+      basicToTargeting(G, oG, 0.886, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10166": "白熊武裝 冬。艾妮",
     case "10166": {
       rawAtkBuffAll(G, p, 0.3, "10166-basic-1", 1);

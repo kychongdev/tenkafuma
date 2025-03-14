@@ -857,7 +857,7 @@ export function trigger(
 
       if (buff._11.overlap) {
         const buffIndex = G.characters[p].buff.findIndex(
-          (x) => x.id === buff.id,
+          (x) => x.id === buff._11?.applySkill[0].id,
         );
         if (buffIndex === -1) {
           break;
@@ -1425,6 +1425,17 @@ export function trigger(
         }
       }
       break;
+
+    case 21: {
+      if (!buff._21) {
+        console.log("Wrong data 21");
+        break;
+      }
+      buff._21.trigger.forEach((b) => {
+        trigger(G, oG, p, b, ca);
+      });
+      break;
+    }
   }
 
   if (buff.deleteSelf) {
