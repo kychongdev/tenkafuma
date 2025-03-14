@@ -65,51 +65,16 @@ export function dummy_action(gameState: GameState, oG: GameState) {
     gameState.battleSettings.everyTurnAttackTarget.forEach((target) => {
       switch (target) {
         case Target.POSITION_1:
-          gameState.characters[0].hp = gameState.characters[0].hp - 100000;
-          parseCondition(
-            gameState,
-            oG,
-            0,
-            [Condition.RECEIVED_ATTACK],
-            CharacterAction.ATTACKED,
-          );
-          break;
         case Target.POSITION_2:
-          gameState.characters[1].hp = gameState.characters[1].hp - 100000;
-          parseCondition(
-            gameState,
-            oG,
-            0,
-            [Condition.RECEIVED_ATTACK],
-            CharacterAction.ATTACKED,
-          );
-          break;
         case Target.POSITION_3:
-          gameState.characters[2].hp = gameState.characters[2].hp - 100000;
-          parseCondition(
-            gameState,
-            oG,
-            0,
-            [Condition.RECEIVED_ATTACK],
-            CharacterAction.ATTACKED,
-          );
-          break;
         case Target.POSITION_4:
-          gameState.characters[3].hp = gameState.characters[3].hp - 100000;
-          parseCondition(
-            gameState,
-            oG,
-            0,
-            [Condition.RECEIVED_ATTACK],
-            CharacterAction.ATTACKED,
-          );
-          break;
         case Target.POSITION_5:
-          gameState.characters[4].hp = gameState.characters[4].hp - 100000;
+          gameState.characters[target].hp =
+            gameState.characters[target].hp - 100000;
           parseCondition(
             gameState,
             oG,
-            0,
+            target,
             [Condition.RECEIVED_ATTACK],
             CharacterAction.ATTACKED,
           );

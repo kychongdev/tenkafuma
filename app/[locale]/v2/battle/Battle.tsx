@@ -285,9 +285,11 @@ export default function Battle() {
                   </Button>
                 </div>
                 <div className="flex flex-wrap">
-                  {battleSettings.everyTurnAttackTarget.map((target) => {
+                  {battleSettings.everyTurnAttackTarget.map((target, index) => {
                     return (
-                      <div className="p-2 h-6">{t(target.toString())}</div>
+                      <div key={index} className="p-2 h-6">
+                        {t(target.toString())}
+                      </div>
                     );
                   })}
                 </div>

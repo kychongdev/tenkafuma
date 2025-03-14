@@ -191,6 +191,38 @@ export function basicToSpecificPos(
     action,
   });
 }
+
+export function ultHpToSelf(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  isTrueDamage: boolean,
+  isTrigger: boolean,
+  dt: DamageType,
+  action: CharacterAction,
+) {
+  const dmg = ultHpDamage(
+    G,
+    oG,
+    value,
+    attacker,
+    attacker,
+    isTrigger,
+    isTrueDamage,
+  );
+  dealDamage(G, dmg, attacker, isTrueDamage);
+  writeBattleLog(G, attacker, attacker, dmg, dt, action);
+
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: dt,
+    turn: G.turn,
+    attacker,
+    defender: attacker,
+    action,
+  });
+}
 export function ultToSelf(
   G: GameState,
   oG: GameState,

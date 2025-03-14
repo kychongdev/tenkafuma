@@ -3,6 +3,7 @@ import { shieldUltHp } from "./calculations/shieldHp";
 import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
 import { AffectType, Condition, DamageType, Target } from "./types/Skill";
+import { checkAvailable } from "./utils";
 
 export function ultHpShieldAllAllies(
   G: GameState,
@@ -16,6 +17,9 @@ export function ultHpShieldAllAllies(
 ) {
   for (let i = 0; i < 5; i++) {
     const dmg = shieldUltHp(G, oG, value, attacker, i, isTrigger, isTrueDamage);
+    if (!checkAvailable(G.characters[i])) {
+      return;
+    }
     shieldTarget(G, dmg, attacker, i, duration);
   }
 }

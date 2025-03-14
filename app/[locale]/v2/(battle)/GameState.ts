@@ -315,6 +315,7 @@ export const useGameState = create<GameState>()(
 
           const allyParseRA = _.uniqBy(allyRA, "defender");
           const allSortedRA = _.sortBy(allyParseRA, "defender");
+
           allSortedRA.forEach((x) => {
             parseCondition(
               state,

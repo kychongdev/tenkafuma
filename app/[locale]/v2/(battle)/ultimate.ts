@@ -1,6 +1,8 @@
 import { ultToTargeting, ultHpToTargeting } from "./applyDamage";
 import { ultHealAllAllies, ultHpHealAll } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll } from "./applyRawAtk";
+import { ultHpShieldAllAllies } from "./applyShield";
+import { shieldUltHp } from "./calculations/shieldHp";
 import { GameState } from "./GameState";
 import { trigger } from "./trigger";
 import {
@@ -784,7 +786,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           name: "以自身最大HP5/6.25%使我方全體攻擊力增加(5回合)",
           type: 17,
           condition: Condition.ULTIMATE,
-          duration: 1,
+          duration: 100,
           _17: {
             value: bond === 1 ? 0.05 : 0.0625,
             target: Target.ALL_ALLIES,
@@ -795,10 +797,10 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       } else {
         const buff: Skill = {
           id: "10145-ult-1",
-          name: "以自身最大HP5/6.25%使我方全體攻擊力增加(5回合)",
+          name: "以自身最大HP7.5/8.75/10%使我方全體攻擊力增加(5回合)",
           type: 17,
           condition: Condition.ULTIMATE,
-          duration: 1,
+          duration: 100,
           _17: {
             value: bond === 3 ? 0.075 : bond === 4 ? 0.0875 : 0.1,
             target: Target.ALL_ALLIES,
@@ -818,6 +820,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           ca,
         );
       }
+      ultHpShieldAllAllies(G, oG, 0.25, pos, false, false, ca, 5);
       break;
     }
     // "10146": "魔獸獵手 神無雪",

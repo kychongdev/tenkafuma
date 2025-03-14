@@ -237,6 +237,8 @@ export function parseSkillName(buff: Skill) {
         return `被治療時回復量增加${buff._0.value * 100}%`;
       case AffectType.DECREASE_HEAL_RATE:
         return `被治療時回復量減少${buff._0.value * 100}%`;
+      case AffectType.INCREASE_HEAL_RECEIVED:
+        return `被治療時獲得回復量增加${buff._0.value * 100}%`;
       case AffectType.DECREASE_HEAL_RATE_OVER_TIME:
         return `受到持續回復減少${buff._0.value * 100}%`;
       case AffectType.INCREASE_GUARD_EFFECT:

@@ -12,6 +12,7 @@ import {
   basicToSelf,
   basicToSpecificPos,
   basicToTargeting,
+  ultHpToSelf,
   ultToSelf,
   ultToTargeting,
 } from "./applyDamage";
@@ -83,6 +84,19 @@ export function addOn(
         case DamageType.ULTIMATE: {
           if (d === Target.ENEMY) {
             ultToTargeting(G, oG, v, p, d, isTrueDamage, false, dt, ca);
+          }
+          break;
+        }
+        case DamageType.ULTIMATE_HP: {
+          if (d === Target.SELF) {
+            ultHpToSelf(G, oG, v, p, isTrueDamage, false, dt, ca);
+            G.receivedAttack = [
+              ...G.receivedAttack,
+              {
+                attacker: p,
+                defender: p,
+              },
+            ];
           }
           break;
         }

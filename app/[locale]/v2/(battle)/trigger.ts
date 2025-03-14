@@ -5,7 +5,11 @@ import {
   triggerDmgToTargeting,
   triggerDmgToAll,
 } from "./applyDamage";
-import { basicHealAllAllies, ultHealAllAllies } from "./applyHeal";
+import {
+  basicHealAllAllies,
+  ultHealAllAllies,
+  ultHpHealAll,
+} from "./applyHeal";
 import { applyRawAttBuff } from "./applyRawAtk";
 import { ultHpShieldAllAllies } from "./applyShield";
 import { basicDamage } from "./calculations/basicDamage";
@@ -501,6 +505,13 @@ export function trigger(
             ultHealAllAllies(G, oG, buff._5.value, p, true, false, ca);
           }
           break;
+        }
+        case DamageType.TRIGGER_HP: {
+          console.log("trigger hp");
+          if (buff._5.target === Target.ALL_ALLIES) {
+            ultHpHealAll(G, oG, buff._5.value, p, true, false, ca);
+          }
+          // TODO susan need
         }
       }
       break;
@@ -1371,71 +1382,32 @@ export function trigger(
               },
             },
           ];
-
           break;
         }
+        default: {
+          break;
+        }
+      }
+      break;
+    }
 
-        case 17:
-          // TODO remove Math floor
-          if (!buff._17) {
-            console.log("Wrong data 17");
-            break;
-          }
-          G.characters.forEach((character, index) => {
-            const hp = G.characters[p].maxHp;
-            if (character.class === buff._17?.target) {
-              G.characters[index].buff = [
-                ...G.characters[index].buff,
-                {
-                  id: `${buff.id}-buff`,
-                  name: buff.name,
-                  type: 0,
-                  condition: Condition.NONE,
-                  duration: buff._17?.duration,
-                  _0: {
-                    value: Math.floor(hp * buff._17.value),
-                    affectType: AffectType.RAW_ATK,
-                  },
-                },
-              ];
-            } else if (buff._17?.target === Target.ALL_ALLIES) {
-              G.characters[index].buff = [
-                ...G.characters[index].buff,
-                {
-                  id: `${buff.id}-buff`,
-                  name: buff.name,
-                  type: 0,
-                  condition: Condition.NONE,
-                  duration: buff._17?.duration,
-                  _0: {
-                    value: Math.floor(hp * buff._17.value),
-                    affectType: AffectType.RAW_ATK,
-                  },
-                },
-              ];
-            } else if (buff._17?.target === Target.ALL_EXCEPT_SELF) {
-              if (index !== p) {
-                G.characters[index].buff = [
-                  ...G.characters[index].buff,
-                  {
-                    id: `${buff.id}-buff`,
-                    name: buff.name,
-                    type: 0,
-                    condition: Condition.NONE,
-                    duration: buff._17?.duration,
-                    _0: {
-                      value: Math.floor(hp * buff._17.value),
-                      affectType: AffectType.RAW_ATK,
-                    },
-                  },
-                ];
-              }
+    case 17:
+      console.log("trigger 17");
+      // TODO remove Math floor
+      if (!buff._17) {
+        console.log("Wrong data 17");
+        break;
+      }
+      console.log("trigger 17");
+      switch (buff._17.target) {
+        case Target.ALL_ALLIES: {
+          const hp = G.characters[p].maxHp;
+          G.characters.forEach((_, index) => {
+            if (!buff._17) {
+              return;
             }
-          });
-          if (buff._17?.target === Target.SELF) {
-            const hp = G.characters[p].maxHp;
-            G.characters[p].buff = [
-              ...G.characters[p].buff,
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
               {
                 id: `${buff.id}-buff`,
                 name: buff.name,
@@ -1448,16 +1420,11 @@ export function trigger(
                 },
               },
             ];
-          }
-          break;
-
-        default: {
+          });
           break;
         }
       }
-
       break;
-    }
   }
 
   if (buff.deleteSelf) {

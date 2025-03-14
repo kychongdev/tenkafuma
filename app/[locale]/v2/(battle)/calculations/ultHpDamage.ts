@@ -617,6 +617,13 @@ export function ultHpDamage(
     }
   }
 
+  if (isTrueDamage) {
+    if (defenderisGuard) {
+      return Big(0).add(hp).mul(value).mul(defenderDefEffect);
+    }
+    return Big(0).add(hp).mul(value);
+  }
+
   if (ultBuff.lt(0)) {
     ultBuff = Big(0);
   }

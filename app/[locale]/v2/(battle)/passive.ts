@@ -419,7 +419,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
             _4: {
               increaseStack: 1,
               targetSkill: "10081-passive-2-1",
-              target: Target.ALL_ALLIES,
+              target: Target.WATER,
               applySkill: {
                 id: "10081-passive-2-1",
                 name: "必殺傷害增加",
@@ -548,7 +548,35 @@ export function initPassiveSkill(G: GameState, pos: number) {
             _4: {
               increaseStack: 1,
               targetSkill: "10081-passive-2-1",
-              target: Target.ALL_ALLIES,
+              target: Target.WATER,
+              applySkill: {
+                id: "10081-passive-2-1",
+                name: "必殺傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10081-passive-2-1",
+                  name: "必殺傷害增加",
+                  value: 0.09,
+                  stack: 1,
+                  maxStack: 11,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            },
+          },
+          {
+            id: "10081-passive-2",
+            name: "每經過1回合，觸發「使自身必殺技傷害增加9%(最多11層)」",
+            type: 4,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10081-passive-2-1",
+              target: Target.SELF,
               applySkill: {
                 id: "10081-passive-2-1",
                 name: "必殺傷害增加",
