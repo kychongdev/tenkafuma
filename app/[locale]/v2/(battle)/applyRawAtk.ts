@@ -32,7 +32,7 @@ export function applyRawAttBuff(gameState: GameState, position: number) {
     }
   }
 
-  return atk.mul(atkPercentage).add(tempAtk).toNumber();
+  return atk.mul(atkPercentage).round(0, Big.roundDown).add(tempAtk);
 }
 
 export function rawAtkBuffAll(
@@ -43,7 +43,10 @@ export function rawAtkBuffAll(
   duration: number,
 ) {
   G.characters.forEach((_, index) => {
-    const attack = Math.floor(applyRawAttBuff(G, p) * value);
+    const attack = applyRawAttBuff(G, p)
+      .round(0, Big.roundDown)
+      .mul(value)
+      .toNumber();
     G.characters[index].buff = [
       ...G.characters[index].buff,
       {
@@ -69,7 +72,10 @@ export function rawHotAll(
   duration: number,
 ) {
   G.characters.forEach((_, index) => {
-    const attack = Math.floor(applyRawAttBuff(G, p) * value);
+    const attack = applyRawAttBuff(G, p)
+      .round(0, Big.roundDown)
+      .mul(value)
+      .toNumber();
     G.characters[index].buff = [
       ...G.characters[index].buff,
       {

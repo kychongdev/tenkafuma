@@ -57,12 +57,12 @@
   "10006": {
     "id": 10006,
     "name": "法斯公主 露露",
-    "initHp": 10,
-    "initAtk": 10,
-    "attribute": 5,
-    "class": 11,
-    "available": false,
-    "cd": 4,
+    "initHp": 3555.2,
+    "initAtk": 899.2,
+    "attribute": 7,
+    "class": 13,
+    "available": true,
+    "cd": 5,
     "leader": false
   },
   "10007": {
