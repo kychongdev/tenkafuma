@@ -64,7 +64,7 @@ export default function SelectSimulateTeam() {
       }
     });
     analysis(index);
-    router.push(`/v2/simulate/result/${index}`);
+    router.push(`/simulate/result/${index}`);
   }
 
   return (

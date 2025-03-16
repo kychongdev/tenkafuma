@@ -70,7 +70,7 @@ export const DisplaySelect = ({ index }: { index: number }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem
             onClick={() => {
-              router.push(`/v2/simulate/select/${index}`);
+              router.push(`/simulate/select/${index}`);
             }}
           >
             調整練度模擬
@@ -78,7 +78,7 @@ export const DisplaySelect = ({ index }: { index: number }) => {
 
           <DropdownMenuItem
             onClick={() => {
-              router.push(`/v2/simulate/select/${index}`);
+              router.push(`/simulate/select/${index}`);
             }}
           >
             刪除所有紀錄

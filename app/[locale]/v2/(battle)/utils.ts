@@ -446,3 +446,47 @@ export function parseSkillName(buff: Skill) {
 export function formatToTwoDecimal(num: number) {
   return Math.round(num * 100) / 100;
 }
+
+export function parseMoveSet(move: number) {
+  switch (move) {
+    case 0:
+      return "1普攻";
+    case 1:
+      return "2普攻";
+    case 2:
+      return "3普攻";
+    case 3:
+      return "4普攻";
+    case 4:
+      return "5普攻";
+    case 5:
+      return "1必殺";
+    case 6:
+      return "2必殺";
+    case 7:
+      return "3必殺";
+    case 8:
+      return "4必殺";
+    case 9:
+      return "5必殺";
+    case 10:
+      return "1防禦";
+    case 11:
+      return "2防禦";
+    case 12:
+      return "3防禦";
+    case 13:
+      return "4防禦";
+    case 14:
+      return "5防禦";
+    default:
+      return "無法讀取";
+  }
+}
+
+export function calculateDamageDifference(base: number, current: number) {
+  if (base === 0 && current === 0) return 0;
+  const diff = (current / base) * 100;
+
+  return +(diff - 100).toFixed(2);
+}
