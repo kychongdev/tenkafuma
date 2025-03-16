@@ -4968,6 +4968,18 @@ export function initPassiveSkill(G: GameState, pos: number) {
             ],
           },
         },
+        {
+          id: "10175-passive-3",
+          name: "必殺時，觸發「以自身攻擊力150%對我方全體進行治療」",
+          type: 9,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _9: {
+            value: 1.5,
+            target: Target.ALL_ALLIES,
+            damageType: DamageType.TRIGGER,
+          },
+        },
       ];
 
       if (G.characters[pos].stars === 5) {

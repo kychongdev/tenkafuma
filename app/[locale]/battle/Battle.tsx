@@ -35,6 +35,7 @@ import { useGameState } from "../(battle)/GameState";
 import { HealLog } from "./HealLog";
 import { useSimulateTeamState } from "../(simulate)/useSimulateState";
 import { Target } from "../(battle)/types/Skill";
+import { Input } from "@/components/ui/input";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -294,6 +295,7 @@ export default function Battle() {
                     );
                   })}
                 </div>
+                <Separator className="my-2" />
               </div>
             </DialogContent>
           </Dialog>
