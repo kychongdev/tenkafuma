@@ -5,6 +5,7 @@ import { CharacterAction } from "./types/Character";
 import { GameState } from "./GameState";
 import characterJson from "../../_data/characters.json";
 import { recursive } from "./target";
+import Big, { roundDown } from "big.js";
 
 export function generateClientId(size: number) {
   const alphabet =
@@ -211,49 +212,49 @@ export function parseSkillName(buff: Skill) {
       case AffectType.RAW_HEAL_OVER_TIME:
         return `每回合治療${formatNumber(buff._0.value)}`;
       case AffectType.INCREASE_FIRE_DMG_RECEIVED:
-        return `受到火屬性攻擊增加${buff._0.value * 100}%`;
+        return `受到火屬性攻擊增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_WATER_DMG_RECEIVED:
-        return `受到水屬性攻擊增加${buff._0.value * 100}%`;
+        return `受到水屬性攻擊增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_WIND_DMG_RECEIVED:
-        return `受到風屬性攻擊增加${buff._0.value * 100}%`;
+        return `受到風屬性攻擊增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_LIGHT_DMG_RECEIVED:
-        return `受到光屬性攻擊增加${buff._0.value * 100}%`;
+        return `受到光屬性攻擊增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_DARK_DMG_RECEIVED:
-        return `受到暗屬性攻擊增加${buff._0.value * 100}%`;
+        return `受到暗屬性攻擊增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_ATK:
-        return `攻擊增加${buff._0.value * 100}%`;
+        return `攻擊增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.MAX_HP:
-        return `最大HP增加${buff._0.value * 100}%`;
+        return `最大HP增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_DMG:
-        return `造成傷害增加${buff._0.value * 100}%`;
+        return `造成傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_BASIC_DMG:
-        return `普攻傷害增加${buff._0.value * 100}%`;
+        return `普攻傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_ULTIMATE_DMG:
-        return `必殺技傷害增加${buff._0.value * 100}%`;
+        return `必殺技傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_DMG_RECEIVED:
-        return `受到傷害增加${buff._0.value * 100}%`;
+        return `受到傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.DECREASE_DMG_RECEIVED:
-        return `受到傷害減少${buff._0.value * 100}%`;
+        return `受到傷害減少${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_ULTIMATE_DMG_RECEIVED:
-        return `受到必殺技傷害增加${buff._0.value * 100}%`;
+        return `受到必殺技傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.REDUCE_ATTRIBUTE_EFFECT:
-        return `屬性相剋傷害減少${buff._0.value * 100}%`;
+        return `屬性相剋傷害減少${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_BASIC_DMG_RECEIVED:
-        return `受到普攻傷害增加${buff._0.value * 100}%`;
+        return `受到普攻傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.DECREASE_BASIC_DMG_RECEIVED:
-        return `受到普攻傷害減少${buff._0.value * 100}%`;
+        return `受到普攻傷害減少${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_TRIGGER_DMG:
-        return `觸發傷害增加${buff._0.value * 100}%`;
+        return `觸發傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_TRIGGER_DMG_RECEIVED:
-        return `受到觸發傷害增加${buff._0.value * 100}%`;
+        return `受到觸發傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_TRIGGER_EFFECT:
-        return `觸發效果增加${buff._0.value * 100}%`;
+        return `觸發效果增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.DECREASE_TRIGGER_EFFECT:
-        return `觸發效果減少${buff._0.value * 100}%`;
+        return `觸發效果減少${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.DECREASE_TRIGGER_DMG:
-        return `觸發傷害減少${buff._0.value * 100}%`;
+        return `觸發傷害減少${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.DECREASE_TRIGGER_DMG_RECEIVED:
-        return `受到觸發傷害減少${buff._0.value * 100}%`;
+        return `受到觸發傷害減少${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_HEAL_RATE_OVER_TIME:
         return `受到持續回復增加${buff._0.value * 100}%`;
       case AffectType.INCREASE_HEAL_RATE:

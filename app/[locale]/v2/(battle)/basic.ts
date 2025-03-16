@@ -1,3 +1,4 @@
+import Big from "big.js";
 import {
   applyDamage,
   basicHpToTargeting,
@@ -107,8 +108,11 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
+    case "10076": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10077": "黑鷹 貝里絲",
-
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     // "10081": "花嫁 伊布力斯",
@@ -138,6 +142,34 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10106": "絕代佳人 賽露西亞",
     // "10107": "龍飛鳳舞 蘭兒",
     // "10108": "甜心可可 巴爾",
+    case "10108": {
+      G.characters.forEach((_, index) => {
+        const attack = applyRawAttBuff(G, p)
+          .round(0, Big.roundDown)
+          .mul(0.2)
+          .round(0, Big.roundDown)
+          .toNumber();
+        if (index !== p) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10151-basic-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: attack,
+                affectType: AffectType.RAW_ATK,
+              },
+            },
+          ];
+        }
+      });
+      basicHealAllAllies(G, oG, 0.2, p, ca);
+      rawHotAll(G, p, 0.2, "10108-basic-2", 2);
+      break;
+    }
     // "10109": "純情可可 伊布力斯",
     // "10110": "致命可可 撒旦",
     // "10111": "背德密醫 艾琳",
@@ -160,23 +192,7 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10125": "南瓜魔女 神田綾音",
     // "10126": "調皮搗蛋 白",
     case "10126": {
-      G.characters.forEach((_, index) => {
-        const attack = Math.floor(applyRawAttBuff(G, p) * 0.3);
-        G.characters[index].buff = [
-          ...G.characters[index].buff,
-          {
-            id: "10126-basic-1",
-            name: "攻擊力",
-            type: 0,
-            condition: Condition.NONE,
-            duration: 1,
-            _0: {
-              value: attack,
-              affectType: AffectType.RAW_ATK,
-            },
-          },
-        ];
-      });
+      rawAtkBuffAll(G, p, 0.3, "10126-basic-1", 1);
       break;
     }
     // "10127": "雪夜幻夢 阿爾蒂雅",

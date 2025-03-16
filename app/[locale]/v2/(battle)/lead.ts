@@ -510,6 +510,126 @@ export function initLeadSkill(G: GameState) {
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
+    case "10142": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10142-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10142-lead-2",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+        ];
+      });
+      const threeAttackerCondition = [
+        CharacterClass.ATTACKER,
+        CharacterClass.ATTACKER,
+        CharacterClass.ATTACKER,
+      ];
+      G.characters.forEach((character) => {
+        if (threeAttackerCondition.includes(character.class)) {
+          const index = threeAttackerCondition.indexOf(character.class);
+          if (index !== -1) {
+            threeAttackerCondition.splice(
+              threeAttackerCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+      if (threeAttackerCondition.length === 0) {
+        G.characters[0].buff = [
+          ...G.characters[0].buff,
+          {
+            id: "10142-lead-3",
+            name: "自身必殺時，觸發「使敵方全體受到傷害增加20%(4回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ENEMY,
+              applySkill: [
+                {
+                  id: "10142-lead-3-1",
+                  name: "受到傷害增加20%",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10142-lead-4",
+            name: "自身必殺時，觸發「使我方全體攻擊者造成傷害增加20%(4回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ATTACKER,
+              applySkill: [
+                {
+                  id: "10142-lead-4-1",
+                  name: "造成傷害增加20%",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10142-lead-5",
+            name: "自身必殺時，觸發「使我方全體攻擊者普攻傷害增加110%(4回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ATTACKER,
+              applySkill: [
+                {
+                  id: "10142-lead-5-1",
+                  name: "普攻傷害增加110%",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 1.1,
+                    affectType: AffectType.INCREASE_BASIC_DMG,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
     case "10144": {

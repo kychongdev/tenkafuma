@@ -46,6 +46,7 @@ export function rawAtkBuffAll(
     const attack = applyRawAttBuff(G, p)
       .round(0, Big.roundDown)
       .mul(value)
+      .round(0, Big.roundDown)
       .toNumber();
     G.characters[index].buff = [
       ...G.characters[index].buff,
@@ -75,6 +76,7 @@ export function rawHotAll(
     const attack = applyRawAttBuff(G, p)
       .round(0, Big.roundDown)
       .mul(value)
+      .round(0, Big.roundDown)
       .toNumber();
     G.characters[index].buff = [
       ...G.characters[index].buff,

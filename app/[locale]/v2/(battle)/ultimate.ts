@@ -1,6 +1,7 @@
+import Big from "big.js";
 import { ultToTargeting, ultHpToTargeting } from "./applyDamage";
 import { ultHealAllAllies, ultHpHealAll } from "./applyHeal";
-import { applyRawAttBuff, rawAtkBuffAll } from "./applyRawAtk";
+import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { ultHpShieldAllAllies } from "./applyShield";
 import { shieldUltHp } from "./calculations/shieldHp";
 import { GameState } from "./GameState";
@@ -39,7 +40,11 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       } else {
         const b = bond === 5 ? 0.25 : 0.2;
         G.characters.forEach((_, index) => {
-          const atk = Math.floor(applyRawAttBuff(G, pos) * b);
+          const atk = applyRawAttBuff(G, pos)
+            .round(0, Big.roundDown)
+            .mul(b)
+            .round(0, Big.roundDown)
+            .toNumber();
           if (G.characters[index].class === CharacterClass.SUPPORT) {
             G.characters[index].buff = [
               ...G.characters[index].buff,
@@ -70,7 +75,11 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
                   ? 1
                   : 1.1;
         G.characters.forEach((_, index) => {
-          const atk = Math.floor(applyRawAttBuff(G, pos) * b2);
+          const atk = applyRawAttBuff(G, pos)
+            .round(0, Big.roundDown)
+            .mul(b2)
+            .round(0, Big.roundDown)
+            .toNumber();
           G.characters[index].buff = [
             ...G.characters[index].buff,
             {
@@ -276,7 +285,87 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
-    // "10077": "黑鷹 貝里絲",
+    case "10076": {
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.68
+                : 5.14,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10076-ult-1",
+              name: `普攻時，追加技能『以自身攻擊力${
+                bond === 1
+                  ? 37.5
+                  : bond === 2
+                    ? 45
+                    : bond === 3
+                      ? 45
+                      : bond === 4
+                        ? 52.5
+                        : 60
+              }%對目標造成傷害』(${
+                bond === 1
+                  ? 3
+                  : bond === 2
+                    ? 3
+                    : bond === 3
+                      ? 4
+                      : bond === 4
+                        ? 4
+                        : 4
+              }回合)`,
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration:
+                bond === 1
+                  ? 3
+                  : bond === 2
+                    ? 3
+                    : bond === 3
+                      ? 4
+                      : bond === 4
+                        ? 4
+                        : 4,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.375
+                    : bond === 2
+                      ? 0.45
+                      : bond === 3
+                        ? 0.45
+                        : bond === 4
+                          ? 0.525
+                          : 0.6,
+                defender: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                multiple: false,
+                isTrueDamage: false,
+              },
+            },
+          ];
+        }
+      });
+      break;
+    } // "10077": "黑鷹 貝里絲",
 
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
@@ -441,6 +530,89 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10106": "絕代佳人 賽露西亞",
     // "10107": "龍飛鳳舞 蘭兒",
     // "10108": "甜心可可 巴爾",
+    case "10108": {
+      G.characters.forEach((character, index) => {
+        if (index !== pos) {
+          character.buff = [
+            ...character.buff,
+            {
+              id: "10108-ult-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: applyRawAttBuff(G, pos)
+                  .round(0, Big.roundDown)
+                  .mul(0.2)
+                  .round(0, Big.roundDown)
+                  .toNumber(),
+                affectType: AffectType.RAW_ATK,
+              },
+            },
+          ];
+        }
+      });
+      const buff: Skill = {
+        id: "10108-ult-2",
+        name: "受到傷害增加(最多1層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10108-ult-2-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10108-ult-2-1",
+            name: "受到傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10108-ult-2-1",
+              name: "受到傷害增加",
+              stack: 1,
+              maxStack:
+                bond === 1
+                  ? 3
+                  : bond === 2
+                    ? 3
+                    : bond === 3
+                      ? 2
+                      : bond === 4
+                        ? 2
+                        : 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.15
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.225
+                      : bond === 4
+                        ? 0.225
+                        : 0.3,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      const b =
+        bond === 1
+          ? 0.96
+          : bond === 2
+            ? 1.1
+            : bond === 3
+              ? 1.23
+              : bond === 4
+                ? 1.37
+                : 1.5;
+
+      rawHotAll(G, pos, b, "10108-basic-2", 3);
+      break;
+    }
     // "10109": "純情可可 伊布力斯",
     // "10110": "致命可可 撒旦",
     // "10111": "背德密醫 艾琳",

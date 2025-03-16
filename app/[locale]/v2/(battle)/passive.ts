@@ -515,6 +515,112 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
+    case "10076": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10076-passive-1",
+          name: "必殺時，觸發「使我方全體普攻傷害增加30%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            target: Target.ALL_ALLIES,
+            targetSkill: "10076-passive-1-1",
+            increaseStack: 1,
+            applySkill: {
+              id: "10076-passive-1-1",
+              name: "普攻傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10076-passive-1-1",
+                name: "普攻傷害增加",
+                value: 0.3,
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          },
+        },
+        {
+          id: "10076-passive-2",
+          name: "第1回合時，觸發「使我方全體普攻傷害增加30%(50回合)」",
+          type: 11,
+          condition: Condition.ON_SPECIFIC_TURN,
+          conditionTurn: 1,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10076-passive-2-1",
+                name: "普攻傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10076-passive-3",
+            name: "必殺時，觸發「使我方全體造成傷害增加12.5%(最多2層)」",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              target: Target.ALL_ALLIES,
+              targetSkill: "10076-passive-3-1",
+              increaseStack: 1,
+              applySkill: {
+                id: "10076-passive-3-1",
+                name: "造成傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10076-passive-3-1",
+                  name: "造成傷害增加",
+                  value: 0.125,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10076-passive-4",
+            name: "使普攻傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10077": "黑鷹 貝里絲",
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
@@ -1081,6 +1187,139 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10106": "絕代佳人 賽露西亞",
     // "10107": "龍飛鳳舞 蘭兒",
     // "10108": "甜心可可 巴爾",
+    case "10108": {
+      const lowestHP = G.characters.reduce((prev, current) =>
+        prev && prev.maxHp < current.maxHp ? prev : current,
+      );
+      const lowestHpIndex = G.characters.findIndex(
+        (character) => character.id === lowestHP.id,
+      );
+      G.characters[lowestHpIndex].buff = [
+        ...G.characters[lowestHpIndex].buff,
+        {
+          id: "10108-passive-1",
+          name: "受到傷害減少15%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.15,
+            affectType: AffectType.DECREASE_DMG_RECEIVED,
+          },
+        },
+      ];
+
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10108-passive-2",
+            name: "受到必殺技傷害減少10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.DECREASE_ULTIMATE_DMG_RECEIVED,
+            },
+          },
+        ];
+      });
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10108-passive-3",
+          name: "必殺時，觸發「使我方全體被治療時回復量增加20%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10108-passive-3-1",
+            target: Target.ALL_ALLIES,
+            applySkill: {
+              id: "10108-passive-3-1",
+              name: "被治療時回復量增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10108-passive-3-1",
+                name: "被治療時回復量增加20%",
+                value: 0.2,
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_HEAL_RATE,
+              },
+            },
+          },
+        },
+      ];
+      if (G.characters[pos].stars === 5) {
+        G.characters.forEach((character, index) => {
+          if (
+            character.class === CharacterClass.HEALER ||
+            character.class === CharacterClass.SUPPORT
+          ) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10108-passive-4",
+                name: "攻擊力增加40%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  value: 0.4,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+              {
+                id: "10108-passive-5",
+                name: "防禦時，觸發「我方全體受到持續型治療增加20%(1回合)」",
+                type: 11,
+                condition: Condition.GUARD,
+                duration: 100,
+                _11: {
+                  target: Target.ALL_ALLIES,
+                  applySkill: [
+                    {
+                      id: "10108-passive-5-1",
+                      name: "受到持續型治療增加",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.2,
+                        affectType: AffectType.INCREASE_HEAL_RATE,
+                      },
+                    },
+                  ],
+                },
+              },
+            ];
+          }
+        });
+      }
+
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10108-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10109": "純情可可 伊布力斯",
     // "10110": "致命可可 撒旦",
     // "10111": "背德密醫 艾琳",
