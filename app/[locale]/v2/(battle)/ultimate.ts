@@ -35,8 +35,39 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10005": "矮人王 蘭兒",
     // "10006": "法斯公主 露露",
     case "10006": {
-      ultHealAllAllies(G, oG, 2, pos, false, false, ca);
       if (lib === 0) {
+        ultHealAllAllies(G, oG, 2, pos, false, false, ca);
+        const b2 =
+          bond === 1
+            ? 0.69
+            : bond === 2
+              ? 0.73
+              : bond === 3
+                ? 0.76
+                : bond === 4
+                  ? 0.8
+                  : 0.8;
+        G.characters.forEach((_, index) => {
+          const atk = applyRawAttBuff(G, pos)
+            .round(0, Big.roundDown)
+            .mul(b2)
+            .round(0, Big.roundDown)
+            .toNumber();
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10006-basic-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 5,
+              _0: {
+                value: atk,
+                affectType: AffectType.RAW_HEAL_OVER_TIME,
+              },
+            },
+          ];
+        });
       } else {
         const b = bond === 5 ? 0.25 : 0.2;
         G.characters.forEach((_, index) => {
@@ -83,7 +114,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           G.characters[index].buff = [
             ...G.characters[index].buff,
             {
-              id: "10060-basic-1",
+              id: "10006-basic-1",
               name: "攻擊力",
               type: 0,
               condition: Condition.NONE,
@@ -96,7 +127,6 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           ];
         });
       }
-
       break;
     }
     // "10007": "天使長 聖米勒",
@@ -273,6 +303,65 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
+    case "10060": {
+      if (bond > 3) {
+        G.characters.forEach((_, index) => {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10060-ult-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 2,
+              _0: {
+                value: bond === 4 ? 0.15 : 0.2,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          ];
+        });
+      }
+
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          G.characters[index].cd -= 1;
+          if (G.characters[index].cd < 0) {
+            G.characters[index].cd = 0;
+          }
+        }
+      });
+
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.PROTECTOR) {
+          G.characters[index].cd -= 1;
+          if (G.characters[index].cd < 0) {
+            G.characters[index].cd = 0;
+          }
+        }
+      });
+      //並使我方全體被治療時回復量增加50%(5回合)，並獲得"每回合以攻擊力80/95/110/110/110%進行治療(5回合)"效果
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10060-ult-2",
+            name: "被治療時回復量增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 5,
+            _0: {
+              value: 0.5,
+              affectType: AffectType.INCREASE_HEAL_RECEIVED,
+            },
+          },
+        ];
+      });
+
+      const b = bond === 1 ? 0.8 : bond === 2 ? 0.95 : 1.1;
+      rawHotAll(G, pos, b, "10060-ult-3", 5);
+      break;
+    }
     // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
@@ -365,10 +454,68 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         }
       });
       break;
-    } // "10077": "黑鷹 貝里絲",
-
+    }
+    // "10077": "黑鷹 貝里絲",
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
+    case "10079": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10079-ult-1",
+          name: "攻擊力增加(1回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: bond < 4 ? 3 : 4,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value:
+              bond === 1
+                ? 0.5
+                : bond === 2
+                  ? 0.65
+                  : bond === 3
+                    ? 0.8
+                    : bond === 4
+                      ? 0.95
+                      : 1.1,
+          },
+        },
+      ];
+      ultToTargeting(G, oG, 2, pos, Target.ENEMY, false, false, dt, ca);
+      if (bond > 2) {
+        const buff: Skill = {
+          id: "10079-ult-2",
+          name: "造成傷害增加(最多1層)",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10079-ult-2-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10079-ult-2-1",
+              name: "造成傷害增加(最多1層)",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10079-ult-2-1",
+                name: "造成傷害增加(最多1層)",
+                stack: 1,
+                maxStack: 1,
+                affectType: AffectType.INCREASE_DMG,
+                value: bond === 3 ? 0.1 : bond === 4 ? 0.15 : 0.2,
+              },
+            },
+          },
+        };
+
+        trigger(G, oG, pos, buff, ca);
+      }
+      break;
+    }
     // "10081": "花嫁 伊布力斯",
     case "10081": {
       if (lib === 0) {

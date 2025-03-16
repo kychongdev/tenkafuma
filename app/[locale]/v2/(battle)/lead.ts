@@ -485,6 +485,264 @@ export function initLeadSkill(G: GameState) {
     // "10115": "魔法少女 布蘭妮",
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
+    case "10117": {
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10117-lead-1",
+          name: "最大HP增加20%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.MAX_HP,
+            value: 0.2,
+          },
+        },
+        {
+          id: "10117-lead-2",
+          name: "造成傷害增加20%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_DMG,
+            value: 0.2,
+          },
+        },
+      ];
+      G.characters.forEach((character, index) => {
+        if (
+          character.attribute === CharacterAttribute.FIRE ||
+          character.attribute === CharacterAttribute.LIGHT
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10117-lead-1",
+              name: "最大HP增加20%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.MAX_HP,
+                value: 0.2,
+              },
+            },
+            {
+              id: "10117-lead-2",
+              name: "造成傷害增加20%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.2,
+              },
+            },
+          ];
+        }
+      });
+
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10117-lead-3",
+          name: "攻擊力增加50%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value: 0.5,
+          },
+        },
+        {
+          id: "10117-lead-4",
+          name: "普攻傷害增加20%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.INCREASE_BASIC_DMG,
+            value: 0.2,
+          },
+        },
+      ];
+      G.characters.forEach((character, index) => {
+        if (
+          character.attribute === CharacterAttribute.FIRE ||
+          character.attribute === CharacterAttribute.LIGHT
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10117-lead-5",
+              name: "攻擊力增加80%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 0.8,
+              },
+            },
+            {
+              id: "10117-lead-6",
+              name: "普攻傷害增加50%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_BASIC_DMG,
+                value: 0.5,
+              },
+            },
+          ];
+        }
+      });
+
+      {
+        const twoFireCondition = [
+          CharacterAttribute.FIRE,
+          CharacterAttribute.FIRE,
+        ];
+        const twoLightCondition = [
+          CharacterAttribute.LIGHT,
+          CharacterAttribute.LIGHT,
+        ];
+
+        G.characters.forEach((character) => {
+          if (twoFireCondition.includes(character.attribute)) {
+            const index = twoFireCondition.indexOf(character.attribute);
+            if (index !== -1) {
+              twoFireCondition.splice(
+                twoFireCondition.indexOf(character.attribute),
+                1,
+              );
+            }
+          }
+          if (twoLightCondition.includes(character.attribute)) {
+            const index = twoLightCondition.indexOf(character.attribute);
+            if (index !== -1) {
+              twoLightCondition.splice(
+                twoLightCondition.indexOf(character.attribute),
+                1,
+              );
+            }
+          }
+        });
+
+        if (twoFireCondition.length === 0) {
+          G.characters.forEach((character, index) => {
+            if (
+              character.class === CharacterClass.ATTACKER ||
+              character.class === CharacterClass.OBSTRUCTER
+            ) {
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                {
+                  id: "10117-lead-7",
+                  name: "普攻時，追加「以自身攻擊力40%對目標造成傷害」",
+                  type: 101,
+                  condition: Condition.BASIC_ATTACK,
+                  duration: 100,
+                  _101: {
+                    value: 0.4,
+                    defender: Target.ENEMY,
+                    damageType: DamageType.BASIC_ADDON,
+                    multiple: false,
+                    isTrueDamage: false,
+                  },
+                },
+                {
+                  id: "10117-lead-8",
+                  name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
+                  type: 104,
+                  condition: Condition.BASIC_ATTACK,
+                  duration: 100,
+                  _104: {
+                    increaseStack: 1,
+                    targetSkill: "10117-lead-8-1",
+                    target: Target.ENEMY,
+                    applySkill: {
+                      id: "10117-lead-8-1",
+                      name: "受到普攻傷害增加18%",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10117-lead-8-1",
+                        name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
+                        stack: 1,
+                        maxStack: 5,
+                        value: 0.18,
+                        affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+                      },
+                    },
+                  },
+                },
+              ];
+            }
+          });
+        }
+
+        if (twoLightCondition.length === 0) {
+          G.characters.forEach((character, index) => {
+            if (
+              character.class === CharacterClass.ATTACKER ||
+              character.class === CharacterClass.OBSTRUCTER
+            ) {
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                {
+                  id: "10117-lead-9",
+                  name: "普攻時，追加「以自身攻擊力40%對目標造成傷害」",
+                  type: 101,
+                  condition: Condition.BASIC_ATTACK,
+                  duration: 100,
+                  _101: {
+                    value: 0.4,
+                    defender: Target.ENEMY,
+                    damageType: DamageType.BASIC_ADDON,
+                    multiple: false,
+                    isTrueDamage: false,
+                  },
+                },
+                {
+                  id: "10117-lead-10",
+                  name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
+                  type: 104,
+                  condition: Condition.BASIC_ATTACK,
+                  duration: 100,
+                  _104: {
+                    increaseStack: 1,
+                    targetSkill: "10117-lead-10-1",
+                    target: Target.ENEMY,
+                    applySkill: {
+                      id: "10117-lead-10-1",
+                      name: "普攻時，追加「使目標受到普攻傷害增加18%(最多5層)」",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10117-lead-10-1",
+                        name: "受到普攻傷害增加18%",
+                        stack: 1,
+                        maxStack: 5,
+                        value: 0.18,
+                        affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+                      },
+                    },
+                  },
+                },
+              ];
+            }
+          });
+        }
+      }
+      break;
+    }
     // "10118": "夏日 菲歐菈",
     // "10119": "夏日 艾可",
     // "10120": "乘風破浪 蘭兒",

@@ -96,7 +96,12 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
-    // "10061": "地方媽媽 提爾絲",
+    case "10060": {
+      //以自身攻擊力25%對我方全體進行治療，並以自身攻擊力25%每回合對我方全體進行治療(3回合)
+      basicHealAllAllies(G, oG, 0.25, p, ca);
+      rawHotAll(G, p, 0.25, "10060-basic-1", 3);
+      break;
+    } // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
     // "10066": "千咒魔女 安西莉卡",
@@ -115,6 +120,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10077": "黑鷹 貝里絲",
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
+    case "10079": {
+      basicToTargeting(G, oG, 1.25, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10081": "花嫁 伊布力斯",
     case "10081": {
       basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
@@ -178,6 +187,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10115": "魔法少女 布蘭妮",
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
+    case "10117": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10118": "夏日 菲歐菈",
     // "10119": "夏日 艾可",
     case "10119": {
