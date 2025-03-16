@@ -846,8 +846,162 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",
+    case "10123": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10123-ult-1",
+            name: "造成觸發技效果增加(4回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_TRIGGER_DMG,
+              value:
+                bond === 1
+                  ? 0.6
+                  : bond === 2
+                    ? 0.7
+                    : bond === 3
+                      ? 0.8
+                      : bond === 4
+                        ? 0.9
+                        : 1,
+            },
+          },
+        ];
+      });
+
+      G.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10123-ult-2",
+              name: "攻擊時，觸發『以自身攻擊力59%對目標造成傷害』(3回合)",
+              type: 1,
+              condition: Condition.ATTACK,
+              duration: 3,
+              _1: {
+                value:
+                  bond === 1
+                    ? 0.33
+                    : bond === 2
+                      ? 0.39
+                      : bond === 3
+                        ? 0.46
+                        : bond === 4
+                          ? 0.52
+                          : 0.59,
+                defender: Target.ENEMY,
+                damageType: DamageType.TRIGGER,
+                multiple: false,
+              },
+            },
+          ];
+        }
+      });
+
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 2.65
+          : bond === 2
+            ? 2.98
+            : bond === 3
+              ? 3.31
+              : bond === 4
+                ? 3.64
+                : 3.97,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
+    case "10125": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10125-ult-1",
+          name: "攻擊力增加200%(1回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            affectType: AffectType.INCREASE_ATK,
+            value:
+              bond === 1
+                ? 2
+                : bond === 2
+                  ? 2
+                  : bond === 3
+                    ? 2.5
+                    : bond === 4
+                      ? 2.5
+                      : 3,
+          },
+        },
+      ];
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10125-ult-2",
+          name: "以自身攻擊力25%使自身攻擊力增加(1回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            affectType: AffectType.RAW_ATK,
+            value: applyRawAttBuff(G, pos)
+              .mul(
+                bond === 1
+                  ? 0.25
+                  : bond === 2
+                    ? 0.3
+                    : bond === 3
+                      ? 0.35
+                      : bond === 4
+                        ? 0.4
+                        : 0.45,
+              )
+              .toNumber(),
+          },
+        },
+      ];
+      G.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.OBSTRUCTER ||
+          character.class === CharacterClass.ATTACKER
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10125-ult-3",
+              name: "以自身攻擊力25%使我方攻擊者、妨礙者攻擊力增加(1回合)",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                affectType: AffectType.RAW_ATK,
+                value: applyRawAttBuff(G, pos).mul(0.25).toNumber(),
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
     // "10126": "調皮搗蛋 白",
     case "10126": {
       G.enemies[G.targeting].buff = [
@@ -2408,6 +2562,93 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10175": "翩舞雪花 初華"
+    case "10175": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10175-ult-1",
+            name: "攻擊力增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.4
+                  : bond === 2
+                    ? 0.45
+                    : bond === 3
+                      ? 0.5
+                      : bond === 4
+                        ? 0.55
+                        : 0.6,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+          {
+            id: "10175-ult-2",
+            name: "造成傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.15
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.3,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: "10175-ult-3",
+            name: "必殺技傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.25
+                    : bond === 3
+                      ? 0.3
+                      : bond === 4
+                        ? 0.35
+                        : 0.4,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        ];
+      });
+      if (bond > 2) {
+        G.characters.forEach((_, index) => {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10175-ult-4",
+              name: "受到傷害減少",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 3,
+              _0: {
+                value: bond === 3 ? 0.05 : bond === 4 ? 0.075 : 0.1,
+                affectType: AffectType.DECREASE_DMG_RECEIVED,
+              },
+            },
+          ];
+        });
+      }
+
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

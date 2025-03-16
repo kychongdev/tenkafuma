@@ -201,8 +201,31 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",
+    case "10123": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
+    case "10125": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10125-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.5,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10126": "調皮搗蛋 白",
     case "10126": {
       rawAtkBuffAll(G, p, 0.3, "10126-basic-1", 1);
@@ -366,6 +389,25 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10175": "翩舞雪花 初華"
+    case "10175": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10175-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.4,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

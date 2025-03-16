@@ -1911,8 +1911,225 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10121": "碧波白喵 娜娜",
     // "10122": "性感天使 兔姬",
     // "10123": "惡魔貓娘 杏仁咪嚕",
+    case "10123": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10123-passive-1",
+          name: "必殺時，觸發「使自身攻擊力增加40%(最多2層)」",
+          type: 4,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10123-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10123-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10123-1",
+                name: "攻擊力增加40%",
+                value: 0.4,
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: "10123-passive-2",
+          name: "必殺時 ，觸發「使目標受到必殺技傷害增加20%(4回合)」",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: "10123-passive-2-1",
+                name: "受到必殺技傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 4,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10123-passive-3",
+            name: "必殺時 ，觸發「使目標受到傷害增加20%(4回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ENEMY,
+              applySkill: [
+                {
+                  id: "10123-passive-3-1",
+                  name: "受到傷害增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 4,
+                  _0: {
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10123-passive-4",
+            name: "使自身必殺技傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10124": "沁夏淡粉 香草奈若",
     // "10125": "南瓜魔女 神田綾音",
+    case "10125": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10125-passive-1",
+          name: "必殺時，追加「以自身攻擊力250%對目標造成傷害」",
+          type: 101,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _101: {
+            value: 2.5,
+            defender: Target.ENEMY,
+            damageType: DamageType.ULTIMATE_ADDON,
+            multiple: false,
+            isTrueDamage: false,
+          },
+        },
+        {
+          id: "10125-passive-2",
+          name: "每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方攻擊者攻擊力增加(1回合)』(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10125-passive-2-1",
+                name: "必殺時,觸發 以自身攻擊力25%使我方攻擊者攻擊力增加(1回合)",
+                type: 6,
+                condition: Condition.ULTIMATE,
+                duration: 1,
+                _6: {
+                  base: false,
+                  duration: 1,
+                  value: 0.25,
+                  target: Target.ATTACKER,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10125-passive-3",
+          name: "每經過3回合，觸發「使自身獲得必殺時，觸發『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10125-passive-3-1",
+                name: "必殺時,觸發 『以自身攻擊力25%使我方妨礙者攻擊力增加(1回合)』(1回合)」",
+                type: 6,
+                duration: 1,
+                condition: Condition.ULTIMATE,
+                _6: {
+                  base: false,
+                  value: 0.25,
+                  duration: 1,
+                  target: Target.OBSTRUCTER,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      if (stars === 5) {
+        G.characters.forEach((character, index) => {
+          if (
+            character.class === CharacterClass.ATTACKER ||
+            character.class === CharacterClass.OBSTRUCTER
+          ) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10125-passive-4",
+                name: "必殺時，追加『以自身攻擊力100%對目標造成傷害』(50回合)",
+                type: 101,
+                condition: Condition.ULTIMATE,
+                duration: 50,
+                _101: {
+                  value: 1,
+                  defender: Target.ENEMY,
+                  damageType: DamageType.ULTIMATE_ADDON,
+                  multiple: false,
+                  isTrueDamage: false,
+                },
+              },
+            ];
+          }
+        });
+      }
+
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10125-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10126": "調皮搗蛋 白",
     case "10126": {
       G.characters[pos].buff = [
@@ -4406,6 +4623,114 @@ export function initPassiveSkill(G: GameState, pos: number) {
       break;
     }
     // "10175": "翩舞雪花 初華"
+    case "10175": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10175-passive-1",
+          name: "普攻時，觸發「以自身攻擊力50%每回合對我方全體進行治療(3回合)」",
+          type: 16,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _16: {
+            value: 0.5,
+            target: Target.ALL_ALLIES,
+            duration: 3,
+            base: false,
+          },
+        },
+      ];
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10175-passive-2",
+          name: "每經過3回合時，觸發「使目標受到傷害增加20%(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.ENEMY,
+            applySkill: [
+              {
+                id: "10175-passive-2-1",
+                name: "受到傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10175-passive-4",
+            name: "攻擊力增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.4,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+          {
+            id: "10175-passive-5",
+            name: "必殺時，觸發「使我方全體被治療時回復量增加25%」(最多2層)",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              target: Target.ALL_ALLIES,
+              targetSkill: "10175-passive-5-1",
+              applySkill: {
+                id: "10175-passive-5-1",
+                name: "被治療時回復量增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10175-passive-5-1",
+                  name: "被治療時回復量增加",
+                  stack: 1,
+                  maxStack: 2,
+                  value: 0.25,
+                  affectType: AffectType.INCREASE_HEAL_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10175-passive4",
+            name: "使自身治療量增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_HEAL_RATE,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

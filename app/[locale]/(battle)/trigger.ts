@@ -1,3 +1,4 @@
+import Big from "big.js";
 import {
   triggerDmgToPos,
   checkOpponent,
@@ -528,7 +529,7 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, p);
+            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
             const baseAtk = G.characters[p].atk;
             G.characters[index].buff = [
               ...G.characters[index].buff,
@@ -552,7 +553,7 @@ export function trigger(
           break;
         }
         case Target.SELF: {
-          const rawAttSkill = applyRawAttBuff(G, p);
+          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
           const baseAtk = G.characters[p].atk;
           console.log("test");
           G.characters[p].buff = [
@@ -580,7 +581,7 @@ export function trigger(
               console.log("2.Wrong data 6");
               return;
             }
-            const rawAttSkill = applyRawAttBuff(G, p);
+            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
             const baseAtk = G.characters[p].atk;
             if (index !== p) {
               G.characters[index].buff = [
@@ -615,7 +616,7 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, p);
+            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
             const baseAtk = G.characters[p].atk;
             if (character.class === buff._6?.target) {
               G.characters[index].buff = [
@@ -644,7 +645,7 @@ export function trigger(
         case Target.POSITION_3:
         case Target.POSITION_4:
         case Target.POSITION_5: {
-          const rawAttSkill = applyRawAttBuff(G, p);
+          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
           const baseAtk = G.characters[p].atk;
 
           if (p === -1) {
@@ -676,7 +677,7 @@ export function trigger(
         }
 
         case Target.SPECIFIC_CHARACTER: {
-          const rawAttSkill = applyRawAttBuff(G, p);
+          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
           const baseAtk = G.characters[p].atk;
           const pos = G.characters.findIndex((character) => {
             return character.id === buff._6?.applyToSpecificChar;
@@ -1237,7 +1238,10 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, p);
+            const rawAttSkill = applyRawAttBuff(G, p)
+              .round(0, Big.roundDown)
+              .toNumber();
+
             const baseAtk = G.characters[p].atk;
             G.characters[index].buff = [
               ...G.characters[index].buff,
@@ -1250,8 +1254,15 @@ export function trigger(
                 _0: {
                   value:
                     buff._16?.base === true
-                      ? Math.floor(baseAtk * buff._16.value)
-                      : Math.floor(rawAttSkill * buff._16.value),
+                      ? Big(baseAtk)
+                          .mul(buff._16.value)
+                          .round(0, Big.roundDown)
+                          .toNumber()
+                      : Big(rawAttSkill)
+                          .mul(buff._16.value)
+                          .mul(buff._16.value)
+                          .round(0, Big.roundDown)
+                          .toNumber(),
                   affectType: AffectType.RAW_HEAL_OVER_TIME,
                 },
               },
@@ -1261,9 +1272,8 @@ export function trigger(
           break;
         }
         case Target.SELF: {
-          const rawAttSkill = applyRawAttBuff(G, p);
+          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
           const baseAtk = G.characters[p].atk;
-          console.log("test");
           G.characters[p].buff = [
             ...G.characters[p].buff,
             {
@@ -1275,8 +1285,15 @@ export function trigger(
               _0: {
                 value:
                   buff._16?.base === true
-                    ? Math.floor(baseAtk * buff._16.value)
-                    : Math.floor(rawAttSkill * buff._16.value),
+                    ? Big(baseAtk)
+                        .mul(buff._16.value)
+                        .round(0, Big.roundDown)
+                        .toNumber()
+                    : Big(rawAttSkill)
+                        .mul(buff._16.value)
+                        .mul(buff._16.value)
+                        .round(0, Big.roundDown)
+                        .toNumber(),
                 affectType: AffectType.RAW_HEAL_OVER_TIME,
               },
             },
@@ -1289,7 +1306,7 @@ export function trigger(
               console.log("2.Wrong data 16");
               return;
             }
-            const rawAttSkill = applyRawAttBuff(G, p);
+            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
             const baseAtk = G.characters[p].atk;
             if (index !== p) {
               G.characters[index].buff = [
@@ -1303,8 +1320,15 @@ export function trigger(
                   _0: {
                     value:
                       buff._16?.base === true
-                        ? Math.floor(baseAtk * buff._16.value)
-                        : Math.floor(rawAttSkill * buff._16.value),
+                        ? Big(baseAtk)
+                            .mul(buff._16.value)
+                            .round(0, Big.roundDown)
+                            .toNumber()
+                        : Big(rawAttSkill)
+                            .mul(buff._16.value)
+                            .mul(buff._16.value)
+                            .round(0, Big.roundDown)
+                            .toNumber(),
                     affectType: AffectType.RAW_HEAL_OVER_TIME,
                   },
                 },
@@ -1324,7 +1348,7 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, p);
+            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
             const baseAtk = G.characters[p].atk;
             if (character.class === buff._16?.target) {
               G.characters[index].buff = [
@@ -1338,8 +1362,15 @@ export function trigger(
                   _0: {
                     value:
                       buff._16?.base === true
-                        ? Math.floor(baseAtk * buff._16.value)
-                        : Math.floor(rawAttSkill * buff._16.value),
+                        ? Big(baseAtk)
+                            .mul(buff._16.value)
+                            .round(0, Big.roundDown)
+                            .toNumber()
+                        : Big(rawAttSkill)
+                            .mul(buff._16.value)
+                            .mul(buff._16.value)
+                            .round(0, Big.roundDown)
+                            .toNumber(),
                     affectType: AffectType.RAW_HEAL_OVER_TIME,
                   },
                 },
@@ -1353,7 +1384,7 @@ export function trigger(
         case Target.POSITION_3:
         case Target.POSITION_4:
         case Target.POSITION_5: {
-          const rawAttSkill = applyRawAttBuff(G, p);
+          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
           const baseAtk = G.characters[p].atk;
 
           if (p === -1) {
@@ -1371,8 +1402,15 @@ export function trigger(
               _0: {
                 value:
                   buff._16?.base === true
-                    ? Math.floor(baseAtk * buff._16.value)
-                    : Math.floor(rawAttSkill * buff._16.value),
+                    ? Big(baseAtk)
+                        .mul(buff._16.value)
+                        .round(0, Big.roundDown)
+                        .toNumber()
+                    : Big(rawAttSkill)
+                        .mul(buff._16.value)
+                        .mul(buff._16.value)
+                        .round(0, Big.roundDown)
+                        .toNumber(),
                 affectType: AffectType.RAW_HEAL_OVER_TIME,
               },
             },
@@ -1385,7 +1423,7 @@ export function trigger(
         }
 
         case Target.SPECIFIC_CHARACTER: {
-          const rawAttSkill = applyRawAttBuff(G, p);
+          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
           const baseAtk = G.characters[p].atk;
           const pos = G.characters.findIndex((character) => {
             return character.id === buff._16?.applyToSpecificChar;
@@ -1395,7 +1433,6 @@ export function trigger(
             console.log("_16 Error: Could not find Character listed");
             break;
           }
-          console.log("_16 Test", rawAttSkill);
           G.characters[pos].buff = [
             ...G.characters[pos].buff,
             {
@@ -1407,8 +1444,15 @@ export function trigger(
               _0: {
                 value:
                   buff._16?.base === true
-                    ? Math.floor(baseAtk * buff._16.value)
-                    : Math.floor(rawAttSkill * buff._16.value),
+                    ? Big(baseAtk)
+                        .mul(buff._16.value)
+                        .round(0, Big.roundDown)
+                        .toNumber()
+                    : Big(rawAttSkill)
+                        .mul(buff._16.value)
+                        .mul(buff._16.value)
+                        .round(0, Big.roundDown)
+                        .toNumber(),
                 affectType: AffectType.RAW_HEAL_OVER_TIME,
               },
             },
