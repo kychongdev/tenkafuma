@@ -1,12 +1,8 @@
-import { calculateStats } from "../calculateStats";
 import characters from "@/data/characters.json";
 import _ from "lodash";
-import { CharacterAttribute, CharacterClass } from "../types/Character";
-import {
-  CharacterSelect,
-  CharacterState,
-  CharacterTeam,
-} from "../types/Select";
+import { CharacterAttribute, CharacterClass } from "./types/Character";
+import { CharacterSelect, CharacterState, CharacterTeam } from "./types/Select";
+import { calculateStats } from "./calculateStats";
 
 interface CharacterList {
   [key: string]: {

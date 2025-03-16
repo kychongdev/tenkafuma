@@ -13,7 +13,7 @@ export function parseAddon(
 ) {
   condition.forEach((c) => {
     if (position >= 0 && position < 5 && !state.characters[position].isDead) {
-      for (const buff of oldState.characters[position].buff) {
+      for (const buff of state.characters[position].buff) {
         if (c === buff.condition) {
           addOn(state, oldState, position, buff, ca);
         }

@@ -258,6 +258,7 @@ enum Target {
   WATER_ENEMY = 40,
   WIND_ENEMY = 41,
   NONE = 42,
+  LOWEST_HP = 43,
   CANT_FIND = 1000,
 }
 

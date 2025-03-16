@@ -33,6 +33,63 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10004": "精靈王 賽露西亞",
     // "10005": "矮人王 蘭兒",
     // "10006": "法斯公主 露露",
+    case "10006": {
+      ultHealAllAllies(G, oG, 2, pos, false, false, ca);
+      if (lib === 0) {
+      } else {
+        const b = bond === 5 ? 0.25 : 0.2;
+        G.characters.forEach((_, index) => {
+          const atk = Math.floor(applyRawAttBuff(G, pos) * b);
+          if (G.characters[index].class === CharacterClass.SUPPORT) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10006-ult-1",
+                name: "攻擊力",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: atk,
+                  affectType: AffectType.RAW_ATK,
+                },
+              },
+            ];
+          }
+        });
+        ultHealAllAllies(G, oG, 2, pos, false, false, ca);
+
+        const b2 =
+          bond === 1
+            ? 0.8
+            : bond === 2
+              ? 0.85
+              : bond === 3
+                ? 0.9
+                : bond === 4
+                  ? 1
+                  : 1.1;
+        G.characters.forEach((_, index) => {
+          const atk = Math.floor(applyRawAttBuff(G, pos) * b2);
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10060-basic-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 5,
+              _0: {
+                value: atk,
+                affectType: AffectType.RAW_HEAL_OVER_TIME,
+              },
+            },
+          ];
+        });
+      }
+
+      break;
+    }
     // "10007": "天使長 聖米勒",
     // "10008": "魔人偶 KS-VIII",
     // "10009": "魔管家 艾可",
@@ -715,14 +772,253 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         ca,
       );
       break;
-    } // "10135": "偶像經紀人 梅絲米奈雅",
+    }
+    // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
+    case "10137": {
+      G.enemies[G.targeting].buff = [
+        ...G.enemies[G.targeting].buff,
+        {
+          id: "10137-ult-1",
+          name: "受到傷害增加(4回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.2
+                : bond === 2
+                  ? 0.25
+                  : bond === 3
+                    ? 0.3
+                    : bond === 4
+                      ? 0.35
+                      : 0.4,
+          },
+        },
+      ];
+      G.characters.forEach((character, index) => {
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER ||
+          character.class === CharacterClass.PROTECTOR
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10137-ult-2",
+              name: `普攻時，追加『以自身攻擊力${
+                bond === 1
+                  ? 10
+                  : bond === 2
+                    ? 15
+                    : bond === 3
+                      ? 20
+                      : bond === 4
+                        ? 25
+                        : 30
+              }%對目標造成傷害』`,
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 4,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.1
+                    : bond === 2
+                      ? 0.15
+                      : bond === 3
+                        ? 0.2
+                        : bond === 4
+                          ? 0.25
+                          : 0.3,
+                defender: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                multiple: false,
+                isTrueDamage: false,
+              },
+            },
+          ];
+        }
+      });
+
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10137-ult-3",
+          name: `普攻時，追加『以自身攻擊力${
+            bond === 1
+              ? 20
+              : bond === 2
+                ? 30
+                : bond === 3
+                  ? 40
+                  : bond === 4
+                    ? 50
+                    : 60
+          }%對目標造成傷害』`,
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 0.2
+                : bond === 2
+                  ? 0.3
+                  : bond === 3
+                    ? 0.4
+                    : bond === 4
+                      ? 0.5
+                      : 0.6,
+            damageType: DamageType.BASIC_ADDON,
+            defender: Target.ENEMY,
+            multiple: false,
+            isTrueDamage: false,
+          },
+        },
+      ];
+      break;
+    }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
+
+    case "10142": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10142-ult-1",
+          name: "普攻傷害增加(4回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_BASIC_DMG,
+            value:
+              bond === 1
+                ? 0.5
+                : bond === 2
+                  ? 0.7
+                  : bond === 3
+                    ? 0.9
+                    : bond === 4
+                      ? 1.1
+                      : 1.3,
+          },
+        },
+        {
+          id: "10142-ult-2",
+          name: "造成傷害增加(4回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_DMG,
+            value:
+              bond === 1
+                ? 0.2
+                : bond === 2
+                  ? 0.25
+                  : bond === 3
+                    ? 0.3
+                    : bond === 4
+                      ? 0.35
+                      : 0.4,
+          },
+        },
+      ];
+
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10142-ult-3",
+              name: `普攻時，追加『以自身攻擊力${
+                bond === 1
+                  ? 20
+                  : bond === 2
+                    ? 30
+                    : bond === 3
+                      ? 30
+                      : bond === 4
+                        ? 40
+                        : 60
+              }%對目標造成傷害』(4回合)`,
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 4,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.2
+                    : bond === 2
+                      ? 0.3
+                      : bond === 3
+                        ? 0.3
+                        : bond === 4
+                          ? 0.4
+                          : 0.6,
+                defender: Target.ENEMY,
+                damageType: DamageType.BASIC_ADDON,
+                multiple: false,
+                isTrueDamage: false,
+              },
+            },
+            {
+              id: "10142-ult-4",
+              name: `普攻時，使我方『夏日 千鶴』攻擊力增加${
+                bond === 1
+                  ? 10
+                  : bond === 2
+                    ? 10
+                    : bond === 3
+                      ? 20
+                      : bond === 4
+                        ? 20
+                        : 30
+              }%(1回合)`,
+              type: 113,
+              condition: Condition.BASIC_ATTACK,
+              duration: 4,
+              _113: {
+                target: "10142",
+                applySkill: [
+                  {
+                    id: "10142-ult-4",
+                    name: "攻擊力增加(1回合)",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      affectType: AffectType.INCREASE_ATK,
+                      value:
+                        bond === 1
+                          ? 0.1
+                          : bond === 2
+                            ? 0.1
+                            : bond === 3
+                              ? 0.2
+                              : bond === 4
+                                ? 0.2
+                                : 0.3,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      ultToTargeting(G, oG, 2, pos, Target.ENEMY, false, false, dt, ca);
+      break;
+    }
     // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
     case "10144": {
@@ -1031,6 +1327,104 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10150": "勇者兔女郎 神田綾音",
     // "10151": "性感兔女郎 伊布力斯",
+    case "10151": {
+      G.enemies[G.targeting].buff = [
+        ...G.enemies[G.targeting].buff,
+        {
+          id: "10151-ult-1",
+          name: "受到傷害增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.3
+                : bond === 2
+                  ? 0.3
+                  : bond === 3
+                    ? 0.4
+                    : bond === 4
+                      ? 0.4
+                      : 0.5,
+          },
+        },
+      ];
+
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10151-ult-2",
+            name: `必殺時，追加『以自身攻擊力${
+              bond === 1
+                ? 30
+                : bond === 2
+                  ? 40
+                  : bond === 3
+                    ? 40
+                    : bond === 4
+                      ? 50
+                      : 60
+            }%對目標造成傷害』`,
+            type: 101,
+            condition: Condition.ULTIMATE,
+            duration: 1,
+            _101: {
+              value:
+                bond === 1
+                  ? 0.3
+                  : bond === 2
+                    ? 0.4
+                    : bond === 3
+                      ? 0.4
+                      : bond === 4
+                        ? 0.5
+                        : 0.6,
+              defender: Target.ENEMY,
+              damageType: DamageType.ULTIMATE_ADDON,
+              multiple: false,
+              isTrueDamage: false,
+            },
+          },
+          {
+            id: "10151-ult-3",
+            name: `普攻時，追加『以自身攻擊力${
+              bond === 1
+                ? 20
+                : bond === 2
+                  ? 22.5
+                  : bond === 3
+                    ? 25
+                    : bond === 4
+                      ? 27.5
+                      : 30
+            }%對目標造成傷害』`,
+            type: 101,
+            condition: Condition.BASIC_ATTACK,
+            duration: 4,
+            _101: {
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.225
+                    : bond === 3
+                      ? 0.25
+                      : bond === 4
+                        ? 0.275
+                        : 0.3,
+              defender: Target.ENEMY,
+              damageType: DamageType.BASIC_ADDON,
+              multiple: false,
+              isTrueDamage: false,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10152": "治癒之星 蘇珊",
     case "10152": {
       G.characters.forEach((_, index) => {
@@ -1499,7 +1893,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10164": "祭典花韻 香奈"
     // "10165": "銀鴞武裝 米婭",
-    case "10166": {
+    case "10165": {
       const b1 =
         bond === 1
           ? 0.6
@@ -1511,7 +1905,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
                 ? 0.9
                 : 1;
       const buff: Skill = {
-        id: "10166-ult-1",
+        id: "10165-ult-1",
         name: "使自身攻擊力增加60/70/80/90/100%(8回合)(不可疊加)",
         type: 11,
         condition: Condition.ULTIMATE,
@@ -1521,11 +1915,11 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           overlap: true,
           applySkill: [
             {
-              id: "10166-ult-1-1",
+              id: "10165-ult-1-1",
               name: "攻擊力增加",
               type: 0,
               condition: Condition.NONE,
-              duration: 1,
+              duration: 8,
               _0: {
                 value: b1,
                 affectType: AffectType.INCREASE_ATK,
@@ -1535,7 +1929,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         },
       };
       const buff2: Skill = {
-        id: "10166-ult-2",
+        id: "10165-ult-2",
         name: "普攻傷害增加60/70/80/90/100%(8回合)(不可疊加)",
         type: 11,
         condition: Condition.ULTIMATE,
@@ -1545,11 +1939,11 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           overlap: true,
           applySkill: [
             {
-              id: "10166-ult-1-1",
+              id: "10165-ult-2-1",
               name: "普攻傷害增加",
               type: 0,
               condition: Condition.NONE,
-              duration: 1,
+              duration: 8,
               _0: {
                 value: b1,
                 affectType: AffectType.INCREASE_BASIC_DMG,
@@ -1569,7 +1963,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
                 ? 0.55
                 : 0.6;
       const buff3: Skill = {
-        id: "10166-ult-3",
+        id: "10165-ult-3",
         name: "造成傷害增加40/45/50/55/60%(8回合)(不可疊加)",
         type: 11,
         condition: Condition.ULTIMATE,
@@ -1579,11 +1973,11 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           overlap: true,
           applySkill: [
             {
-              id: "10166-ult-1-1",
+              id: "10165-ult-3-1",
               name: "造成傷害",
               type: 0,
               condition: Condition.NONE,
-              duration: 1,
+              duration: 8,
               _0: {
                 value: b2,
                 affectType: AffectType.INCREASE_DMG,

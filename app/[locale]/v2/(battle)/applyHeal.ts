@@ -43,6 +43,36 @@ export function ultHealAllAllies(
   }
 }
 
+export function ultTriggerHeal(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrigger: boolean,
+  isTrueDamage: boolean,
+  ca: CharacterAction,
+) {
+  const dmg = healUltDamage(
+    G,
+    oG,
+    value,
+    attacker,
+    defender,
+    isTrigger,
+    isTrueDamage,
+  );
+  healTarget(G, dmg, defender);
+  writeToHealLog(
+    G,
+    attacker,
+    defender,
+    dmg,
+    isTrigger ? DamageType.TRIGGER : DamageType.ULTIMATE,
+    ca,
+  );
+}
+
 export function ultHpHealAll(
   G: GameState,
   oG: GameState,

@@ -26,6 +26,252 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10004": "精靈王 賽露西亞",
     // "10005": "矮人王 蘭兒",
     // "10006": "法斯公主 露露",
+    case "10006": {
+      if (bond > 2) {
+        G.characters[pos].cd = 4;
+        G.characters[pos].maxCd = 4;
+      }
+
+      if (lib === 0) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10006-passive-1",
+            name: '普攻時，觸發"以攻擊力25%對我方HP最低者進行治療"效果',
+            type: 9,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _9: {
+              value: 0.25,
+              target: Target.LOWEST_HP,
+              damageType: DamageType.TRIGGER,
+            },
+          },
+          {
+            id: "10006-passive-2",
+            name: '攻擊時，觸發"以自身攻擊力20%使我方全體攻擊力增加(1回合)"效果',
+            type: 6,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.2,
+              target: Target.ALL_ALLIES,
+            },
+          },
+        ];
+
+        if (stars === 5) {
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            {
+              id: "10006-passive-3",
+              name: "必殺時，觸發「使我方全體必殺技傷害增加25%(1回合)」",
+              type: 11,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _11: {
+                target: Target.ALL_ALLIES,
+                applySkill: [
+                  {
+                    id: "10006-passive-3-1",
+                    name: "必殺技傷害增加",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.25,
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      }
+      if (lib === 1 || lib === 2) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10006-passive-1",
+            name: '普攻時，觸發"以攻擊力25%對我方HP最低者進行治療"效果',
+            type: 9,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _9: {
+              value: 0.25,
+              target: Target.LOWEST_HP,
+              damageType: DamageType.TRIGGER,
+            },
+          },
+          {
+            id: "10006-passive-2",
+            name: '攻擊時，觸發"以自身攻擊力25%使我方全體攻擊力增加(1回合)"效果',
+            type: 6,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.25,
+              target: Target.ALL_ALLIES,
+            },
+          },
+        ];
+
+        if (stars === 5) {
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            {
+              id: "10006-passive-3",
+              name: "必殺時，觸發「使我方全體必殺技傷害增加25%(1回合)」",
+              type: 11,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _11: {
+                target: Target.ALL_ALLIES,
+                applySkill: [
+                  {
+                    id: "10006-passive-3-1",
+                    name: "必殺技傷害增加",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.25,
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      }
+
+      if (lib > 2) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10006-passive-1",
+            name: "普攻時，觸發「我方HP最低者受到傷害減少15%(1回合)」",
+            type: 11,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _11: {
+              target: Target.LOWEST_HP,
+              applySkill: [
+                {
+                  id: "10006-passive-1-1",
+                  name: "受到傷害",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 1,
+                  _0: {
+                    value: 0.15,
+                    affectType: AffectType.DECREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "10006-passive-2",
+            name: '普攻時，觸發"以攻擊力40%對我方HP最低者進行治療"效果',
+            type: 9,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            _9: {
+              value: 0.4,
+              target: Target.LOWEST_HP,
+              damageType: DamageType.TRIGGER,
+            },
+          },
+          {
+            id: "10006-passive-3",
+            name: '攻擊時，觸發"以自身攻擊力25%使我方全體攻擊力增加(1回合)"效果',
+            type: 6,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.25,
+              target: Target.ALL_ALLIES,
+            },
+          },
+        ];
+
+        if (stars === 5) {
+          G.characters.forEach((_, index) => {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10006-passive-4",
+                name: "必殺技傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 100,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ];
+          });
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            {
+              id: "10006-passive-5",
+              name: "必殺時，觸發「使目標受到風屬性傷害增加20%(最多2層)」",
+              type: 4,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                targetSkill: "10006-passive-5-1",
+                target: Target.ENEMY,
+                applySkill: {
+                  id: "10006-passive-5-1",
+                  name: "受到風屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10006-passive-5-1",
+                    name: "受到風屬性傷害增加",
+                    stack: 1,
+                    maxStack: 2,
+                    value: 0.2,
+                    affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          ];
+        }
+      }
+
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10006-passive4",
+            name: "使自身防禦時的減傷效果增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_GUARD_EFFECT,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10007": "天使長 聖米勒",
     // "10008": "魔人偶 KS-VIII",
     // "10009": "魔管家 艾可",
@@ -1385,12 +1631,247 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
+    case "10137": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10137-passive-1",
+          name: "普攻時，觸發「使自身攻擊力增加15%(最多6層)」",
+          type: 4,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10137-passive-1-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10137-passive-1-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10137-passive-1-1",
+                name: "攻擊力增加15%",
+                value: 0.15,
+                maxStack: 6,
+                stack: 1,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: "10137-passive-2",
+          name: "普攻時，觸發「使目標受到普攻傷害增加15%(最多6層)」",
+          type: 4,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10137-passive-2-1",
+            target: Target.ENEMY,
+            applySkill: {
+              id: "10137-passive-2-1",
+              name: "受到普攻傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10137-passive-2-1",
+                name: "受到普攻傷害增加15%",
+                value: 0.15,
+                maxStack: 6,
+                stack: 1,
+                affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+              },
+            },
+          },
+        },
+      ];
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10137-passive-3",
+            name: "造成傷害增加20%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.2,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+          {
+            id: "10137-passive-4",
+            name: "必殺時，觸發「使目標受到風屬性傷害增加10%(最多3層)」",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10137-passive-4-1",
+              target: Target.ENEMY,
+              applySkill: {
+                id: "10137-passive-4-1",
+                name: "受到風屬性傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10137-passive-4-1",
+                  name: "受到風屬性傷害增加10%",
+                  value: 0.1,
+                  stack: 1,
+                  maxStack: 3,
+                  affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10137-passive4",
+            name: "使自身普攻傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
-    // "10143": "夏日 賽露西亞",
+    case "10142": {
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10142-passive-1",
+              name: "每經過1回合，使目標受到普攻傷害增加30%",
+              type: 11,
+              condition: Condition.EVERY_X_TURN,
+              conditionTurn: 1,
+              duration: 100,
+              _11: {
+                target: Target.ENEMY,
+                applySkill: [
+                  {
+                    id: "10142-passive-1-1",
+                    name: "受到普攻傷害增加",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 1,
+                    _0: {
+                      value: 0.3,
+                      affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              id: "10142-passive-2",
+              name: "必殺時，觸發「使我方『夏日 千鶴』攻擊力增加20%(4回合)」",
+              type: 13,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _13: {
+                target: "10142",
+                applySkill: [
+                  {
+                    id: "10142-passive-2-1",
+                    name: "攻擊力增加",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 4,
+                    _0: {
+                      value: 0.2,
+                      affectType: AffectType.INCREASE_ATK,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10142-passive-3",
+            name: "使自身當前必殺技CD減少4回合",
+            type: 14,
+            condition: Condition.ON_TURN_START,
+            duration: 100,
+            _14: {
+              reduceCD: 4,
+              target: Target.SELF,
+            },
+          },
+          {
+            id: "10142-passive-4",
+            name: "必殺時，觸發「使目標受到傷害增加20%(最多2層)」",
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10142-passive-4-1",
+              target: Target.ENEMY,
+              applySkill: {
+                id: "10142-passive-4-1",
+                name: "受到傷害增加20%",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10142-passive-4-1",
+                  name: "受到傷害增加20%",
+                  value: 0.2,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            },
+          },
+        ];
+      }
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10142-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    } // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
     case "10144": {
       G.characters[pos].buff = [
@@ -1976,6 +2457,117 @@ export function initPassiveSkill(G: GameState, pos: number) {
     }
     // "10150": "勇者兔女郎 神田綾音",
     // "10151": "性感兔女郎 伊布力斯",
+    case "10151": {
+      // TODO 免疫必殺技CD變動效果
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10151-passive-1",
+          name: "普攻時，觸發「使我方全體普攻傷害增加30%(1回合)」",
+          type: 11,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10151-passive-1-1",
+                name: "普攻傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10151-passive-2",
+          name: "必殺時，觸發「使我方全體必殺傷害增加30%(1回合)」",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10151-passive-2-1",
+                name: "必殺傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10151-passive-3",
+            name: "攻擊時，觸發「以自身攻擊力30%使我方全體攻擊力增加(1回合)」效果",
+            type: 6,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _6: {
+              value: 0.3,
+              target: Target.ALL_ALLIES,
+              duration: 1,
+              base: false,
+            },
+          },
+        ];
+
+        G.characters.forEach((character, index) => {
+          if (character.class === CharacterClass.ATTACKER) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10151-passive-4",
+                name: "攻擊時，觸發「以自身攻擊力5%使我方全體攻擊力增加(1回合)」效果",
+                type: 6,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _6: {
+                  value: 0.05,
+                  target: Target.ALL_ALLIES,
+                  duration: 1,
+                  base: false,
+                },
+              },
+            ];
+          }
+        });
+      }
+
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10151-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
+
     // "10152": "治癒之星 蘇珊",
     case "10152": {
       G.characters[pos].buff = [
@@ -2889,7 +3481,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
                       name: "普攻時，追加「以自身攻擊力30%對目標造成傷害6次」",
                       type: 101,
                       condition: Condition.BASIC_ATTACK,
-                      duration: 100,
+                      duration: 1,
                       _101: {
                         value: 0.3,
                         defender: Target.ENEMY,

@@ -59,10 +59,18 @@ export function addOn(
       const v = buff._101.value;
       const isTrueDamage = buff._101.isTrueDamage;
 
+      //defender: Target.ENEMY,
+      //damageType: DamageType.BASIC_ADDON,
       switch (buff._101.damageType) {
         case DamageType.BASIC_ADDON: {
           if (d === Target.ENEMY) {
-            basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
+            if (buff._101.multiple && buff._101.multipleValue) {
+              for (let i = buff._101.multipleValue; i > 0; i--) {
+                basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
+              }
+            } else {
+              basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
+            }
           } else {
             basicToSpecificPos(G, oG, v, p, d, isTrueDamage, dt, ca);
           }
@@ -100,6 +108,9 @@ export function addOn(
           }
           break;
         }
+
+        //defender: Target.ENEMY,
+        //damageType: DamageType.ULTIMATE_ADDON,
         case DamageType.ULTIMATE_ADDON: {
           if (d === Target.ENEMY) {
             ultToTargeting(G, oG, v, p, d, isTrueDamage, false, dt, ca);
@@ -467,6 +478,22 @@ export function addOn(
           console.log("No target found");
           break;
       }
+      break;
+    }
+
+    case 113: {
+      if (!buff._113) {
+        console.log("Wrong data 13");
+        break;
+      }
+      G.characters.forEach((character, index) => {
+        if (character.id === buff._113?.target) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            ...buff._113.applySkill,
+          ];
+        }
+      });
       break;
     }
   }

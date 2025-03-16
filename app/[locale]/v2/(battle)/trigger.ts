@@ -1,5 +1,4 @@
 import {
-  applyDamage,
   triggerDmgToPos,
   checkOpponent,
   triggerDmgToTargeting,
@@ -9,11 +8,11 @@ import {
   basicHealAllAllies,
   ultHealAllAllies,
   ultHpHealAll,
+  ultTriggerHeal,
 } from "./applyHeal";
 import { applyRawAttBuff } from "./applyRawAtk";
 import { ultHpShieldAllAllies } from "./applyShield";
 import { basicDamage } from "./calculations/basicDamage";
-import { healUltDamage } from "./calculations/healUltDamage";
 import { ultDamage } from "./calculations/ultDamage";
 import { checkSpecialCondition } from "./condition";
 import { GameState } from "./GameState";
@@ -29,7 +28,8 @@ import {
   Skill,
   Target,
 } from "./types/Skill";
-import { checkTargetAlive } from "./utils";
+import { checkTargetAlive, hpSort, lowestHp } from "./utils";
+import { p as print } from "./utils";
 
 export function trigger(
   G: GameState,
@@ -44,8 +44,7 @@ export function trigger(
     buff.disableOnStackBelowValue &&
     oG
   ) {
-    console.log("test");
-    console.log(buff.id);
+    console.log("disabled", buff.id);
     const isExist = oG.characters[p].buff.find((x) => {
       return x.id === buff.disableOnStackSkill;
     });
@@ -58,7 +57,6 @@ export function trigger(
     }
   }
 
-  console.log(buff.name);
   switch (buff.type) {
     case 0: {
       break;
@@ -819,6 +817,25 @@ export function trigger(
           if (buff._9.target === Target.ALL_ALLIES) {
             ultHealAllAllies(G, oG, buff._9.value, p, true, false, ca);
           }
+          if (buff._9.target === Target.LOWEST_HP) {
+            const lowestHpIndex = lowestHp(G, G.characters);
+
+            console.log("9 Lowest HP Index", lowestHpIndex);
+            if (lowestHpIndex === -1) {
+              break;
+            }
+
+            ultTriggerHeal(
+              G,
+              oG,
+              buff._9.value,
+              p,
+              lowestHpIndex,
+              true,
+              false,
+              ca,
+            );
+          }
           break;
         }
       }
@@ -859,12 +876,12 @@ export function trigger(
         const buffIndex = G.characters[p].buff.findIndex(
           (x) => x.id === buff._11?.applySkill[0].id,
         );
-        if (buffIndex === -1) {
-          break;
+        if (buffIndex !== -1) {
+          console.log("Buff Index", buffIndex);
+          const clone = [...G.characters[p].buff];
+          clone.splice(buffIndex, 1);
+          G.characters[p].buff = clone;
         }
-        const clone = [...G.characters[p].buff];
-        clone.splice(buffIndex, 1);
-        G.characters[p].buff = clone;
       }
 
       switch (buff._11.target) {
@@ -873,6 +890,7 @@ export function trigger(
             ...G.characters[p].buff,
             ...buff._11.applySkill,
           ];
+          console.log(print(G.characters[p].buff));
           break;
         }
         case Target.ENEMY: {
@@ -1055,6 +1073,19 @@ export function trigger(
           }
           G.characters[pos].buff = [
             ...G.characters[pos].buff,
+            ...buff._11.applySkill,
+          ];
+          break;
+        }
+
+        case Target.LOWEST_HP: {
+          const lowestHpIndex = lowestHp(G, G.characters);
+          console.log("11 Lowest HP Index", lowestHpIndex);
+          if (lowestHpIndex === -1) {
+            break;
+          }
+          G.characters[lowestHpIndex].buff = [
+            ...G.characters[lowestHpIndex].buff,
             ...buff._11.applySkill,
           ];
           break;

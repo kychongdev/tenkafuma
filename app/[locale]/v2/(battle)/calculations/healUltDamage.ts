@@ -315,7 +315,7 @@ export function healUltDamage(
 
   console.log(
     "攻擊力",
-    attackerAtk,
+    attackerAtk.toNumber(),
     "攻擊%",
     atkPercentage.toNumber(),
     "定值攻擊力",

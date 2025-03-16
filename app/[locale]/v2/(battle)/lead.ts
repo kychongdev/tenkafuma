@@ -981,7 +981,7 @@ export function initLeadSkill(G: GameState) {
         }
       });
 
-      if (onlyTwoAttribute.length === 0) {
+      if (onlyTwoAttribute.length === 3) {
         G.characters[0].buff = [
           ...G.characters[0].buff,
           {

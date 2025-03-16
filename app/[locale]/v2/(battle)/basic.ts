@@ -13,7 +13,7 @@ import { AffectType, Condition, DamageType, Target } from "./types/Skill";
 export function basic(p: number, G: GameState, oG: GameState) {
   const id = G.characters[p].id;
   //const passive4 = G.characters[p].passive4;
-  //const lib = G.characters[p].lib;
+  const lib = G.characters[p].lib;
   //const bond = G.characters[p].bond;
   //const stars = G.characters[p].stars;
   const dt = DamageType.BASIC;
@@ -29,6 +29,14 @@ export function basic(p: number, G: GameState, oG: GameState) {
     }
     // "10005": "矮人王 蘭兒",
     // "10006": "法斯公主 露露",
+    case "10006": {
+      if (lib < 1) {
+        basicHealAllAllies(G, oG, 0.5, p, ca);
+      } else {
+        basicHealAllAllies(G, oG, 0.75, p, ca);
+      }
+      break;
+    }
     // "10007": "天使長 聖米勒",
     // "10008": "魔人偶 KS-VIII",
     // "10009": "魔管家 艾可",
@@ -193,11 +201,33 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10135": "偶像經紀人 梅絲米奈雅",
     // "10136": "賞金獵人 安潔娜爾",
     // "10137": "春情白兔 鈴蘭",
+    case "10137": {
+      G.characters[p].buff = [
+        ...G.characters[p].buff,
+        {
+          id: "10137-basic-1",
+          name: "攻擊力",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value: 0.5,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+      ];
+      basicToTargeting(G, oG, 0.7, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10138": "迷情薄紗 露露",
     // "10139": "不健全遐想 托特拉",
     // "10140": "真神化身 菈萊亞 菈萊亞",
     // "10141": "調查員 娜娜",
     // "10142": "夏日 千鶴",
+    case "10142": {
+      basicToTargeting(G, oG, 1.25, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10143": "夏日 賽露西亞",
     // "10144": "夏日 凱薩",
     case "10144": {
@@ -233,6 +263,25 @@ export function basic(p: number, G: GameState, oG: GameState) {
     }
     // "10150": "勇者兔女郎 神田綾音",
     // "10151": "性感兔女郎 伊布力斯",
+    case "10151": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10151-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.5,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10152": "治癒之星 蘇珊",
     case "10152": {
       basicHealAllAllies(G, oG, 0.75, p, ca);

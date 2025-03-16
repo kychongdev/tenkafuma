@@ -76,6 +76,40 @@ export const CharacterStats = (props: {
     return acc;
   }, 0);
 
+  const basicAtkReceivedBuff = props.buff.reduce((acc, buff) => {
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.INCREASE_BASIC_DMG_RECEIVED
+    ) {
+      return acc + buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.INCREASE_BASIC_DMG_RECEIVED
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc + _value;
+    }
+
+    if (
+      buff.type === 0 &&
+      buff._0?.affectType === AffectType.DECREASE_BASIC_DMG_RECEIVED
+    ) {
+      return acc - buff._0?.value;
+    }
+
+    if (
+      buff.type === 3 &&
+      buff._3?.affectType === AffectType.DECREASE_BASIC_DMG_RECEIVED
+    ) {
+      const _value = buff._3?.value * buff._3?.stack;
+      return acc - _value;
+    }
+
+    return acc;
+  }, 0);
+
   const basicAtkBuff = props.buff.reduce((acc, buff) => {
     if (
       buff.type === 0 &&
@@ -619,6 +653,12 @@ export const CharacterStats = (props: {
       {roundNum(increaseDmgReceived) !== 0 ? (
         <Card className="p-2 text-sm ">
           受到傷害加成%: {roundNum(increaseDmgReceived)}%
+        </Card>
+      ) : null}
+
+      {roundNum(basicAtkReceivedBuff) !== 0 ? (
+        <Card className="p-2 text-sm ">
+          受到普攻傷害加成%: {roundNum(basicAtkReceivedBuff)}%
         </Card>
       ) : null}
       {roundNum(basicAtkBuff) !== 0 ? (

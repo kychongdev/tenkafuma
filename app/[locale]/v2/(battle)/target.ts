@@ -17,7 +17,7 @@ export function randomizePos(gamestate: GameState, position: number) {
   return res ? res : Target.CANT_FIND;
 }
 
-function recursive(
+export function recursive(
   gamestate: GameState,
   position: number,
   positionList: number[],

@@ -4,6 +4,7 @@ import { AffectType, DamageType, Skill, Target } from "./types/Skill";
 import { CharacterAction } from "./types/Character";
 import { GameState } from "./GameState";
 import characterJson from "../../_data/characters.json";
+import { recursive } from "./target";
 
 export function generateClientId(size: number) {
   const alphabet =
@@ -159,6 +160,28 @@ export function parseCharacterName(G: GameState, target: Target) {
     default:
       return "無法讀取[BUG]";
   }
+}
+
+export function lowestHp(G: GameState, chars: CharacterState[]) {
+  const hpList = chars.map((char) => char.hp / char.maxHp);
+  const result = Array.from(hpList.keys()).sort(
+    (a, b) => hpList[a] - hpList[b],
+  );
+
+  // I have no idea whether this has bug or not
+  if (chars[result[0]].hp / chars[result[0]].maxHp === 1) {
+    const pos = [0, 1, 2, 3, 4];
+    const firstRandom = Math.floor(Math.random() * pos.length);
+    console.log("random", firstRandom);
+    return recursive(G, firstRandom, pos) ?? -1;
+  }
+
+  result.forEach((index) => {
+    if (!chars[index].isDead && chars[index].isExist) {
+      return result[index];
+    }
+  });
+  return -1;
 }
 
 export function hpSort(arr: CharacterState[]) {

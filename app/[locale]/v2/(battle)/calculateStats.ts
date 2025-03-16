@@ -16,5 +16,6 @@ export function calculateStats(
       initStats * 1.1 ** levelStats * starStats * roomStats * (1 + pot / 100),
     ) * libStats,
   );
+  console.log(res);
   return res;
 }
