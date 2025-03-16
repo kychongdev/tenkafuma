@@ -2157,7 +2157,172 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10158": "聖夜奇謀 布蘭妮"
     // "10159": "喜迎性春 菲歐菈",
     // "10161": "舞焰赤龍 薩夏",
+    case "10161": {
+      const skill: Skill = {
+        id: "10161-ult-1",
+        name: "受到傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10161-ult-1-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10161-ult-1-1",
+            name: "受到傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10161-ult-1-1",
+              name: "受到傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.15
+                  : bond === 2
+                    ? 0.175
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.225
+                        : 0.25,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10161-ult-2",
+          name: "攻擊力增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value: applyRawAttBuff(G, pos)
+              .mul(
+                bond === 1
+                  ? 0.3
+                  : bond === 2
+                    ? 0.35
+                    : bond === 3
+                      ? 0.4
+                      : bond === 4
+                        ? 0.45
+                        : 0.5,
+              )
+              .toNumber(),
+            affectType: AffectType.RAW_ATK,
+          },
+        },
+      ];
+
+      const skill2: Skill = {
+        id: "10161-ult-3",
+        name: "每回合造成傷害",
+        type: 28,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _28: {
+          target: Target.ENEMY,
+          duration: 4,
+          action: CharacterAction.ULTIMATE,
+          value:
+            bond === 1
+              ? 2.1
+              : bond === 2
+                ? 2.45
+                : bond === 3
+                  ? 2.8
+                  : bond === 4
+                    ? 3.15
+                    : 3.5,
+          overlap: true,
+        },
+      };
+      trigger(G, oG, pos, skill2, ca);
+      break;
+    }
     // "10162": "虔信神祀 艾可",
+    case "10162": {
+      const stackIncrease =
+        bond === 1 ? 3 : bond === 2 ? 4 : bond === 3 ? 5 : bond === 4 ? 6 : 7;
+      const skill: Skill = {
+        id: "10162-ult-1",
+        name: "凱薩大明神的加護",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: stackIncrease,
+          target: Target.SELF,
+          targetSkill: "10162-ult-1-1",
+          applySkill: {
+            id: "10162-ult-1-1",
+            name: "《凱薩大明神的加護》",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10162-ult-1-1",
+              name: "《凱薩大明神的加護》",
+              stack: stackIncrease,
+              maxStack: 7,
+              affectType: AffectType.NONE,
+              value: 0,
+            },
+          },
+        },
+      };
+
+      const stackIncrease2 =
+        bond === 1
+          ? 0.35
+          : bond === 2
+            ? 0.45
+            : bond === 3
+              ? 0.55
+              : bond === 4
+                ? 0.65
+                : 0.75;
+
+      const skill2: Skill = {
+        id: "10162-ult-2",
+        name: "造成傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.SELF,
+          targetSkill: "10162-ult-2-1",
+          applySkill: {
+            id: "10162-ult-2-1",
+            name: "造成傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10162-ult-2-1",
+              name: "造成傷害增加",
+              stack: 1,
+              maxStack: 1,
+              affectType: AffectType.INCREASE_DMG,
+              value: stackIncrease2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+      trigger(G, oG, pos, skill2, ca);
+      break;
+    }
     // "10163": "夜之影 凱薩",
     case "10163": {
       const valueIncrease =

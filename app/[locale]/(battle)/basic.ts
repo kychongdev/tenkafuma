@@ -307,13 +307,25 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10147": "魔物終結 鬼醉木",
+    case "10147": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10148": "酩酊狂歡 靜",
+    case "10148": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10149": "千年靈狐 椿",
     case "10149": {
       basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
       break;
     }
     // "10150": "勇者兔女郎 神田綾音",
+    case "10150": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10151": "性感兔女郎 伊布力斯",
     case "10151": {
       G.characters.forEach((_, index) => {
@@ -343,7 +355,16 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10153": "純真殺意 撒旦",
+    case "10153": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10154": "星空奈奈美",
+    case "10154": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      G.characters[p].isGuard = true;
+      break;
+    }
     // "10155": "甜蜜女僕",
     case "10155": {
       G.characters[p].buff = [
@@ -363,15 +384,51 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10156": "性誕魔王 巴爾"
+    case "10156": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10157": "純真祈願 牧愛菈"
     case "10157": {
       rawAtkBuffAll(G, p, 0.3, "10157-basic-1", 1);
       break;
     }
     // "10158": "聖夜奇謀 布蘭妮"
+    case "10158": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10158-basic-1",
+            name: "傷害減少",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: 0.05,
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+            },
+          },
+        ];
+      });
+      basicToTargeting(G, oG, 0.75, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10159": "喜迎性春 菲歐菈",
+    case "10159": {
+      rawAtkBuffAll(G, p, 0.3, "10159-basic-1", 1);
+      break;
+    }
     // "10161": "舞焰赤龍 薩夏",
+    case "10161": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10162": "虔信神祀 艾可",
+    case "10162": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10163": "夜之影 凱薩",
     case "10163": {
       basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);

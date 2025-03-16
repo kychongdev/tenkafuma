@@ -31,6 +31,7 @@ import {
 } from "./types/Skill";
 import { checkTargetAlive, hpSort, lowestHp } from "./utils";
 import { p as print } from "./utils";
+import { damageOverTime } from "./calculations/damageOverTime";
 
 export function trigger(
   G: GameState,
@@ -1509,6 +1510,62 @@ export function trigger(
       buff._21.trigger.forEach((b) => {
         trigger(G, oG, p, b, ca);
       });
+      break;
+    }
+
+    case 28: {
+      if (!buff._28) {
+        console.log("Wrong data 28");
+        break;
+      }
+      damageOverTime(
+        p,
+        buff._28.value,
+        G,
+        G,
+        buff._28.target,
+        buff._28.duration,
+        buff.id,
+        buff._28.overlap,
+      );
+      break;
+    }
+
+    case 30: {
+      if (!buff._30) {
+        console.log("Wrong data _30");
+        break;
+      }
+
+      switch (buff._30.target) {
+        case Target.SELF: {
+          // x is gameState buff
+          const isExist = G.characters[p].buff.some((x) => {
+            return x.id === buff._30?.targetSkill;
+          });
+
+          if (isExist) {
+            G.characters[p].buff = G.characters[p].buff
+              .map((x) => {
+                if (x.id === buff._30?.targetSkill) {
+                  if (x._3 && x._3.stack > 0) {
+                    if (x._3 && buff._30) {
+                      x._3.stack -= buff._30.reduceStack;
+                      if (x._3.stack < 0 || x._3.stack === 0) {
+                        return;
+                      }
+                    } else {
+                      console.log("Wrong data buff._4");
+                    }
+                  }
+                }
+                return x;
+              })
+              .filter((item) => item !== undefined);
+          }
+          break;
+        }
+      }
       break;
     }
   }

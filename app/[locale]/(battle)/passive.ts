@@ -4174,7 +4174,309 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10158": "聖夜奇謀 布蘭妮"
     // "10159": "喜迎性春 菲歐菈",
     // "10161": "舞焰赤龍 薩夏",
+    case "10161": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10161-passive-1",
+          name: "攻擊力增加100%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 1,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10161-passive-2",
+          name: "普攻時，觸發「以自身攻擊力50%每回合對目標造成傷害(4回合)」",
+          type: 28,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _28: {
+            value: 0.5,
+            target: Target.ENEMY,
+            action: CharacterAction.BASIC,
+            duration: 4,
+          },
+        },
+        {
+          id: "10161-passive-3",
+          name: "造成持續型傷害增加150%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 1.5,
+            affectType: AffectType.INCREASE_DMG_OVER_TIME,
+          },
+        },
+      ];
+
+      if (stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10161-passive-4",
+            name: "攻擊時，觸發「《高溫碳化》」",
+            type: 21,
+            condition: Condition.ATTACK,
+            duration: 100,
+            _21: {
+              trigger: [
+                {
+                  id: "10161-passive-4-1",
+                  name: "使目標受到傷害增加2%(最多10層)",
+                  type: 4,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _4: {
+                    increaseStack: 1,
+                    targetSkill: "10161-passive-4-1-1",
+                    target: Target.ENEMY,
+                    applySkill: {
+                      id: "10161-passive-4-1-1",
+                      name: "受到傷害增加2%",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10161-passive-4-1-1",
+                        name: "受到傷害增加20%",
+                        value: 0.02,
+                        stack: 1,
+                        maxStack: 10,
+                        affectType: AffectType.INCREASE_DMG_RECEIVED,
+                      },
+                    },
+                  },
+                },
+                {
+                  id: "10161-passive-4-1-2",
+                  name: "使目標受到普攻傷害增加12%(最多10層)",
+                  type: 4,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _4: {
+                    increaseStack: 1,
+                    targetSkill: "10161-passive-4-1-2",
+                    target: Target.ENEMY,
+                    applySkill: {
+                      id: "10161-passive-4-1-2",
+                      name: "受到普攻傷害增加",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10161-passive-4-1-2",
+                        name: "受到傷害增加20%",
+                        value: 0.12,
+                        stack: 1,
+                        maxStack: 10,
+                        affectType: AffectType.INCREASE_BASIC_DMG_RECEIVED,
+                      },
+                    },
+                  },
+                },
+                {
+                  id: "10161-passive-4-3",
+                  name: "使目標被治療時回復量減少6%(最多10層)",
+                  type: 4,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _4: {
+                    increaseStack: 1,
+                    targetSkill: "10161-passive-4-3-1",
+                    target: Target.ENEMY,
+                    applySkill: {
+                      id: "10161-passive-4-3-1",
+                      name: "被治療時回復量減少6%",
+                      type: 3,
+                      condition: Condition.NONE,
+                      duration: 100,
+                      _3: {
+                        id: "10161-passive-4-3-1",
+                        name: "被治療時回復量減少6%",
+                        value: 0.06,
+                        stack: 1,
+                        maxStack: 10,
+                        affectType: AffectType.DECREASE_HEAL_RECEIVED,
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10161-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10162": "虔信神祀 艾可",
+    case "10162": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10162-passive-1",
+          name: "第1回合時，觸發「使自身當前必殺技CD減少8回合」(觸發1次後清除)",
+          type: 14,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          deleteSelf: true,
+          _14: {
+            target: Target.SELF,
+            reduceCD: 8,
+          },
+        },
+        {
+          id: "10162-passive-2",
+          name: "普攻時，觸發「使自身《凱薩大明神的加護》層數減少1層」",
+          type: 30,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _30: {
+            reduceStack: 1,
+            target: Target.SELF,
+            targetSkill: "10162-ult-1-1",
+          },
+        },
+        {
+          id: "10162-passive-3",
+          name: "普攻傷害增加125%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          specialCondition: SpecialCondition.SKILL_STACK_MORE_THAN,
+          specialConditionValue: 0,
+          specialConditionSkill: "10162-ult-1-1",
+          _0: {
+            value: 1.25,
+            affectType: AffectType.INCREASE_BASIC_DMG,
+          },
+        },
+        {
+          id: "10162-passive-4",
+          name: "普攻時，追加「以自身攻擊力150%對目標造成傷害」",
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          disableOnStack: true,
+          disableOnStackBelowValue: 1,
+          disableOnStackSkill: "10162-ult-1-1",
+          _101: {
+            value: 1.5,
+            defender: Target.ENEMY,
+            damageType: DamageType.BASIC,
+            multiple: false,
+            isTrueDamage: false,
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10162-passive-5",
+            name: "普攻時，觸發「使目標受到傷害增加3%(最多5層)」",
+            type: 4,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            disableOnStack: true,
+            disableOnStackBelowValue: 3,
+            disableOnStackSkill: "10162-ult-1-1",
+            _4: {
+              increaseStack: 1,
+              target: Target.ENEMY,
+              targetSkill: "10162-passive-5-1",
+              applySkill: {
+                id: "10162-passive-5-1",
+                name: "受到傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10162-passive-5-1",
+                  name: "受到傷害增加",
+                  stack: 1,
+                  maxStack: 5,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  value: 0.03,
+                },
+              },
+            },
+          },
+          {
+            id: "10162-passive-6",
+            name: "普攻時，觸發「使目標受到闇屬性傷害增加3%(最多5層)」",
+            type: 4,
+            condition: Condition.BASIC_ATTACK,
+            duration: 100,
+            disableOnStack: true,
+            disableOnStackBelowValue: 3,
+            disableOnStackSkill: "10162-ult-1-1",
+            _4: {
+              increaseStack: 1,
+              target: Target.ENEMY,
+              targetSkill: "10162-passive-6-1",
+              applySkill: {
+                id: "10162-passive-6-1",
+                name: "受到闇屬性傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10162-passive-6-1",
+                  name: "受到闇屬性傷害增加",
+                  stack: 1,
+                  maxStack: 5,
+                  affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                  value: 0.03,
+                },
+              },
+            },
+          },
+        ];
+      }
+
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10162-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+
+      break;
+    }
     // "10163": "夜之影 凱薩",
     case "10163": {
       G.characters[pos].buff = [

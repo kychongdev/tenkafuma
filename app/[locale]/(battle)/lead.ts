@@ -1462,9 +1462,429 @@ export function initLeadSkill(G: GameState) {
     }
     // "10156": "性誕魔王 巴爾"
     // "10157": "純真祈願 牧愛菈"
+    case "10157": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10157-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10157-lead-2",
+            name: "攻擊力增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 1,
+            },
+          },
+          {
+            id: "10157-lead-3",
+            name: "我方全體普攻時，追加『以自身攻擊力15%對目標造成傷害』",
+            type: 101,
+            duration: 100,
+            condition: Condition.BASIC_ATTACK,
+            _101: {
+              value: 0.15,
+              defender: Target.ENEMY,
+              damageType: DamageType.BASIC_ADDON,
+              multiple: false,
+              isTrueDamage: false,
+            },
+          },
+          {
+            id: "10157-lead-4",
+            name: "我方全體必殺時，追加「以自身攻擊力30%對目標造成傷害」",
+            type: 101,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _101: {
+              value: 0.3,
+              defender: Target.ENEMY,
+              damageType: DamageType.ULTIMATE_ADDON,
+              multiple: false,
+              isTrueDamage: false,
+            },
+          },
+        ];
+      });
+
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10157-lead-5",
+          name: "攻擊時，根據自身《純真祈願》的層數，觸發「使我方全體造成傷害增加0.75%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-5-1",
+              name: "攻擊時，根據自身《純真祈願》的層數，觸發「使我方全體造成傷害增加0.75%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ALL_ALLIES,
+                targetSkill: "10157-lead-5-1-1",
+                applySkill: {
+                  id: "10157-lead-5-1-1",
+                  name: "造成傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-5-1-1",
+                    name: "造成傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.0075,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: "10157-lead-7",
+          name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到傷害增加0.25%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-7-1",
+              name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到傷害增加0.25%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ENEMY,
+                targetSkill: "10157-lead-7-1-1",
+                applySkill: {
+                  id: "10157-lead-7-1-1",
+                  name: "受到傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-7-1-1",
+                    name: "受到傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.0025,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          },
+        },
+
+        {
+          id: "10157-lead-8",
+          name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到水屬性傷害增加0.25%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-8-1",
+              name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到水屬性傷害增加0.25%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ENEMY,
+                targetSkill: "10157-lead-8-1-1",
+                applySkill: {
+                  id: "10157-lead-8-1-1",
+                  name: "受到水屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-8-1-1",
+                    name: "受到水屬性傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.0025,
+                    affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: "10157-lead-9",
+          name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到火屬性傷害增加0.25%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-9-1",
+              name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到火屬性傷害增加0.25%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ENEMY,
+                targetSkill: "10157-lead-9-1-1",
+                applySkill: {
+                  id: "10157-lead-9-1-1",
+                  name: "受到火屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-9-1-1",
+                    name: "受到火屬性傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.0025,
+                    affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: "10157-lead-10",
+          name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到風屬性傷害增加0.25%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-10-1",
+              name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到風屬性傷害增加0.25%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ENEMY,
+                targetSkill: "10157-lead-10-1-1",
+                applySkill: {
+                  id: "10157-lead-10-1-1",
+                  name: "受到風屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-10-1-1",
+                    name: "受到風屬性傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.0025,
+                    affectType: AffectType.INCREASE_WIND_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: "10157-lead-11",
+          name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到光屬性傷害增加0.25%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-11-1",
+              name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到光屬性傷害增加0.25%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ENEMY,
+                targetSkill: "10157-lead-11-1-1",
+                applySkill: {
+                  id: "10157-lead-11-1-1",
+                  name: "受到光屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-11-1-1",
+                    name: "受到光屬性傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.0025,
+                    affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: "10157-lead-12",
+          name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到暗屬性傷害增加0.25%(最多80層)」",
+          type: 8,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _8: {
+            target: Target.SELF,
+            targetSkill: "10157-ult-1-1",
+            triggerSkill: {
+              id: "10157-lead-12-1",
+              name: "攻擊時，根據自身《純真祈願》的層數，觸發「使目標受到暗屬性傷害增加0.25%(最多80層)」",
+              type: 4,
+              condition: Condition.NONE,
+              duration: 100,
+              _4: {
+                increaseStack: 1,
+                target: Target.ENEMY,
+                targetSkill: "10157-lead-12-1-1",
+                applySkill: {
+                  id: "10157-lead-12-1-1",
+                  name: "受到暗屬性傷害增加",
+                  type: 3,
+                  condition: Condition.NONE,
+                  duration: 100,
+                  _3: {
+                    id: "10157-lead-12-1-1",
+                    name: "受到暗屬性傷害增加",
+                    stack: 1,
+                    maxStack: 80,
+                    value: 0.0025,
+                    affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+      break;
+    }
     // "10158": "聖夜奇謀 布蘭妮"
     // "10159": "喜迎性春 菲歐菈",
     // "10161": "舞焰赤龍 薩夏",
+    case "10161": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10161-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+          {
+            id: "10161-lead-2",
+            name: "攻擊力增加100%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 1,
+            },
+          },
+          {
+            id: "10161-lead-3",
+            name: "造成傷害減少200%(持續型傷害不受影響)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_DMG,
+              value: 2,
+            },
+          },
+        ];
+      });
+
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10161-lead-4",
+          name: "每Wave第1回合時，觸發《點燃火焰山》",
+          type: 21,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: "10161-lead-4-1",
+                name: "觸發《點燃火焰山》",
+                type: 11,
+                condition: Condition.NONE,
+                duration: 100,
+                _11: {
+                  target: Target.ALL_ENEMIES,
+                  applySkill: [
+                    {
+                      id: "10161-lead-4-1-1",
+                      name: "使敵方全體受到持續型傷害增加200%(50回合)",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        affectType: AffectType.INCREASE_DMG_OVER_TIME_RECEIVED,
+                        value: 2,
+                      },
+                    },
+                    {
+                      id: "10161-lead-4-1-2",
+                      name: "使敵方全體受到傷害增加100%(50回合)",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        affectType: AffectType.INCREASE_DMG_RECEIVED,
+                        value: 1,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      break;
+    }
     // "10162": "虔信神祀 艾可",
     // "10163": "夜之影 凱薩",
     case "10163": {
