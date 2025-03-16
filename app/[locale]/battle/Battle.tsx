@@ -193,6 +193,7 @@ export default function Battle() {
                     }),
                     p(turn),
                   );
+                  router.push("/simulate");
                 } else {
                   console.log("no team selected");
                 }
