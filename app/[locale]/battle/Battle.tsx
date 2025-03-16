@@ -136,7 +136,7 @@ export default function Battle() {
           <Button
             className="px-2 gap-1"
             onClick={() => {
-              router.push("/v2/battle/stats");
+              router.push("/battle/stats");
             }}
           >
             <ChartPie /> {t("Damage Stats")}
@@ -153,7 +153,7 @@ export default function Battle() {
           <Button
             className="px-2 gap-1"
             onClick={() => {
-              router.push("/v2/stage");
+              router.push("/stage");
             }}
           >
             <Sword /> {t("Stage")}

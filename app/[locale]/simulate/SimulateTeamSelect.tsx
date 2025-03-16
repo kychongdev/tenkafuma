@@ -71,7 +71,7 @@ export const SimulateTeamSelect = ({ index }: { index: number }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem
             onClick={() => {
-              router.push(`/v2/simulate/select/${index}`);
+              router.push(`/simulate/select/${index}`);
             }}
           >
             調整練度模擬
@@ -79,7 +79,7 @@ export const SimulateTeamSelect = ({ index }: { index: number }) => {
 
           <DropdownMenuItem
             onClick={() => {
-              router.push(`/v2/simulate/result/${index}`);
+              router.push(`/simulate/result/${index}`);
             }}
           >
             查看紀錄

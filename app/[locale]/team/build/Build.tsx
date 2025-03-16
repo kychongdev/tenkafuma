@@ -2,51 +2,47 @@
 
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { CharacterTeam } from "../../../_types/Select";
-import { CharStatsSelect } from "../../CharStatsSelect";
+import { CharacterTeam } from "../../(battle)/types/Select";
+import { CharStatsSelect } from "../CharStatsSelect";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useRouter } from "@/app/i18n/routing";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { useParams } from "next/navigation";
-import { isString } from "lodash";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export default function Edit() {
+export default function Build() {
   const t = useTranslations("Team");
-  const { index } = useParams();
-  const router = useRouter();
-  const [team, setTeam] = useLocalStorage<CharacterTeam[]>("team", []);
+  const [teams, setTeam] = useLocalStorage<CharacterTeam[]>("team", []);
+  const defaultChar = {
+    id: "",
+    hpPot: 100,
+    atkPot: 100,
+    level: 60,
+    bond: 5,
+    stars: 5,
+    discipline: 3,
+    isPot6: true,
+    lib: 0,
+  };
 
-  if (!index || !isString(index)) {
-    return <div>Wrong Parameter</div>;
-  }
-
-  const teamData = team[parseInt(index)];
   const form = useForm<CharacterTeam>({
-    values: teamData,
+    defaultValues: {
+      0: defaultChar,
+      1: defaultChar,
+      2: defaultChar,
+      3: defaultChar,
+      4: defaultChar,
+    },
   });
   const { handleSubmit, watch } = form;
+  const router = useRouter();
 
   function onSubmit(data: CharacterTeam) {
-    if (!index || !isString(index)) {
-      return;
-    }
-    const teams = team.map((x, i) => {
-      console.log(i, index);
-      if (i === parseInt(index)) {
-        console.log(data);
-        return data;
-      }
-      return x;
-    });
-    setTeam(teams);
+    setTeam([...teams, data]);
     router.push("/team");
   }
 
   return (
-    <div className="w-full max-w-[420px] mx-auto p-2 font-[family-name:var(--font-geist-sans)]">
+    <div className="w-full max-w-[500px] mx-auto p-2 font-[family-name:var(--font-geist-sans)]">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-1">
@@ -58,7 +54,7 @@ export default function Edit() {
           </div>
 
           <div className="flex justify-end mt-3">
-            <Button type="submit">{t("Edit")}</Button>
+            <Button type="submit">{t("Create")}</Button>
           </div>
         </form>
       </Form>

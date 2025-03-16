@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Controller, UseFormReturn } from "react-hook-form";
-import { CharacterTeam } from "../_types/Select";
 import {
   Select,
   SelectContent,
@@ -23,6 +22,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { CharFilterDrawer } from "./CharFilterDrawer";
 import { Checkbox } from "@/components/ui/checkbox";
+import { CharacterTeam } from "../(battle)/types/Select";
 
 interface CharStatsInputsProps {
   position: 0 | 1 | 2 | 3 | 4;
