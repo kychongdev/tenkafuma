@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import characters from "@/data/characters.json";
 import _ from "lodash";
-import { CharacterAttribute } from "@/app/[locale]/(battle)/_types/Character";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { CharacterAttribute } from "@/app/[locale]/(battle)/types/Character";
 
 export const TeamSelectData = ({ data }: { data: CharacterTeamData }) => {
   const charList = _.pickBy(characters, (value) => {
@@ -23,9 +23,7 @@ export const TeamSelectData = ({ data }: { data: CharacterTeamData }) => {
   return (
     <div className="mb-2">
       <div className="text-sm flex justify-between px-2">
-        <div>
-          {data.profiles.name}
-        </div>
+        <div>{data.profiles.name}</div>
 
         <div>
           {new Date(data.created_at).toLocaleDateString()}{" "}
@@ -208,7 +206,6 @@ export const TeamSelectData = ({ data }: { data: CharacterTeamData }) => {
               return (
                 <div className="grid grid-cols-6">
                   T{index + 1}:
-
                   {action.map((x, i) => {
                     // @ts-ignore
                     const a = JSON.parse(x);

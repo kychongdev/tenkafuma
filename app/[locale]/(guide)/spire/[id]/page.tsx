@@ -1,8 +1,11 @@
-import { ActionLog } from "@/core/Analysis";
-import type { CharacterTeam } from "@/types/Select";
+import { CharacterTeam } from "@/app/[locale]/(battle)/types/Select";
 import { TeamSelectData } from "./TeamSelectData";
 import { createClient } from "@/supabase/server";
 
+interface ActionLog {
+  position: number;
+  targeting: number;
+}
 export interface CharacterTeamData {
   client_id: string;
   stage: string;
@@ -15,9 +18,7 @@ export interface CharacterTeamData {
   created_at: Date;
 }
 
-export default async function Page(
-  { params, searchParams },
-) {
+export default async function Page({ params, searchParams }) {
   const { id } = await params;
 
   const supabase = await createClient();
@@ -26,7 +27,9 @@ export default async function Page(
     .from("stage_team")
     .select(
       `profiles (name,avatar), client_id, stage, author, select, action, created_at`,
-    ).eq("stage", id).returns<CharacterTeamData[]>();
+    )
+    .eq("stage", id)
+    .returns<CharacterTeamData[]>();
 
   //const search = await searchParams;
   //.overlaps('team', searchParams.team)
