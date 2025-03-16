@@ -317,6 +317,7 @@ export default function Stats() {
           />
         </PieChart>
       </ChartContainer>
+      <div className="text-center">總傷害: {formatNumber(teamTotalDamage)}</div>
       <Accordion type="single" collapsible className="w-full px-4">
         <AccordionItem value="item-1">
           <AccordionTrigger>

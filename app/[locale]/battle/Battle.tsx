@@ -36,6 +36,8 @@ import { HealLog } from "./HealLog";
 import { useSimulateTeamState } from "../(simulate)/useSimulateState";
 import { Target } from "../(battle)/types/Skill";
 import { Input } from "@/components/ui/input";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import Stats from "./stats/Stats";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -134,14 +136,21 @@ export default function Battle() {
         <div className="flex flex-wrap gap-2">
           <BattleLog />
           <HealLog />
-          <Button
-            className="px-2 gap-1"
-            onClick={() => {
-              router.push("/battle/stats");
-            }}
-          >
-            <ChartPie /> {t("Damage Stats")}
-          </Button>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="px-2 gap-1">
+                <ChartPie /> {t("Damage Stats")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <Stats />
+              <VisuallyHidden>
+                <DialogTitle />
+              </VisuallyHidden>
+            </DialogContent>
+          </Dialog>
+
           <Button
             className="px-2 gap-1"
             onClick={() => {
@@ -149,15 +158,6 @@ export default function Battle() {
             }}
           >
             <RotateCcw /> {t("Restart")}
-          </Button>
-
-          <Button
-            className="px-2 gap-1"
-            onClick={() => {
-              router.push("/stage");
-            }}
-          >
-            <Sword /> {t("Stage")}
           </Button>
 
           <Button
@@ -177,32 +177,6 @@ export default function Battle() {
             <Undo /> {t("Undo")}
           </Button>
 
-          {stage == "dummy" ? (
-            <Button
-              className="px-2 gap-1"
-              onClick={() => {
-                if (select) {
-                  saveToTeam(
-                    p(select),
-                    p(action),
-                    p({
-                      damageLog1,
-                      damageLog2,
-                      damageLog3,
-                      damageLog4,
-                      damageLog5,
-                    }),
-                    p(turn),
-                  );
-                  router.push("/simulate");
-                } else {
-                  console.log("no team selected");
-                }
-              }}
-            >
-              <Save /> {t("Save To Calculator")}
-            </Button>
-          ) : null}
           <Dialog>
             <DialogTrigger asChild>
               <Button className="px-2 gap-1">
@@ -296,6 +270,42 @@ export default function Battle() {
                   })}
                 </div>
                 <Separator className="my-2" />
+                {stage == "dummy" ? (
+                  <Button
+                    className="px-2 gap-1"
+                    onClick={() => {
+                      if (select) {
+                        saveToTeam(
+                          p(select),
+                          p(action),
+                          p({
+                            damageLog1,
+                            damageLog2,
+                            damageLog3,
+                            damageLog4,
+                            damageLog5,
+                          }),
+                          p(turn),
+                        );
+                        router.push("/simulate");
+                      } else {
+                        console.log("no team selected");
+                      }
+                    }}
+                  >
+                    <Save /> {t("Save To Calculator")}
+                  </Button>
+                ) : null}
+
+                <Separator className="my-2" />
+                <Button
+                  className="px-2 gap-1"
+                  onClick={() => {
+                    router.push("/stage");
+                  }}
+                >
+                  <Sword /> {t("Stage")}
+                </Button>
               </div>
             </DialogContent>
           </Dialog>
