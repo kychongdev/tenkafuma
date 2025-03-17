@@ -575,88 +575,109 @@ export function initPassiveSkill(G: GameState, pos: number) {
             ],
           },
         },
-        {
-          id: "10057-passive-3",
-          name: "每經過6回合，觸發「使我方站位1、3、5的隊員必殺技傷害增加50%(2回合)」效果",
-          type: 11,
-          condition: Condition.EVERY_X_TURN,
-          conditionTurn: 6,
-          duration: 100,
-          _21: {
-            trigger: [
-              {
-                id: "10057-passive-3-1",
-                name: "必殺技傷害增加50%",
-                condition: Condition.NONE,
-                type: 11,
-                duration: 100,
-                _11: {
-                  target: Target.POSITION_1,
-                  applySkill: [
-                    {
-                      id: "10057-passive-3-1-1",
-                      name: "必殺技傷害增加50%",
-                      type: 0,
-                      condition: Condition.NONE,
-                      duration: 2,
-                      _0: {
-                        value: 0.5,
-                        affectType: AffectType.INCREASE_ULTIMATE_DMG,
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                id: "10057-passive-3-2",
-                name: "必殺技傷害增加50%",
-                condition: Condition.NONE,
-                type: 11,
-                duration: 100,
-                _11: {
-                  target: Target.POSITION_3,
-                  applySkill: [
-                    {
-                      id: "10057-passive-3-2-1",
-                      name: "必殺技傷害增加50%",
-                      type: 0,
-                      condition: Condition.NONE,
-                      duration: 2,
-                      _0: {
-                        value: 0.5,
-                        affectType: AffectType.INCREASE_ULTIMATE_DMG,
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                id: "10057-passive-3-3",
-                name: "必殺技傷害增加50%",
-                condition: Condition.NONE,
-                type: 11,
-                duration: 100,
-                _11: {
-                  target: Target.POSITION_5,
-                  applySkill: [
-                    {
-                      id: "10057-passive-3-3-1",
-                      name: "必殺技傷害增加50%",
-                      type: 0,
-                      condition: Condition.NONE,
-                      duration: 2,
-                      _0: {
-                        value: 0.5,
-                        affectType: AffectType.INCREASE_ULTIMATE_DMG,
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        },
       ];
+      if (stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10057-passive-3",
+            name: "每經過6回合，觸發「使我方站位1、3、5的隊員必殺技傷害增加50%(2回合)」效果",
+            type: 11,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 6,
+            duration: 100,
+            _21: {
+              trigger: [
+                {
+                  id: "10057-passive-3-1",
+                  name: "必殺技傷害增加50%",
+                  condition: Condition.NONE,
+                  type: 11,
+                  duration: 100,
+                  _11: {
+                    target: Target.POSITION_1,
+                    applySkill: [
+                      {
+                        id: "10057-passive-3-1-1",
+                        name: "必殺技傷害增加50%",
+                        type: 0,
+                        condition: Condition.NONE,
+                        duration: 2,
+                        _0: {
+                          value: 0.5,
+                          affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  id: "10057-passive-3-2",
+                  name: "必殺技傷害增加50%",
+                  condition: Condition.NONE,
+                  type: 11,
+                  duration: 100,
+                  _11: {
+                    target: Target.POSITION_3,
+                    applySkill: [
+                      {
+                        id: "10057-passive-3-2-1",
+                        name: "必殺技傷害增加50%",
+                        type: 0,
+                        condition: Condition.NONE,
+                        duration: 2,
+                        _0: {
+                          value: 0.5,
+                          affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  id: "10057-passive-3-3",
+                  name: "必殺技傷害增加50%",
+                  condition: Condition.NONE,
+                  type: 11,
+                  duration: 100,
+                  _11: {
+                    target: Target.POSITION_5,
+                    applySkill: [
+                      {
+                        id: "10057-passive-3-3-1",
+                        name: "必殺技傷害增加50%",
+                        type: 0,
+                        condition: Condition.NONE,
+                        duration: 2,
+                        _0: {
+                          value: 0.5,
+                          affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10057-passive4",
+            name: "使自身普攻傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
       break;
     }
     // "10058": "膽小紙袋狼 沃沃",
@@ -815,7 +836,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
           },
         },
       ];
-      if (G.characters[pos].stars === 5) {
+      if (stars === 5) {
         G.characters[pos].buff = [
           ...G.characters[pos].buff,
           {
@@ -843,7 +864,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
           },
         ];
       }
-      if (G.characters[pos].passive4) {
+      if (passive4) {
         G.characters[pos].buff = [
           ...G.characters[pos].buff,
           {

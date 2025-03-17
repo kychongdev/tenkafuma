@@ -1242,9 +1242,11 @@ export function trigger(
         console.log("Wrong data 15");
         break;
       }
+      console.log("15", buff._15.position);
 
       // TODO random apply if no target
-      G.characters[buff._15.position].cd -= buff._15.reduceCD;
+      G.characters[buff._15.position].cd =
+        G.characters[buff._15.position].cd - buff._15.reduceCD;
       if (G.characters[buff._15.position].cd < 0) {
         G.characters[buff._15.position].cd = 0;
       }

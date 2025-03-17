@@ -379,7 +379,14 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
     case "10063": {
-      rawAtkBuffAll(G, pos, bond < 5 ? 0.3 : 0.4, "10063-ult-1", 2);
+      //15/20/30/30/30%
+      rawAtkBuffAll(
+        G,
+        pos,
+        bond === 1 ? 0.15 : bond === 2 ? 0.2 : 0.3,
+        "10063-ult-1",
+        1,
+      );
       const buff: Skill = {
         id: "10063-ult-2",
         name: "必殺時，觸發「使我方站位5的隊員攻擊力增加%(1回合)」",

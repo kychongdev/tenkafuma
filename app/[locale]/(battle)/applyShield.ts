@@ -38,6 +38,8 @@ export function basicShieldAllAllies(
     if (!checkAvailable(G.characters[i])) {
       return;
     }
+
+    console.log("dmg", duration);
     shieldTarget(G, dmg, attacker, i, duration);
   }
 }
@@ -60,11 +62,13 @@ export function ultShieldAllAllies(
 
 function shieldTarget(
   gameState: GameState,
-  res: Big,
+  value: Big,
   attacker: Target,
   target: Target,
   duration: number,
 ) {
+  const res = value.round(0, Big.roundDown);
+
   let char = "";
   if (attacker >= 0 && attacker < 5) {
     char = gameState.characters[attacker].id;

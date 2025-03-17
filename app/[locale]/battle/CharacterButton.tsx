@@ -33,7 +33,13 @@ export const CharacterButton = ({ position }: { position: number }) => {
           />
         </div>
         <div className="absolute w-full">
-          <HpBar value={(shield / character.maxHp) * 100} />
+          <HpBar
+            value={
+              (shield / character.maxHp) * 100 > 100
+                ? 100
+                : (shield / character.maxHp) * 100
+            }
+          />
         </div>
       </div>
       <div>

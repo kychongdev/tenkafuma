@@ -95,7 +95,7 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10056": "墮龍 凱茜菲娜",
     // "10057": "煌星 妲絲艾菲娜",
     case "10057": {
-      basicShieldAllAllies(G, oG, 0.5, p, ca);
+      basicShieldAllAllies(G, oG, 0.5, p, 1);
       break;
     }
     // "10058": "膽小紙袋狼 沃沃",
