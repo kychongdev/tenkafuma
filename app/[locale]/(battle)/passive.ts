@@ -2798,7 +2798,107 @@ export function initPassiveSkill(G: GameState, pos: number) {
         ];
       }
       break;
-    } // "10143": "夏日 賽露西亞",
+    }
+    // "10143": "夏日 賽露西亞",
+    case "10143": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10143-passive-1",
+          name: "攻擊力增加30%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.3,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10143-passive-2",
+          name: "普攻時，觸發「使我方全體被治療時回復增加30%(1回合)」",
+          type: 11,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ALLIES,
+            applySkill: [
+              {
+                id: "10143-passive-2-1",
+                name: "被治療時回復增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.3,
+                  affectType: AffectType.INCREASE_HEAL_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10143-passive-3",
+          name: "必殺時，觸發「以自身最大HP25%給予我方全體護盾(1回合)」",
+          type: 10,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _10: {
+            target: Target.ALL_ALLIES,
+            value: 0.25,
+            damageType: DamageType.TRIGGER,
+            duration: 1,
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10143-passive-4",
+            name: "每Wave的第9回合時，觸發「使敵方全體受到傷害增加50%(50回合)」",
+            type: 11,
+            condition: Condition.ON_SPECIFIC_TURN,
+            duration: 100,
+            conditionTurn: 9,
+            _11: {
+              target: Target.ENEMY,
+              applySkill: [
+                {
+                  id: "10143-passive-4-1",
+                  name: "受到傷害增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 50,
+                  _0: {
+                    value: 0.5,
+                    affectType: AffectType.INCREASE_DMG_RECEIVED,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10143-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10144": "夏日 凱薩",
     case "10144": {
       G.characters[pos].buff = [

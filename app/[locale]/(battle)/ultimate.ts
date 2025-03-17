@@ -1523,6 +1523,110 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10143": "夏日 賽露西亞",
+    case "10143": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10143-ult-1",
+            name: "普攻傷害增加(4回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_BASIC_DMG,
+              value:
+                bond === 1
+                  ? 0.3
+                  : bond === 2
+                    ? 0.45
+                    : bond === 3
+                      ? 0.6
+                      : bond === 4
+                        ? 0.75
+                        : 0.9,
+            },
+          },
+          // TODO
+          {
+            id: "10143-ult-2",
+            name: "普攻時，追加『以自身攻擊4/4/6/6/10%對我方全體進行治療」(4回合)",
+            type: 111,
+            condition: Condition.BASIC_ATTACK,
+            duration: 4,
+            _111: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10143-ult-2-1",
+                  name: "普攻時，追加『以自身攻擊4/4/6/6/10%對我方全體進行治療」(4回合)",
+                  condition: Condition.BASIC_ATTACK,
+                  type: 105,
+                  duration: 4,
+                  _105: {
+                    target: Target.ALL_ALLIES,
+                    value:
+                      bond === 1
+                        ? 0.04
+                        : bond === 2
+                          ? 0.06
+                          : bond === 3
+                            ? 0.06
+                            : bond === 4
+                              ? 0.1
+                              : 0.1,
+                    damageType: DamageType.BASIC,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      });
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10143-ult-3",
+          name: "普攻時，追加『以自身攻擊力60/80/100/120/140%對目標造成傷害』",
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 0.6
+                : bond === 2
+                  ? 0.8
+                  : bond === 3
+                    ? 1
+                    : bond === 4
+                      ? 1.2
+                      : 1.4,
+            defender: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            multiple: false,
+            isTrueDamage: false,
+          },
+        },
+      ];
+      if (bond > 2) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10143-ult-4",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: bond === 3 ? 0.3 : bond === 4 ? 0.6 : 0.9,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10144": "夏日 凱薩",
     case "10144": {
       ultToTargeting(

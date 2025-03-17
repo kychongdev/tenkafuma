@@ -300,7 +300,11 @@ export interface _104 {
 }
 
 // damage self
-export interface _105 {}
+export interface _105 {
+  value: number;
+  target: Target;
+  damageType: DamageType;
+}
 
 //追加傳功
 
@@ -316,7 +320,8 @@ export interface _106 {
 export interface _111 {
   target: Target | CharacterClass;
   applySkill: Skill[];
-  deleteSelf?: boolean;
+  applyToSpecificChar?: string;
+  overlap?: boolean;
 }
 
 export interface _113 {

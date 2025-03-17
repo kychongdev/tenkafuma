@@ -35,7 +35,6 @@ import { useGameState } from "../(battle)/GameState";
 import { HealLog } from "./HealLog";
 import { useSimulateTeamState } from "../(simulate)/useSimulateState";
 import { Target } from "../(battle)/types/Skill";
-import { Input } from "@/components/ui/input";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Stats from "./stats/Stats";
 

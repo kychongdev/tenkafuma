@@ -1144,6 +1144,97 @@ export function initLeadSkill(G: GameState) {
       break;
     }
     // "10143": "夏日 賽露西亞",
+    case "10143": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10143-lead-1",
+            name: "最大HP增加30%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.3,
+            },
+          },
+        ];
+      });
+      const threeDifferentClassCondition = [
+        CharacterClass.ATTACKER,
+        CharacterClass.OBSTRUCTER,
+        CharacterClass.SUPPORT,
+        CharacterClass.PROTECTOR,
+        CharacterClass.HEALER,
+      ];
+      G.characters.forEach((character) => {
+        if (threeDifferentClassCondition.includes(character.class)) {
+          const index = threeDifferentClassCondition.indexOf(character.class);
+          if (index !== -1) {
+            threeDifferentClassCondition.splice(
+              threeDifferentClassCondition.indexOf(character.class),
+              1,
+            );
+          }
+        }
+      });
+      if (threeDifferentClassCondition.length == 2) {
+        G.characters.forEach((_, index) => {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10143-lead-2",
+              name: "攻擊力增加100%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 1,
+              },
+            },
+            {
+              id: "10143-lead-3",
+              name: "造成傷害增加20%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.2,
+              },
+            },
+            {
+              id: "10143-lead-4",
+              name: "普攻傷害110%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_BASIC_DMG,
+                value: 1.1,
+              },
+            },
+            {
+              id: "10143-lead-5",
+              name: "普攻時，追加「以自身攻擊力30%對目標造成傷害」",
+              type: 101,
+              condition: Condition.BASIC_ATTACK,
+              duration: 100,
+              _101: {
+                value: 0.3,
+                defender: Target.ENEMY,
+                damageType: 0,
+                multiple: false,
+                isTrueDamage: false,
+              },
+            },
+          ];
+        });
+      }
+      break;
+    }
     // "10144": "夏日 凱薩",
     case "10144": {
       G.characters.forEach((_, index) => {

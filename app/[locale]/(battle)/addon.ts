@@ -1,5 +1,5 @@
 import { GameState } from "./GameState";
-import { CharacterAction } from "./types/Character";
+import { CharacterAction, CharacterAttribute } from "./types/Character";
 import {
   AffectType,
   DamageType,
@@ -17,6 +17,8 @@ import {
   ultToTargeting,
 } from "./applyDamage";
 import { checkSpecialCondition } from "./condition";
+import { basicHealAllAllies } from "./applyHeal";
+import { lowestHp } from "./utils";
 
 export function addOn(
   G: GameState,
@@ -478,6 +480,263 @@ export function addOn(
         }
         default:
           console.log("No target found");
+          break;
+      }
+      break;
+    }
+
+    case 105: {
+      if (!buff._105) {
+        console.log(buff.id);
+        console.log("Wrong data 5");
+        break;
+      }
+
+      switch (buff._105.damageType) {
+        case DamageType.BASIC: {
+          if (buff._105.target === Target.ALL_ALLIES) {
+            basicHealAllAllies(G, oG, buff._105.value, p, ca);
+          }
+          break;
+        }
+        case DamageType.ULTIMATE: {
+          break;
+        }
+        case DamageType.TRIGGER: {
+          break;
+        }
+        case DamageType.TRIGGER_HP: {
+          // TODO susan need
+        }
+      }
+      break;
+    }
+    case 111: {
+      if (!buff._111) {
+        console.log(buff.id);
+        console.log("Wrong data 111");
+        break;
+      }
+
+      if (buff._111.overlap) {
+        const buffIndex = G.characters[p].buff.findIndex(
+          (x) => x.id === buff._111?.applySkill[0].id,
+        );
+        if (buffIndex !== -1) {
+          console.log("Buff Index", buffIndex);
+          const clone = [...G.characters[p].buff];
+          clone.splice(buffIndex, 1);
+          G.characters[p].buff = clone;
+        }
+      }
+
+      switch (buff._111.target) {
+        case Target.SELF: {
+          G.characters[p].buff = [
+            ...G.characters[p].buff,
+            ...buff._111.applySkill,
+          ];
+          break;
+        }
+        case Target.ENEMY: {
+          // If you use overlap then you can only use one apply buff
+          //if (buff._111.overlap && buff._11.applySkill.length < 2) {
+          //  G.enemies[G.targeting].buff = G.enemies[G.targeting].buff.filter(
+          //    (buff) => buff.id !== buff._111?.applySkill[0].id,
+          //  );
+          //}
+          G.enemies[G.targeting].buff = [
+            ...G.enemies[G.targeting].buff,
+            ...buff._111.applySkill,
+          ];
+          break;
+        }
+
+        case Target.ALL_ENEMIES: {
+          G.enemies.forEach((_, index) => {
+            if (!buff._111) {
+              console.log("_111 Apply buff don't exist");
+              return;
+            }
+            G.enemies[index].buff = [
+              ...G.enemies[index].buff,
+              ...buff._111.applySkill,
+            ];
+          });
+        }
+        case Target.DARK_ENEMY: {
+          G.enemies.forEach((enemy, index) => {
+            if (enemy.attribute === CharacterAttribute.DARK) {
+              if (!buff._111) {
+                console.log("Wrong data 111");
+                return;
+              }
+              G.enemies[index].buff = [
+                ...G.enemies[index].buff,
+                ...buff._111.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+        case Target.ALL_ALLIES: {
+          G.characters.forEach((_, index) => {
+            if (!buff._111) {
+              console.log("_111 Apply buff don't exist");
+              return;
+            }
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              ...buff._111.applySkill,
+            ];
+          });
+          break;
+        }
+
+        case Target.ALL_EXCEPT_SELF: {
+          G.characters.forEach((_, index) => {
+            if (index !== p) {
+              if (!buff._111) {
+                console.log("_111 Apply buff don't exist");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._111.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.ATTACKER:
+        case Target.OBSTRUCTER:
+        case Target.HEALER:
+        case Target.PROTECTOR:
+        case Target.SUPPORT: {
+          G.characters.forEach((character, index) => {
+            if (character.class === buff._111?.target) {
+              if (!buff._111) {
+                console.log("Wrong data 111");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._111?.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.FIRE:
+        case Target.WIND:
+        case Target.DARK:
+        case Target.LIGHT:
+        case Target.WATER: {
+          G.characters.forEach((character, index) => {
+            //@ts-ignore
+            if (character.attribute === buff._111?.target) {
+              if (!buff._111) {
+                console.log("Wrong data 111");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._111?.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.ALL_FIRE_EXCEPT_SELF:
+        case Target.ALL_WATER_EXCEPT_SELF:
+        case Target.ALL_DARK_EXCEPT_SELF:
+        case Target.ALL_WIND_EXCEPT_SELF:
+        case Target.ALL_LIGHT_EXCEPT_SELF: {
+          G.characters.forEach((character, index) => {
+            if (
+              //@ts-ignore
+              character.attribute === buff._111?.target - 20 &&
+              index !== p
+            ) {
+              if (!buff._111) {
+                console.log("Wrong data 111");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._111?.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.POSITION_1:
+        case Target.POSITION_2:
+        case Target.POSITION_3:
+        case Target.POSITION_4:
+        case Target.POSITION_5: {
+          G.characters[buff._111.target].buff = [
+            ...G.characters[buff._111.target].buff,
+            ...buff._111.applySkill,
+          ];
+          break;
+        }
+
+        case Target.ALL_LIGHT_EXCEPT_SELF: {
+          G.characters.forEach((character, index) => {
+            if (
+              index !== p &&
+              character.attribute === CharacterAttribute.LIGHT
+            ) {
+              if (!buff._111) {
+                console.log("_111 Apply buff don't exist");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._111.applySkill,
+              ];
+            }
+          });
+          break;
+        }
+
+        case Target.SPECIFIC_CHARACTER: {
+          const pos = G.characters.findIndex((character) => {
+            return character.id === buff._111?.applyToSpecificChar;
+          });
+
+          if (pos === -1) {
+            console.log(
+              `_111 Error: Can't find this specific character ${buff._111.applyToSpecificChar}`,
+            );
+            break;
+          }
+          G.characters[pos].buff = [
+            ...G.characters[pos].buff,
+            ...buff._111.applySkill,
+          ];
+          break;
+        }
+
+        case Target.LOWEST_HP: {
+          const lowestHpIndex = lowestHp(G, G.characters);
+          console.log("111 Lowest HP Index", lowestHpIndex);
+          if (lowestHpIndex === -1) {
+            break;
+          }
+          G.characters[lowestHpIndex].buff = [
+            ...G.characters[lowestHpIndex].buff,
+            ...buff._111.applySkill,
+          ];
+          break;
+        }
+
+        default:
           break;
       }
       break;

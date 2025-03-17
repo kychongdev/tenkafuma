@@ -281,6 +281,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10143": "夏日 賽露西亞",
+    case "10143": {
+      rawHotAll(G, p, 0.375, "10143-basic-1", 4);
+      break;
+    }
     // "10144": "夏日 凱薩",
     case "10144": {
       basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
