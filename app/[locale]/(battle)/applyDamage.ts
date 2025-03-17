@@ -715,7 +715,7 @@ function writeBattleLog(
   );
 }
 
-function writeDamageLog(
+export function writeDamageLog(
   gameState: GameState,
   position: number,
   content: DamageLog,
