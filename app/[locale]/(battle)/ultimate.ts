@@ -379,7 +379,6 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
     case "10063": {
-      //15/20/30/30/30%
       rawAtkBuffAll(
         G,
         pos,
@@ -2336,6 +2335,64 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10158": "聖夜奇謀 布蘭妮"
     // "10159": "喜迎性春 菲歐菈",
+    case "10159": {
+      const skill: Skill = {
+        id: "10159-ult-1",
+        name: "攻擊力增加",
+        type: 0,
+        condition: Condition.NONE,
+        duration: 4,
+        _0: {
+          affectType: AffectType.INCREASE_ATK,
+          value:
+            bond === 1
+              ? 0.1
+              : bond === 2
+                ? 0.125
+                : bond === 3
+                  ? 0.15
+                  : bond === 4
+                    ? 0.2
+                    : 0.25,
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+      rawAtkBuffAll(G, pos, 0.3, "10159-ult-2", 1);
+      const skill2: Skill = {
+        id: "10159-ult-3",
+        name: "造成傷害增加",
+        type: 0,
+        condition: Condition.NONE,
+        duration: 4,
+        _11: {
+          target: Target.ALL_ALLIES,
+          applySkill: [
+            {
+              id: "10159-ult-3",
+              name: "造成傷害增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 4,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value:
+                  bond === 1
+                    ? 0.1
+                    : bond === 2
+                      ? 0.15
+                      : bond === 3
+                        ? 0.2
+                        : bond === 4
+                          ? 0.25
+                          : 0.3,
+              },
+            },
+          ],
+        },
+      };
+      trigger(G, oG, pos, skill2, ca);
+      break;
+    }
     // "10161": "舞焰赤龍 薩夏",
     case "10161": {
       const skill: Skill = {
