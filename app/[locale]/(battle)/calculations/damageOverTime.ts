@@ -230,12 +230,8 @@ export function damageOverTime(
     .add(rawAtk)
     .round(0, Big.roundDown);
 
-  const res = Big(0)
-    .add(finalAtk)
-    .mul(dotIncrease)
-    .round(0, Big.roundDown)
-    .mul(value)
-    .round(0, Big.roundDown);
+  const res = Big(0).add(finalAtk).mul(dotIncrease).mul(value);
+  //.round(0, Big.roundDown);
 
   switch (target) {
     case Target.ENEMY: {

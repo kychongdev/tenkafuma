@@ -203,6 +203,11 @@ export function maxHpSort(arr: CharacterState[]) {
 }
 
 export function parseSkillName(buff: Skill) {
+  let active = "";
+  const first5 = buff.name.slice(0, 5);
+  if (first5 === "[發動中]") {
+    active = "[發動中]";
+  }
   if (buff.type === 0) {
     switch (buff._0?.affectType) {
       case AffectType.RAW_ATK:
@@ -228,7 +233,7 @@ export function parseSkillName(buff: Skill) {
       case AffectType.INCREASE_DMG:
         return `造成傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_BASIC_DMG:
-        return `普攻傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
+        return `${active}普攻傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_ULTIMATE_DMG:
         return `必殺技傷害增加${Big(buff._0.value).mul(100).round(0, Big.roundDown).toNumber()}%`;
       case AffectType.INCREASE_DMG_RECEIVED:

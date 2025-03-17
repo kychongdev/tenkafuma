@@ -53,9 +53,9 @@ interface ISkill {
   specialConditionSkill?: string;
   disabledOnSkill?: string;
   obtainOnEnemyTurn?: boolean;
-  disableOnStack?: boolean;
-  disableOnStackBelowValue?: number;
-  disableOnStackSkill?: string;
+  //disableOnStack?: boolean;
+  //disableOnStackBelowValue?: number;
+  //disableOnStackSkill?: string;
   OffOnAction?: boolean;
 }
 

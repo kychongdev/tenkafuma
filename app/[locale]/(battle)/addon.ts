@@ -27,8 +27,16 @@ export function addOn(
   buff: Skill,
   ca: CharacterAction,
 ) {
+  if (buff.disabledOnSkill) {
+    const isExist = oG.characters[p].buff.some((x) => {
+      return x.id === buff.disabledOnSkill;
+    });
+    if (isExist) {
+      return;
+    }
+  }
   if (buff.specialCondition === SpecialCondition.SKILL_STACK_MORE_THAN) {
-    if (!buff.specialConditionValue) {
+    if (!buff.specialConditionValue && buff.specialConditionValue !== 0) {
       return;
     }
     if (!buff.specialConditionSkill) {
@@ -67,12 +75,14 @@ export function addOn(
         //defender: Target.ENEMY,
         //damageType: DamageType.BASIC_ADDON,
         case DamageType.BASIC_ADDON: {
+          console.log("Addon !!!");
           if (d === Target.ENEMY) {
             if (buff._101.multiple && buff._101.multipleValue) {
               for (let i = buff._101.multipleValue; i > 0; i--) {
                 basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
               }
             } else {
+              console.log("Addon DEAL DMG!");
               basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
             }
           } else {

@@ -27,9 +27,10 @@ import {
   Condition,
   DamageType,
   Skill,
+  SpecialCondition,
   Target,
 } from "./types/Skill";
-import { checkTargetAlive, hpSort, lowestHp } from "./utils";
+import { checkTargetAlive, lowestHp } from "./utils";
 import { p as print } from "./utils";
 import { damageOverTime } from "./calculations/damageOverTime";
 
@@ -40,21 +41,29 @@ export function trigger(
   buff: Skill,
   ca: CharacterAction,
 ) {
-  if (
-    buff.disableOnStack &&
-    buff.disableOnStackSkill &&
-    buff.disableOnStackBelowValue &&
-    oG
-  ) {
-    console.log("disabled", buff.id);
-    const isExist = oG.characters[p].buff.find((x) => {
-      return x.id === buff.disableOnStackSkill;
+  if (buff.disabledOnSkill) {
+    const isExist = oG.characters[p].buff.some((x) => {
+      return x.id === buff.disabledOnSkill;
     });
-    if (!isExist) {
+    if (isExist) {
       return;
     }
-    if (isExist._3 && isExist._3.stack < buff.disableOnStackBelowValue) {
-      console.log("disableOnStack");
+  }
+
+  if (buff.specialCondition === SpecialCondition.SKILL_STACK_MORE_THAN) {
+    if (!buff.specialConditionValue && buff.specialConditionValue !== 0) {
+      return;
+    }
+    if (!buff.specialConditionSkill) {
+      return;
+    }
+    const skill = oG.characters[p].buff.find(
+      (x) => x.id === buff.specialConditionSkill,
+    );
+    if (!skill) {
+      return;
+    }
+    if (skill && skill._3 && skill._3?.stack < buff.specialConditionValue) {
       return;
     }
   }

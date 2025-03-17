@@ -1581,7 +1581,7 @@ export function initLeadSkill(G: GameState) {
           },
           {
             id: "10157-lead-3",
-            name: "我方全體普攻時，追加『以自身攻擊力15%對目標造成傷害』",
+            name: "普攻時，追加『以自身攻擊力15%對目標造成傷害』",
             type: 101,
             duration: 100,
             condition: Condition.BASIC_ATTACK,
@@ -1595,7 +1595,7 @@ export function initLeadSkill(G: GameState) {
           },
           {
             id: "10157-lead-4",
-            name: "我方全體必殺時，追加「以自身攻擊力30%對目標造成傷害」",
+            name: "必殺時，追加「以自身攻擊力30%對目標造成傷害」",
             type: 101,
             condition: Condition.ULTIMATE,
             duration: 100,
