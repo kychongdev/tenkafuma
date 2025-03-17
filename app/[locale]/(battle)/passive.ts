@@ -500,6 +500,165 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10055": "精靈舞者 塔諾西雅",
     // "10056": "墮龍 凱茜菲娜",
     // "10057": "煌星 妲絲艾菲娜",
+    case "10057": {
+      if (bond > 2) {
+        G.characters[pos].maxCd = 3;
+        G.characters[pos].cd = 3;
+      }
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10057-passive-1",
+          name: "使自身普攻傷害增加25%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.25,
+            affectType: AffectType.INCREASE_BASIC_DMG,
+          },
+        },
+        {
+          id: "10057-passive-2",
+          name: "第1回合開始時，發動「使我方站位2、4的隊員受到傷害減少15%(50回合)」效果",
+          type: 21,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: "10057-passive-2-1",
+                name: "受到傷害減少",
+                condition: Condition.NONE,
+                type: 11,
+                duration: 100,
+                _11: {
+                  target: Target.POSITION_2,
+                  applySkill: [
+                    {
+                      id: "10057-passive-2-1-1",
+                      name: "受到傷害減少",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        value: 0.15,
+                        affectType: AffectType.DECREASE_DMG_RECEIVED,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10057-passive-2-2",
+                name: "受到傷害減少",
+                condition: Condition.NONE,
+                type: 11,
+                duration: 100,
+                _11: {
+                  target: Target.POSITION_4,
+                  applySkill: [
+                    {
+                      id: "10057-passive-2-2-1",
+                      name: "受到傷害減少",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 50,
+                      _0: {
+                        value: 0.15,
+                        affectType: AffectType.DECREASE_DMG_RECEIVED,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10057-passive-3",
+          name: "每經過6回合，觸發「使我方站位1、3、5的隊員必殺技傷害增加50%(2回合)」效果",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 6,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: "10057-passive-3-1",
+                name: "必殺技傷害增加50%",
+                condition: Condition.NONE,
+                type: 11,
+                duration: 100,
+                _11: {
+                  target: Target.POSITION_1,
+                  applySkill: [
+                    {
+                      id: "10057-passive-3-1-1",
+                      name: "必殺技傷害增加50%",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 2,
+                      _0: {
+                        value: 0.5,
+                        affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10057-passive-3-2",
+                name: "必殺技傷害增加50%",
+                condition: Condition.NONE,
+                type: 11,
+                duration: 100,
+                _11: {
+                  target: Target.POSITION_3,
+                  applySkill: [
+                    {
+                      id: "10057-passive-3-2-1",
+                      name: "必殺技傷害增加50%",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 2,
+                      _0: {
+                        value: 0.5,
+                        affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10057-passive-3-3",
+                name: "必殺技傷害增加50%",
+                condition: Condition.NONE,
+                type: 11,
+                duration: 100,
+                _11: {
+                  target: Target.POSITION_5,
+                  applySkill: [
+                    {
+                      id: "10057-passive-3-3-1",
+                      name: "必殺技傷害增加50%",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 2,
+                      _0: {
+                        value: 0.5,
+                        affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ];
+      break;
+    }
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
@@ -602,6 +761,106 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
+    case "10063": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10063-passive-1",
+          name: "普攻時，觸發「使自身攻擊力增加10%(最多4層)」",
+          type: 4,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10063-passive-1-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10063-passive-1-1",
+              name: "攻擊力增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10063-passive-1-1",
+                name: "攻擊力增加",
+                value: 0.1,
+                stack: 1,
+                maxStack: 4,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          },
+        },
+        {
+          id: "10063-passive-2",
+          name: "必殺時，觸發「使我方站位5的隊員攻擊力增加40%(2回合)」",
+          type: 11,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _11: {
+            target: Target.POSITION_5,
+            applySkill: [
+              {
+                id: "10063-passive-2-1",
+                name: "攻擊力增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 2,
+                _0: {
+                  value: 0.4,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10063-passive-3",
+            name: "必殺時，觸發「使我方全體造成傷害增加30%(1回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10063-passive-3-1",
+                  name: "造成傷害增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 1,
+                  _0: {
+                    value: 0.3,
+                    affectType: AffectType.INCREASE_DMG,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10063-passive-4",
+            name: "使自身受到傷害減少5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10066": "千咒魔女 安西莉卡",
     // "10067": "新春 神無雪",
     // "10068": "元氣補給 蓮",

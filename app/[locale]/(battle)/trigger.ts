@@ -1040,6 +1040,7 @@ export function trigger(
           break;
         }
 
+        // NEED TO JUMP IF NO TARGET
         case Target.POSITION_1:
         case Target.POSITION_2:
         case Target.POSITION_3:
@@ -1232,6 +1233,20 @@ export function trigger(
             }
           });
           break;
+      }
+      break;
+    }
+
+    case 15: {
+      if (!buff._15) {
+        console.log("Wrong data 15");
+        break;
+      }
+
+      // TODO random apply if no target
+      G.characters[buff._15.position].cd -= buff._15.reduceCD;
+      if (G.characters[buff._15.position].cd < 0) {
+        G.characters[buff._15.position].cd = 0;
       }
       break;
     }

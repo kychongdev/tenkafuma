@@ -2,7 +2,7 @@ import Big from "big.js";
 import { ultToTargeting, ultHpToTargeting } from "./applyDamage";
 import { ultHealAllAllies, ultHpHealAll } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
-import { ultHpShieldAllAllies } from "./applyShield";
+import { ultHpShieldAllAllies, ultShieldAllAllies } from "./applyShield";
 import { shieldUltHp } from "./calculations/shieldHp";
 import { GameState } from "./GameState";
 import { trigger } from "./trigger";
@@ -18,6 +18,8 @@ import {
   Skill,
   Target,
 } from "./types/Skill";
+import { shieldUlt } from "./calculations/shieldUlt";
+import { healUltHp } from "./calculations/healUltHp";
 
 export function ultimate(G: GameState, oG: GameState, pos: number) {
   const id = G.characters[pos].id;
@@ -300,6 +302,17 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10055": "精靈舞者 塔諾西雅",
     // "10056": "墮龍 凱茜菲娜",
     // "10057": "煌星 妲絲艾菲娜",
+    case "10057": {
+      ultShieldAllAllies(
+        G,
+        oG,
+        bond === 1 ? 1.65 : bond === 2 || bond === 3 ? 1.88 : 2.11,
+        pos,
+        2,
+      );
+      rawAtkBuffAll(G, pos, bond < 5 ? 0.3 : 0.4, "10057-ult-2", 2);
+      break;
+    }
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
@@ -365,6 +378,62 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
+    case "10063": {
+      rawAtkBuffAll(G, pos, bond < 5 ? 0.3 : 0.4, "10063-ult-1", 2);
+      const buff: Skill = {
+        id: "10063-ult-2",
+        name: "必殺時，觸發「使我方站位5的隊員攻擊力增加%(1回合)」",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _11: {
+          target: Target.POSITION_5,
+          applySkill: [
+            {
+              id: "10063-passive-2-1",
+              name: "攻擊力增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value:
+                  bond === 1
+                    ? 0.2
+                    : bond === 2
+                      ? 0.25
+                      : bond === 3
+                        ? 0.3
+                        : bond === 4
+                          ? 0.45
+                          : 0.6,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          ],
+        },
+      };
+
+      trigger(G, oG, pos, buff, ca);
+      ultHealAllAllies(G, oG, 2, pos, false, false, ca);
+      G.characters.forEach((_, index) => {
+        G.characters[index].isHeal = true;
+      });
+
+      const buff2: Skill = {
+        id: "10063-ult-3",
+        name: "使5號位當前必殺技CD減少4回合",
+        type: 15,
+        condition: Condition.NONE,
+        duration: 100,
+        _15: {
+          reduceCD: 4,
+          position: 4,
+        },
+      };
+
+      trigger(G, oG, pos, buff2, ca);
+      break;
+    }
     // "10066": "千咒魔女 安西莉卡",
     // "10067": "新春 神無雪",
     // "10068": "元氣補給 蓮",

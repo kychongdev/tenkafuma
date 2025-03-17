@@ -10,6 +10,7 @@ import { basicDamage } from "./calculations/basicDamage";
 import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
 import { AffectType, Condition, DamageType, Target } from "./types/Skill";
+import { basicShieldAllAllies } from "./applyShield";
 
 export function basic(p: number, G: GameState, oG: GameState) {
   const id = G.characters[p].id;
@@ -93,6 +94,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10055": "精靈舞者 塔諾西雅",
     // "10056": "墮龍 凱茜菲娜",
     // "10057": "煌星 妲絲艾菲娜",
+    case "10057": {
+      basicShieldAllAllies(G, oG, 0.5, p, ca);
+      break;
+    }
     // "10058": "膽小紙袋狼 沃沃",
     // "10059": "音速魅影 祈",
     // "10060": "豐收聖女 菲歐菈",
@@ -104,6 +109,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     } // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
+    case "10063": {
+      rawAtkBuffAll(G, p, 0.3, "10063-basic-1", 1);
+      break;
+    }
     // "10066": "千咒魔女 安西莉卡",
     // "10067": "新春 神無雪",
     // "10068": "元氣補給 蓮",
