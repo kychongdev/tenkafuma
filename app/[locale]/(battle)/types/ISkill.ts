@@ -113,8 +113,9 @@ export interface _11 {
 
 // Apply buff based on position, random it if position does not exist
 export interface _12 {
-  position: number;
-  applySkill: Skill;
+  value: number;
+  duration: number;
+  target: Target;
 }
 
 //Apply to character X buff

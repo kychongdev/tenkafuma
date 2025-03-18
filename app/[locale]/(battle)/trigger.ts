@@ -11,7 +11,7 @@ import {
   ultHpHealAll,
   ultTriggerHeal,
 } from "./applyHeal";
-import { applyRawAttBuff } from "./applyRawAtk";
+import { applyRawAttBuff, rawHotAll } from "./applyRawAtk";
 import { ultHpShieldAllAllies } from "./applyShield";
 import { basicDamage } from "./calculations/basicDamage";
 import { ultDamage } from "./calculations/ultDamage";
@@ -1108,6 +1108,20 @@ export function trigger(
       }
       break;
     }
+    case 12: {
+      if (!buff._12) {
+        console.log("Wrong data 12");
+        break;
+      }
+      switch (buff._12.target) {
+        case Target.ALL_ALLIES: {
+          rawHotAll(G, p, buff._12.value, buff.id, buff._12.duration);
+          break;
+        }
+      }
+
+      break;
+    }
     case 13: {
       if (!buff._13) {
         console.log("Wrong data 13");
@@ -1527,6 +1541,107 @@ export function trigger(
         }
       }
       break;
+    case 20: {
+      if (!buff._20) {
+        console.log("Wrong data 20");
+        break;
+      }
+
+      switch (buff._20.target) {
+        case Target.ENEMY: {
+          const charIndex = G.enemies.findIndex((x) => {
+            return x.id === buff._20?.targetChar;
+          });
+
+          if (charIndex === -1) {
+            console.log("Enemy not found, 20 error");
+            break;
+          }
+          if (buff._20.clearAll) {
+            const buffIndex = G.enemies[charIndex].buff.findIndex(
+              (x) => x.id === buff._20?.targetSkill,
+            );
+            if (!buffIndex || buffIndex == -1) {
+              break;
+            }
+            const clone = [...G.enemies[charIndex].buff];
+            clone.splice(buffIndex, 1);
+            G.enemies[charIndex].buff = clone;
+          }
+
+          if (buff._20.clearStack && buff._20.clearStack > 0) {
+            const buffIndex = G.enemies[charIndex].buff.findIndex(
+              (x) => x.id === buff._20?.targetSkill,
+            );
+            if (!buffIndex || buffIndex == -1) {
+              break;
+            }
+            G.enemies[charIndex].buff.map((x) => {
+              if (x.id === buff._20?.targetSkill) {
+                if (x._3 && x._3.stack && x._3.stack > 0) {
+                  if (buff._20.clearStack && buff._20.clearStack > 0) {
+                    x._3.stack -= buff._20?.clearStack;
+                    if (x._3.stack === 0) {
+                      return;
+                    }
+                  }
+                }
+              }
+              return x;
+            });
+          }
+          break;
+        }
+        case Target.ALL_ALLIES: {
+          const charIndex = G.characters.findIndex((x) => {
+            return x.id === buff._20?.targetChar;
+          });
+
+          if (charIndex === -1) {
+            console.log("Character not found, 20 error");
+            break;
+          }
+          if (buff._20.clearAll) {
+            const buffIndex = G.characters[charIndex].buff.findIndex(
+              (x) => x.id === buff._20?.targetSkill,
+            );
+            if (!buffIndex || buffIndex == -1) {
+              break;
+            }
+            const clone = [...G.characters[charIndex].buff];
+            clone.splice(buffIndex, 1);
+            G.characters[p].buff = clone;
+          }
+
+          if (buff._20.clearStack && buff._20.clearStack > 0) {
+            const buffIndex = G.characters[charIndex].buff.findIndex(
+              (x) => x.id === buff._20?.targetSkill,
+            );
+            if (!buffIndex || buffIndex == -1) {
+              break;
+            }
+            G.characters[charIndex].buff.map((x) => {
+              if (x.id === buff._20?.targetSkill) {
+                if (x._3 && x._3.stack && x._3.stack > 0) {
+                  if (buff._20.clearStack && buff._20.clearStack > 0) {
+                    x._3.stack -= buff._20?.clearStack;
+                    if (x._3.stack === 0) {
+                      return;
+                    }
+                  }
+                }
+              }
+              return x;
+            });
+          }
+          break;
+        }
+        default:
+          break;
+      }
+
+      break;
+    }
 
     case 21: {
       if (!buff._21) {

@@ -49,6 +49,10 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
                 : bond === 4
                   ? 0.8
                   : 0.8;
+
+        G.characters.forEach((_, index) => {
+          G.characters[index].isHeal = true;
+        });
         G.characters.forEach((_, index) => {
           const atk = applyRawAttBuff(G, pos)
             .round(0, Big.roundDown)
@@ -96,6 +100,10 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           }
         });
         ultHealAllAllies(G, oG, 2, pos, false, false, ca);
+
+        G.characters.forEach((_, index) => {
+          G.characters[index].isHeal = true;
+        });
 
         const b2 =
           bond === 1
@@ -421,6 +429,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
 
       trigger(G, oG, pos, buff, ca);
       ultHealAllAllies(G, oG, 2, pos, false, false, ca);
+
       G.characters.forEach((_, index) => {
         G.characters[index].isHeal = true;
       });
@@ -1262,6 +1271,54 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",
+    case "10132": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10132-ult-1",
+            name: "必殺技傷害增加30%(4回合)",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 3,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.3
+                    : bond === 3
+                      ? 0.4
+                      : bond === 4
+                        ? 0.5
+                        : 0.6,
+            },
+          },
+        ];
+      });
+
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 2.65
+          : bond === 2
+            ? 2.98
+            : bond === 3
+              ? 3.31
+              : bond === 4
+                ? 3.64
+                : 3.97,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
@@ -1349,6 +1406,10 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
         false,
         ca,
       );
+      G.characters.forEach((_, index) => {
+        G.characters[index].isHeal = true;
+      });
+
       break;
     }
     // "10135": "偶像經紀人 梅絲米奈雅",
@@ -2154,6 +2215,10 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       );
 
       G.characters.forEach((_, index) => {
+        G.characters[index].isHeal = true;
+      });
+
+      G.characters.forEach((_, index) => {
         G.characters[index].buff = [
           ...G.characters[index].buff,
           {
@@ -2218,6 +2283,122 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10153": "純真殺意 撒旦",
+    case "10153": {
+      const skill: Skill = {
+        id: "10153-ult-1",
+        name: "《向聖杯祈願》",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        disabledOnSkill: "10153-passive-1-1",
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10153-ult-1-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10153-ult-1-1",
+            name: "《向聖杯祈願》",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10153-ult-1-1",
+              name: "《向聖杯祈願》",
+              stack:
+                bond === 1
+                  ? 6
+                  : bond === 2
+                    ? 7
+                    : bond === 3
+                      ? 8
+                      : bond === 4
+                        ? 9
+                        : 10,
+              maxStack: 10,
+              value: 0,
+              affectType: AffectType.NONE,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+      const skill2: Skill = {
+        id: "10153-ult-2",
+        name: "受到傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10153-ult-2-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10153-ult-2-1",
+            name: "受到傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10153-ult-2-1",
+              name: "受到傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.15
+                  : bond === 2
+                    ? 0.2
+                    : bond === 3
+                      ? 0.2
+                      : bond === 4
+                        ? 0.25
+                        : 0.25,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill2, ca);
+
+      const skill3 = {
+        id: "10153-ult-3",
+        name: "受到暗屬性傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10153-ult-3-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10153-ult-3-1",
+            name: "受到暗屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10153-ult-3-1",
+              name: "受到暗屬性傷害增加",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_DARK_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.05
+                  : bond === 2
+                    ? 0.05
+                    : bond === 3
+                      ? 0.1
+                      : bond === 4
+                        ? 0.1
+                        : 0.15,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill3, ca);
+      break;
+    }
     // "10154": "星空奈奈美",
     // "10155": "甜蜜女僕",
     case "10155": {
@@ -2339,21 +2520,37 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       const skill: Skill = {
         id: "10159-ult-1",
         name: "攻擊力增加",
-        type: 0,
-        condition: Condition.NONE,
-        duration: 4,
-        _0: {
-          affectType: AffectType.INCREASE_ATK,
-          value:
-            bond === 1
-              ? 0.1
-              : bond === 2
-                ? 0.125
-                : bond === 3
-                  ? 0.15
-                  : bond === 4
-                    ? 0.2
-                    : 0.25,
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10159-ult-1-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10159-ult-1-1",
+            name: "攻擊力增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10159-ult-1-1",
+              name: "攻擊力增加",
+              stack: 1,
+              maxStack: 4,
+              affectType: AffectType.INCREASE_ATK,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.125
+                    : bond === 3
+                      ? 0.15
+                      : bond === 4
+                        ? 0.2
+                        : 0.25,
+            },
+          },
         },
       };
       trigger(G, oG, pos, skill, ca);
@@ -2361,7 +2558,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       const skill2: Skill = {
         id: "10159-ult-3",
         name: "造成傷害增加",
-        type: 0,
+        type: 11,
         condition: Condition.NONE,
         duration: 4,
         _11: {

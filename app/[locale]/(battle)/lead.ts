@@ -12,6 +12,7 @@ export function initLeadSkill(G: GameState) {
   const lib = G.characters[0].lib;
   const bond = G.characters[0].bond;
   const stars = G.characters[0].stars;
+  console.log("id", id);
   switch (id) {
     // "10001": "魔王 巴爾",
     // "10002": "魔王 撒旦",
@@ -2035,10 +2036,14 @@ export function initLeadSkill(G: GameState) {
             {
               id: "10159-lead-1",
               name: "防禦時，觸發「以自身攻擊力50%每回合對我方全體進行治療(1回合)」",
-              type: 0,
+              type: 12,
               condition: Condition.GUARD,
               duration: 100,
-              // TODO
+              _12: {
+                value: 0.5,
+                duration: 1,
+                target: Target.ALL_ALLIES,
+              },
             },
           ];
         }
@@ -2668,6 +2673,138 @@ export function initLeadSkill(G: GameState) {
     }
 
     // "10175": "翩舞雪花 初華"
+    case "10175": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10175-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+        ];
+      });
+
+      G.characters.forEach((character, index) => {
+        if (
+          character.attribute === CharacterAttribute.WATER ||
+          character.attribute === CharacterAttribute.DARK
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10175-lead-2",
+              name: "攻擊力增加100%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_ATK,
+                value: 1,
+              },
+            },
+          ];
+        }
+      });
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10175-lead-3",
+          name: "每經過3回合時，觸發《大家一起打雪仗～》",
+          type: 21,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: "10175-lead-3-1",
+                name: "使目標受到傷害增加10%(1回合)",
+                type: 11,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _11: {
+                  target: Target.ENEMY,
+                  applySkill: [
+                    {
+                      id: "10175-lead-3-1-1",
+                      name: "受到傷害增加10%(1回合)",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.1,
+                        affectType: AffectType.INCREASE_DMG_RECEIVED,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10175-Lead-3-2",
+                name: "使我方全體造成傷害增加20%(最多4層)",
+                type: 4,
+                condition: Condition.NONE,
+                duration: 100,
+                _4: {
+                  increaseStack: 1,
+                  targetSkill: "10175-Lead-3-2-1",
+                  target: Target.ALL_ALLIES,
+                  applySkill: {
+                    id: "10175-Lead-3-2-1",
+                    name: "造成傷害增加",
+                    type: 3,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _3: {
+                      id: "10175-Lead-3-2-1",
+                      name: "造成傷害增加",
+                      stack: 1,
+                      maxStack: 4,
+                      affectType: AffectType.INCREASE_DMG,
+                      value: 0.2,
+                    },
+                  },
+                },
+              },
+              {
+                id: "10175-lead-3-3",
+                name: "使我方全體獲得必殺時，追加「以自身攻擊力200%對目標造成傷害」(1回合)",
+                type: 11,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _11: {
+                  target: Target.ALL_ALLIES,
+                  applySkill: [
+                    {
+                      id: "10175-Lead-3-3-1",
+                      name: "必殺時，追加「以自身攻擊力200%對目標造成傷害」",
+                      type: 101,
+                      condition: Condition.ULTIMATE,
+                      duration: 1,
+                      _101: {
+                        value: 2,
+                        defender: Target.ENEMY,
+                        damageType: DamageType.ULTIMATE_ADDON,
+                        multiple: false,
+                        isTrueDamage: false,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ];
+      break;
+    }
     // "10801": "雙蛇軍團護士長 艾琳",
     // "10802": "貓妖 娜娜",
     // "10803": "龍女 伊維絲",

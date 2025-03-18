@@ -34,8 +34,16 @@ export function basic(p: number, G: GameState, oG: GameState) {
     case "10006": {
       if (lib < 1) {
         basicHealAllAllies(G, oG, 0.5, p, ca);
+
+        G.characters.forEach((_, index) => {
+          G.characters[index].isHeal = true;
+        });
       } else {
         basicHealAllAllies(G, oG, 0.75, p, ca);
+
+        G.characters.forEach((_, index) => {
+          G.characters[index].isHeal = true;
+        });
       }
       break;
     }
@@ -104,6 +112,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     case "10060": {
       //以自身攻擊力25%對我方全體進行治療，並以自身攻擊力25%每回合對我方全體進行治療(3回合)
       basicHealAllAllies(G, oG, 0.25, p, ca);
+
+      G.characters.forEach((_, index) => {
+        G.characters[index].isHeal = true;
+      });
       rawHotAll(G, p, 0.25, "10060-basic-1", 3);
       break;
     } // "10061": "地方媽媽 提爾絲",
@@ -185,6 +197,9 @@ export function basic(p: number, G: GameState, oG: GameState) {
         }
       });
       basicHealAllAllies(G, oG, 0.2, p, ca);
+      G.characters.forEach((_, index) => {
+        G.characters[index].isHeal = true;
+      });
       rawHotAll(G, p, 0.2, "10108-basic-2", 2);
       break;
     }
@@ -250,6 +265,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10130": "聖夜喧嘩 莎琳娜",
     // "10131": "時御者 伊娜絲",
     // "10132": "幽夜女爵 卡蒂雅",
+    case "10132": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10133": "甜心偶像 星空奈奈美",
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {

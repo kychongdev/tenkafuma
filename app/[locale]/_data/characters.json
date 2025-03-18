@@ -1568,9 +1568,9 @@
     "initAtk": 700.8,
     "attribute": 8,
     "class": 12,
-    "available": false,
+    "available": true,
     "cd": 4,
-    "leader": false
+    "leader": true
   },
   "10159": {
     "id": 10159,
@@ -1580,7 +1580,7 @@
     "attribute": 6,
     "class": 13,
     "available": true,
-    "cd": 3,
+    "cd": 4,
     "leader": true
   },
   "10161": {

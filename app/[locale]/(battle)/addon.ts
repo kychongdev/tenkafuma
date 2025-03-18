@@ -109,6 +109,7 @@ export function addOn(
           }
           break;
         }
+
         case DamageType.ULTIMATE_HP: {
           if (d === Target.SELF) {
             ultHpToSelf(G, oG, v, p, isTrueDamage, false, dt, ca);
@@ -123,8 +124,6 @@ export function addOn(
           break;
         }
 
-        //defender: Target.ENEMY,
-        //damageType: DamageType.ULTIMATE_ADDON,
         case DamageType.ULTIMATE_ADDON: {
           if (d === Target.ENEMY) {
             ultToTargeting(G, oG, v, p, d, isTrueDamage, false, dt, ca);
