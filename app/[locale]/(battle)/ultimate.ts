@@ -968,6 +968,54 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10111": "背德密醫 艾琳",
     // "10113": "嬌蠻兇護 凱薩",
     // "10114": "魔法少女 朱諾安",
+    case "10114": {
+      const buff: Skill = {
+        id: "10114-ultimate-1",
+        name: "必殺技傷害增加70%(2回合)",
+        type: 11,
+        condition: Condition.NONE,
+        duration: 100,
+        _11: {
+          target: Target.POSITION_5,
+          applySkill: [
+            {
+              id: "10114-ultimate-1",
+              name: "必殺技傷害增加70%(2回合)",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 2,
+              _0: {
+                value:
+                  bond === 1
+                    ? 0.3
+                    : bond === 2
+                      ? 0.4
+                      : bond === 3
+                        ? 0.5
+                        : bond === 4
+                          ? 0.6
+                          : 0.7,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          ],
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      const b =
+        bond === 1
+          ? 3.88
+          : bond === 2
+            ? 4.45
+            : bond === 3
+              ? 5.03
+              : bond === 4
+                ? 5.6
+                : 6.18;
+
+      ultToTargeting(G, oG, b, pos, Target.ENEMY, false, false, dt, ca);
+      break;
+    }
     // "10115": "魔法少女 布蘭妮",
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
@@ -2109,6 +2157,92 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
+    case "10148": {
+      const buff: Skill = {
+        id: "10148-ult-1",
+        name: "受到水屬性傷害增加(最多2層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10148-ult-1-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10148-ult-1-1",
+            name: "受到水屬性傷害增加(最多2層)",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10148-ult-1-1",
+              name: "受到水屬性傷害增加(最多2層)",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.125
+                    : bond === 3
+                      ? 0.15
+                      : bond === 4
+                        ? 0.175
+                        : 0.2,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10148-ult-2",
+          name: "普攻時，追加『以自身攻擊力110/125/140/155/170%對目標造成傷害』",
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 1.1
+                : bond === 2
+                  ? 1.25
+                  : bond === 3
+                    ? 1.4
+                    : bond === 4
+                      ? 1.55
+                      : 1.7,
+            defender: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            multiple: false,
+            isTrueDamage: false,
+          },
+        },
+      ];
+
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 1
+          : bond === 2
+            ? 1.25
+            : bond === 3
+              ? 1.5
+              : bond === 4
+                ? 1.75
+                : 2,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
     // "10149": "千年靈狐 椿",
     case "10149": {
       G.characters.forEach((character, index) => {

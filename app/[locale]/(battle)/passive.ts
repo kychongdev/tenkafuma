@@ -3915,6 +3915,226 @@ export function initPassiveSkill(G: GameState, pos: number) {
     }
     // "10147": "魔物終結 鬼醉木",
     // "10148": "酩酊狂歡 靜",
+    case "10148": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10148-passive-1",
+          name: "被治療時，觸發「使我方全體攻擊者攻擊力增加2.5%(4回合)」",
+          type: 11,
+          condition: Condition.GET_HEAL,
+          duration: 100,
+          _11: {
+            target: Target.ATTACKER,
+            applySkill: [
+              {
+                id: "10148-passive-1-1",
+                name: "攻擊力增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 4,
+                _0: {
+                  value: 0.025,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10148-passive-2",
+          name: "被治療時，觸發「使我方全體妨礙者攻擊力增加2.5%(4回合)」",
+          type: 11,
+          condition: Condition.GET_HEAL,
+          duration: 100,
+          _11: {
+            target: Target.OBSTRUCTER,
+            applySkill: [
+              {
+                id: "10148-passive-2-1",
+                name: "攻擊力增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 4,
+                _0: {
+                  value: 0.025,
+                  affectType: AffectType.INCREASE_ATK,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10148-passive-3",
+          name: "攻擊時，觸發「使自身普攻傷害增加10%(最多10層)」",
+          type: 4,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10148-passive-3-1",
+            target: Target.SELF,
+            applySkill: {
+              id: "10148-passive-3-1",
+              name: "普攻傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10148-passive-3-1",
+                name: "普攻傷害增加",
+                stack: 1,
+                maxStack: 10,
+                value: 0.1,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          },
+        },
+      ];
+
+      if (G.characters[pos].stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10148-passive-4",
+            name: "第1回合時，觸發「使我方全體治療者的必殺技當前CD減少4回合」",
+            type: 14,
+            condition: Condition.ON_SPECIFIC_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _14: {
+              target: Target.HEALER,
+              reduceCD: 4,
+            },
+          },
+        ];
+
+        G.characters.forEach((character, index) => {
+          if (character.class === CharacterClass.HEALER) {
+            G.characters[index].buff = [
+              ...G.characters[index].buff,
+              {
+                id: "10148-passive-5",
+                name: "攻擊時，觸發「使我方全體攻擊者造成傷害增加10%(1回合)」",
+                type: 11,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _11: {
+                  target: Target.ATTACKER,
+                  applySkill: [
+                    {
+                      id: "10148-passive-5-1",
+                      name: "攻擊力增加",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.1,
+                        affectType: AffectType.INCREASE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10148-passive-6",
+                name: "攻擊時，觸發「使我方全體妨礙者造成傷害增加10%(1回合)」",
+                type: 11,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _11: {
+                  target: Target.OBSTRUCTER,
+                  applySkill: [
+                    {
+                      id: "10148-passive-6-1",
+                      name: "造成傷害增加",
+                      type: 0,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _0: {
+                        value: 0.1,
+                        affectType: AffectType.INCREASE_DMG,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10148-passive-6",
+                name: "攻擊時，使我方全體攻擊者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
+                type: 11,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _11: {
+                  target: Target.ATTACKER,
+                  applySkill: [
+                    {
+                      id: "10148-passive-6-1",
+                      name: "普攻時，追加『以自身攻擊力10%對目標造成傷害』",
+                      type: 101,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _101: {
+                        value: 0.1,
+                        defender: Target.ENEMY,
+                        multiple: false,
+                        isTrueDamage: false,
+                        damageType: DamageType.BASIC_ADDON,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                id: "10148-passive-7",
+                name: "攻擊時，使我方全體妨礙者獲得「普攻時，追加『以自身攻擊力10%對目標造成傷害』(1回合)」",
+                type: 11,
+                condition: Condition.ATTACK,
+                duration: 100,
+                _11: {
+                  target: Target.OBSTRUCTER,
+                  applySkill: [
+                    {
+                      id: "10148-passive-7-1",
+                      name: "普攻時，追加『以自身攻擊力10%對目標造成傷害』",
+                      type: 101,
+                      condition: Condition.NONE,
+                      duration: 1,
+                      _101: {
+                        value: 0.1,
+                        defender: Target.ENEMY,
+                        damageType: DamageType.BASIC_ADDON,
+                        multiple: false,
+                        isTrueDamage: false,
+                      },
+                    },
+                  ],
+                },
+              },
+            ];
+          }
+        });
+      }
+
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10148-passive4",
+            name: "使自身普攻傷害增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_BASIC_DMG,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10149": "千年靈狐 椿",
     case "10149": {
       G.characters[pos].buff = [
