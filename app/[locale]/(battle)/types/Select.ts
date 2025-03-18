@@ -49,6 +49,11 @@ interface CharacterState {
   isDead: boolean;
   isHeal: boolean;
   attackedBy: any[];
+  lock1: number;
+  lock2: number;
+  lock3: number;
+  lock4: number;
+  lock5: number;
   buff: Skill[];
   cd: number;
   maxCd: number;

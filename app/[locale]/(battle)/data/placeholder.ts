@@ -30,6 +30,11 @@ const initCharacterState: CharacterState = {
   isSilence: false,
   isHeal: false,
   isDead: false,
+  lock1: 0,
+  lock2: 1,
+  lock3: 2,
+  lock4: 3,
+  lock5: 4,
   attackedBy: [],
   buff: [],
 };

@@ -11,27 +11,39 @@ export function applyRawAttBuff(gameState: GameState, position: number) {
 
   for (const buff of checkSpecialCondition(gameState, gameState, position)) {
     if (buff.type === 0 && buff._0?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(buff._0?.value);
+      atkPercentage = atkPercentage.add(Big(buff._0?.value));
     }
     if (buff.type === 0 && buff._0?.affectType === AffectType.RAW_ATK) {
-      tempAtk = tempAtk.add(buff._0?.value);
+      tempAtk = tempAtk.add(Big(buff._0?.value));
     }
 
     if (buff.type === 0 && buff._0?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(buff._0?.value);
+      atkPercentage = atkPercentage.minus(Big(buff._0?.value));
     }
     if (buff.type === 3 && buff._3?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(buff._3?.value * buff._3?.stack);
+      atkPercentage = atkPercentage.add(
+        Big(buff._3?.value).mul(buff._3?.stack),
+      );
     }
 
     if (buff.type === 3 && buff._3?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(buff._3?.value * buff._3?.stack);
+      atkPercentage = atkPercentage.minus(
+        Big(buff._3?.value).mul(buff._3?.stack),
+      );
     }
     if (buff.type === 3 && buff._3?.affectType === AffectType.RAW_ATK) {
-      tempAtk = tempAtk.add(buff._3?.value);
+      tempAtk = tempAtk.add(Big(buff._3?.value));
     }
   }
 
+  console.log(
+    "ATK",
+    atk.toNumber(),
+    "ATK%",
+    atkPercentage.toNumber(),
+    "RAW_ATK",
+    tempAtk.toNumber(),
+  );
   return atk.mul(atkPercentage).round(0, Big.roundDown).add(tempAtk);
 }
 

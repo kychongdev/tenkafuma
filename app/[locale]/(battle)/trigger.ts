@@ -539,8 +539,8 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
-            const baseAtk = G.characters[p].atk;
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = Big(G.characters[p].atk);
             G.characters[index].buff = [
               ...G.characters[index].buff,
               {
@@ -552,8 +552,14 @@ export function trigger(
                 _0: {
                   value:
                     buff._6?.base === true
-                      ? Math.floor(baseAtk * buff._6.value)
-                      : Math.floor(rawAttSkill * buff._6.value),
+                      ? baseAtk
+                          .mul(buff._6.value)
+                          .round(0, Big.roundDown)
+                          .toNumber()
+                      : rawAttSkill
+                          .mul(buff._6.value)
+                          .round(0, Big.roundDown)
+                          .toNumber(),
                   affectType: AffectType.RAW_ATK,
                 },
               },
@@ -563,9 +569,15 @@ export function trigger(
           break;
         }
         case Target.SELF: {
-          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
-          const baseAtk = G.characters[p].atk;
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = Big(G.characters[p].atk);
           console.log("test");
+          console.log(rawAttSkill.toNumber());
+          console.log(buff._6.value);
+          console.log(
+            rawAttSkill.mul(buff._6.value).round(0, Big.roundDown).toNumber(),
+          );
+
           G.characters[p].buff = [
             ...G.characters[p].buff,
             {
@@ -577,8 +589,14 @@ export function trigger(
               _0: {
                 value:
                   buff._6?.base === true
-                    ? Math.floor(baseAtk * buff._6.value)
-                    : Math.floor(rawAttSkill * buff._6.value),
+                    ? baseAtk
+                        .mul(buff._6.value)
+                        .round(0, Big.roundDown)
+                        .toNumber()
+                    : rawAttSkill
+                        .mul(buff._6.value)
+                        .round(0, Big.roundDown)
+                        .toNumber(),
                 affectType: AffectType.RAW_ATK,
               },
             },
@@ -591,8 +609,8 @@ export function trigger(
               console.log("2.Wrong data 6");
               return;
             }
-            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
-            const baseAtk = G.characters[p].atk;
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = Big(G.characters[p].atk);
             if (index !== p) {
               G.characters[index].buff = [
                 ...G.characters[index].buff,
@@ -605,8 +623,14 @@ export function trigger(
                   _0: {
                     value:
                       buff._6?.base === true
-                        ? Math.floor(baseAtk * buff._6.value)
-                        : Math.floor(rawAttSkill * buff._6.value),
+                        ? baseAtk
+                            .mul(buff._6.value)
+                            .round(0, Big.roundDown)
+                            .toNumber()
+                        : rawAttSkill
+                            .mul(buff._6.value)
+                            .round(0, Big.roundDown)
+                            .toNumber(),
                     affectType: AffectType.RAW_ATK,
                   },
                 },
@@ -626,8 +650,8 @@ export function trigger(
               return;
             }
 
-            const rawAttSkill = applyRawAttBuff(G, p).toNumber();
-            const baseAtk = G.characters[p].atk;
+            const rawAttSkill = applyRawAttBuff(G, p);
+            const baseAtk = Big(G.characters[p].atk);
             if (character.class === buff._6?.target) {
               G.characters[index].buff = [
                 ...G.characters[index].buff,
@@ -640,8 +664,14 @@ export function trigger(
                   _0: {
                     value:
                       buff._6?.base === true
-                        ? Math.floor(baseAtk * buff._6.value)
-                        : Math.floor(rawAttSkill * buff._6.value),
+                        ? baseAtk
+                            .mul(buff._6.value)
+                            .round(0, Big.roundDown)
+                            .toNumber()
+                        : rawAttSkill
+                            .mul(buff._6.value)
+                            .round(0, Big.roundDown)
+                            .toNumber(),
                     affectType: AffectType.RAW_ATK,
                   },
                 },
@@ -655,8 +685,8 @@ export function trigger(
         case Target.POSITION_3:
         case Target.POSITION_4:
         case Target.POSITION_5: {
-          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
-          const baseAtk = G.characters[p].atk;
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = Big(G.characters[p].atk);
 
           if (p === -1) {
             console.log("Target Parsing is Wrong!");
@@ -673,8 +703,14 @@ export function trigger(
               _0: {
                 value:
                   buff._6?.base === true
-                    ? Math.floor(baseAtk * buff._6.value)
-                    : Math.floor(rawAttSkill * buff._6.value),
+                    ? baseAtk
+                        .mul(buff._6.value)
+                        .round(0, Big.roundDown)
+                        .toNumber()
+                    : rawAttSkill
+                        .mul(buff._6.value)
+                        .round(0, Big.roundDown)
+                        .toNumber(),
                 affectType: AffectType.RAW_ATK,
               },
             },
@@ -687,8 +723,8 @@ export function trigger(
         }
 
         case Target.SPECIFIC_CHARACTER: {
-          const rawAttSkill = applyRawAttBuff(G, p).toNumber();
-          const baseAtk = G.characters[p].atk;
+          const rawAttSkill = applyRawAttBuff(G, p);
+          const baseAtk = Big(G.characters[p].atk);
           const pos = G.characters.findIndex((character) => {
             return character.id === buff._6?.applyToSpecificChar;
           });
@@ -709,8 +745,14 @@ export function trigger(
               _0: {
                 value:
                   buff._6?.base === true
-                    ? Math.floor(baseAtk * buff._6.value)
-                    : Math.floor(rawAttSkill * buff._6.value),
+                    ? baseAtk
+                        .mul(buff._6.value)
+                        .round(0, Big.roundDown)
+                        .toNumber()
+                    : rawAttSkill
+                        .mul(buff._6.value)
+                        .round(0, Big.roundDown)
+                        .toNumber(),
                 affectType: AffectType.RAW_ATK,
               },
             },

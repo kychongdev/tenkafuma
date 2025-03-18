@@ -455,6 +455,125 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10069": "尋情慾兔 鈴蘭",
     // "10071": "詛咒凝視 絲塔夏",
     // "10072": "花嫁 巴爾",
+    case "10072": {
+      const buff: Skill = {
+        id: "10072-ult-1",
+        name: "攻擊力",
+        type: 6,
+        condition: Condition.NONE,
+        duration: 1,
+        _6: {
+          duration: 1,
+          base: false,
+          value:
+            bond === 1
+              ? 0.4
+              : bond === 2
+                ? 0.4
+                : bond === 3
+                  ? 0.45
+                  : bond === 4
+                    ? 0.45
+                    : 0.5,
+          target: Target.SELF,
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+
+      const buff2: Skill = {
+        id: "10072-ult-4",
+        name: "攻擊力",
+        type: 6,
+        condition: Condition.NONE,
+        duration: 1,
+        _6: {
+          duration: 1,
+          base: false,
+          value:
+            bond === 1
+              ? 0.65
+              : bond === 2
+                ? 0.65
+                : bond === 3
+                  ? 0.7
+                  : bond === 4
+                    ? 0.7
+                    : 0.75,
+          target: Target.POSITION_2,
+        },
+      };
+
+      trigger(G, oG, pos, buff2, ca);
+
+      const buff3: Skill = {
+        id: "10072-ult-2",
+        name: "普攻傷害增加(2回合)",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _11: {
+          target: Target.POSITION_2,
+          applySkill: [
+            {
+              id: "10072-ult-2",
+              name: "普攻傷害增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 2,
+              _0: {
+                value:
+                  bond === 1
+                    ? 0.8
+                    : bond === 2
+                      ? 0.9
+                      : bond === 3
+                        ? 0.9
+                        : bond === 4
+                          ? 1
+                          : 1,
+                affectType: AffectType.INCREASE_BASIC_DMG,
+              },
+            },
+          ],
+        },
+      };
+
+      trigger(G, oG, pos, buff3, ca);
+      const buff4: Skill = {
+        id: "10072-ult-3",
+        name: "必殺傷害增加(1回合)",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _11: {
+          target: Target.POSITION_2,
+          applySkill: [
+            {
+              id: "10072-ult-3",
+              name: "必殺傷害增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value:
+                  bond === 1
+                    ? 0.3
+                    : bond === 2
+                      ? 0.35
+                      : bond === 3
+                        ? 0.35
+                        : bond === 4
+                          ? 0.4
+                          : 0.4,
+                affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              },
+            },
+          ],
+        },
+      };
+      trigger(G, oG, pos, buff4, ca);
+      break;
+    }
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
@@ -2471,6 +2590,123 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10156": "性誕魔王 巴爾"
+    case "10156": {
+      const skill: Skill = {
+        id: "10156-ult-1",
+        name: "受到傷害增加(最多1層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10156-ult-1-1",
+          applySkill: {
+            id: "10156-ult-1-1",
+            name: "受到傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10156-passive-1-1",
+              name: "受到傷害增加(最多1層)",
+              stack: 1,
+              maxStack: 1,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.2
+                    : bond === 3
+                      ? 0.3
+                      : bond === 4
+                        ? 0.4
+                        : 0.6,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill, ca);
+
+      const skill2: Skill = {
+        id: "10156-ult-2",
+        name: "受到火屬性傷害增加(最多1層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          target: Target.ENEMY,
+          targetSkill: "10156-ult-2-1",
+          applySkill: {
+            id: "10156-ult-2-1",
+            name: "受到火屬性傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10156-ult-2-1",
+              name: "受到火屬性傷害增加",
+              stack: 1,
+              maxStack: 1,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.25
+                    : bond === 3
+                      ? 0.3
+                      : bond === 4
+                        ? 0.35
+                        : 0.4,
+              affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, skill2, ca);
+
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 1.94
+          : bond === 2
+            ? 2.23
+            : bond === 3
+              ? 2.51
+              : bond === 4
+                ? 2.8
+                : 3.09,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 1.94
+          : bond === 2
+            ? 2.23
+            : bond === 3
+              ? 2.51
+              : bond === 4
+                ? 2.8
+                : 3.09,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
     // "10157": "純真祈願 牧愛菈"
     case "10157": {
       const skill: Skill = {

@@ -131,6 +131,26 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10069": "尋情慾兔 鈴蘭",
     // "10071": "詛咒凝視 絲塔夏",
     // "10072": "花嫁 巴爾",
+    case "10072": {
+      // TODO random
+      const attack = applyRawAttBuff(G, p).mul(0.75).toNumber();
+      G.characters[1].buff = [
+        ...G.characters[1].buff,
+        {
+          id: "10072-basic-1",
+          name: "攻擊力",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            value: attack,
+            affectType: AffectType.RAW_ATK,
+          },
+        },
+      ];
+
+      break;
+    }
     // "10074": "雪姬 初華",
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
