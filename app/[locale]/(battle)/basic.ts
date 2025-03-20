@@ -2,6 +2,7 @@ import Big from "big.js";
 import {
   applyDamage,
   basicHpToTargeting,
+  basicToSpecificPos,
   basicToTargeting,
 } from "./applyDamage";
 import { basicHealAllAllies } from "./applyHeal";
@@ -11,6 +12,7 @@ import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
 import { AffectType, Condition, DamageType, Target } from "./types/Skill";
 import { basicShieldAllAllies } from "./applyShield";
+import { setLock } from "./target";
 
 export function basic(p: number, G: GameState, oG: GameState) {
   const id = G.characters[p].id;
@@ -183,6 +185,15 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
+    case "10092": {
+      setLock(G, p, Target.ENEMY_2);
+      basicToSpecificPos(G, oG, 0.4, p, G.characters[p].lock2, false, dt, ca);
+      setLock(G, p, Target.ENEMY_3);
+      basicToSpecificPos(G, oG, 0.4, p, G.characters[p].lock3, false, dt, ca);
+      setLock(G, p, Target.ENEMY_4);
+      basicToSpecificPos(G, oG, 0.4, p, G.characters[p].lock4, false, dt, ca);
+      break;
+    }
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",

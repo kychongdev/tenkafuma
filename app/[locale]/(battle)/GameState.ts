@@ -89,6 +89,14 @@ function resetBattle(state: GameState) {
   state.enemyDamageLog1 = [];
   state.enemyDamageLog1 = [];
 }
+
+function resetLock(state: GameState, p: number) {
+  state.characters[p].lock1 = 0;
+  state.characters[p].lock2 = 1;
+  state.characters[p].lock3 = 2;
+  state.characters[p].lock4 = 3;
+  state.characters[p].lock5 = 4;
+}
 const initEnemyState = {
   ...initCharacterState,
   id: "dummy",
@@ -292,6 +300,7 @@ export const useGameState = create<GameState>()(
             CharacterAction.BASIC,
           );
 
+          // This is wrong ! Need change
           const allyRA = state.receivedAttack.filter(
             (x) => x.defender >= 0 && x.defender <= 4,
           );
@@ -349,6 +358,7 @@ export const useGameState = create<GameState>()(
           });
 
           checkEndTurn(state, oG);
+          resetLock(state, position);
         });
       },
       ultAction: (position: number) => {
@@ -447,6 +457,7 @@ export const useGameState = create<GameState>()(
             }
           });
           checkEndTurn(state, oG);
+          resetLock(state, position);
         });
       },
       guardAction: (position: number) => {
@@ -509,6 +520,7 @@ export const useGameState = create<GameState>()(
             }
           });
           checkEndTurn(state, oG);
+          resetLock(state, position);
         });
       },
       healAction: () => {},
@@ -538,7 +550,6 @@ export const useGameState = create<GameState>()(
             state.enemyDamageLog5 = lastState.enemyDamageLog5;
             //state.stageState = lastState.stageStage;
           }
-          console.log(p(state.enemies));
         });
       },
       enableEveryTurnAttack: () => {

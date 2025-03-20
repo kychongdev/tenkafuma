@@ -163,6 +163,9 @@ export function basicToSpecificPos(
   damageType: DamageType,
   action: CharacterAction,
 ) {
+  if (defender === Target.CANT_FIND) {
+    return;
+  }
   if (
     defender !== Target.POSITION_1 &&
     defender !== Target.POSITION_2 &&
@@ -505,10 +508,20 @@ function dealDamage(
     case Target.POSITION_3:
     case Target.POSITION_4:
     case Target.POSITION_5: {
-      const damageAfterShield = damageOnShield(gameState, dmg, defender);
-      gameState.characters[defender].hp = Big(gameState.characters[defender].hp)
-        .minus(damageAfterShield)
-        .toNumber();
+      if (!isTrueDamage) {
+        const damageAfterShield = damageOnShield(gameState, dmg, defender);
+        gameState.characters[defender].hp = Big(
+          gameState.characters[defender].hp,
+        )
+          .minus(damageAfterShield)
+          .toNumber();
+      } else {
+        gameState.characters[defender].hp = Big(
+          gameState.characters[defender].hp,
+        )
+          .minus(dmg)
+          .toNumber();
+      }
       if (gameState.characters[defender].hp < 0) {
         gameState.characters[defender].hp = 0;
         gameState.characters[defender].isDead = true;
@@ -517,11 +530,17 @@ function dealDamage(
     }
     case Target.ALL_ALLIES: {
       gameState.characters.forEach((_, index) => {
-        const damageAfterShield = damageOnShield(gameState, dmg, defender);
         if (checkAvailable(gameState.characters[index])) {
-          gameState.characters[index].hp = Big(gameState.characters[index].hp)
-            .minus(damageAfterShield)
-            .toNumber();
+          if (!isTrueDamage) {
+            const damageAfterShield = damageOnShield(gameState, dmg, index);
+            gameState.characters[index].hp = Big(gameState.characters[index].hp)
+              .minus(damageAfterShield)
+              .toNumber();
+          } else {
+            gameState.characters[index].hp = Big(gameState.characters[index].hp)
+              .minus(dmg)
+              .toNumber();
+          }
           if (gameState.characters[index].hp < 0) {
             gameState.characters[index].hp = 0;
             gameState.characters[index].isDead = true;
@@ -533,13 +552,20 @@ function dealDamage(
     }
     case Target.ALL_ENEMIES: {
       gameState.enemies.forEach((_, index) => {
-        const damageAfterShield = damageOnShield(gameState, dmg, defender);
         if (checkAvailable(gameState.enemies[index])) {
-          gameState.enemies[index].hp = Math.floor(
-            Big(gameState.enemies[index].hp)
-              .minus(damageAfterShield)
-              .toNumber(),
-          );
+          if (!isTrueDamage) {
+            const damageAfterShield = damageOnShield(gameState, dmg, index);
+            gameState.enemies[index].hp = Math.floor(
+              Big(gameState.enemies[index].hp)
+                .minus(damageAfterShield)
+                .toNumber(),
+            );
+          } else {
+            gameState.enemies[index].hp = Math.floor(
+              Big(gameState.enemies[index].hp).minus(dmg).toNumber(),
+            );
+          }
+
           if (gameState.enemies[index].hp < 0) {
             gameState.enemies[index].hp = 0;
             gameState.enemies[index].isDead = true;
