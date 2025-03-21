@@ -23,7 +23,6 @@ export function SimulateResult() {
   const params = useParams();
   const index = parseInt(params.index as string);
   const result = useSimulateTeamState((state) => state.teams[index]);
-  j;
   const deleteAnalysis = useSimulateTeamState((state) => state.deleteAnalysis);
 
   const baseEachTurnResult = result
