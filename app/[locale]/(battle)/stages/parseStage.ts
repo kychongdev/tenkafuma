@@ -18,6 +18,9 @@ export function parseInitstage(gameState: GameState) {
       r21_sp(gameState);
       break;
     }
+    case "r17_sp": {
+      break;
+    }
   }
 }
 

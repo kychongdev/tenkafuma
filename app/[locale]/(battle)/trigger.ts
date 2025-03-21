@@ -33,6 +33,7 @@ import {
 import { checkTargetAlive, lowestHp } from "./utils";
 import { p as print } from "./utils";
 import { damageOverTime } from "./calculations/damageOverTime";
+import { setLock } from "./target";
 
 export function trigger(
   G: GameState,
@@ -79,31 +80,55 @@ export function trigger(
         break;
       }
 
-      const d = buff._1.defender;
+      let d = buff._1.defender;
+      switch (buff._1.defender) {
+        case Target.ENEMY_1:
+          setLock(G, p, d);
+          d = G.characters[p].lock1;
+          break;
+        case Target.ENEMY_2:
+          setLock(G, p, d);
+          d = G.characters[p].lock2;
+          break;
+        case Target.ENEMY_3:
+          setLock(G, p, d);
+          d = G.characters[p].lock3;
+          break;
+        case Target.ENEMY_4:
+          setLock(G, p, d);
+          d = G.characters[p].lock4;
+          break;
+        case Target.ENEMY_5:
+          setLock(G, p, d);
+          d = G.characters[p].lock5;
+          break;
+      }
+
       const dt = buff._1.damageType;
 
       switch (buff._1.damageType) {
         case DamageType.BASIC: {
-          const opponent = checkOpponent(oG, d);
           if (buff._1.multiple) {
             if (!buff._1.multipleValue) {
               console.log("Missing Multiple Value");
               break;
             }
             for (let i = 0; i < buff._1.multipleValue; i++) {
-              if (checkTargetAlive(G, opponent)) {
+              if (checkTargetAlive(G, d)) {
                 const dmg = basicDamage(G, oG, buff._1.value, p, d, false);
                 triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
               }
             }
           } else {
-            if (checkTargetAlive(G, opponent)) {
+            if (checkTargetAlive(G, d)) {
               const dmg = basicDamage(G, oG, buff._1.value, p, d, false);
               triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
             }
           }
         }
         case DamageType.ULTIMATE: {
+          // There won't be non-ult damage
+          console.log("Wrong data, not suppose to have ult dmg");
           break;
         }
         case DamageType.TRIGGER: {
@@ -113,31 +138,18 @@ export function trigger(
           } else if (d === Target.ALL_ENEMIES) {
             triggerDmgToAll(G, oG, buff._1.value, p, false, dt, ca);
           } else {
-            const opponent = checkOpponent(oG, d);
             if (buff._1.multiple) {
               if (!buff._1.multipleValue) {
                 console.log("Missing Multiple Value");
                 break;
               }
               for (let i = 0; i < buff._1.multipleValue; i++) {
-                if (checkTargetAlive(G, opponent)) {
-                  const dmg = ultDamage(
-                    G,
-                    oG,
-                    buff._1.value,
-                    p,
-                    d,
-                    true,
-                    false,
-                  );
-                  triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
-                }
-              }
-            } else {
-              if (checkTargetAlive(G, opponent)) {
                 const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
                 triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
               }
+            } else {
+              const dmg = ultDamage(G, oG, buff._1.value, p, d, true, false);
+              triggerDmgToPos(G, oG, dmg, p, d, false, dt, ca);
             }
           }
         }

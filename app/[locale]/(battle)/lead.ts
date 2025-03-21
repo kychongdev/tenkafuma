@@ -469,6 +469,111 @@ export function initLeadSkill(G: GameState) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
+    case "10092": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10092-lead-1",
+            name: "攻擊力增加50%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.5,
+            },
+          },
+          {
+            id: "10092-lead-2",
+            name: "受到傷害減少15%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+              value: 0.15,
+            },
+          },
+        ];
+      });
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10092-lead-3",
+          name: "每經過3回合，觸發「使自身造成傷害增加125%(1回合)",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10092-lead-3-1",
+                name: "使自身造成傷害增加125%(1回合)",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 1.25,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10092-lead-4",
+          name: "每經過3回合，使敵方全體受到傷害增加50%(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 3,
+          duration: 100,
+          _11: {
+            target: Target.ALL_ENEMIES,
+            applySkill: [
+              {
+                id: "10092-lead-4-1",
+                name: "使敵方全體受到傷害增加50%",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 0.5,
+                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10092-lead-5",
+          name: "每經過6回合，觸發「使自身造成必殺技傷害增加125%(1回合)」",
+          type: 11,
+          condition: Condition.EVERY_X_TURN,
+          conditionTurn: 6,
+          duration: 100,
+          _11: {
+            target: Target.SELF,
+            applySkill: [
+              {
+                id: "10092-lead-5-1",
+                name: "使自身造成必殺技傷害增加125%(1回合)",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 1,
+                _0: {
+                  value: 1.25,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      break;
+    }
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",

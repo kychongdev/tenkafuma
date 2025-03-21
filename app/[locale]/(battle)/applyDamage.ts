@@ -294,6 +294,43 @@ export function ultToTargeting(
     action,
   });
 }
+
+export function ultDmgToPos(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  isTrigger: boolean,
+  dt: DamageType,
+  action: CharacterAction,
+) {
+  if (!checkAvailable(G.enemies[defender - 20])) {
+    console.log("Target is dead");
+    return;
+  }
+  const dmg = ultDamage(
+    G,
+    oG,
+    value,
+    attacker,
+    Target.ENEMY,
+    isTrigger,
+    isTrueDamage,
+  );
+  dealDamage(G, dmg, defender, isTrueDamage);
+  writeBattleLog(G, attacker, defender, dmg, dt, action);
+
+  writeDamageLog(G, attacker, {
+    damage: dmg.round(0, Big.roundDown).toNumber(),
+    type: dt,
+    turn: G.turn,
+    attacker,
+    defender,
+    action,
+  });
+}
 export function ultHpToTargeting(
   G: GameState,
   oG: GameState,
@@ -393,7 +430,7 @@ export function triggerDmgToPos(
   damageType: DamageType,
   action: CharacterAction,
 ) {
-  if (!checkTargetAlive(G, defender)) {
+  if (!checkTargetAlive(G, defender - 20)) {
     console.log("Target is dead");
     return;
   }
@@ -483,7 +520,9 @@ function dealDamage(
     case Target.ENEMY_4:
     case Target.ENEMY_5: {
       if (!isTrueDamage) {
+        console.log("reach here");
         const damageAfterShield = damageOnShield(gameState, dmg, defender);
+        console.log(damageAfterShield.toNumber());
         gameState.enemies[defender - 20].hp = Big(
           gameState.enemies[defender - 20].hp,
         )

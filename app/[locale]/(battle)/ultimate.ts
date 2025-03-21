@@ -1,5 +1,5 @@
 import Big from "big.js";
-import { ultToTargeting, ultHpToTargeting } from "./applyDamage";
+import { ultToTargeting, ultHpToTargeting, ultDmgToPos } from "./applyDamage";
 import { ultHealAllAllies, ultHpHealAll } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { ultHpShieldAllAllies, ultShieldAllAllies } from "./applyShield";
@@ -20,6 +20,7 @@ import {
 } from "./types/Skill";
 import { shieldUlt } from "./calculations/shieldUlt";
 import { healUltHp } from "./calculations/healUltHp";
+import { setLock } from "./target";
 
 export function ultimate(G: GameState, oG: GameState, pos: number) {
   const id = G.characters[pos].id;
@@ -871,6 +872,42 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     // "10092": "夏日 阿爾蒂雅",
+    case "10092": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10092-ult-1",
+          name: "必殺技傷害增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 12,
+          _0: {
+            value:
+              bond === 1
+                ? 0.1
+                : bond === 2
+                  ? 0.1
+                  : bond === 3
+                    ? 0.125
+                    : bond === 4
+                      ? 0.125
+                      : 0.15,
+            affectType: AffectType.INCREASE_ULTIMATE_DMG,
+          },
+        },
+      ];
+
+      setLock(G, pos, Target.ENEMY_2);
+      const l2 = G.characters[pos].lock2;
+      ultDmgToPos(G, oG, 1.82, pos, l2, false, false, dt, ca);
+      setLock(G, pos, Target.ENEMY_3);
+      const l3 = G.characters[pos].lock3;
+      ultDmgToPos(G, oG, 1.82, pos, l3, false, false, dt, ca);
+      setLock(G, pos, Target.ENEMY_4);
+      const l4 = G.characters[pos].lock4;
+      ultDmgToPos(G, oG, 1.82, pos, l4, false, false, dt, ca);
+      break;
+    }
     // "10093": "適格者 娜娜",
     // "10094": "未知生命體 基貝魯",
     // "10096": "鮮血魔王 洛緹亞",
@@ -1226,6 +1263,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
                         ? 0.4
                         : 0.45,
               )
+              .round(0, Big.roundDown)
               .toNumber(),
           },
         },
@@ -1245,7 +1283,10 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
               duration: 1,
               _0: {
                 affectType: AffectType.RAW_ATK,
-                value: applyRawAttBuff(G, pos).mul(0.25).toNumber(),
+                value: applyRawAttBuff(G, pos)
+                  .mul(0.25)
+                  .round(0, Big.roundDown)
+                  .toNumber(),
               },
             },
           ];
@@ -2652,8 +2693,116 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       trigger(G, oG, pos, skill3, ca);
       break;
     }
-    // "10154": "星空奈奈美",
-    // "10155": "甜蜜女僕",
+
+    // "10154": "甜蜜女僕 星空奈奈美",
+    case "10154": {
+      const buff: Skill = {
+        id: "10154-ult-1",
+        name: "戀愛的萌系能量",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        disabledOnSkill: "10154-passive-1-1",
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10154-ult-1-1",
+          target: Target.SELF,
+          applySkill: {
+            id: "10154-ult-1-1",
+            name: "戀愛的萌系能量",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10154-ult-1-1",
+              name: "《戀愛的萌系能量》",
+              value: 0,
+              stack:
+                bond === 1
+                  ? 1
+                  : bond === 2
+                    ? 1
+                    : bond === 3
+                      ? 2
+                      : bond === 4
+                        ? 2
+                        : 3,
+              maxStack: 3,
+              affectType: AffectType.NONE,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+
+      const buff2: Skill = {
+        id: "10154-ult-1",
+        name: "使自身以外我方全體水屬性角色獲得「必殺時，追加『以自身攻擊力80/90/100/110/120%對目標造成傷害』(1回合)」",
+        type: 11,
+        condition: Condition.ULTIMATE,
+        duration: 1,
+        _11: {
+          target: Target.ALL_WATER_EXCEPT_SELF,
+          applySkill: [
+            {
+              id: "10154-ult-1-1",
+              name: `必殺時，追加『以自身攻擊力${
+                bond === 1
+                  ? 80
+                  : bond === 2
+                    ? 90
+                    : bond === 3
+                      ? 100
+                      : bond === 4
+                        ? 110
+                        : 120
+              }%對目標造成傷害』(1回合)`,
+              type: 101,
+              condition: Condition.ULTIMATE,
+              duration: 1,
+              _101: {
+                value:
+                  bond === 1
+                    ? 0.8
+                    : bond === 2
+                      ? 0.9
+                      : bond === 3
+                        ? 1
+                        : bond === 4
+                          ? 1.1
+                          : 1.2,
+                defender: Target.ENEMY,
+                damageType: DamageType.ULTIMATE_ADDON,
+                multiple: false,
+                isTrueDamage: false,
+              },
+            },
+          ],
+        },
+      };
+      trigger(G, oG, pos, buff2, ca);
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 2.65
+          : bond === 2
+            ? 2.98
+            : bond === 3
+              ? 3.31
+              : bond === 4
+                ? 3.64
+                : 3.97,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
+    // "10155": "冷淡女僕 KS-ⅧIII",
     case "10155": {
       G.characters[pos].buff = [
         ...G.characters[pos].buff,

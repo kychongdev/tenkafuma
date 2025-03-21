@@ -428,7 +428,7 @@ export function basic(p: number, G: GameState, oG: GameState) {
       G.characters[p].isGuard = true;
       break;
     }
-    // "10155": "甜蜜女僕",
+    // "10155": "冷淡女僕 KS-ⅧIII",
     case "10155": {
       G.characters[p].buff = [
         ...G.characters[p].buff,
