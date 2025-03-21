@@ -37,6 +37,7 @@ import { useSimulateTeamState } from "../(simulate)/useSimulateState";
 import { Target } from "../(battle)/types/Skill";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Stats from "./stats/Stats";
+import { StagesDrawer } from "./Stages";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -151,31 +152,31 @@ export default function Battle() {
           </Dialog>
 
           <Button
-            className="px-2 gap-1"
+            className="px-3 gap-1"
             onClick={() => {
               if (select) initBattle(select);
             }}
           >
-            <RotateCcw /> {t("Restart")}
+            <RotateCcw />
           </Button>
 
+          <Button
+            className="px-3 gap-1"
+            onClick={() => {
+              undoLastAction();
+            }}
+          >
+            <Undo />
+          </Button>
           <Button
             className="px-2 gap-1"
             onClick={() => {
               debug();
             }}
           >
-            <Undo /> debug{" "}
+            debug
           </Button>
-          <Button
-            className="px-2 gap-1"
-            onClick={() => {
-              undoLastAction();
-            }}
-          >
-            <Undo /> {t("Undo")}
-          </Button>
-
+          <StagesDrawer />
           <Dialog>
             <DialogTrigger asChild>
               <Button className="px-2 gap-1">
@@ -297,14 +298,6 @@ export default function Battle() {
                 ) : null}
 
                 <Separator className="my-2" />
-                <Button
-                  className="px-2 gap-1"
-                  onClick={() => {
-                    router.push("/stage");
-                  }}
-                >
-                  <Sword /> {t("Stage")}
-                </Button>
               </div>
             </DialogContent>
           </Dialog>
