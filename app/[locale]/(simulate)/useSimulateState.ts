@@ -2,8 +2,9 @@ import localforage from "localforage";
 import { create } from "zustand";
 import { createJSONStorage, persist, StateStorage } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { CharacterTeam } from "@/types/Select";
 import { DamageLog } from "../(battle)/types/GameState";
+import { calculateDamageEachTurn } from "../simulate/result/[index]/calculateDamageEachTurn";
+import { CharacterTeam } from "../(battle)/types/Select";
 
 interface SimulateTeamState {
   teams: SimulateTeam[];
@@ -16,6 +17,14 @@ interface SimulateTeamState {
   saveToAnalysis: (position: number, analysis: SimulationResult) => void;
   deleteTeam: (position: number) => void;
   deleteAnalysis: (position: number, index: number) => void;
+  getBaseResult: (position: number) => {
+    turn: number;
+    0: number;
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+  }[];
   // _hasHydrated: boolean;
   // setHasHydrated: (value: boolean) => void;
 }
