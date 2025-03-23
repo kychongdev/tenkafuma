@@ -276,9 +276,6 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //使自身造成伤害增加10%(最多10层)
   //使自身攻击时，以造成伤害值500%回復自身HP(2回合)
   if ((G.turn - 1) % 3 === 0 && G.turn > 3) {
-    if (act === 0) {
-      return;
-    }
     const buff: Skill = {
       id: "43189-act-08",
       name: "伊布力斯的魔力仪式",
@@ -403,7 +400,6 @@ export function r17_sp_action(G: GameState, oG: GameState) {
     };
     trigger(G, oG, Target.ALL_ALLIES, buff2, CharacterAction.BASIC);
     G.stageState.act10 = true;
-    return;
   }
 
   //[Act11]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]

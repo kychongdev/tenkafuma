@@ -460,6 +460,10 @@ export function parseSkillName(buff: Skill) {
         return `受到治療量增加${formatToTwoDecimal(
           buff._3.value * buff._3.stack * 100,
         )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
+      case AffectType.DECREASE_SHIELD_ABSORB:
+        return `獲得護盾時可吸收傷害值減少${formatToTwoDecimal(
+          buff._3.value * buff._3.stack * 100,
+        )}% (Lv.${buff._3.stack}) (最多${buff._3.maxStack}層)`;
       case AffectType.INCREASE_GUARD_EFFECT:
         return `防禦減傷效果增加${
           buff._3.value * buff._3.stack * 100
