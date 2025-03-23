@@ -210,6 +210,26 @@ export function lowestHp(G: GameState, chars: CharacterState[]) {
   return -1;
 }
 
+export function randomTarget(G: GameState, position: number) {
+  if (G.characters[position].isExist && !G.characters[position].isDead) {
+    return position;
+  }
+  let pos = [0, 1, 2, 3, 4].filter((value) => {
+    return value !== position;
+  });
+
+  for (let i = 0; i < pos.length; i++) {
+    const rand = Math.floor(Math.random() * pos.length);
+    if (G.characters[pos[rand]].isExist && !G.characters[pos[rand]].isDead) {
+      return pos[i];
+    }
+    pos = pos.filter((value) => {
+      return value !== pos[rand];
+    });
+  }
+  return -1;
+}
+
 export function hpSort(arr: CharacterState[]) {
   const hpList = arr.map((char) => char.hp / char.maxHp);
   const result = Array.from(hpList.keys()).sort(

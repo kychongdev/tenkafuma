@@ -22,6 +22,14 @@ export const CharacterButton = ({ position }: { position: number }) => {
     return acc;
   }, 0);
   const isGameEnd = enemies.every((enemy) => !enemy.isExist || enemy.isDead);
+  const halfPic = useGameState((state) => state.battleSettings.halfPic);
+  const imgSrc = halfPic
+    ? `/characters/square/${
+        character.id == "" || !character.id ? "char_nr" : character.id
+      }.png`
+    : `/characters/full/${
+        character.id == "" || !character.id ? "char_nr" : character.id
+      }.png`;
 
   return (
     <div>
@@ -46,10 +54,8 @@ export const CharacterButton = ({ position }: { position: number }) => {
         <Image
           className={`border-solid border-2 border-white ${
             isMoveable(character) && !isGameEnd ? "" : "opacity-50"
-          }`}
-          src={`/characters/full/${
-            character.id == "" || !character.id ? "char_nr" : character.id
-          }.png`}
+          } `}
+          src={imgSrc}
           width={167}
           height={512}
           priority

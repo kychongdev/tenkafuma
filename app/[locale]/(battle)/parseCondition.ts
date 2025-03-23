@@ -12,7 +12,12 @@ export function parseCondition(
   ca: CharacterAction,
 ) {
   condition.forEach((c) => {
-    if (position >= 0 && position < 5 && !state.characters[position].isDead) {
+    if (
+      position >= 0 &&
+      position < 5 &&
+      !state.characters[position].isDead &&
+      state.characters[position].isExist
+    ) {
       for (const buff of oldState.characters[position].buff) {
         if (c === buff.condition) {
           trigger(state, oldState, position, buff, ca);

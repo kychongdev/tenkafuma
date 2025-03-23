@@ -299,6 +299,131 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     }
     // "10043": "機靈古怪 賽露西亞",
     // "10044": "占星師 亞美西思特",
+    case "10044": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10044-ult-1",
+            name: `必殺時，觸發『使自身必殺技傷害增加${
+              bond === 1
+                ? 20
+                : bond === 2
+                  ? 22.5
+                  : bond === 3
+                    ? 25
+                    : bond === 4
+                      ? 27.5
+                      : 30
+            }%(最多2層)』`,
+            type: 4,
+            condition: Condition.ULTIMATE,
+            duration: 1,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10044-ult-1-1",
+              target: Target.SELF,
+              applySkill: {
+                id: "10044-ult-1-1",
+                name: "受到風屬性傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10044-ult-1-1",
+                  name: "必殺技傷害增加",
+                  value:
+                    bond === 1
+                      ? 0.2
+                      : bond === 2
+                        ? 0.225
+                        : bond === 3
+                          ? 0.25
+                          : bond === 4
+                            ? 0.275
+                            : 0.3,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            },
+          },
+          {
+            id: "10044-ult-2",
+            name: `普攻時，觸發『使自身普攻傷害增加${
+              bond === 1
+                ? 20
+                : bond === 2
+                  ? 25
+                  : bond === 3
+                    ? 30
+                    : bond === 4
+                      ? 35
+                      : 40
+            }%(最多2層)』`,
+            type: 4,
+            condition: Condition.BASIC_ATTACK,
+            duration: 2,
+            _4: {
+              increaseStack: 1,
+              targetSkill: "10044-ult-2-1",
+              target: Target.SELF,
+              applySkill: {
+                id: "10044-ult-2-1",
+                name: "普攻傷害增加",
+                type: 3,
+                condition: Condition.NONE,
+                duration: 100,
+                _3: {
+                  id: "10044-ult-2-1",
+                  name: "普攻傷害增加",
+                  value:
+                    bond === 1
+                      ? 0.2
+                      : bond === 2
+                        ? 0.25
+                        : bond === 3
+                          ? 0.3
+                          : bond === 4
+                            ? 0.35
+                            : 0.4,
+                  stack: 1,
+                  maxStack: 2,
+                  affectType: AffectType.INCREASE_BASIC_DMG,
+                },
+              },
+            },
+          },
+        ];
+      });
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10044-ult-3",
+            name: "造成傷害增加",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 2,
+            _0: {
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.1
+                    : bond === 3
+                      ? 0.15
+                      : bond === 4
+                        ? 0.15
+                        : 0.2,
+              affectType: AffectType.INCREASE_DMG,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10045": "極樂之鬼 伊吹朱點",
     // "10046": "刺針 嘉維爾",
     // "10047": "夜星 狄",
@@ -728,6 +853,102 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10078": "慵懶貓貓 露露",
+    case "10078": {
+      const buff: Skill = {
+        id: "10078-ult-1",
+        name: "受到傷害增加(最多2層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "178-ult-1-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10078-ult-1-1",
+            name: "受到傷害增加(最多2層)",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10078-ult-1-1",
+              name: "受到傷害增加(最多1層)",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.075
+                  : bond === 2
+                    ? 0.075
+                    : bond === 3
+                      ? 0.1
+                      : bond === 4
+                        ? 0.125
+                        : 0.15,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      const buff2: Skill = {
+        id: "10078-ult-2",
+        name: "受到水屬性傷害增加(最多2層)",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10078-ult-2-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10078-ult-2-1",
+            name: "受到水屬性傷害增加(最多2層)",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10078-ult-2-1",
+              name: "受到水屬性傷害增加(最多1層)",
+              stack: 1,
+              maxStack: 2,
+              affectType: AffectType.INCREASE_WATER_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.05
+                  : bond === 2
+                    ? 0.075
+                    : bond === 3
+                      ? 0.075
+                      : bond === 4
+                        ? 0.1
+                        : 0.125,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff2, ca);
+      ultToTargeting(
+        G,
+        oG,
+        bond === 1
+          ? 3.3
+          : bond === 2
+            ? 3.76
+            : bond === 3
+              ? 4.22
+              : bond === 4
+                ? 4.68
+                : 5.14,
+        pos,
+        Target.ENEMY,
+        false,
+        false,
+        dt,
+        ca,
+      );
+      break;
+    }
     // "10079": "新春 凜月",
     case "10079": {
       G.characters[pos].buff = [
@@ -1193,6 +1414,74 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10118": "夏日 菲歐菈",
+    case "10118": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10118-ult-1",
+          name: "治療增加50%(4回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 4,
+          _0: {
+            affectType: AffectType.INCREASE_HEAL_RATE,
+            value:
+              bond === 1
+                ? 0.3
+                : bond === 2
+                  ? 0.35
+                  : bond === 3
+                    ? 0.4
+                    : bond === 4
+                      ? 0.45
+                      : 0.5,
+          },
+        },
+      ];
+      //165/188/211/234/257%
+      ultHealAllAllies(
+        G,
+        oG,
+        bond === 1
+          ? 1.65
+          : bond === 2
+            ? 1.88
+            : bond === 3
+              ? 2.11
+              : bond === 4
+                ? 2.34
+                : 2.57,
+        pos,
+        false,
+        false,
+        ca,
+      );
+
+      G.enemies[G.targeting].buff = [
+        ...G.enemies[G.targeting].buff,
+        {
+          id: "10118-ult-2",
+          name: "受到光屬性傷害增加25%(1回合)",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 1,
+          _0: {
+            affectType: AffectType.INCREASE_LIGHT_DMG_RECEIVED,
+            value:
+              bond === 1
+                ? 0.1
+                : bond === 2
+                  ? 0.1
+                  : bond === 3
+                    ? 0.15
+                    : bond === 4
+                      ? 0.2
+                      : 0.25,
+          },
+        },
+      ];
+      break;
+    }
     // "10119": "夏日 艾可",
     case "10119": {
       G.characters.forEach((_, index) => {

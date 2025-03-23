@@ -18,7 +18,8 @@ import {
 import { highestHp } from "../utils";
 import {
   enemyDealBasicDmgToAllAllies,
-  enemyDealBasicDmgToHighestHp,
+  enemyDealUltDmgToAllAllies,
+  enemyDealUltDmgToTarget,
 } from "./enemyApplyDmg";
 
 export function r17_sp(gameState: GameState) {
@@ -153,6 +154,22 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：全体攻击
   //以自身攻击力250%对敌方全体造成伤害
   if (G.turn === 0) {
+    enemyDealUltDmgToAllAllies(
+      G,
+      oG,
+      2.5,
+      Target.ENEMY_1,
+      false,
+      DamageType.ULTIMATE,
+      CharacterAction.ULTIMATE,
+    );
+  }
+
+  //[Act03]  [类型：回合技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
+  //[触发条件：自身 HP在15%及以下，仅触发1次]
+  //[台词]  在我眼前消失吧，微不足道的虫子。
+  //[技能]：烈焰送葬
+  if (G.enemies[0].hp / G.enemies[0].maxHp <= 0.15) {
     enemyDealBasicDmgToAllAllies(
       G,
       oG,
@@ -162,13 +179,6 @@ export function r17_sp_action(G: GameState, oG: GameState) {
       DamageType.BASIC,
       CharacterAction.BASIC,
     );
-  }
-
-  //[Act03]  [类型：回合技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
-  //[触发条件：自身 HP在15%及以下，仅触发1次]
-  //[台词]  在我眼前消失吧，微不足道的虫子。
-  //[技能]：烈焰送葬
-  if (G.stageState.lock1) {
   }
 
   //以自身攻击力600%对敌方全体造成2次伤害
@@ -258,15 +268,15 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   if (G.turn >= 1) {
     for (let i = 0; i < act; i++) {
       const who = highestHp(G);
-      enemyDealBasicDmgToHighestHp(
+      enemyDealUltDmgToTarget(
         G,
         oG,
         1,
         Target.ENEMY_1,
         who,
         false,
-        DamageType.BASIC,
-        CharacterAction.BASIC,
+        DamageType.ULTIMATE,
+        CharacterAction.ULTIMATE,
       );
     }
   }

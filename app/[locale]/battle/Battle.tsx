@@ -14,7 +14,6 @@ import {
   ChartPie,
   RotateCcw,
   Save,
-  Sword,
   Undo,
 } from "lucide-react";
 import { useStore } from "zustand";
@@ -38,6 +37,10 @@ import { Target } from "../(battle)/types/Skill";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Stats from "./stats/Stats";
 import { StagesDrawer } from "./Stages";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useRef, useState } from "react";
+import { Toggle } from "@/components/ui/toggle";
 
 function checkEnemyAlive(enemies: CharacterState[]) {
   return enemies.filter((enemy) => enemy.hp > 0).length > 0;
@@ -66,13 +69,31 @@ export default function Battle() {
     damageLog4,
     damageLog5,
     battleSettings,
+    enemyBattleLog,
     debug,
     enableEveryTurnAttack,
     addEveryTurnAttackTarget,
     clearAllTarget,
+    toggleHalfPic,
+    expandEnemyBattleLog,
   } = useStore(useGameState, (state) => state);
 
   const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
+  const chatRefContainer = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    chatRefContainer.current?.scrollIntoView(false);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [enemyBattleLog]);
+
+  const [openLog, setOpenLog] = useState(false);
 
   return (
     <div className="w-full mx-auto md:max-w-[500px] font-[family-name:var(--font-geist-sans)]">
@@ -105,9 +126,6 @@ export default function Battle() {
               <div className="flex items-center justify-center">
                 <div>
                   <EnemyStatus position={targeting} />
-                  <div className="text-white text-center">
-                    Enemy {targeting + 1}
-                  </div>
                 </div>
               </div>
               <div className="flex items-center justify-center">
@@ -124,6 +142,35 @@ export default function Battle() {
             </Button>
           )}
         </div>
+
+        <div className="text-white text-center text-sm">
+          {enemies[targeting].name}
+        </div>
+        {stage !== "dummy" ? (
+          <ScrollArea
+            className={`my-2 p-2 w-full ${battleSettings.expandEnemyBattleLog ? "h-[150px]" : "h-[75px]"}  border-white border-2`}
+          >
+            {enemyBattleLog.map((log, index) => {
+              if (index === enemyBattleLog.length - 1) {
+                return (
+                  <Card
+                    key={index}
+                    className="text-white text-sm p-2"
+                    ref={chatRefContainer}
+                  >
+                    {log}
+                  </Card>
+                );
+              } else {
+                return (
+                  <Card key={index} className="text-white text-sm p-2">
+                    {log}
+                  </Card>
+                );
+              }
+            })}
+          </ScrollArea>
+        ) : null}
         <div className="grid grid-cols-5 gap-2 mb-5">
           <CharacterButton position={0} />
           <CharacterButton position={1} />
@@ -298,6 +345,27 @@ export default function Battle() {
                 ) : null}
 
                 <Separator className="my-2" />
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="halfpic"
+                    checked={battleSettings.halfPic}
+                    onCheckedChange={() => {
+                      toggleHalfPic();
+                    }}
+                  />
+                  <Label htmlFor="halfpic">半圖</Label>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="expand"
+                  checked={battleSettings.expandEnemyBattleLog}
+                  onCheckedChange={() => {
+                    expandEnemyBattleLog();
+                  }}
+                />
+                <Label htmlFor="expand">敵人行動箱展開</Label>
               </div>
             </DialogContent>
           </Dialog>

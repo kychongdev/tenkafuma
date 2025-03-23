@@ -103,6 +103,7 @@ export function addOn(
           }
           break;
         }
+        case DamageType.ULTIMATE_ADDON:
         case DamageType.ULTIMATE: {
           if (d === Target.ENEMY) {
             ultToTargeting(G, oG, v, p, d, isTrueDamage, false, dt, ca);

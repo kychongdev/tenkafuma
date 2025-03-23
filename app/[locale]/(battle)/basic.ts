@@ -118,7 +118,8 @@ export function basic(p: number, G: GameState, oG: GameState) {
       });
       rawHotAll(G, p, 0.25, "10060-basic-1", 3);
       break;
-    } // "10061": "地方媽媽 提爾絲",
+    }
+    // "10061": "地方媽媽 提爾絲",
     // "10062": "異國商人 雪蘭瑚",
     // "10063": "傳說女僕 艾蜜莉",
     case "10063": {
@@ -160,13 +161,15 @@ export function basic(p: number, G: GameState, oG: GameState) {
     }
     // "10077": "黑鷹 貝里絲",
     case "10077": {
-      //以自身最大HP10%對我方全體進行治療，再以自身最大HP5%每回合對我方全體進行治療(3回合)
-      //TODO
       basicHpHealAllAllies(G, oG, 0.1, p, ca);
       rawHotAll(G, p, 0.05, "10077-basic-2", 3);
       break;
     }
     // "10078": "慵懶貓貓 露露",
+    case "10078": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10079": "新春 凜月",
     case "10079": {
       basicToTargeting(G, oG, 1.25, p, Target.ENEMY, false, dt, ca);
@@ -190,7 +193,6 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
     case "10091": {
-      //以自身攻擊力40%使我方全體妨礙者攻擊力增加(1回合)
       G.characters.forEach((_, index) => {
         const attack = applyRawAttBuff(G, p)
           .round(0, Big.roundDown)
@@ -269,6 +271,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10111": "背德密醫 艾琳",
     // "10113": "嬌蠻兇護 凱薩",
     // "10114": "魔法少女 朱諾安",
+    case "10114": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10115": "魔法少女 布蘭妮",
     // "10116": "夏日 神田綾音",
     // "10117": "夏日 巴爾",
@@ -277,6 +283,10 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10118": "夏日 菲歐菈",
+    case "10118": {
+      basicHealAllAllies(G, oG, 0.75, p, ca);
+      break;
+    }
     // "10119": "夏日 艾可",
     case "10119": {
       rawHotAll(G, p, 0.5, "10119-basic-1", 3);

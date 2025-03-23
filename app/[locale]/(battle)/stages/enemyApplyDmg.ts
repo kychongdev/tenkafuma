@@ -33,7 +33,22 @@ export function applyDamage(
   dealDamage(G, damage, defender, isTrueDamage);
 }
 
-export function enemyDealBasicDmgToHighestHp(
+export function enemyDealUltDmgToTarget(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  defender: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  const dmg = ultDamage(G, oG, value, attacker, defender, false, false);
+  dealDamage(G, dmg, defender, isTrueDamage);
+  writeBattleLog(G, attacker, defender, dmg, damageType, action);
+}
+
+export function enemyDealBasicDmgToTarget(
   G: GameState,
   oG: GameState,
   value: number,
@@ -64,8 +79,24 @@ export function enemyDealBasicDmgToAllAllies(
   }
 }
 
+export function enemyDealUltDmgToAllAllies(
+  G: GameState,
+  oG: GameState,
+  value: number,
+  attacker: Target,
+  isTrueDamage: boolean,
+  damageType: DamageType,
+  action: CharacterAction,
+) {
+  for (let i = 0; i < 5; i++) {
+    const dmg = ultDamage(G, oG, value, attacker, i, false, false);
+    dealDamage(G, dmg, i, isTrueDamage);
+    writeBattleLog(G, attacker, i, dmg, damageType, action);
+  }
+}
+
 function dealDamage(
-  gameState: GameState,
+  G: GameState,
   damage: Big,
   defender: Target,
   isTrueDamage: boolean,
@@ -74,24 +105,23 @@ function dealDamage(
 
   switch (defender) {
     case Target.ENEMY: {
+      if (!G.enemies[G.targeting].isExist || G.enemies[G.targeting].isDead) {
+        break;
+      }
       if (!isTrueDamage) {
-        const damageAfterShield = damageOnShield(gameState, dmg, defender);
+        const damageAfterShield = damageOnShield(G, dmg, defender);
         console.log(damageAfterShield.toNumber());
-        gameState.enemies[gameState.targeting].hp = Big(
-          gameState.enemies[gameState.targeting].hp,
-        )
+        G.enemies[G.targeting].hp = Big(G.enemies[G.targeting].hp)
           .minus(damageAfterShield)
           .toNumber();
       } else {
-        gameState.enemies[gameState.targeting].hp = Big(
-          gameState.enemies[gameState.targeting].hp,
-        )
+        G.enemies[G.targeting].hp = Big(G.enemies[G.targeting].hp)
           .minus(dmg)
           .toNumber();
       }
-      if (gameState.enemies[gameState.targeting].hp < 0) {
-        gameState.enemies[gameState.targeting].hp = 0;
-        gameState.enemies[gameState.targeting].isDead = true;
+      if (G.enemies[G.targeting].hp < 0) {
+        G.enemies[G.targeting].hp = 0;
+        G.enemies[G.targeting].isDead = true;
       }
       break;
     }
@@ -100,25 +130,27 @@ function dealDamage(
     case Target.ENEMY_3:
     case Target.ENEMY_4:
     case Target.ENEMY_5: {
+      if (
+        !G.enemies[defender - 20].isExist ||
+        G.enemies[defender - 20].isDead
+      ) {
+        break;
+      }
       if (!isTrueDamage) {
         console.log("reach here");
-        const damageAfterShield = damageOnShield(gameState, dmg, defender);
+        const damageAfterShield = damageOnShield(G, dmg, defender);
         console.log(damageAfterShield.toNumber());
-        gameState.enemies[defender - 20].hp = Big(
-          gameState.enemies[defender - 20].hp,
-        )
+        G.enemies[defender - 20].hp = Big(G.enemies[defender - 20].hp)
           .minus(damageAfterShield)
           .toNumber();
       } else {
-        gameState.enemies[defender - 20].hp = Big(
-          gameState.enemies[defender - 20].hp,
-        )
+        G.enemies[defender - 20].hp = Big(G.enemies[defender - 20].hp)
           .minus(dmg)
           .toNumber();
       }
-      if (gameState.enemies[defender - 20].hp < 0) {
-        gameState.enemies[defender - 20].hp = 0;
-        gameState.enemies[defender - 20].isDead = true;
+      if (G.enemies[defender - 20].hp < 0) {
+        G.enemies[defender - 20].hp = 0;
+        G.enemies[defender - 20].isDead = true;
       }
       break;
     }
@@ -128,45 +160,41 @@ function dealDamage(
     case Target.POSITION_3:
     case Target.POSITION_4:
     case Target.POSITION_5: {
+      if (!G.characters[defender].isExist || G.characters[defender].isDead) {
+        break;
+      }
       if (!isTrueDamage) {
-        console.log("reach here");
-
-        const damageAfterShield = damageOnShield(gameState, dmg, defender);
-        console.log(damageAfterShield.toNumber());
-        gameState.characters[defender].hp = Big(
-          gameState.characters[defender].hp,
-        )
+        const damageAfterShield = damageOnShield(G, dmg, defender);
+        G.characters[defender].hp = Big(G.characters[defender].hp)
           .minus(damageAfterShield)
           .toNumber();
       } else {
-        gameState.characters[defender].hp = Big(
-          gameState.characters[defender].hp,
-        )
+        G.characters[defender].hp = Big(G.characters[defender].hp)
           .minus(dmg)
           .toNumber();
       }
-      if (gameState.characters[defender].hp < 0) {
-        gameState.characters[defender].hp = 0;
-        gameState.characters[defender].isDead = true;
+      if (G.characters[defender].hp < 0) {
+        G.characters[defender].hp = 0;
+        G.characters[defender].isDead = true;
       }
       break;
     }
     case Target.ALL_ALLIES: {
-      gameState.characters.forEach((_, index) => {
-        if (checkAvailable(gameState.characters[index])) {
+      G.characters.forEach((_, index) => {
+        if (checkAvailable(G.characters[index])) {
           if (!isTrueDamage) {
-            const damageAfterShield = damageOnShield(gameState, dmg, index);
-            gameState.characters[index].hp = Big(gameState.characters[index].hp)
+            const damageAfterShield = damageOnShield(G, dmg, index);
+            G.characters[index].hp = Big(G.characters[index].hp)
               .minus(damageAfterShield)
               .toNumber();
           } else {
-            gameState.characters[index].hp = Big(gameState.characters[index].hp)
+            G.characters[index].hp = Big(G.characters[index].hp)
               .minus(dmg)
               .toNumber();
           }
-          if (gameState.characters[index].hp < 0) {
-            gameState.characters[index].hp = 0;
-            gameState.characters[index].isDead = true;
+          if (G.characters[index].hp < 0) {
+            G.characters[index].hp = 0;
+            G.characters[index].isDead = true;
           }
         }
       });
@@ -174,24 +202,22 @@ function dealDamage(
       break;
     }
     case Target.ALL_ENEMIES: {
-      gameState.enemies.forEach((_, index) => {
-        if (checkAvailable(gameState.enemies[index])) {
+      G.enemies.forEach((_, index) => {
+        if (checkAvailable(G.enemies[index])) {
           if (!isTrueDamage) {
-            const damageAfterShield = damageOnShield(gameState, dmg, index);
-            gameState.enemies[index].hp = Math.floor(
-              Big(gameState.enemies[index].hp)
-                .minus(damageAfterShield)
-                .toNumber(),
+            const damageAfterShield = damageOnShield(G, dmg, index);
+            G.enemies[index].hp = Math.floor(
+              Big(G.enemies[index].hp).minus(damageAfterShield).toNumber(),
             );
           } else {
-            gameState.enemies[index].hp = Math.floor(
-              Big(gameState.enemies[index].hp).minus(dmg).toNumber(),
+            G.enemies[index].hp = Math.floor(
+              Big(G.enemies[index].hp).minus(dmg).toNumber(),
             );
           }
 
-          if (gameState.enemies[index].hp < 0) {
-            gameState.enemies[index].hp = 0;
-            gameState.enemies[index].isDead = true;
+          if (G.enemies[index].hp < 0) {
+            G.enemies[index].hp = 0;
+            G.enemies[index].isDead = true;
           }
         }
       });

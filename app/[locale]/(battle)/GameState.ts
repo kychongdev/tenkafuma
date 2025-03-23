@@ -5,7 +5,7 @@ import localforage from "localforage";
 import { CharacterState, CharacterTeam } from "./types/Select";
 import { Condition, Target } from "./types/Skill";
 import { initCharacterState } from "./data/placeholder";
-import { checkTargetAlive, generateClientId, p } from "./utils";
+import { generateClientId, p } from "./utils";
 import { initTeam } from "./init/initTeam";
 import { initHp } from "./init/initHp";
 import { basic } from "./basic";
@@ -17,7 +17,6 @@ import { parseCondition } from "./parseCondition";
 import { CharacterAction } from "./types/Character";
 import { parseAddon } from "./parseAddon";
 import { ultimate } from "./ultimate";
-import { dummy } from "./stages/dummy";
 import { useSimulateTeamState } from "../(simulate)/useSimulateState";
 import _ from "lodash";
 
@@ -39,6 +38,8 @@ export interface GameState {
   battleSettings: {
     everyTurnAttack: boolean;
     everyTurnAttackTarget: Target[];
+    halfPic: boolean;
+    expandEnemyBattleLog: boolean;
   };
   enemyBattleLog: any[];
   action: any[];
@@ -63,6 +64,7 @@ export interface GameState {
   addEveryTurnAttackTarget: (target: Target) => void;
   clearAllTarget: () => void;
   analysis: (index: number) => void;
+  toggleHalfPic: () => void;
 }
 
 function resetBattle(state: GameState) {
@@ -127,6 +129,8 @@ export const useGameState = create<GameState>()(
       battleSettings: {
         everyTurnAttack: false,
         everyTurnAttackTarget: [],
+        halfPic: false,
+        expandEnemyBattleLog: false,
       },
       select: null,
       targeting: 0,
@@ -534,6 +538,17 @@ export const useGameState = create<GameState>()(
             ...state.battleSettings.everyTurnAttackTarget,
             target,
           ];
+        });
+      },
+      toggleHalfPic: () => {
+        set((state) => {
+          state.battleSettings.halfPic = !state.battleSettings.halfPic;
+        });
+      },
+      expandEnemyBattleLog: () => {
+        set((state) => {
+          state.battleSettings.expandEnemyBattleLog =
+            !state.battleSettings.expandEnemyBattleLog;
         });
       },
       clearAllTarget: () => {
