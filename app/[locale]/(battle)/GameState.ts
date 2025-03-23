@@ -38,8 +38,6 @@ export interface GameState {
   battleSettings: {
     everyTurnAttack: boolean;
     everyTurnAttackTarget: Target[];
-    halfPic: boolean;
-    expandEnemyBattleLog: boolean;
   };
   enemyBattleLog: any[];
   action: any[];
@@ -64,7 +62,6 @@ export interface GameState {
   addEveryTurnAttackTarget: (target: Target) => void;
   clearAllTarget: () => void;
   analysis: (index: number) => void;
-  toggleHalfPic: () => void;
 }
 
 function resetBattle(state: GameState) {
@@ -538,17 +535,6 @@ export const useGameState = create<GameState>()(
             ...state.battleSettings.everyTurnAttackTarget,
             target,
           ];
-        });
-      },
-      toggleHalfPic: () => {
-        set((state) => {
-          state.battleSettings.halfPic = !state.battleSettings.halfPic;
-        });
-      },
-      expandEnemyBattleLog: () => {
-        set((state) => {
-          state.battleSettings.expandEnemyBattleLog =
-            !state.battleSettings.expandEnemyBattleLog;
         });
       },
       clearAllTarget: () => {

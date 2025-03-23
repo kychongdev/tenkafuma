@@ -23,6 +23,7 @@ import { ultDamage } from "./calculations/ultDamage";
 import { DamageLog } from "./types/GameState";
 import { ultHpDamage } from "./calculations/ultHpDamage";
 import { basicHpDamage } from "./calculations/basicHpDamage";
+import { checkHpLock } from "./checkHpLock";
 
 export function applyDamage(
   G: GameState,
@@ -388,7 +389,6 @@ export function triggerDmgToTargeting(
   }
   dealDamage(G, damage, defender, isTrueDamage);
   writeBattleLog(G, attacker, defender, damage, damageType, action);
-
   writeDamageLog(G, attacker, {
     damage: damage.round(0, Big.roundDown).toNumber(),
     type: damageType,
@@ -474,17 +474,18 @@ function dealDamage(
     case Target.ENEMY: {
       if (!isTrueDamage) {
         const damageAfterShield = damageOnShield(gameState, dmg, defender);
-        console.log(damageAfterShield.toNumber());
+        const finalDmg = checkHpLock(gameState, damageAfterShield, defender);
         gameState.enemies[gameState.targeting].hp = Big(
           gameState.enemies[gameState.targeting].hp,
         )
-          .minus(damageAfterShield)
+          .minus(finalDmg)
           .toNumber();
       } else {
+        const finalDmg = checkHpLock(gameState, damage, defender);
         gameState.enemies[gameState.targeting].hp = Big(
           gameState.enemies[gameState.targeting].hp,
         )
-          .minus(dmg)
+          .minus(finalDmg)
           .toNumber();
       }
       if (gameState.enemies[gameState.targeting].hp < 0) {
@@ -499,19 +500,19 @@ function dealDamage(
     case Target.ENEMY_4:
     case Target.ENEMY_5: {
       if (!isTrueDamage) {
-        console.log("reach here");
         const damageAfterShield = damageOnShield(gameState, dmg, defender);
-        console.log(damageAfterShield.toNumber());
+        const finalDmg = checkHpLock(gameState, damageAfterShield, defender);
         gameState.enemies[defender - 20].hp = Big(
           gameState.enemies[defender - 20].hp,
         )
-          .minus(damageAfterShield)
+          .minus(finalDmg)
           .toNumber();
       } else {
+        const finalDmg = checkHpLock(gameState, damage, defender);
         gameState.enemies[defender - 20].hp = Big(
           gameState.enemies[defender - 20].hp,
         )
-          .minus(dmg)
+          .minus(finalDmg)
           .toNumber();
       }
       if (gameState.enemies[defender - 20].hp < 0) {
@@ -551,12 +552,14 @@ function dealDamage(
         if (checkAvailable(gameState.characters[index])) {
           if (!isTrueDamage) {
             const damageAfterShield = damageOnShield(gameState, dmg, index);
+            const finalDmg = checkHpLock(gameState, damageAfterShield, index);
             gameState.characters[index].hp = Big(gameState.characters[index].hp)
-              .minus(damageAfterShield)
+              .minus(finalDmg)
               .toNumber();
           } else {
+            const finalDmg = checkHpLock(gameState, damage, index);
             gameState.characters[index].hp = Big(gameState.characters[index].hp)
-              .minus(dmg)
+              .minus(finalDmg)
               .toNumber();
           }
           if (gameState.characters[index].hp < 0) {

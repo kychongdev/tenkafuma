@@ -17,8 +17,7 @@ import {
   Undo,
 } from "lucide-react";
 import { useStore } from "zustand";
-import { SaveBattle } from "./SaveBattle";
-import { CharacterState } from "../(battle)/types/Select";
+//import { SaveBattle } from "./SaveBattle";
 import {
   Dialog,
   DialogContent,
@@ -40,11 +39,7 @@ import { StagesDrawer } from "./Stages";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useRef, useState } from "react";
-import { Toggle } from "@/components/ui/toggle";
-
-function checkEnemyAlive(enemies: CharacterState[]) {
-  return enemies.filter((enemy) => enemy.hp > 0).length > 0;
-}
+import { useBattleSettings } from "../(battle)/BattleSettings";
 
 export default function Battle() {
   const t = useTranslations("Battle");
@@ -74,9 +69,10 @@ export default function Battle() {
     enableEveryTurnAttack,
     addEveryTurnAttackTarget,
     clearAllTarget,
-    toggleHalfPic,
-    expandEnemyBattleLog,
   } = useStore(useGameState, (state) => state);
+
+  const { expandEnemyBattleLog, toggleHalfPic, enemyBattleLogExpand, halfPic } =
+    useBattleSettings((state) => state);
 
   const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
   const chatRefContainer = useRef<HTMLDivElement>(null);
@@ -148,7 +144,7 @@ export default function Battle() {
         </div>
         {stage !== "dummy" ? (
           <ScrollArea
-            className={`my-2 px-2 w-full ${battleSettings.expandEnemyBattleLog ? "h-[120px]" : "h-[75px]"}  border-white border-2`}
+            className={`my-2 px-2 w-full ${enemyBattleLogExpand ? "h-[120px]" : "h-[75px]"}  border-white border-2`}
           >
             {enemyBattleLog.map((log, index) => {
               if (index === enemyBattleLog.length - 1) {
@@ -178,8 +174,6 @@ export default function Battle() {
           <CharacterButton position={3} />
           <CharacterButton position={4} />
         </div>
-        {!checkEnemyAlive(enemies) && stage !== "dummy" ? <SaveBattle /> : null}
-
         <div className="flex flex-wrap gap-2">
           <BattleLog />
           <HealLog />
@@ -348,7 +342,7 @@ export default function Battle() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="halfpic"
-                    checked={battleSettings.halfPic}
+                    checked={halfPic}
                     onCheckedChange={() => {
                       toggleHalfPic();
                     }}
@@ -360,7 +354,7 @@ export default function Battle() {
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="expand"
-                  checked={battleSettings.expandEnemyBattleLog}
+                  checked={enemyBattleLogExpand}
                   onCheckedChange={() => {
                     expandEnemyBattleLog();
                   }}

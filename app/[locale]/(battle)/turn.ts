@@ -8,6 +8,7 @@ import { trigger } from "./trigger";
 import { healOverTime } from "./calculations/healOverTime";
 import { checkAvailable, formatNumber } from "./utils";
 import { writeDamageLog } from "./applyDamage";
+import { checkHpLock } from "./checkHpLock";
 
 export function checkEndTurn(state: GameState, oldState: GameState) {
   //checkGameEnd
@@ -241,13 +242,13 @@ export function enemyCalculateDot(gameState: GameState, oldState: GameState) {
     charBuff = checkSpecialCondition(gameState, oldState, position + 20);
     let selfDamageReceivedIncrease = Big(1);
 
-    const dotValue = charBuff.reduce((acc, buff) => {
-      if (buff._0?.affectType === AffectType.DOT) {
-        return acc.add(buff._0.value);
-      } else {
-        return acc;
-      }
-    }, Big(0));
+    //const dotValue = charBuff.reduce((acc, buff) => {
+    //  if (buff._0?.affectType === AffectType.DOT) {
+    //    return acc.add(buff._0.value);
+    //  } else {
+    //    return acc;
+    //  }
+    //}, Big(0));
     for (const buff of charBuff) {
       if (
         buff.type === 0 &&
@@ -325,20 +326,25 @@ export function enemyCalculateDot(gameState: GameState, oldState: GameState) {
     //  .round(0, Big.roundUp)
     //  .toNumber();
 
-    // TODO fix this
+    // this is fixed
     charBuff.forEach((buff) => {
       if (buff._0?.affectType === AffectType.DOT) {
         const dmg = Big(buff._0.value)
           .mul(selfDamageReceivedIncrease)
+          .round(0, Big.roundDown);
+
+        const finalDmg = checkHpLock(gameState, dmg, position + 20);
+
+        gameState.enemies[position].hp = Big(gameState.enemies[position].hp)
+          .minus(finalDmg)
           .round(0, Big.roundDown)
           .toNumber();
 
-        gameState.enemies[position].hp = gameState.enemies[position].hp - dmg;
         gameState.battleLog.push(
-          `[DOT] ${gameState.enemies[position].name} 受到 ${formatNumber(dmg)} 持續型傷害 (${buff._0 && buff._0.appliedChar ? gameState.characters[buff._0?.appliedChar].name : "無法讀取"})`,
+          `[DOT] ${gameState.enemies[position].name} 受到 ${formatNumber(dmg.toNumber())} 持續型傷害 (${buff._0 && buff._0.appliedChar ? gameState.characters[buff._0?.appliedChar].name : "無法讀取"})`,
         );
         writeDamageLog(gameState, buff._0.appliedChar ?? 6, {
-          damage: dmg,
+          damage: dmg.toNumber(),
           type: DamageType.DOT,
           turn: gameState.turn,
           defender: position + 20,

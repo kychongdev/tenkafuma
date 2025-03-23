@@ -7,6 +7,7 @@ import { CharacterStatus } from "./CharacterStatus";
 import { CharacterState } from "../(battle)/types/Select";
 import { HpBar } from "./HpBar";
 import { AffectType } from "../(battle)/types/Skill";
+import { useBattleSettings } from "../(battle)/BattleSettings";
 
 export const CharacterButton = ({ position }: { position: number }) => {
   const character = useGameState((state) => state.characters[position]);
@@ -22,7 +23,7 @@ export const CharacterButton = ({ position }: { position: number }) => {
     return acc;
   }, 0);
   const isGameEnd = enemies.every((enemy) => !enemy.isExist || enemy.isDead);
-  const halfPic = useGameState((state) => state.battleSettings.halfPic);
+  const halfPic = useBattleSettings((state) => state.halfPic);
   const imgSrc = halfPic
     ? `/characters/square/${
         character.id == "" || !character.id ? "char_nr" : character.id
