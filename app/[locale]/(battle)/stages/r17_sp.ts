@@ -140,6 +140,7 @@ export function r17_sp(gameState: GameState) {
     act5: false,
     act6: false,
     act7: false,
+    act10: false,
   };
 }
 export function r17_sp_action(G: GameState, oG: GameState) {
@@ -241,7 +242,6 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：秘术．烟殁雾逝之炎
   //以自身攻击力300%对敌方全体造成伤害
   //并以自身攻击力300%对敌方全体每回合造成伤害(1回合)
-
   if (
     Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.51) &&
     !G.stageState.act6
@@ -257,11 +257,15 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：凝聚魔力
   //解除自身25%锁血
   //以自身最大HP100%对自身造成真实治疗
-  if (Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.26)) {
+  if (
+    Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.26) &&
+    !G.stageState.act7
+  ) {
     G.enemyBattleLog.push("看来，不给你们一点教训是不行了。");
-    G.enemies[0].buff = G.characters[0].buff.filter(
+    G.enemies[0].buff = G.enemies[0].buff.filter(
       (x) => x.id !== "43189-passive-5",
     );
+    G.enemies[0].hp = G.enemies[0].maxHp;
     G.stageState.act7 = true;
     return;
   }
@@ -310,6 +314,18 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[触发条件：3n+2 回合，n>0  『且』  自身 存活]
   //[技能]：全体攻击
   //以自身攻击力250%对敌方全体造成伤害
+  if ((G.turn - 2) % 3 === 0 && G.turn > 3) {
+    enemyDealUltDmgToAllAllies(
+      G,
+      oG,
+      2.5,
+      Target.ENEMY_1,
+      false,
+      DamageType.ULTIMATE,
+      CharacterAction.ULTIMATE,
+    );
+    return;
+  }
   //
   //[Act10]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
   //[触发条件：首次执行当前AI Act07]
@@ -318,6 +334,78 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //以自身攻击力200%对全体造成伤害
   //使敌方全体受到伤害增加20%(最多10层)
   //使敌方全体受到护盾效果减少30%(最多10层)
+  if (G.stageState.act7 && !G.stageState.act10) {
+    G.enemyBattleLog.push("给我跪下。");
+    enemyDealUltDmgToAllAllies(
+      G,
+      oG,
+      2,
+      Target.ENEMY_1,
+      false,
+      DamageType.BASIC,
+      CharacterAction.BASIC,
+    );
+
+    const buff: Skill = {
+      id: "43189-act-10",
+      name: "毁灭震波",
+      type: 4,
+      condition: Condition.NONE,
+      duration: 100,
+      _4: {
+        increaseStack: 1,
+        targetSkill: "43189-act-10-1",
+        target: Target.ALL_ALLIES,
+        applySkill: {
+          id: "43189-act-10-1",
+          name: "受到伤害增加",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: "43189-act-10-1",
+            name: "受到伤害增加",
+            value: 0.2,
+            stack: 1,
+            maxStack: 10,
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+          },
+        },
+      },
+    };
+    trigger(G, oG, Target.ALL_ALLIES, buff, CharacterAction.BASIC);
+    const buff2: Skill = {
+      id: "43189-act-10-2",
+      name: "毁灭震波",
+      type: 4,
+      condition: Condition.NONE,
+      duration: 100,
+      _4: {
+        increaseStack: 1,
+        targetSkill: "43189-act-10-2",
+        target: Target.ALL_ALLIES,
+        applySkill: {
+          id: "43189-act-10-2",
+          name: "受到护盾效果减少",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: "43189-act-10-2",
+            name: "受到护盾效果减少",
+            value: 0.3,
+            stack: 1,
+            maxStack: 10,
+            affectType: AffectType.DECREASE_SHIELD_ABSORB,
+          },
+        },
+      },
+    };
+    trigger(G, oG, Target.ALL_ALLIES, buff2, CharacterAction.BASIC);
+    G.stageState.act10 = true;
+    return;
+  }
+
   //[Act11]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：回合数>0时，2n 回合，n>0  『且』  已执行过当前AI Act07，每经过2回合]
   //[台词]  再给我跪下。
@@ -325,6 +413,78 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //以自身攻击力200%对全体造成伤害
   //使敌方全体受到伤害增加20%(最多10层)
   //使敌方全体受到护盾效果减少30%(最多10层)
+
+  if (G.turn > 0 && (G.turn - 2) % 2 === 0 && G.stageState.act7) {
+    G.enemyBattleLog.push("再给我跪下。");
+    enemyDealUltDmgToAllAllies(
+      G,
+      oG,
+      2,
+      Target.ENEMY_1,
+      false,
+      DamageType.BASIC,
+      CharacterAction.BASIC,
+    );
+
+    const buff: Skill = {
+      id: "43189-act-10",
+      name: "毁灭震波",
+      type: 4,
+      condition: Condition.NONE,
+      duration: 100,
+      _4: {
+        increaseStack: 1,
+        targetSkill: "43189-act-10-1",
+        target: Target.ALL_ALLIES,
+        applySkill: {
+          id: "43189-act-10-1",
+          name: "受到伤害增加",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: "43189-act-10-1",
+            name: "受到伤害增加",
+            value: 0.2,
+            stack: 1,
+            maxStack: 10,
+            affectType: AffectType.INCREASE_DMG_RECEIVED,
+          },
+        },
+      },
+    };
+    trigger(G, oG, Target.ALL_ALLIES, buff, CharacterAction.BASIC);
+    const buff2: Skill = {
+      id: "43189-act-10-2",
+      name: "毁灭震波",
+      type: 4,
+      condition: Condition.NONE,
+      duration: 100,
+      _4: {
+        increaseStack: 1,
+        targetSkill: "43189-act-10-2",
+        target: Target.ALL_ALLIES,
+        applySkill: {
+          id: "43189-act-10-2",
+          name: "受到护盾效果减少",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: "43189-act-10-2",
+            name: "受到护盾效果减少",
+            value: 0.3,
+            stack: 1,
+            maxStack: 10,
+            affectType: AffectType.DECREASE_SHIELD_ABSORB,
+          },
+        },
+      },
+    };
+    trigger(G, oG, Target.ALL_ALLIES, buff2, CharacterAction.BASIC);
+    return;
+  }
+
   //[Act12]  [类型：普攻  ]  [模式：循环]  [结束行动：False]  [目标：玩家当前HP百分比最高者]  [优先级：1]
   //[触发条件：回合数≥1]
   if (G.turn >= 1) {

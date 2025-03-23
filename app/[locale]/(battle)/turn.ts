@@ -342,6 +342,10 @@ export function enemyCalculateDot(gameState: GameState, oldState: GameState) {
           .minus(finalDmg)
           .round(0, Big.roundDown)
           .toNumber();
+        if (gameState.enemies[position].hp < 0) {
+          gameState.enemies[position].hp = 0;
+          gameState.enemies[position].isDead = true;
+        }
 
         gameState.battleLog.push(
           // hasownproperty cannot check type
