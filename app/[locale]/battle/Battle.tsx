@@ -148,7 +148,7 @@ export default function Battle() {
         </div>
         {stage !== "dummy" ? (
           <ScrollArea
-            className={`my-2 p-2 w-full ${battleSettings.expandEnemyBattleLog ? "h-[150px]" : "h-[75px]"}  border-white border-2`}
+            className={`my-2 px-2 w-full ${battleSettings.expandEnemyBattleLog ? "h-[120px]" : "h-[75px]"}  border-white border-2`}
           >
             {enemyBattleLog.map((log, index) => {
               if (index === enemyBattleLog.length - 1) {

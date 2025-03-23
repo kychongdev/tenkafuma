@@ -18,6 +18,7 @@ import {
 import { highestHp } from "../utils";
 import {
   enemyDealBasicDmgToAllAllies,
+  enemyDealBasicDmgToTarget,
   enemyDealUltDmgToAllAllies,
   enemyDealUltDmgToTarget,
 } from "./enemyApplyDmg";
@@ -147,7 +148,9 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[Act01]  [类型：对话  ]  [模式：一次]  [结束行动：False]  [目标：Default]  [优先级：255]
   //[触发条件：0回合时触发]
   //[台词]  肮髒的野狗，臣服于我伊布力斯一族的高贵魔力下吧！
-  G.enemyBattleLog.push("肮髒的野狗，臣服于我伊布力斯一族的高贵魔力下吧！");
+  if (G.turn === 0) {
+    G.enemyBattleLog.push("肮髒的野狗，臣服于我伊布力斯一族的高贵魔力下吧！");
+  }
 
   //[Act02]  [类型：触发技能]  [模式：一次]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：0回合时触发]
@@ -211,9 +214,7 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：伊布力斯的魔力仪式
   //使自身造成伤害增加10%(最多10层)
   //使自身攻击时，以造成伤害值500%回復自身HP(2回合)
-
-  //(gameState.turn - 2) % 3 === 0
-  if ((G.turn - 1) % 3 === 0) {
+  if ((G.turn - 1) % 3 === 0 && G.turn > 3) {
     const buff: Skill = {
       id: "43189-act-08",
       name: "伊布力斯的魔力仪式",
@@ -268,7 +269,8 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   if (G.turn >= 1) {
     for (let i = 0; i < act; i++) {
       const who = highestHp(G);
-      enemyDealUltDmgToTarget(
+      console.log("who", who);
+      enemyDealBasicDmgToTarget(
         G,
         oG,
         1,
