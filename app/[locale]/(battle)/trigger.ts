@@ -12,7 +12,11 @@ import {
   ultTriggerHeal,
 } from "./applyHeal";
 import { applyRawAttBuff, rawHotAll } from "./applyRawAtk";
-import { ultHpShieldAllAllies } from "./applyShield";
+import {
+  triggerShieldAllAllies,
+  ultHpShieldAllAllies,
+  ultShieldAllAllies,
+} from "./applyShield";
 import { basicDamage } from "./calculations/basicDamage";
 import { ultDamage } from "./calculations/ultDamage";
 import { checkSpecialCondition } from "./condition";
@@ -923,6 +927,12 @@ export function trigger(
         }
         case DamageType.TRIGGER: {
           if (buff._10.target === Target.ALL_ALLIES) {
+            triggerShieldAllAllies(G, oG, v, p, ca);
+          }
+          break;
+        }
+        case DamageType.TRIGGER_HP: {
+          if (buff._10.target === Target.ALL_ALLIES) {
             ultHpShieldAllAllies(G, oG, v, p, true, false, ca, d);
           }
           break;
@@ -973,18 +983,15 @@ export function trigger(
         }
 
         case Target.ALL_ENEMIES: {
-          G.enemies[0].buff = [...G.enemies[0].buff, ...buff._11.applySkill];
-          console.log("11 All Enemies", G.enemies[1].buff);
-          //G.enemies[1].buff = [...G.enemies[1].buff, ...buff._11.applySkill];
-          //G.enemies.forEach((_, index) => {
-          //  if (!buff._11) {
-          //    console.log("_11 Apply buff don't exist");
-          //    return;
-          //  }
-          //  const clone = [...G.enemies[index].buff, ...buff._11.applySkill];
-          //  console.log("11 All Enemies", clone);
-          //  G.enemies[index].buff = clone;
-          //});
+          G.enemies.forEach((_, index) => {
+            if (!buff._11) {
+              console.log("_11 Apply buff don't exist");
+              return;
+            }
+            const clone = [...G.enemies[index].buff, ...buff._11.applySkill];
+            console.log("11 All Enemies", clone);
+            G.enemies[index].buff = clone;
+          });
         }
         case Target.DARK_ENEMY: {
           G.enemies.forEach((enemy, index) => {

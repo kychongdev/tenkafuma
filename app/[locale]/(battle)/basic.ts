@@ -1,13 +1,11 @@
 import Big from "big.js";
 import {
-  applyDamage,
   basicHpToTargeting,
   basicToSpecificPos,
   basicToTargeting,
 } from "./applyDamage";
-import { basicHealAllAllies } from "./applyHeal";
+import { basicHealAllAllies, basicHpHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
-import { basicDamage } from "./calculations/basicDamage";
 import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
 import { AffectType, Condition, DamageType, Target } from "./types/Skill";
@@ -161,6 +159,13 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10077": "黑鷹 貝里絲",
+    case "10077": {
+      //以自身最大HP10%對我方全體進行治療，再以自身最大HP5%每回合對我方全體進行治療(3回合)
+      //TODO
+      basicHpHealAllAllies(G, oG, 0.1, p, ca);
+      rawHotAll(G, p, 0.05, "10077-basic-2", 3);
+      break;
+    }
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     case "10079": {

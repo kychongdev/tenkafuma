@@ -21,6 +21,7 @@ import {
 import { shieldUlt } from "./calculations/shieldUlt";
 import { healUltHp } from "./calculations/healUltHp";
 import { setLock } from "./target";
+import { healUltDamage } from "./calculations/healUltDamage";
 
 export function ultimate(G: GameState, oG: GameState, pos: number) {
   const id = G.characters[pos].id;
@@ -660,6 +661,72 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10077": "黑鷹 貝里絲",
+    case "10077": {
+      const buff: Skill = {
+        id: "10077-ult-1",
+        name: "以自身最大HP10/10/12.5/15/20%使自身攻擊力增加(3/3/4/4/4回合)",
+        type: 17,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _17: {
+          value:
+            bond === 1
+              ? 0.1
+              : bond === 2
+                ? 0.1
+                : bond === 3
+                  ? 0.125
+                  : bond === 4
+                    ? 0.15
+                    : 0.2,
+          target: Target.SELF,
+          duration:
+            bond === 1
+              ? 3
+              : bond === 2
+                ? 3
+                : bond === 3
+                  ? 4
+                  : bond === 4
+                    ? 4
+                    : 4,
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      ultHealAllAllies(
+        G,
+        oG,
+        bond === 1
+          ? 1
+          : bond === 2
+            ? 1.25
+            : bond === 3
+              ? 1.5
+              : bond === 4
+                ? 1.75
+                : 2,
+        pos,
+        false,
+        false,
+        ca,
+      );
+      rawHotAll(
+        G,
+        pos,
+        bond === 1
+          ? 0.3
+          : bond === 2
+            ? 0.35
+            : bond === 3
+              ? 0.4
+              : bond === 4
+                ? 0.45
+                : 0.5,
+        "10077-ult-2",
+        4,
+      );
+      break;
+    }
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     case "10079": {

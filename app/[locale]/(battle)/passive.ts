@@ -8,7 +8,6 @@ import {
   AffectType,
   Condition,
   DamageType,
-  SkillStackCondition,
   SpecialCondition,
   Target,
 } from "./types/Skill";
@@ -1155,6 +1154,121 @@ export function initPassiveSkill(G: GameState, pos: number) {
       break;
     }
     // "10077": "黑鷹 貝里絲",
+    case "10077": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10077-passive-1",
+          name: "普攻時，觸發「以自身攻擊力20%使我方全體攻擊力增加 (1回合)」",
+          type: 6,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _6: {
+            value: 0.2,
+            target: Target.ALL_ALLIES,
+            duration: 1,
+            base: false,
+          },
+        },
+        {
+          id: "10077-passive-2",
+          name: "必殺時，觸發「使我方全體攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            value: 0.25,
+            target: Target.ALL_ALLIES,
+            duration: 1,
+            base: false,
+          },
+        },
+        {
+          id: "10077-passive-3",
+          name: "普攻時，觸發「以自身最大HP15%給予我方全體護盾(1回合)」、再以自身攻擊力10%對我方全體施加護盾(1回合)",
+          type: 21,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _21: {
+            trigger: [
+              {
+                id: "10077-passive-3",
+                name: "普攻時，觸發「以自身最大HP15%給予我方全體護盾(1回合)」",
+                type: 10,
+                condition: Condition.BASIC_ATTACK,
+                duration: 100,
+                _10: {
+                  target: Target.ALL_ALLIES,
+                  value: 0.15,
+                  damageType: DamageType.TRIGGER_HP,
+                  duration: 1,
+                },
+              },
+              {
+                id: "10077-passive-3",
+                name: "以自身攻擊力10%對我方全體施加護盾(1回合)」",
+                type: 10,
+                condition: Condition.BASIC_ATTACK,
+                duration: 100,
+                _10: {
+                  target: Target.ALL_ALLIES,
+                  value: 0.1,
+                  damageType: DamageType.TRIGGER,
+                  duration: 1,
+                },
+              },
+            ],
+          },
+        },
+      ];
+
+      if (stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10077-passive-4",
+            name: "必殺時，觸發「使我方全體攻擊力增加(8回合)」",
+            type: 11,
+            condition: Condition.ULTIMATE,
+            duration: 100,
+            _11: {
+              target: Target.ALL_ALLIES,
+              applySkill: [
+                {
+                  id: "10077-passive-4-1",
+                  name: "攻擊力增加",
+                  type: 0,
+                  condition: Condition.NONE,
+                  duration: 8,
+                  _0: {
+                    value: 0.25,
+                    affectType: AffectType.INCREASE_ATK,
+                  },
+                },
+              ],
+            },
+          },
+        ];
+      }
+
+      if (G.characters[pos].passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10077-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_HEAL_RATE_OVER_TIME,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
     case "10079": {
@@ -2531,7 +2645,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
           _10: {
             target: Target.ALL_ALLIES,
             value: 0.15,
-            damageType: DamageType.TRIGGER,
+            damageType: DamageType.TRIGGER_HP,
             duration: 1,
           },
         },
@@ -3652,7 +3766,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
           _10: {
             target: Target.ALL_ALLIES,
             value: 0.25,
-            damageType: DamageType.TRIGGER,
+            damageType: DamageType.TRIGGER_HP,
             duration: 1,
           },
         },

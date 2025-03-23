@@ -8,15 +8,14 @@ import {
 } from "../types/Character";
 import { AffectType, DamageType, Skill, Target } from "../types/Skill";
 
-export function healBasicDamage(
+export function healHpBasicDamage(
   gameState: GameState,
   oG: GameState,
   value: number,
   position: Target,
   target: Target,
 ) {
-  let rawAtk = Big(0);
-  let atkPercentage = Big(1);
+  let hp = Big(0);
   let basicBuff = Big(1);
   let attacker = [] as Skill[];
   let defender = [] as Skill[];
@@ -28,7 +27,6 @@ export function healBasicDamage(
   let attackerClass = CharacterClass.NONE;
   let attackerAttribute = CharacterAttribute.NONE;
   let attackerId = "";
-  let attackerAtk = 0;
 
   let defenderClass = CharacterClass.NONE;
   let defenderAttribute = CharacterAttribute.NONE;
@@ -45,7 +43,7 @@ export function healBasicDamage(
       attackerClass = gameState.enemies[position - 20].class;
       attackerAttribute = gameState.enemies[position - 20].attribute;
       attackerId = gameState.enemies[position - 20].id;
-      attackerAtk = gameState.enemies[position - 20].atk;
+      hp = Big(gameState.enemies[position - 20].hp);
       break;
     }
     case Target.POSITION_1:
@@ -57,7 +55,7 @@ export function healBasicDamage(
       attackerClass = gameState.characters[position].class;
       attackerAttribute = gameState.characters[position].attribute;
       attackerId = gameState.characters[position].id;
-      attackerAtk = gameState.characters[position].atk;
+      hp = Big(gameState.characters[position].hp);
       break;
   }
 
@@ -92,24 +90,6 @@ export function healBasicDamage(
   }
 
   for (const buff of attacker) {
-    if (buff.type === 0 && buff._0?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(buff._0.value);
-    }
-    if (buff.type === 0 && buff._0?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(buff._0.value);
-    }
-
-    if (buff.type === 3 && buff._3?.affectType === AffectType.INCREASE_ATK) {
-      atkPercentage = atkPercentage.add(buff._3?.value * buff._3?.stack);
-    }
-    if (buff.type === 3 && buff._3?.affectType === AffectType.DECREASE_ATK) {
-      atkPercentage = atkPercentage.minus(buff._3?.value * buff._3?.stack);
-    }
-
-    if (buff.type === 0 && buff._0?.affectType === AffectType.RAW_ATK) {
-      rawAtk = rawAtk.add(buff._0?.value);
-    }
-
     if (
       buff.type === 0 &&
       buff._0?.affectType === AffectType.INCREASE_BASIC_DMG
@@ -203,29 +183,17 @@ export function healBasicDamage(
   if (healReceived.lt(0)) {
     healReceived = Big(0);
   }
-  if (atkPercentage.lt(0)) {
-    atkPercentage = Big(0);
-  }
 
-  const finalAtk = Big(attackerAtk)
-    .mul(atkPercentage)
-    .round(0, Big.roundDown)
-    .add(rawAtk)
-    .round(0, Big.roundDown);
   res = Big(0)
-    .add(finalAtk)
+    .add(hp)
     .mul(basicBuff)
     .mul(healIncrease)
     .mul(healReceived)
     .mul(value);
 
   console.log(
-    "攻擊力",
-    attackerAtk,
-    "攻擊%",
-    atkPercentage.toNumber(),
-    "定值攻擊力",
-    rawAtk.toNumber(),
+    "Hp",
+    hp,
     "普攻",
     basicBuff.toNumber(),
     "進行治療時回復量",

@@ -87,6 +87,114 @@ export function initLeadSkill(G: GameState) {
     // "10075": "夢遊魔境 千鶴",
     // "10076": "夢遊魔境 露露",
     // "10077": "黑鷹 貝里絲",
+    case "10077": {
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10077-Lead-1",
+          name: "最大HP增加50%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            affectType: AffectType.MAX_HP,
+            value: 0.5,
+          },
+        },
+        {
+          id: "10077-Lead-2",
+          name: "普攻時，觸發「以自身最大HP6%使我方全體攻擊力增加(1回合)」",
+          type: 17,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _17: {
+            value: 0.06,
+            target: Target.ALL_ALLIES,
+            duration: 1,
+          },
+        },
+        {
+          id: "10077-Lead-3",
+          name: "必殺時，觸發「以自身最大HP8%使我方全體攻擊力增加(1回合)」",
+          type: 17,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _17: {
+            value: 0.08,
+            target: Target.ALL_ALLIES,
+            duration: 1,
+          },
+        },
+      ];
+      G.characters.forEach((character, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10077-Lead-4",
+            name: "攻擊力增加60%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.6,
+            },
+          },
+        ];
+        if (
+          character.class === CharacterClass.ATTACKER ||
+          character.class === CharacterClass.OBSTRUCTER
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10077-Lead-5",
+              name: "造成傷害增加50%",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 100,
+              _0: {
+                affectType: AffectType.INCREASE_DMG,
+                value: 0.5,
+              },
+            },
+          ];
+        }
+        if (
+          character.class === CharacterClass.PROTECTOR ||
+          character.class === CharacterClass.HEALER ||
+          character.class === CharacterClass.SUPPORT
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10077-Lead-6",
+              name: "必殺時，觸發「使我方全體必殺技傷害增加30%」",
+              type: 11,
+              condition: Condition.ULTIMATE,
+              duration: 100,
+              _11: {
+                target: Target.ALL_ALLIES,
+                applySkill: [
+                  {
+                    id: "10077-Lead-6-1",
+                    name: "必殺技傷害增加30%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 2,
+                    _0: {
+                      affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                      value: 0.3,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
 
     // "10078": "慵懶貓貓 露露",
     // "10079": "新春 凜月",
