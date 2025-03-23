@@ -344,10 +344,12 @@ export function enemyCalculateDot(gameState: GameState, oldState: GameState) {
           .toNumber();
 
         gameState.battleLog.push(
-          `[DOT] ${gameState.enemies[position].name} 受到 ${formatNumber(dmg.toNumber())} 持續型傷害 (${buff._0 && buff._0.appliedChar ? gameState.characters[buff._0?.appliedChar].name : "無法讀取"})`,
+          // hasownproperty cannot check type
+          //@ts-ignore
+          `[DOT] ${gameState.enemies[position].name} 受到 ${formatNumber(finalDmg.toNumber())} 持續型傷害 (${buff._0 && buff._0.hasOwnProperty("appliedChar") ? gameState.characters[buff._0?.appliedChar].name : "無法讀取"})`,
         );
         writeDamageLog(gameState, buff._0.appliedChar ?? 6, {
-          damage: dmg.toNumber(),
+          damage: finalDmg.toNumber(),
           type: DamageType.DOT,
           turn: gameState.turn,
           defender: position + 20,

@@ -27,6 +27,9 @@ export function checkHpLock(G: GameState, damage: Big, defender: Target) {
           .toNumber();
         damageReceived = Big(G.enemies[G.targeting].hp).minus(lockHp);
       }
+      if (damageReceived.lt(0)) {
+        return Big(0);
+      }
       return damageReceived;
     }
     case Target.ENEMY_1:
@@ -55,6 +58,9 @@ export function checkHpLock(G: GameState, damage: Big, defender: Target) {
           .mul(hpLock[0])
           .toNumber();
         damageReceived = Big(G.enemies[defender - 20].hp).minus(lockHp);
+      }
+      if (damageReceived.lt(0)) {
+        return Big(0);
       }
       return damageReceived;
     }

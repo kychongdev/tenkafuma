@@ -139,6 +139,7 @@ export function r17_sp(gameState: GameState) {
     act4: false,
     act5: false,
     act6: false,
+    act7: false,
   };
 }
 export function r17_sp_action(G: GameState, oG: GameState) {
@@ -170,11 +171,16 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[触发条件：自身 HP在15%及以下，仅触发1次]
   //[台词]  在我眼前消失吧，微不足道的虫子。
   //[技能]：烈焰送葬
-  if (G.enemies[0].hp / G.enemies[0].maxHp <= 0.15 && !G.stageState.act3) {
-    enemyDealBasicDmgToAllAllies(
+  //以自身攻击力600%对敌方全体造成2次伤害
+  if (
+    Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.15) &&
+    !G.stageState.act3
+  ) {
+    G.enemyBattleLog.push("在我眼前消失吧，微不足道的虫子。");
+    enemyDealUltDmgToAllAllies(
       G,
       oG,
-      2.5,
+      6,
       Target.ENEMY_1,
       false,
       DamageType.BASIC,
@@ -190,6 +196,7 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：低贱的秽犬，跪下！
   //以敌方全体最大HP199%对敌方全体造成真实伤害
   if (G.stageState.act5 && !G.stageState.act4) {
+    G.enemyBattleLog.push("低贱的秽犬，跪下！");
     enemyDealTrueDmgToAllAllies(
       G,
       oG,
@@ -207,6 +214,9 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：绝对魔力屏障
   //受到伤害减少200%(2回合)
   if (G.enemies[0].hp / G.enemies[0].maxHp <= 0.76 && !G.stageState.act5) {
+    G.enemyBattleLog.push(
+      "哦？有意思，竟然还想反抗吗？看来我得一口气让你屈服。",
+    );
     G.enemies[0].buff = [
       ...G.enemies[0].buff,
       {
@@ -232,7 +242,12 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //以自身攻击力300%对敌方全体造成伤害
   //并以自身攻击力300%对敌方全体每回合造成伤害(1回合)
 
-  if (Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.51)) {
+  if (
+    Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.51) &&
+    !G.stageState.act6
+  ) {
+    G.enemyBattleLog.push("呜…就凭你这种傢伙…！别给我太得意忘形了！！");
+    G.stageState.act6 = true;
     return;
   }
 
@@ -243,6 +258,12 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //解除自身25%锁血
   //以自身最大HP100%对自身造成真实治疗
   if (Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.26)) {
+    G.enemyBattleLog.push("看来，不给你们一点教训是不行了。");
+    G.enemies[0].buff = G.characters[0].buff.filter(
+      (x) => x.id !== "43189-passive-5",
+    );
+    G.stageState.act7 = true;
+    return;
   }
 
   //[Act08]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
@@ -289,6 +310,7 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[触发条件：3n+2 回合，n>0  『且』  自身 存活]
   //[技能]：全体攻击
   //以自身攻击力250%对敌方全体造成伤害
+  //
   //[Act10]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
   //[触发条件：首次执行当前AI Act07]
   //[台词]  给我跪下。
