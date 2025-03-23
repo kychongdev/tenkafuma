@@ -691,7 +691,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
           {
             id: "10057-passive-3",
             name: "每經過6回合，觸發「使我方站位1、3、5的隊員必殺技傷害增加50%(2回合)」效果",
-            type: 11,
+            type: 21,
             condition: Condition.EVERY_X_TURN,
             conditionTurn: 6,
             duration: 100,

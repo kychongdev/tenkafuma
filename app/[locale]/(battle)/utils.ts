@@ -129,6 +129,8 @@ export function parseDamageTypeName(type: DamageType) {
       return "持續傷害";
     case DamageType.ULTIMATE_HP:
       return "必殺(HP)";
+    case DamageType.TRUE_DMG:
+      return "真實傷害";
     default:
       return "不明";
   }

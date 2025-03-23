@@ -35,44 +35,16 @@ export function basicDamage(
 
   // you need to specify the enemy position
   switch (position) {
-    case Target.ENEMY_1: {
-      attacker = checkSpecialCondition(G, oG, position);
-      attackerClass = G.enemies[0].class;
-      attackerAttribute = G.enemies[0].attribute;
-      attackerId = G.enemies[0].id;
-      attackerAtk = Big(G.enemies[0].atk);
-      break;
-    }
-    case Target.ENEMY_2: {
-      attacker = checkSpecialCondition(G, oG, position);
-      attackerClass = G.enemies[1].class;
-      attackerAttribute = G.enemies[1].attribute;
-      attackerId = G.enemies[1].id;
-      attackerAtk = Big(G.enemies[1].atk);
-      break;
-    }
-    case Target.ENEMY_3: {
-      attacker = checkSpecialCondition(G, oG, position);
-      attackerClass = G.enemies[2].class;
-      attackerAttribute = G.enemies[2].attribute;
-      attackerId = G.enemies[2].id;
-      attackerAtk = Big(G.enemies[2].atk);
-      break;
-    }
-    case Target.ENEMY_4: {
-      attacker = checkSpecialCondition(G, oG, position);
-      attackerClass = G.enemies[3].class;
-      attackerAttribute = G.enemies[3].attribute;
-      attackerId = G.enemies[3].id;
-      attackerAtk = Big(G.enemies[3].atk);
-      break;
-    }
+    case Target.ENEMY_1:
+    case Target.ENEMY_2:
+    case Target.ENEMY_3:
+    case Target.ENEMY_4:
     case Target.ENEMY_5: {
       attacker = checkSpecialCondition(G, oG, position);
-      attackerClass = G.enemies[4].class;
-      attackerAttribute = G.enemies[4].attribute;
-      attackerId = G.enemies[4].id;
-      attackerAtk = Big(G.enemies[4].atk);
+      attackerClass = G.enemies[position - 20].class;
+      attackerAttribute = G.enemies[position - 20].attribute;
+      attackerId = G.enemies[position - 20].id;
+      attackerAtk = Big(G.enemies[position - 20].atk);
       break;
     }
     case Target.POSITION_1:
@@ -97,39 +69,15 @@ export function basicDamage(
       defenderisGuard = G.enemies[G.targeting].isGuard;
       break;
     case Target.ENEMY_1:
-      defender = checkSpecialCondition(G, oG, target);
-      defenderClass = G.enemies[0].class;
-      defenderAttribute = G.enemies[0].attribute;
-      defenderId = G.enemies[0].id;
-      defenderisGuard = G.characters[0].isGuard;
-      break;
     case Target.ENEMY_2:
-      defender = checkSpecialCondition(G, oG, target);
-      defenderClass = G.enemies[1].class;
-      defenderAttribute = G.enemies[1].attribute;
-      defenderId = G.enemies[1].id;
-      defenderisGuard = G.characters[1].isGuard;
-      break;
     case Target.ENEMY_3:
-      defender = checkSpecialCondition(G, oG, target);
-      defenderClass = G.enemies[2].class;
-      defenderAttribute = G.enemies[2].attribute;
-      defenderId = G.enemies[2].id;
-      defenderisGuard = G.characters[2].isGuard;
-      break;
     case Target.ENEMY_4:
-      defender = checkSpecialCondition(G, oG, target);
-      defenderClass = G.enemies[3].class;
-      defenderAttribute = G.enemies[3].attribute;
-      defenderId = G.enemies[3].id;
-      defenderisGuard = G.characters[3].isGuard;
-      break;
     case Target.ENEMY_5:
       defender = checkSpecialCondition(G, oG, target);
-      defenderClass = G.enemies[4].class;
-      defenderAttribute = G.enemies[4].attribute;
-      defenderId = G.enemies[4].id;
-      defenderisGuard = G.characters[4].isGuard;
+      defenderClass = G.enemies[target - 20].class;
+      defenderAttribute = G.enemies[target - 20].attribute;
+      defenderId = G.enemies[target - 20].id;
+      defenderisGuard = G.enemies[target - 20].isGuard;
       break;
     case Target.POSITION_1:
     case Target.POSITION_2:

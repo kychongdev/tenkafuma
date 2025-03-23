@@ -65,9 +65,9 @@ export function healBasicDamage(
     case Target.ENEMY:
       defender = checkSpecialCondition(gameState, oG, gameState.targeting + 20);
       defender = gameState.enemies[gameState.targeting].buff;
-      defenderClass = gameState.characters[gameState.targeting].class;
-      defenderAttribute = gameState.characters[gameState.targeting].attribute;
-      defenderId = gameState.characters[gameState.targeting].id;
+      defenderClass = gameState.enemies[gameState.targeting].class;
+      defenderAttribute = gameState.enemies[gameState.targeting].attribute;
+      defenderId = gameState.enemies[gameState.targeting].id;
       break;
     case Target.ENEMY_1:
     case Target.ENEMY_2:

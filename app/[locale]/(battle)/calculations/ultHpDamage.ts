@@ -70,39 +70,15 @@ export function ultHpDamage(
       defenderisGuard = gameState.enemies[gameState.targeting].isGuard;
       break;
     case Target.ENEMY_1:
-      defender = checkSpecialCondition(gameState, oG, target);
-      defenderClass = gameState.enemies[0].class;
-      defenderAttribute = gameState.enemies[0].attribute;
-      defenderId = gameState.enemies[0].id;
-      defenderisGuard = gameState.characters[0].isGuard;
-      break;
     case Target.ENEMY_2:
-      defender = checkSpecialCondition(gameState, oG, target);
-      defenderClass = gameState.enemies[1].class;
-      defenderAttribute = gameState.enemies[1].attribute;
-      defenderId = gameState.enemies[1].id;
-      defenderisGuard = gameState.characters[1].isGuard;
-      break;
     case Target.ENEMY_3:
-      defender = checkSpecialCondition(gameState, oG, target);
-      defenderClass = gameState.enemies[2].class;
-      defenderAttribute = gameState.enemies[2].attribute;
-      defenderId = gameState.enemies[2].id;
-      defenderisGuard = gameState.characters[2].isGuard;
-      break;
     case Target.ENEMY_4:
-      defender = checkSpecialCondition(gameState, oG, target);
-      defenderClass = gameState.enemies[3].class;
-      defenderAttribute = gameState.enemies[3].attribute;
-      defenderId = gameState.enemies[3].id;
-      defenderisGuard = gameState.characters[3].isGuard;
-      break;
     case Target.ENEMY_5:
       defender = checkSpecialCondition(gameState, oG, target);
-      defenderClass = gameState.enemies[4].class;
-      defenderAttribute = gameState.enemies[4].attribute;
-      defenderId = gameState.enemies[4].id;
-      defenderisGuard = gameState.characters[4].isGuard;
+      defenderClass = gameState.enemies[target - 20].class;
+      defenderAttribute = gameState.enemies[target - 20].attribute;
+      defenderId = gameState.enemies[target - 20].id;
+      defenderisGuard = gameState.enemies[target - 20].isGuard;
       break;
     case Target.POSITION_1:
     case Target.POSITION_2:

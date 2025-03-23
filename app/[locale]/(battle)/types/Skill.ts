@@ -288,6 +288,7 @@ enum DamageType {
   TRIGGER = 6,
   TRIGGER_HP = 7,
   DOT = 8,
+  TRUE_DMG = 9,
 }
 
 export type { Skill };

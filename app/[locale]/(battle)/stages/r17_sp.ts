@@ -1,3 +1,4 @@
+import Big from "big.js";
 import { initCharacterState } from "../data/placeholder";
 import { GameState } from "../GameState";
 import { trigger } from "../trigger";
@@ -15,10 +16,11 @@ import {
   SpecialCondition,
   Target,
 } from "../types/Skill";
-import { highestHp } from "../utils";
+import { highestHp, p } from "../utils";
 import {
   enemyDealBasicDmgToAllAllies,
   enemyDealBasicDmgToTarget,
+  enemyDealTrueDmgToAllAllies,
   enemyDealUltDmgToAllAllies,
   enemyDealUltDmgToTarget,
 } from "./enemyApplyDmg";
@@ -130,19 +132,13 @@ export function r17_sp(gameState: GameState) {
     lib: 0,
   };
 
-  gameState.enemies = [
-    enemy1,
-    initCharacterState,
-    initCharacterState,
-    initCharacterState,
-    initCharacterState,
-  ];
-
+  gameState.enemies[0] = enemy1;
   gameState.stageState = {
     lock1: true,
     act3: false,
     act4: false,
     act5: false,
+    act6: false,
   };
 }
 export function r17_sp_action(G: GameState, oG: GameState) {
@@ -174,7 +170,7 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[触发条件：自身 HP在15%及以下，仅触发1次]
   //[台词]  在我眼前消失吧，微不足道的虫子。
   //[技能]：烈焰送葬
-  if (G.enemies[0].hp / G.enemies[0].maxHp <= 0.15) {
+  if (G.enemies[0].hp / G.enemies[0].maxHp <= 0.15 && !G.stageState.act3) {
     enemyDealBasicDmgToAllAllies(
       G,
       oG,
@@ -184,6 +180,8 @@ export function r17_sp_action(G: GameState, oG: GameState) {
       DamageType.BASIC,
       CharacterAction.BASIC,
     );
+    G.stageState.act3 = true;
+    return;
   }
 
   //以自身攻击力600%对敌方全体造成2次伤害
@@ -191,12 +189,41 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[触发条件：首次执行当前AI Act05]
   //[技能]：低贱的秽犬，跪下！
   //以敌方全体最大HP199%对敌方全体造成真实伤害
+  if (G.stageState.act5 && !G.stageState.act4) {
+    enemyDealTrueDmgToAllAllies(
+      G,
+      oG,
+      1.99,
+      Target.ENEMY_1,
+      CharacterAction.ULTIMATE,
+    );
+    G.stageState.act4 = true;
+    return;
+  }
 
   //[Act05]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：自身 HP在76%及以下，仅触发1次]
   //[台词]  哦？有意思，竟然还想反抗吗？看来我得一口气让你屈服。
   //[技能]：绝对魔力屏障
   //受到伤害减少200%(2回合)
+  if (G.enemies[0].hp / G.enemies[0].maxHp <= 0.76 && !G.stageState.act5) {
+    G.enemies[0].buff = [
+      ...G.enemies[0].buff,
+      {
+        id: "43189-act-05",
+        name: "绝对魔力屏障",
+        type: 0,
+        condition: Condition.NONE,
+        duration: 2,
+        _0: {
+          affectType: AffectType.DECREASE_DMG_RECEIVED,
+          value: 2,
+        },
+      },
+    ];
+    G.stageState.act5 = true;
+    return;
+  }
 
   //[Act06]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：自身 HP在51%及以下，仅触发1次]
@@ -204,12 +231,19 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：秘术．烟殁雾逝之炎
   //以自身攻击力300%对敌方全体造成伤害
   //并以自身攻击力300%对敌方全体每回合造成伤害(1回合)
+
+  if (Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.51)) {
+    return;
+  }
+
   //[Act07]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：自身 HP在26%及以下，仅触发1次]
   //[台词]  看来，不给你们一点教训是不行了。
   //[技能]：凝聚魔力
   //解除自身25%锁血
   //以自身最大HP100%对自身造成真实治疗
+  if (Big(G.enemies[0].hp).div(G.enemies[0].maxHp).lt(0.26)) {
+  }
 
   //[Act08]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
   //[触发条件：3n+1 回合，n>0  『且』  自身 存活]

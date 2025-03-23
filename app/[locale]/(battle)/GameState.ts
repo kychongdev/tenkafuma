@@ -64,6 +64,14 @@ export interface GameState {
   analysis: (index: number) => void;
 }
 
+const initEnemyState = {
+  ...initCharacterState,
+  id: "dummy",
+  maxHp: 5063653034,
+  hp: 5063653034,
+  isExist: true,
+};
+
 function resetBattle(state: GameState) {
   state.wave = 1;
   state.turn = 0;
@@ -79,6 +87,20 @@ function resetBattle(state: GameState) {
   state.undo = [];
   state.receivedAttack = [];
   state.enemyBattleLog = [];
+  state.enemies = [
+    { ...initEnemyState, name: "1" },
+    { ...initEnemyState, name: "2" },
+    { ...initEnemyState, name: "3" },
+    { ...initEnemyState, name: "4" },
+    { ...initEnemyState, name: "5" },
+  ];
+  state.characters = [
+    initCharacterState,
+    initCharacterState,
+    initCharacterState,
+    initCharacterState,
+    initCharacterState,
+  ];
 }
 
 function resetLock(state: GameState, p: number) {
@@ -88,13 +110,6 @@ function resetLock(state: GameState, p: number) {
   state.characters[p].lock4 = 3;
   state.characters[p].lock5 = 4;
 }
-const initEnemyState = {
-  ...initCharacterState,
-  id: "dummy",
-  maxHp: 5063653034,
-  hp: 5063653034,
-  isExist: true,
-};
 
 const saveToAnalysis = useSimulateTeamState.getState().saveToAnalysis;
 
@@ -270,7 +285,7 @@ export const useGameState = create<GameState>()(
             healLog: p(state.healLog),
             action: p(state.action),
             enemyBattleLog: p(state.enemyBattleLog),
-            stageState: state.stageState,
+            stageState: p(state.stageState),
           };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;

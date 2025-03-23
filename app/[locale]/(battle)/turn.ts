@@ -25,6 +25,7 @@ export function checkEndTurn(state: GameState, oldState: GameState) {
   });
 
   if (isEnd) {
+    checkHoT(state, oldState);
     calculateDot(state, oldState);
     //enemyOnTurnStart(state);
     parseStageAction(state, oldState);
@@ -81,7 +82,7 @@ export function onTurnStart(gameState: GameState, oldState: GameState) {
   gameState.healLog.push(`【第${gameState.turn}回合】`);
 }
 
-export function endTurn(state: GameState, oG: GameState) {
+function checkHoT(state: GameState, oG: GameState) {
   state.characters.forEach((_, index) => {
     if (checkAvailable(state.characters[index])) {
       const heal = healOverTime(state, oG, index);
@@ -99,7 +100,9 @@ export function endTurn(state: GameState, oG: GameState) {
       }
     }
   });
+}
 
+export function endTurn(state: GameState, oG: GameState) {
   state.enemies.forEach((_, index) => {
     state.enemies[index].buff = state.enemies[index].buff.map((buff) => {
       if (buff.duration && buff.duration !== 100) {

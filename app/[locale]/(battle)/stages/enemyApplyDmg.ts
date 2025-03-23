@@ -19,20 +19,22 @@ import { ultHpDamage } from "../calculations/ultHpDamage";
 import { ultDamage } from "../calculations/ultDamage";
 import { checkSpecialCondition } from "../condition";
 import { damageOnShield } from "../damageOnShield";
+import { trueDamage } from "../calculations/trueDamage";
+import { trueEnemyHpDamage } from "../calculations/trueEnemyHpDamage";
 
-export function applyDamage(
+export function enemyDealTrueDmgToAllAllies(
   G: GameState,
   oG: GameState,
-  damage: Big,
+  value: number,
   attacker: Target,
-  defender: Target,
-  isTrueDamage: boolean,
-  damageType: DamageType,
   action: CharacterAction,
 ) {
-  dealDamage(G, damage, defender, isTrueDamage);
+  for (let i = 0; i < 5; i++) {
+    const dmg = trueEnemyHpDamage(G, oG, value, attacker, i);
+    dealDamage(G, dmg, i, true);
+    writeBattleLog(G, attacker, i, dmg, DamageType.TRUE_DMG, action);
+  }
 }
-
 export function enemyDealUltDmgToTarget(
   G: GameState,
   oG: GameState,
@@ -102,6 +104,7 @@ function dealDamage(
   isTrueDamage: boolean,
 ) {
   const dmg = damage.round(0, Big.roundDown);
+  console.log(isTrueDamage);
 
   switch (defender) {
     case Target.ENEMY: {
