@@ -11,7 +11,7 @@ import { basicDamage } from "./calculations/basicDamage";
 import { GameState } from "./GameState";
 import { CharacterAction } from "./types/Character";
 import { AffectType, Condition, DamageType, Target } from "./types/Skill";
-import { basicShieldAllAllies } from "./applyShield";
+import { basicHpShieldAllAllies, basicShieldAllAllies } from "./applyShield";
 import { setLock } from "./target";
 
 export function basic(p: number, G: GameState, oG: GameState) {
@@ -184,6 +184,31 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
+    case "10091": {
+      //以自身攻擊力40%使我方全體妨礙者攻擊力增加(1回合)
+      G.characters.forEach((_, index) => {
+        const attack = applyRawAttBuff(G, p)
+          .round(0, Big.roundDown)
+          .mul(0.4)
+          .round(0, Big.roundDown)
+          .toNumber();
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10091-basic-1",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 1,
+            _0: {
+              value: attack,
+              affectType: AffectType.RAW_ATK,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
       setLock(G, p, Target.ENEMY_2);
@@ -301,6 +326,11 @@ export function basic(p: number, G: GameState, oG: GameState) {
       break;
     }
     // "10133": "甜心偶像 星空奈奈美",
+    case "10133": {
+      basicShieldAllAllies(G, oG, 0.25, p, 1);
+      basicHpShieldAllAllies(G, oG, 0.3, p, 1);
+      break;
+    }
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
       basicHealAllAllies(G, oG, 0.75, p, ca);

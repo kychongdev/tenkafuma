@@ -3,7 +3,7 @@ import { ultToTargeting, ultHpToTargeting, ultDmgToPos } from "./applyDamage";
 import { ultHealAllAllies, ultHpHealAll } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { ultHpShieldAllAllies, ultShieldAllAllies } from "./applyShield";
-import { shieldUltHp } from "./calculations/shieldHp";
+import { shieldUltHp } from "./calculations/shieldUltHp";
 import { GameState } from "./GameState";
 import { trigger } from "./trigger";
 import {
@@ -871,6 +871,44 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
+    case "10091": {
+      const buff: Skill = {
+        id: "10091-ultimate-1",
+        name: "以自身攻擊力40/45/45/50/55%使我方全體妨礙者攻擊力增加(1/1/2/2/2回合)",
+        type: 6,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _6: {
+          duration: bond < 3 ? 1 : 2,
+          value:
+            bond === 1
+              ? 0.4
+              : bond === 2
+                ? 0.45
+                : bond === 3
+                  ? 0.45
+                  : bond === 4
+                    ? 0.5
+                    : 0.55,
+          base: false,
+          target: Target.OBSTRUCTER,
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+      const buff2: Skill = {
+        id: "10091-ultimate-2",
+        name: "使我方全體妨礙者當前必殺技CD減少1回合",
+        type: 14,
+        condition: Condition.NONE,
+        duration: 100,
+        _14: {
+          reduceCD: 1,
+          target: Target.OBSTRUCTER,
+        },
+      };
+      trigger(G, oG, pos, buff2, ca);
+      break;
+    }
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
       G.characters[pos].buff = [
@@ -1528,6 +1566,58 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
       break;
     }
     // "10133": "甜心偶像 星空奈奈美",
+    case "10133": {
+      const buff: Skill = {
+        id: "10133-ult-1",
+        name: "攻擊力",
+        type: 6,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _6: {
+          value:
+            bond === 1
+              ? 0.5
+              : bond === 2
+                ? 0.55
+                : bond === 3
+                  ? 0.6
+                  : bond === 4
+                    ? 0.65
+                    : 0.7,
+          target: Target.ALL_ALLIES,
+          duration: 4,
+          base: true,
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10133-ult-2",
+            name: "攻擊力",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 4,
+            _0: {
+              affectType: AffectType.INCREASE_ULTIMATE_DMG,
+              value:
+                bond === 1
+                  ? 0.2
+                  : bond === 2
+                    ? 0.25
+                    : bond === 3
+                      ? 0.3
+                      : bond === 4
+                        ? 0.35
+                        : 0.4,
+            },
+          },
+        ];
+      });
+      break;
+    }
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
       if (G.characters[pos].bond > 2) {

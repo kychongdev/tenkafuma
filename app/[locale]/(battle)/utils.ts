@@ -163,6 +163,31 @@ export function parseCharacterName(G: GameState, target: Target) {
   }
 }
 
+export function highestHp(G: GameState) {
+  const hpList = G.characters.map((char) => char.hp / char.maxHp);
+  const result = Array.from(hpList.keys()).sort(
+    (a, b) => hpList[b] - hpList[a],
+  );
+  let checkIfSameExist = [0];
+  result.forEach((index) => {
+    if (
+      index !== 0 &&
+      G.characters[index].hp / G.characters[index].maxHp ===
+        G.characters[0].hp / G.characters[0].maxHp &&
+      G.characters[index].isExist &&
+      !G.characters[index].isDead
+    ) {
+      checkIfSameExist.push(index);
+    }
+  });
+  if (checkIfSameExist.length > 1) {
+    const random = Math.floor(Math.random() * checkIfSameExist.length);
+    return result[random];
+  } else {
+    return result[0];
+  }
+}
+
 export function lowestHp(G: GameState, chars: CharacterState[]) {
   const hpList = chars.map((char) => char.hp / char.maxHp);
   const result = Array.from(hpList.keys()).sort(

@@ -40,11 +40,7 @@ export interface GameState {
     everyTurnAttack: boolean;
     everyTurnAttackTarget: Target[];
   };
-  enemyDamageLog1: any[];
-  enemyDamageLog2: any[];
-  enemyDamageLog3: any[];
-  enemyDamageLog4: any[];
-  enemyDamageLog5: any[];
+  enemyBattleLog: any[];
   action: any[];
   battleLog: string[];
   undo: any[];
@@ -83,11 +79,7 @@ function resetBattle(state: GameState) {
   state.action = [];
   state.undo = [];
   state.receivedAttack = [];
-  state.enemyDamageLog1 = [];
-  state.enemyDamageLog1 = [];
-  state.enemyDamageLog1 = [];
-  state.enemyDamageLog1 = [];
-  state.enemyDamageLog1 = [];
+  state.enemyBattleLog = [];
 }
 
 function resetLock(state: GameState, p: number) {
@@ -123,7 +115,7 @@ export const useGameState = create<GameState>()(
         { ...initEnemyState, name: "5" },
       ],
       stage: "dummy",
-      stageState: {} as any,
+      stageState: {},
       reflectDmg: [],
       characters: [
         initCharacterState,
@@ -147,11 +139,7 @@ export const useGameState = create<GameState>()(
       healLog: [],
       battleLog: [],
       action: [],
-      enemyDamageLog1: [],
-      enemyDamageLog2: [],
-      enemyDamageLog3: [],
-      enemyDamageLog4: [],
-      enemyDamageLog5: [],
+      enemyBattleLog: [],
       analysis: (position) => {
         set((state) => {
           if (state.select) {
@@ -175,6 +163,7 @@ export const useGameState = create<GameState>()(
           resetBattle(state);
           state.select = team;
           state.characters = initTeam(team);
+          parseInitstage(state);
           initLeadSkill(state);
           initHp(state);
           initPassiveSkill(state, 0);
@@ -182,8 +171,6 @@ export const useGameState = create<GameState>()(
           initPassiveSkill(state, 2);
           initPassiveSkill(state, 3);
           initPassiveSkill(state, 4);
-          state.stage = "dummy";
-          parseInitstage(state);
           parseStageAction(state, state);
           state.turn = state.turn + 1;
           state.targeting = 0;
@@ -198,6 +185,7 @@ export const useGameState = create<GameState>()(
           state.stage = stage;
           if (state.select) {
             state.characters = initTeam(state.select);
+            parseInitstage(state);
             initLeadSkill(state);
             initHp(state);
             initPassiveSkill(state, 0);
@@ -205,7 +193,7 @@ export const useGameState = create<GameState>()(
             initPassiveSkill(state, 2);
             initPassiveSkill(state, 3);
             initPassiveSkill(state, 4);
-            parseInitstage(state);
+            parseStageAction(state, state);
             state.targeting = 0;
             state.turn = state.turn + 1;
             newWaveStart(state, state);
@@ -280,12 +268,8 @@ export const useGameState = create<GameState>()(
             battleLog: p(state.battleLog),
             healLog: p(state.healLog),
             action: p(state.action),
-            enemyDamageLog1: p(state.enemyDamageLog1),
-            enemyDamageLog2: p(state.enemyDamageLog2),
-            enemyDamageLog3: p(state.enemyDamageLog3),
-            enemyDamageLog4: p(state.enemyDamageLog4),
-            enemyDamageLog5: p(state.enemyDamageLog5),
-            stageState: p(state.stageState),
+            enemyBattleLog: p(state.enemyBattleLog),
+            stageState: state.stageState,
           };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;
@@ -378,12 +362,8 @@ export const useGameState = create<GameState>()(
             battleLog: p(state.battleLog),
             healLog: p(state.healLog),
             action: p(state.action),
-            enemyDamageLog1: p(state.enemyDamageLog1),
-            enemyDamageLog2: p(state.enemyDamageLog2),
-            enemyDamageLog3: p(state.enemyDamageLog3),
-            enemyDamageLog4: p(state.enemyDamageLog4),
-            enemyDamageLog5: p(state.enemyDamageLog5),
-            //stageState: p(state.stageState),
+            enemyBattleLog: p(state.enemyBattleLog),
+            stageState: p(state.stageState),
           };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;
@@ -477,12 +457,8 @@ export const useGameState = create<GameState>()(
             battleLog: p(state.battleLog),
             healLog: p(state.healLog),
             action: p(state.action),
-            enemyDamageLog1: p(state.enemyDamageLog1),
-            enemyDamageLog2: p(state.enemyDamageLog2),
-            enemyDamageLog3: p(state.enemyDamageLog3),
-            enemyDamageLog4: p(state.enemyDamageLog4),
-            enemyDamageLog5: p(state.enemyDamageLog5),
-            //stageState: p(state.stageState),
+            enemyBattleLog: p(state.enemyBattleLog),
+            stageState: p(state.stageState),
           };
           state.undo.push(prevState);
           state.characters[position].isMoved = true;
@@ -526,14 +502,12 @@ export const useGameState = create<GameState>()(
       healAction: () => {},
       undoLastAction: () => {
         set((state) => {
-          const lastState = state.undo.pop();
-          if (lastState) {
+          const lastState1 = state.undo.pop();
+          if (lastState1) {
+            const lastState = p(lastState1);
             state.turn = lastState.turn;
             state.enemies = lastState.enemies;
-            console.log(p(state.enemies));
-            console.log(lastState.targeting);
             state.targeting = lastState.targeting;
-            console.log(state.targeting);
             state.characters = lastState.characters;
             state.damageLog1 = lastState.damageLog1;
             state.damageLog2 = lastState.damageLog2;
@@ -543,12 +517,8 @@ export const useGameState = create<GameState>()(
             state.battleLog = lastState.battleLog;
             state.healLog = lastState.healLog;
             state.action = lastState.action;
-            state.enemyDamageLog1 = lastState.enemyDamageLog1;
-            state.enemyDamageLog2 = lastState.enemyDamageLog2;
-            state.enemyDamageLog3 = lastState.enemyDamageLog3;
-            state.enemyDamageLog4 = lastState.enemyDamageLog4;
-            state.enemyDamageLog5 = lastState.enemyDamageLog5;
-            //state.stageState = lastState.stageStage;
+            state.enemyBattleLog = lastState.enemyBattleLog;
+            state.stageState = lastState.stageState;
           }
         });
       },

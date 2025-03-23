@@ -317,6 +317,12 @@ export interface _106 {
   base: boolean;
 }
 
+export interface _110 {
+  target: Target;
+  damageType: DamageType;
+  value: number;
+  duration: number;
+}
 // Apply Simple buff
 export interface _111 {
   target: Target | CharacterClass;
@@ -328,4 +334,7 @@ export interface _111 {
 export interface _113 {
   target: string;
   applySkill: Skill[];
+}
+export interface _121 {
+  trigger: Skill[];
 }

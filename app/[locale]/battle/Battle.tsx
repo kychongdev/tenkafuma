@@ -75,7 +75,7 @@ export default function Battle() {
   const { saveToTeam } = useStore(useSimulateTeamState, (state) => state);
 
   return (
-    <div className="w-full mx-auto md:max-w-[600px] font-[family-name:var(--font-geist-sans)]">
+    <div className="w-full mx-auto md:max-w-[500px] font-[family-name:var(--font-geist-sans)]">
       <div className="px-4 py-2">
         <div className="flex justify-between">
           <div className="flex gap-2">
@@ -159,7 +159,6 @@ export default function Battle() {
           >
             <RotateCcw />
           </Button>
-
           <Button
             className="px-3 gap-1"
             onClick={() => {
@@ -176,6 +175,7 @@ export default function Battle() {
           >
             debug
           </Button>
+
           <StagesDrawer />
           <Dialog>
             <DialogTrigger asChild>

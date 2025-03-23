@@ -9,7 +9,6 @@ import {
 } from "./types/Skill";
 import {
   basicHpToSelf,
-  basicToSelf,
   basicToSpecificPos,
   basicToTargeting,
   ultHpToSelf,
@@ -19,6 +18,7 @@ import {
 import { checkSpecialCondition } from "./condition";
 import { basicHealAllAllies } from "./applyHeal";
 import { lowestHp } from "./utils";
+import { ultHpShieldAllAllies, ultShieldAllAllies } from "./applyShield";
 
 export function addOn(
   G: GameState,
@@ -520,6 +520,35 @@ export function addOn(
       }
       break;
     }
+
+    case 110: {
+      if (!buff._110) {
+        console.log(buff.id);
+        console.log("Wrong data 10");
+        break;
+      }
+      const v = buff._110.value;
+      const d = buff._110.duration;
+      switch (buff._110.damageType) {
+        case DamageType.BASIC: {
+          break;
+        }
+        case DamageType.ULTIMATE: {
+          if (buff._110.target === Target.ALL_ALLIES) {
+            ultShieldAllAllies(G, oG, v, p, d);
+            break;
+          }
+        }
+        case DamageType.TRIGGER: {
+          if (buff._110.target === Target.ALL_ALLIES) {
+            ultHpShieldAllAllies(G, oG, v, p, false, false, ca, d);
+          }
+          break;
+        }
+      }
+      break;
+    }
+
     case 111: {
       if (!buff._111) {
         console.log(buff.id);
@@ -753,7 +782,7 @@ export function addOn(
 
     case 113: {
       if (!buff._113) {
-        console.log("Wrong data 13");
+        console.log("Wrong data 113");
         break;
       }
       G.characters.forEach((character, index) => {
@@ -763,6 +792,16 @@ export function addOn(
             ...buff._113.applySkill,
           ];
         }
+      });
+      break;
+    }
+    case 121: {
+      if (!buff._121) {
+        console.log("Wrong data 121");
+        break;
+      }
+      buff._121.trigger.forEach((b) => {
+        addOn(G, oG, p, b, ca);
       });
       break;
     }

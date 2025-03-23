@@ -1,19 +1,37 @@
 import { initCharacterState } from "../data/placeholder";
 import { GameState } from "../GameState";
-import { CharacterAttribute, CharacterClass } from "../types/Character";
+import { trigger } from "../trigger";
+import {
+  CharacterAction,
+  CharacterAttribute,
+  CharacterClass,
+} from "../types/Character";
 import { CharacterState } from "../types/Select";
-import { AffectType, Condition, SpecialCondition } from "../types/Skill";
+import {
+  AffectType,
+  Condition,
+  DamageType,
+  Skill,
+  SpecialCondition,
+  Target,
+} from "../types/Skill";
+import { highestHp } from "../utils";
+import {
+  enemyDealBasicDmgToAllAllies,
+  enemyDealBasicDmgToHighestHp,
+} from "./enemyApplyDmg";
 
-export function r21_sp(gameState: GameState) {
+export function r17_sp(gameState: GameState) {
   const enemy1: CharacterState = {
     id: "43189",
-    name: "死灵女王　艾莉莎白",
+    name: "驕傲魔王 伊布力斯",
     isExist: true,
     baseAtk: 500,
     baseHp: 500000,
     maxAtk: 868721,
     maxHp: 3015397470,
-    atk: 766628,
+    atk: 806977,
+    //atk: 806977,
     hp: 3015397470,
     bond: 1,
     stars: 3,
@@ -40,10 +58,6 @@ export function r21_sp(gameState: GameState) {
     lock4: 3,
     lock5: 4,
     buff: [
-      //属性相剋效果减少100%
-      //受到伤害减少100%
-      //最大HP增加200%
-      //使自身最大HP不低于25%
       {
         id: "43189-passive-1",
         name: "免疫沉默",
@@ -89,51 +103,26 @@ export function r21_sp(gameState: GameState) {
         },
       },
       {
-        id: "43189-passive-1",
+        id: "43189-passive-4",
+        name: "受到伤害减少100%",
+        type: 0,
+        condition: Condition.NONE,
+        duration: 100,
+        _0: {
+          affectType: AffectType.DECREASE_DMG_RECEIVED,
+          value: 1,
+        },
+      },
+      {
+        id: "43189-passive-5",
         name: "自身HP不會低於25%",
         type: 0,
         condition: Condition.NONE,
         duration: 100,
         _0: {
-          affectType: AffectType.NONE,
-          value: 0,
+          affectType: AffectType.HP_LOCK,
+          value: 0.25,
         },
-      },
-      {
-        id: "15114-passive-4",
-        name: "或许可以尝试减少她面前的死灵数量，迫使她现身",
-        type: 0,
-        condition: Condition.NONE,
-        duration: 100,
-        _0: {
-          affectType: AffectType.NONE,
-          value: 0,
-        },
-      },
-      {
-        id: "15114-passive-5",
-        name: "普攻时，触发「使敌方全体获得2层『受到伤害增加1%(最多100%)』」",
-        type: 1,
-        condition: Condition.BASIC_ATTACK,
-        duration: 100,
-      },
-      {
-        id: "15114-passive-6",
-        name: "HP不会低于0.01%",
-        type: 0,
-        condition: Condition.NONE,
-        duration: 100,
-        _0: {
-          affectType: AffectType.HP_LOCK_PERCENTAGE,
-          value: 0.1,
-        },
-      },
-      {
-        id: "15114-passive-7",
-        name: "每经过1回合，发动「使自身攻击力增加5%(最多50层)」效果;",
-        type: 4,
-        condition: Condition.EVERY_X_TURN,
-        duration: 100,
       },
     ],
     lib: 0,
@@ -146,29 +135,54 @@ export function r21_sp(gameState: GameState) {
     initCharacterState,
     initCharacterState,
   ];
+
+  gameState.stageState = {
+    lock1: true,
+    act3: false,
+  };
 }
-export function r21_sp_action(gameState: GameState, oG: GameState) {
+export function r17_sp_action(G: GameState, oG: GameState) {
+  let act = 2;
   //[Act01]  [类型：对话  ]  [模式：一次]  [结束行动：False]  [目标：Default]  [优先级：255]
   //[触发条件：0回合时触发]
   //[台词]  肮髒的野狗，臣服于我伊布力斯一族的高贵魔力下吧！
+  G.enemyBattleLog.push("肮髒的野狗，臣服于我伊布力斯一族的高贵魔力下吧！");
+
   //[Act02]  [类型：触发技能]  [模式：一次]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：0回合时触发]
   //[技能]：全体攻击
   //以自身攻击力250%对敌方全体造成伤害
+  if (G.turn === 0) {
+    enemyDealBasicDmgToAllAllies(
+      G,
+      oG,
+      2.5,
+      Target.ENEMY_1,
+      false,
+      DamageType.BASIC,
+      CharacterAction.BASIC,
+    );
+  }
+
   //[Act03]  [类型：回合技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：自身 HP在15%及以下，仅触发1次]
   //[台词]  在我眼前消失吧，微不足道的虫子。
   //[技能]：烈焰送葬
+  if (G.stageState.lock1) {
+  }
+
   //以自身攻击力600%对敌方全体造成2次伤害
   //[Act04]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：首次执行当前AI Act05]
   //[技能]：低贱的秽犬，跪下！
   //以敌方全体最大HP199%对敌方全体造成真实伤害
+
   //[Act05]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：自身 HP在76%及以下，仅触发1次]
   //[台词]  哦？有意思，竟然还想反抗吗？看来我得一口气让你屈服。
   //[技能]：绝对魔力屏障
   //受到伤害减少200%(2回合)
+
   //[Act06]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：自身 HP在51%及以下，仅触发1次]
   //[台词]  呜…就凭你这种傢伙…！别给我太得意忘形了！！
@@ -181,11 +195,46 @@ export function r21_sp_action(gameState: GameState, oG: GameState) {
   //[技能]：凝聚魔力
   //解除自身25%锁血
   //以自身最大HP100%对自身造成真实治疗
+
   //[Act08]  [类型：触发技能]  [模式：循环]  [结束行动：False]  [目标：Default]  [优先级：255]
   //[触发条件：3n+1 回合，n>0  『且』  自身 存活]
   //[技能]：伊布力斯的魔力仪式
   //使自身造成伤害增加10%(最多10层)
   //使自身攻击时，以造成伤害值500%回復自身HP(2回合)
+
+  //(gameState.turn - 2) % 3 === 0
+  if ((G.turn - 1) % 3 === 0) {
+    const buff: Skill = {
+      id: "43189-act-08",
+      name: "伊布力斯的魔力仪式",
+      type: 4,
+      condition: Condition.NONE,
+      duration: 100,
+      _4: {
+        increaseStack: 1,
+        targetSkill: "43189-act-08-1",
+        target: Target.ENEMY_1,
+        applySkill: {
+          id: "43189-act-08-1",
+          name: "造成伤害增加10%(最多10层)",
+          type: 3,
+          condition: Condition.NONE,
+          duration: 100,
+          _3: {
+            id: "43189-act-08-1",
+            name: "造成伤害增加10%(最多10层)",
+            value: 0.1,
+            stack: 1,
+            maxStack: 10,
+            affectType: AffectType.INCREASE_DMG,
+          },
+        },
+      },
+    };
+    trigger(G, oG, Target.ENEMY_1, buff, CharacterAction.BASIC);
+  }
+
+  //
   //[Act09]  [类型：触发技能]  [模式：循环]  [结束行动：True]  [目标：Default]  [优先级：255]
   //[触发条件：3n+2 回合，n>0  『且』  自身 存活]
   //[技能]：全体攻击
@@ -206,4 +255,19 @@ export function r21_sp_action(gameState: GameState, oG: GameState) {
   //使敌方全体受到护盾效果减少30%(最多10层)
   //[Act12]  [类型：普攻  ]  [模式：循环]  [结束行动：False]  [目标：玩家当前HP百分比最高者]  [优先级：1]
   //[触发条件：回合数≥1]
+  if (G.turn >= 1) {
+    for (let i = 0; i < act; i++) {
+      const who = highestHp(G);
+      enemyDealBasicDmgToHighestHp(
+        G,
+        oG,
+        1,
+        Target.ENEMY_1,
+        who,
+        false,
+        DamageType.BASIC,
+        CharacterAction.BASIC,
+      );
+    }
+  }
 }

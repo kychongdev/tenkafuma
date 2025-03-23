@@ -973,16 +973,18 @@ export function trigger(
         }
 
         case Target.ALL_ENEMIES: {
-          G.enemies.forEach((_, index) => {
-            if (!buff._11) {
-              console.log("_11 Apply buff don't exist");
-              return;
-            }
-            G.enemies[index].buff = [
-              ...G.enemies[index].buff,
-              ...buff._11.applySkill,
-            ];
-          });
+          G.enemies[0].buff = [...G.enemies[0].buff, ...buff._11.applySkill];
+          console.log("11 All Enemies", G.enemies[1].buff);
+          //G.enemies[1].buff = [...G.enemies[1].buff, ...buff._11.applySkill];
+          //G.enemies.forEach((_, index) => {
+          //  if (!buff._11) {
+          //    console.log("_11 Apply buff don't exist");
+          //    return;
+          //  }
+          //  const clone = [...G.enemies[index].buff, ...buff._11.applySkill];
+          //  console.log("11 All Enemies", clone);
+          //  G.enemies[index].buff = clone;
+          //});
         }
         case Target.DARK_ENEMY: {
           G.enemies.forEach((enemy, index) => {

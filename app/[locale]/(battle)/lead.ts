@@ -468,6 +468,96 @@ export function initLeadSkill(G: GameState) {
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
+    case "10091": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10091-Lead-1",
+            name: "最大HP增加20%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.2,
+            },
+          },
+          {
+            id: "10091-Lead-2",
+            name: "攻擊力增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.INCREASE_ATK,
+              value: 0.4,
+            },
+          },
+        ];
+      });
+      G.characters[0].buff = [
+        ...G.characters[0].buff,
+        {
+          id: "10091-Lead-3",
+          name: "使自身普攻時，觸發「以自身攻擊力40%使我方全體妨礙者攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.BASIC_ATTACK,
+          duration: 100,
+          _6: {
+            duration: 1,
+            value: 0.4,
+            base: false,
+            target: Target.OBSTRUCTER,
+          },
+        },
+        {
+          id: "10091-Lead-3",
+          name: "使自身必殺時，觸發「以自身攻擊力25%使我方全體妨礙者攻擊力增加(10回合)」",
+          type: 6,
+          condition: Condition.ULTIMATE,
+          duration: 100,
+          _6: {
+            duration: 10,
+            value: 0.25,
+            base: false,
+            target: Target.OBSTRUCTER,
+          },
+        },
+      ];
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.OBSTRUCTER) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10091-lead-4",
+              name: "自身攻擊時，觸發「使我方站位1的隊員攻擊力增加25%(4回合)」",
+              type: 11,
+              condition: Condition.ATTACK,
+              duration: 100,
+              _11: {
+                target: Target.POSITION_1,
+                applySkill: [
+                  {
+                    id: "10091-Lead-4-1",
+                    name: "攻擊力增加25%",
+                    type: 0,
+                    condition: Condition.NONE,
+                    duration: 4,
+                    _0: {
+                      value: 0.25,
+                      affectType: AffectType.INCREASE_ATK,
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+
+      break;
+    }
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
       G.characters.forEach((_, index) => {

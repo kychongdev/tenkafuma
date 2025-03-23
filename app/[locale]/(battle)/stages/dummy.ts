@@ -60,13 +60,7 @@ export function dummy(gameState: GameState) {
       hp: 5063653034,
     },
   ];
-  gameState.stageState = {
-    stage: "dummy",
-    wave: 1,
-    turn: 0,
-    maxWave: 1,
-    maxTurn: 1,
-  };
+  gameState.stageState = {};
 }
 
 export function dummy_action(gameState: GameState, oG: GameState) {

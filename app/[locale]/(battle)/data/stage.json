@@ -1,7 +1,29 @@
 {
   "S21": {
+    "id": "S21",
     "name": "S21",
+    "stages": []
+  },
+  "R20": {
+    "id": "R20",
+    "name": "時裂第20季",
     "stages": [
+      {
+        "name": "驕傲魔王 伊布力斯",
+        "available": true,
+        "value": "r17_sp"
+      }
+    ]
+  },
+  "Old": {
+    "id": "Old",
+    "name": "舊關卡",
+    "stages": [
+      {
+        "name": "木樁",
+        "available": true,
+        "value": "dummy"
+      },
       {
         "name": "私蜜♡健检师 艾琳",
         "available": true,

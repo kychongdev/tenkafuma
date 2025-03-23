@@ -874,7 +874,7 @@ export function initPassiveSkill(G: GameState, pos: number) {
             condition: Condition.NONE,
             duration: 100,
             _0: {
-              value: 0.1,
+              value: 0.05,
               affectType: AffectType.DECREASE_DMG_RECEIVED,
             },
           },
@@ -1827,6 +1827,88 @@ export function initPassiveSkill(G: GameState, pos: number) {
     // "10089": "銀河之藍 安絲娜",
     // "10090": "夏日 聖米勒",
     // "10091": "夏日 黑白諾艾莉",
+    case "10091": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10091-passive-1",
+          name: "第一回合時，觸發「使我方全體妨礙者必殺技傷害增加35%(50回合)」",
+          type: 11,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _11: {
+            target: Target.OBSTRUCTER,
+            applySkill: [
+              {
+                id: "10091-passive-1-1",
+                name: "必殺技傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0.35,
+                  affectType: AffectType.INCREASE_ULTIMATE_DMG,
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "10091-passive-2",
+          name: "攻擊時，觸發「以自身攻擊力10%使我方全體攻擊力增加(1回合)」",
+          type: 6,
+          condition: Condition.ATTACK,
+          duration: 100,
+          _6: {
+            base: false,
+            duration: 1,
+            value: 0.1,
+            target: Target.ALL_ALLIES,
+          },
+        },
+        {
+          id: "10091-passive-3",
+          name: "第一回合時，觸發「使我方全體妨礙者造成傷害增加20%(50回合)」",
+          type: 11,
+          condition: Condition.ON_TURN_START,
+          duration: 100,
+          _11: {
+            target: Target.OBSTRUCTER,
+            applySkill: [
+              {
+                id: "10091-passive-3-1",
+                name: "造成傷害增加",
+                type: 0,
+                condition: Condition.NONE,
+                duration: 50,
+                _0: {
+                  value: 0.2,
+                  affectType: AffectType.INCREASE_DMG,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10091-passive4",
+            name: "使自身受到傷害減少5%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.05,
+              affectType: AffectType.DECREASE_DMG_RECEIVED,
+            },
+          },
+        ];
+      }
+      break;
+    }
+
     // "10092": "夏日 阿爾蒂雅",
     case "10092": {
       G.characters[pos].buff = [
@@ -3086,6 +3168,95 @@ export function initPassiveSkill(G: GameState, pos: number) {
       break;
     }
     // "10133": "甜心偶像 星空奈奈美",
+    case "10133": {
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10133-passive-1",
+          name: "使自身造成護盾效果增加15%",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 100,
+          _0: {
+            value: 0.15,
+            affectType: AffectType.INCREASE_SHIELD_EFFECT,
+          },
+        },
+        {
+          id: "10133-passive-2",
+          name: "必殺時，追加「以自身攻擊力25%給予我方全體護盾(1回合)、以自身最大HP30%給予我方全體護盾(1回合)」",
+          type: 121,
+          condition: Condition.NONE,
+          duration: 100,
+          _121: {
+            trigger: [
+              {
+                id: "10133-passive-2-1",
+                name: "必殺時，追加「以自身攻擊力25%給予我方全體護盾(1回合)」",
+                type: 110,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _110: {
+                  target: Target.ALL_ALLIES,
+                  value: 0.25,
+                  damageType: DamageType.TRIGGER,
+                  duration: 1,
+                },
+              },
+              {
+                id: "10133-passive-2-2",
+                name: "必殺時，追加「以自身最大HP30%給予我方全體護盾(1回合)」",
+                type: 110,
+                condition: Condition.ULTIMATE,
+                duration: 100,
+                _110: {
+                  target: Target.ALL_ALLIES,
+                  value: 0.3,
+                  damageType: DamageType.TRIGGER_HP,
+                  duration: 1,
+                },
+              },
+            ],
+          },
+        },
+      ];
+      if (stars === 5) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10133-passive-4",
+            name: "每經過1回合時，觸發「以自身攻擊力25使我方全體攻擊力增加(1回合)」",
+            type: 6,
+            condition: Condition.EVERY_X_TURN,
+            conditionTurn: 1,
+            duration: 100,
+            _6: {
+              base: false,
+              duration: 1,
+              value: 0.25,
+              target: Target.ALL_ALLIES,
+            },
+          },
+        ];
+      }
+      if (passive4) {
+        G.characters[pos].buff = [
+          ...G.characters[pos].buff,
+          {
+            id: "10133-passive4",
+            name: "使自身攻擊力增加10%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              value: 0.1,
+              affectType: AffectType.INCREASE_ATK,
+            },
+          },
+        ];
+      }
+      break;
+    }
     // "10134": "閃耀歌姬 黑白諾艾莉",
     case "10134": {
       G.characters[pos].buff = [

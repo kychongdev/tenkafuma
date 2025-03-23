@@ -19,6 +19,7 @@ export function damageOnShield(
           }
           if (buff._0?.affectType === AffectType.RAW_SHIELD) {
             if (Big(buff._0?.value).gt(damageReceived)) {
+              damageReceived = Big(0);
               return {
                 ...buff,
                 _0: {
@@ -56,6 +57,7 @@ export function damageOnShield(
           }
           if (buff._0?.affectType === AffectType.RAW_SHIELD) {
             if (Big(buff._0?.value).gt(damageReceived)) {
+              damageReceived = Big(0);
               return {
                 ...buff,
                 _0: {
@@ -92,6 +94,7 @@ export function damageOnShield(
           }
           if (buff._0?.affectType === AffectType.RAW_SHIELD) {
             if (Big(buff._0?.value).gt(damageReceived)) {
+              damageReceived = Big(0);
               return {
                 ...buff,
                 _0: {
@@ -112,6 +115,7 @@ export function damageOnShield(
         })
         .filter((buff) => buff !== undefined);
 
+      console.log(damageReceived.toNumber());
       return damageReceived;
     }
     default:

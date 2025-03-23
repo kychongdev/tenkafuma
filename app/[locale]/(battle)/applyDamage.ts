@@ -131,27 +131,6 @@ export function basicHpToSelf(
     action,
   });
 }
-export function basicToSelf(
-  G: GameState,
-  oG: GameState,
-  value: number,
-  attacker: Target,
-  isTrueDamage: boolean,
-  damageType: DamageType,
-  action: CharacterAction,
-) {
-  const dmg = basicDamage(G, oG, value, attacker, attacker, isTrueDamage);
-  dealDamage(G, dmg, attacker, isTrueDamage);
-  writeBattleLog(G, attacker, attacker, dmg, damageType, action);
-  writeDamageLog(G, attacker, {
-    damage: dmg.round(0, Big.roundDown).toNumber(),
-    type: damageType,
-    turn: G.turn,
-    attacker,
-    defender: attacker,
-    action,
-  });
-}
 
 export function basicToSpecificPos(
   G: GameState,
