@@ -75,14 +75,12 @@ export function addOn(
         //defender: Target.ENEMY,
         //damageType: DamageType.BASIC_ADDON,
         case DamageType.BASIC_ADDON: {
-          console.log("Addon !!!");
           if (d === Target.ENEMY) {
             if (buff._101.multiple && buff._101.multipleValue) {
               for (let i = buff._101.multipleValue; i > 0; i--) {
                 basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
               }
             } else {
-              console.log("Addon DEAL DMG!");
               basicToTargeting(G, oG, v, p, d, isTrueDamage, dt, ca);
             }
           } else {

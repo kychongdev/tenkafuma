@@ -13,16 +13,14 @@ import {
   Condition,
   DamageType,
   Skill,
-  SpecialCondition,
   Target,
 } from "../types/Skill";
-import { highestHp, p } from "../utils";
+import { highestHp } from "../utils";
 import {
   enemyDealBasicDmgToAllAllies,
   enemyDealBasicDmgToTarget,
   enemyDealTrueDmgToAllAllies,
   enemyDealUltDmgToAllAllies,
-  enemyDealUltDmgToTarget,
 } from "./enemyApplyDmg";
 
 export function r17_sp(gameState: GameState) {
@@ -248,6 +246,33 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   ) {
     G.enemyBattleLog.push("呜…就凭你这种傢伙…！别给我太得意忘形了！！");
     G.stageState.act6 = true;
+    enemyDealUltDmgToAllAllies(
+      G,
+      oG,
+      3,
+      Target.ENEMY_1,
+      false,
+      DamageType.ULTIMATE,
+      CharacterAction.ULTIMATE,
+    );
+
+    G.characters.forEach((_, index) => {
+      G.characters[index].buff = [
+        ...G.characters[index].buff,
+        {
+          id: "43189-act-06",
+          name: "秘术．烟殁雾逝之炎",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            affectType: AffectType.DOT,
+            value: Big(G.enemies[0].atk).mul(3).toNumber(),
+          },
+        },
+      ];
+    });
+
     return;
   }
 

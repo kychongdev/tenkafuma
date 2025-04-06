@@ -965,7 +965,6 @@ export function trigger(
             ...G.characters[p].buff,
             ...buff._11.applySkill,
           ];
-          console.log(print(G.characters[p].buff));
           break;
         }
         case Target.ENEMY: {

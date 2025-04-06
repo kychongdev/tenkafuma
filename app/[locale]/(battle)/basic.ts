@@ -7,7 +7,7 @@ import {
 import { basicHealAllAllies, basicHpHealAllAllies } from "./applyHeal";
 import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { GameState } from "./GameState";
-import { CharacterAction } from "./types/Character";
+import { CharacterAction, CharacterClass } from "./types/Character";
 import { AffectType, Condition, DamageType, Target } from "./types/Skill";
 import { basicHpShieldAllAllies, basicShieldAllAllies } from "./applyShield";
 import { setLock } from "./target";
@@ -199,20 +199,22 @@ export function basic(p: number, G: GameState, oG: GameState) {
           .mul(0.4)
           .round(0, Big.roundDown)
           .toNumber();
-        G.characters[index].buff = [
-          ...G.characters[index].buff,
-          {
-            id: "10091-basic-1",
-            name: "攻擊力",
-            type: 0,
-            condition: Condition.NONE,
-            duration: 1,
-            _0: {
-              value: attack,
-              affectType: AffectType.RAW_ATK,
+        if (G.characters[index].class === CharacterClass.OBSTRUCTER) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10091-basic-1",
+              name: "攻擊力",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 1,
+              _0: {
+                value: attack,
+                affectType: AffectType.RAW_ATK,
+              },
             },
-          },
-        ];
+          ];
+        }
       });
       break;
     }
