@@ -9,6 +9,7 @@ import { healOverTime } from "./calculations/healOverTime";
 import { checkAvailable, formatNumber } from "./utils";
 import { writeDamageLog } from "./applyDamage";
 import { checkHpLock } from "./checkHpLock";
+import { damageOnShield } from "./damageOnShield";
 
 export function checkEndTurn(state: GameState, oldState: GameState) {
   //checkGameEnd
@@ -30,7 +31,9 @@ export function checkEndTurn(state: GameState, oldState: GameState) {
     //enemyOnTurnStart(state);
     parseStageAction(state, oldState);
     enemyCalculateDot(state, oldState);
+    enemyEndTurn(state, oldState);
     endTurn(state, oldState);
+    state.turn += 1;
     onTurnStart(state, oldState);
   }
 }
@@ -102,7 +105,7 @@ function checkHoT(state: GameState, oG: GameState) {
   });
 }
 
-export function endTurn(state: GameState, oG: GameState) {
+export function enemyEndTurn(state: GameState, oG: GameState) {
   state.enemies.forEach((_, index) => {
     state.enemies[index].buff = state.enemies[index].buff.map((buff) => {
       if (buff.duration && buff.duration !== 100) {
@@ -115,25 +118,8 @@ export function endTurn(state: GameState, oG: GameState) {
       state.enemies[index].cd > 0 ? state.enemies[index].cd - 1 : 0;
   });
 
-  state.characters.forEach((character, index) => {
-    state.characters[index].buff = state.characters[index].buff.map((buff) => {
-      if (buff.duration && buff.duration !== 100) {
-        return { ...buff, duration: buff.duration - 1 };
-      }
-      return buff;
-    });
-
-    character.cd = character.cd > 0 ? character.cd - 1 : 0;
-  });
-
   state.enemies.forEach((enemy) => {
     enemy.buff = enemy.buff.filter((buff) => {
-      return buff.duration !== 0 || buff.duration === undefined;
-    });
-  });
-
-  state.characters.forEach((character) => {
-    character.buff = character.buff.filter((buff) => {
       return buff.duration !== 0 || buff.duration === undefined;
     });
   });
@@ -146,13 +132,31 @@ export function endTurn(state: GameState, oG: GameState) {
     enemy.isMoved = false;
     enemy.isGuard = false;
   }
-  state.turn += 1;
 }
 
-export function calculateDot(gameState: GameState, oldState: GameState) {
-  gameState.characters.forEach((_, position) => {
+export function endTurn(state: GameState, oG: GameState) {
+  state.characters.forEach((character, index) => {
+    state.characters[index].buff = state.characters[index].buff.map((buff) => {
+      if (buff.duration && buff.duration !== 100) {
+        return { ...buff, duration: buff.duration - 1 };
+      }
+      return buff;
+    });
+
+    character.cd = character.cd > 0 ? character.cd - 1 : 0;
+  });
+
+  state.characters.forEach((character) => {
+    character.buff = character.buff.filter((buff) => {
+      return buff.duration !== 0 || buff.duration === undefined;
+    });
+  });
+}
+
+export function calculateDot(G: GameState, oG: GameState) {
+  G.characters.forEach((_, position) => {
     let charBuff = [];
-    charBuff = checkSpecialCondition(gameState, oldState, position);
+    charBuff = checkSpecialCondition(G, oG, position);
     let selfDamageReceivedIncrease = Big(1);
 
     for (const buff of charBuff) {
@@ -231,18 +235,22 @@ export function calculateDot(gameState: GameState, oldState: GameState) {
 
     charBuff.forEach((buff) => {
       if (buff._0?.affectType === AffectType.DOT) {
-        gameState.characters[position].hp =
-          gameState.characters[position].hp -
-          Big(buff._0.value).mul(res).round(0, Big.roundDown).toNumber();
+        const damageAfterShield = damageOnShield(G, res, position);
+        G.characters[position].hp =
+          G.characters[position].hp -
+          Big(buff._0.value)
+            .mul(damageAfterShield)
+            .round(0, Big.roundDown)
+            .toNumber();
       }
     });
   });
 }
 
-export function enemyCalculateDot(gameState: GameState, oldState: GameState) {
-  gameState.enemies.forEach((_, position) => {
+export function enemyCalculateDot(G: GameState, oG: GameState) {
+  G.enemies.forEach((_, position) => {
     let charBuff = [];
-    charBuff = checkSpecialCondition(gameState, oldState, position + 20);
+    charBuff = checkSpecialCondition(G, oG, position + 20);
     let selfDamageReceivedIncrease = Big(1);
 
     //const dotValue = charBuff.reduce((acc, buff) => {
@@ -336,26 +344,27 @@ export function enemyCalculateDot(gameState: GameState, oldState: GameState) {
           .mul(selfDamageReceivedIncrease)
           .round(0, Big.roundDown);
 
-        const finalDmg = checkHpLock(gameState, dmg, position + 20);
+        const damageAfterShield = damageOnShield(G, dmg, position + 20);
+        const finalDmg = checkHpLock(G, damageAfterShield, position + 20);
 
-        gameState.enemies[position].hp = Big(gameState.enemies[position].hp)
+        G.enemies[position].hp = Big(G.enemies[position].hp)
           .minus(finalDmg)
           .round(0, Big.roundDown)
           .toNumber();
-        if (gameState.enemies[position].hp < 0) {
-          gameState.enemies[position].hp = 0;
-          gameState.enemies[position].isDead = true;
+        if (G.enemies[position].hp < 0) {
+          G.enemies[position].hp = 0;
+          G.enemies[position].isDead = true;
         }
 
-        gameState.battleLog.push(
+        G.battleLog.push(
           // hasownproperty cannot check type
           //@ts-ignore
-          `[DOT] ${gameState.enemies[position].name} 受到 ${formatNumber(finalDmg.toNumber())} 持續型傷害 (${buff._0 && buff._0.hasOwnProperty("appliedChar") ? gameState.characters[buff._0?.appliedChar].name : "無法讀取"})`,
+          `[DOT] ${G.enemies[position].name} 受到 ${formatNumber(finalDmg.toNumber())} 持續型傷害 (${buff._0 && buff._0.hasOwnProperty("appliedChar") ? G.characters[buff._0?.appliedChar].name : "無法讀取"})`,
         );
-        writeDamageLog(gameState, buff._0.appliedChar ?? 6, {
+        writeDamageLog(G, buff._0.appliedChar ?? 6, {
           damage: finalDmg.toNumber(),
           type: DamageType.DOT,
-          turn: gameState.turn,
+          turn: G.turn,
           defender: position + 20,
         });
       }

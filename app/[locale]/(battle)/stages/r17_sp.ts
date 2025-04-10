@@ -290,6 +290,8 @@ export function r17_sp_action(G: GameState, oG: GameState) {
     G.enemies[0].buff = G.enemies[0].buff.filter(
       (x) => x.id !== "43189-passive-5",
     );
+
+    G.enemyBattleLog.push("「凝聚魔力」");
     G.enemies[0].hp = G.enemies[0].maxHp;
     G.stageState.act7 = true;
     return;
@@ -337,6 +339,7 @@ export function r17_sp_action(G: GameState, oG: GameState) {
   //[技能]：全体攻击
   //以自身攻击力250%对敌方全体造成伤害
   if ((G.turn - 2) % 3 === 0 && G.turn > 3) {
+    G.enemyBattleLog.push("全体攻击");
     enemyDealUltDmgToAllAllies(
       G,
       oG,
