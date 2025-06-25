@@ -130,7 +130,50 @@ export function r17_sp(gameState: GameState) {
     lib: 0,
   };
 
-  gameState.enemies[0] = enemy1;
+  gameState.enemies = [
+    enemy1,
+    {
+      ...initCharacterState,
+      id: "dummy-2",
+      name: "2",
+      isExist: false,
+      //maxHp: 10854389981,
+      //hp: 10854389981,
+      maxHp: 5063653034,
+      hp: 5063653034,
+    },
+    {
+      ...initCharacterState,
+      id: "dummy-3",
+      name: "3",
+      isExist: false,
+      //maxHp: 10854389981,
+      //hp: 10854389981,
+      maxHp: 5063653034,
+      hp: 5063653034,
+    },
+    {
+      ...initCharacterState,
+      id: "dummy-4",
+      name: "4",
+      isExist: false,
+      //maxHp: 10854389981,
+      //hp: 10854389981,
+      maxHp: 5063653034,
+      hp: 5063653034,
+    },
+    {
+      ...initCharacterState,
+      id: "dummy-5",
+      name: "5",
+      isExist: false,
+      //maxHp: 10854389981,
+      //hp: 10854389981,
+      maxHp: 5063653034,
+      hp: 5063653034,
+    },
+  ];
+
   gameState.stageState = {
     lock1: true,
     act3: false,
@@ -142,6 +185,9 @@ export function r17_sp(gameState: GameState) {
   };
 }
 export function r17_sp_action(G: GameState, oG: GameState) {
+  if (G.enemies[0].hp === 0) {
+    return;
+  }
   let act = 2;
   //[Act01]  [类型：对话  ]  [模式：一次]  [结束行动：False]  [目标：Default]  [优先级：255]
   //[触发条件：0回合时触发]
