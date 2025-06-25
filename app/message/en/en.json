@@ -45,7 +45,8 @@
     "menu1": "Create Team",
     "menu2": "Battle Simulator",
     "menu3": "Create Analysis",
-    "menu4": "Character Analysis"
+    "menu4": "Character Analysis",
+    "sign-in-button": "Sign in"
   },
   "Battle": {
     "turn": "Turn {turn}"

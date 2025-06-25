@@ -425,6 +425,50 @@ export function trigger(
           }
         }
 
+        case Target.ATTACKER:
+        case Target.OBSTRUCTER:
+        case Target.HEALER:
+        case Target.PROTECTOR:
+        case Target.SUPPORT: {
+          const _class = buff._4.target;
+          G.characters.forEach((character, index) => {
+            //@ts-ignore
+            if (character.class === _class) {
+              const isExist = G.characters[index].buff.some((x) => {
+                return x.id === buff._4?.targetSkill;
+              });
+
+              if (isExist) {
+                G.characters[index].buff.map((x) => {
+                  if (x.id === buff._4?.targetSkill) {
+                    if (x._3 && x._3.stack < x._3.maxStack) {
+                      if (x._3 && buff._4) {
+                        x._3.stack += buff._4.increaseStack;
+                        if (x._3.stack > x._3.maxStack) {
+                          x._3.stack = x._3.maxStack;
+                        }
+                      } else {
+                        console.log("Wrong data buff._4");
+                      }
+                    }
+                  }
+                  return x;
+                });
+              } else {
+                if (buff._4?.applySkill) {
+                  G.characters[index].buff = [
+                    ...G.characters[index].buff,
+                    buff._4.applySkill,
+                  ];
+                } else {
+                  console.log("Wrong data buff._4.applySkill");
+                }
+              }
+            }
+          });
+          break;
+        }
+
         case Target.FIRE:
         case Target.LIGHT:
         case Target.DARK:
@@ -505,6 +549,48 @@ export function trigger(
           }
           break;
         }
+
+        case Target.FIRE_ATTACKER: {
+          G.characters.forEach((character, index) => {
+            if (
+              character.attribute === CharacterAttribute.FIRE &&
+              character.class === CharacterClass.ATTACKER
+            ) {
+              console.log("FIRE_ATTACKER", index);
+              const isExist = G.characters[index].buff.some((x) => {
+                return x.id === buff._4?.targetSkill;
+              });
+
+              if (isExist) {
+                G.characters[index].buff.map((x) => {
+                  if (x.id === buff._4?.targetSkill) {
+                    if (x._3 && x._3.stack < x._3.maxStack) {
+                      if (x._3 && buff._4) {
+                        x._3.stack += buff._4.increaseStack;
+                        if (x._3.stack > x._3.maxStack) {
+                          x._3.stack = x._3.maxStack;
+                        }
+                      } else {
+                        console.log("Wrong data buff._4");
+                      }
+                    }
+                  }
+                  return x;
+                });
+              } else {
+                if (buff._4?.applySkill) {
+                  G.characters[index].buff = [
+                    ...G.characters[index].buff,
+                    buff._4.applySkill,
+                  ];
+                } else {
+                  console.log("Wrong data buff._4.applySkill");
+                }
+              }
+            }
+          });
+          break;
+        }
         default:
           console.log("No target found");
           break;
@@ -545,6 +631,18 @@ export function trigger(
       if (!buff._6) {
         console.log("Wrong data 6");
         break;
+      }
+
+      if (buff._6.overlap) {
+        const buffIndex = G.characters[p].buff.findIndex(
+          (x) => x.id === `${buff.id}-buff`,
+        );
+        if (buffIndex !== -1) {
+          console.log("Buff Index", buffIndex);
+          const clone = [...G.characters[p].buff];
+          clone.splice(buffIndex, 1);
+          G.characters[p].buff = clone;
+        }
       }
       //傳功
       switch (buff._6.target) {
@@ -1164,6 +1262,25 @@ export function trigger(
             ...G.characters[lowestHpIndex].buff,
             ...buff._11.applySkill,
           ];
+          break;
+        }
+
+        case Target.FIRE_ATTACKER: {
+          G.characters.forEach((character, index) => {
+            if (
+              character.attribute === CharacterAttribute.FIRE &&
+              character.class === CharacterClass.ATTACKER
+            ) {
+              if (!buff._11) {
+                console.log("Wrong data 11");
+                return;
+              }
+              G.characters[index].buff = [
+                ...G.characters[index].buff,
+                ...buff._11?.applySkill,
+              ];
+            }
+          });
           break;
         }
 

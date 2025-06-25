@@ -91,6 +91,11 @@ function parseTeam(
       attackedBy: [],
       //@ts-ignore
       lib: parseInt(character?.lib) ?? 0,
+      lock1: 0,
+      lock2: 1,
+      lock3: 2,
+      lock4: 3,
+      lock5: 4,
     };
   }
   return {
@@ -124,5 +129,10 @@ function parseTeam(
     buff: [],
     attackedBy: [],
     lib: 0,
+    lock1: 0,
+    lock2: 1,
+    lock3: 2,
+    lock4: 3,
+    lock5: 4,
   };
 }

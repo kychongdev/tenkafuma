@@ -739,11 +739,11 @@
   "10071": {
     "id": 10071,
     "name": "詛咒凝視 絲塔夏",
-    "initHp": 10,
-    "initAtk": 10,
+    "initHp": 3817.6,
+    "initAtk": 923.2,
     "attribute": 5,
     "class": 11,
-    "available": false,
+    "available": true,
     "cd": 4,
     "leader": false
   },
@@ -1640,10 +1640,21 @@
   },
   "10166": {
     "id": 10166,
-    "name": "銀鴞武裝 米婭",
+    "name": "白熊武裝 冬。艾妮",
     "initHp": 3748.8,
     "initAtk": 940.8,
     "attribute": 8,
+    "class": 15,
+    "available": true,
+    "cd": 4,
+    "leader": true
+  },
+  "10167": {
+    "id": 10167,
+    "name": "躍動之星 黑白諾艾莉",
+    "initHp": 3782.4,
+    "initAtk": 931.2,
+    "attribute": 5,
     "class": 15,
     "available": true,
     "cd": 4,

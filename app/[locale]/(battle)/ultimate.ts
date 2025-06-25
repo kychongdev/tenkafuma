@@ -581,6 +581,121 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10068": "元氣補給 蓮",
     // "10069": "尋情慾兔 鈴蘭",
     // "10071": "詛咒凝視 絲塔夏",
+    case "10071": {
+      // 使自身攻擊力增加180/180/200/200/240%(2回合)、普攻傷害增加60/80/80/100/100%(2回合)，使目標受到火屬性傷害增加0/0/5/5/5%(最多2層)，自身普攻時，追加「以自身攻擊力80/100/100/110/130%對目標造成傷害」(4回合)，CD :4
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10071-ult-1",
+          name: "攻擊力",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            value:
+              bond === 1
+                ? 1.8
+                : bond === 2
+                  ? 1.8
+                  : bond === 3
+                    ? 2
+                    : bond === 4
+                      ? 2
+                      : 2.4,
+            affectType: AffectType.INCREASE_ATK,
+          },
+        },
+        {
+          id: "10071-ult-2",
+          name: "普攻傷害增加",
+          type: 0,
+          condition: Condition.NONE,
+          duration: 2,
+          _0: {
+            value:
+              bond === 1
+                ? 0.6
+                : bond === 2
+                  ? 0.8
+                  : bond === 3
+                    ? 0.8
+                    : bond === 4
+                      ? 1
+                      : 1,
+            affectType: AffectType.INCREASE_BASIC_DMG,
+          },
+        },
+      ];
+      if (bond > 2) {
+        const buff: Skill = {
+          id: "10071-ult-3",
+          name: "受到火屬性傷害增加",
+          type: 4,
+          condition: Condition.ULTIMATE,
+
+          duration: 100,
+          _4: {
+            increaseStack: 1,
+            targetSkill: "10071-ult-3-1",
+            target: Target.ENEMY,
+            applySkill: {
+              id: "10071-ult-3-1",
+              name: "受到火屬性傷害增加",
+              type: 3,
+              condition: Condition.NONE,
+              duration: 100,
+              _3: {
+                id: "10071-ult-3-1",
+                name: "受到火屬性傷害增加",
+                stack: 1,
+                maxStack: 2,
+                affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                value: 0.05,
+              },
+            },
+          },
+        };
+        trigger(G, oG, pos, buff, ca);
+      }
+
+      G.characters[pos].buff = [
+        ...G.characters[pos].buff,
+        {
+          id: "10071-ult-4",
+          name: `普攻時，追加「以自身攻擊力${
+            bond === 1
+              ? 80
+              : bond === 2
+                ? 100
+                : bond === 3
+                  ? 100
+                  : bond === 4
+                    ? 110
+                    : 130
+          }對目標造成傷害」`,
+          type: 101,
+          condition: Condition.BASIC_ATTACK,
+          duration: 4,
+          _101: {
+            value:
+              bond === 1
+                ? 0.8
+                : bond === 2
+                  ? 1
+                  : bond === 3
+                    ? 1
+                    : bond === 4
+                      ? 1.1
+                      : 1.3,
+            defender: Target.ENEMY,
+            damageType: DamageType.BASIC_ADDON,
+            multiple: false,
+            isTrueDamage: false,
+          },
+        },
+      ];
+      break;
+    }
     // "10072": "花嫁 巴爾",
     case "10072": {
       const buff: Skill = {
@@ -1239,6 +1354,7 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
     // "10096": "鮮血魔王 洛緹亞",
     // "10097": "性誕兔女郎 艾可",
     // "10098": "聖誕雪狐 靜",
+
     // "10100": "惡兔魔王 兔姬",
     // "10106": "絕代佳人 賽露西亞",
     // "10107": "龍飛鳳舞 蘭兒",
@@ -4123,6 +4239,173 @@ export function ultimate(G: GameState, oG: GameState, pos: number) {
           },
         ];
       });
+      break;
+    }
+    // "10167": "躍動之星 黑白諾艾莉",
+    case "10167": {
+      // 使我方全體攻擊者攻擊力增加20/25/30/35/40%(2回合)、造成傷害增加10/11.25/16.66/18.33/30%(最多4/4/3/3/2層)、並獲得「必殺時，觸發『以自身攻擊力10/11.25/12.5/13.75/15%使自身攻擊力增加(2回合)(不可疊加)』(1回合)」，再使目標受到火屬性傷害增加5/7.5/8.33/13.75/15%(最多4/3/3/2/2層)。CD:4
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10167-ult-1",
+              name: "攻擊力增加",
+              type: 0,
+              condition: Condition.NONE,
+              duration: 2,
+              _0: {
+                value:
+                  bond === 1
+                    ? 0.2
+                    : bond === 2
+                      ? 0.25
+                      : bond === 3
+                        ? 0.3
+                        : bond === 4
+                          ? 0.35
+                          : 0.4,
+                affectType: AffectType.INCREASE_ATK,
+              },
+            },
+          ];
+        }
+      });
+      const buff: Skill = {
+        id: "10167-ult-2",
+        name: "造成傷害增加",
+        type: 4,
+        condition: Condition.NONE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10167-ult-2-1",
+          target: Target.ATTACKER,
+          applySkill: {
+            id: "10167-ult-2-1",
+            name: "造成傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10167-ult-2-1",
+              name: "造成傷害增加",
+              stack: 1,
+              maxStack:
+                bond === 1
+                  ? 4
+                  : bond === 2
+                    ? 4
+                    : bond === 3
+                      ? 3
+                      : bond === 4
+                        ? 3
+                        : 2,
+              affectType: AffectType.INCREASE_DMG,
+              value:
+                bond === 1
+                  ? 0.1
+                  : bond === 2
+                    ? 0.1125
+                    : bond === 3
+                      ? 0.1666
+                      : bond === 4
+                        ? 0.1833
+                        : 0.3,
+            },
+          },
+        },
+      };
+      trigger(G, oG, pos, buff, ca);
+
+      G.characters.forEach((character, index) => {
+        if (character.class === CharacterClass.ATTACKER) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10167-ult-3",
+              name: `必殺時，觸發『以自身攻擊力${
+                bond === 1
+                  ? 10
+                  : bond === 2
+                    ? 11.25
+                    : bond === 3
+                      ? 12.5
+                      : bond === 4
+                        ? 13.75
+                        : 15
+              }%使自身攻擊力增加(2回合)(不可疊加)』(1回合)`,
+              type: 6,
+              condition: Condition.ULTIMATE,
+              duration: 1,
+              _6: {
+                overlap: true,
+                target: Target.SELF,
+                duration: 2,
+                base: false,
+                value:
+                  bond === 1
+                    ? 0.1
+                    : bond === 2
+                      ? 0.1125
+                      : bond === 3
+                        ? 0.125
+                        : bond === 4
+                          ? 0.1375
+                          : 0.15,
+              },
+            },
+          ];
+        }
+      });
+      const buff1: Skill = {
+        id: "10167-ult-4",
+        name: "受到火傷害增加",
+        type: 4,
+        condition: Condition.ULTIMATE,
+        duration: 100,
+        _4: {
+          increaseStack: 1,
+          targetSkill: "10167-ult-4-1",
+          target: Target.ENEMY,
+          applySkill: {
+            id: "10167-ult-4-1",
+            name: "受到火傷害增加",
+            type: 3,
+            condition: Condition.NONE,
+            duration: 100,
+            _3: {
+              id: "10167-ult-4-1",
+              name: "受到火傷害增加",
+              stack: 1,
+              maxStack:
+                bond === 1
+                  ? 4
+                  : bond === 2
+                    ? 3
+                    : bond === 3
+                      ? 3
+                      : bond === 4
+                        ? 2
+                        : 2,
+              affectType: AffectType.INCREASE_FIRE_DMG_RECEIVED,
+              value:
+                bond === 1
+                  ? 0.05
+                  : bond === 2
+                    ? 0.075
+                    : bond === 3
+                      ? 0.0833
+                      : bond === 4
+                        ? 0.1375
+                        : 0.15,
+            },
+          },
+        },
+      };
+
+      trigger(G, oG, pos, buff1, ca);
+
       break;
     }
     // "10175": "翩舞雪花 初華"

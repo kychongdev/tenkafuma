@@ -24,7 +24,8 @@ export function calculateStats(
       .mul(starStats)
       .mul(roomStats)
       .mul(1 + pot / 100)
-      .round(0, Big.roundDown);
+      .round(0, Big.roundDown)
+      .toNumber();
   }
   return Big(initStats)
     .mul(lvl)
@@ -32,5 +33,6 @@ export function calculateStats(
     .mul(roomStats)
     .mul(1 + pot / 100)
     .mul(libStats)
-    .round(0, Big.roundDown);
+    .round(0, Big.roundDown)
+    .toNumber();
 }

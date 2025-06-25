@@ -1,16 +1,12 @@
-import Big from "big.js";
-import {
-  basicHpToTargeting,
-  basicToSpecificPos,
-  basicToTargeting,
-} from "./applyDamage";
-import { basicHealAllAllies, basicHpHealAllAllies } from "./applyHeal";
-import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
 import { GameState } from "./GameState";
 import { CharacterAction, CharacterClass } from "./types/Character";
 import { AffectType, Condition, DamageType, Target } from "./types/Skill";
 import { basicHpShieldAllAllies, basicShieldAllAllies } from "./applyShield";
 import { setLock } from "./target";
+import { basicToSpecificPos, basicToTargeting } from "./applyDamage";
+import { basicHealAllAllies, basicHpHealAllAllies } from "./applyHeal";
+import { applyRawAttBuff, rawAtkBuffAll, rawHotAll } from "./applyRawAtk";
+import Big from "big.js";
 
 export function basic(p: number, G: GameState, oG: GameState) {
   const id = G.characters[p].id;
@@ -131,10 +127,17 @@ export function basic(p: number, G: GameState, oG: GameState) {
     // "10068": "元氣補給 蓮",
     // "10069": "尋情慾兔 鈴蘭",
     // "10071": "詛咒凝視 絲塔夏",
+    case "10071": {
+      basicToTargeting(G, oG, 1, p, Target.ENEMY, false, dt, ca);
+      break;
+    }
     // "10072": "花嫁 巴爾",
     case "10072": {
       // TODO random
-      const attack = applyRawAttBuff(G, p).mul(0.75).toNumber();
+      const attack = applyRawAttBuff(G, p)
+        .mul(0.75)
+        .round(0, Big.roundDown)
+        .toNumber();
       G.characters[1].buff = [
         ...G.characters[1].buff,
         {
@@ -555,6 +558,12 @@ export function basic(p: number, G: GameState, oG: GameState) {
       rawAtkBuffAll(G, p, 0.3, "10166-basic-1", 1);
       break;
     }
+    // "10167": "躍動之星 黑白諾艾莉",
+    case "10167": {
+      rawAtkBuffAll(G, p, 0.3, "10167-basic-1", 1);
+      break;
+    }
+
     // "10175": "翩舞雪花 初華"
     case "10175": {
       G.characters.forEach((_, index) => {

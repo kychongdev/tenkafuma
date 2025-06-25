@@ -4573,6 +4573,214 @@ export function initLeadSkill(G: GameState) {
       });
       break;
     }
+    // "10167": "躍動之星 黑白諾艾莉",
+    case "10167": {
+      G.characters.forEach((_, index) => {
+        G.characters[index].buff = [
+          ...G.characters[index].buff,
+          {
+            id: "10167-lead-1",
+            name: "最大HP增加40%",
+            type: 0,
+            condition: Condition.NONE,
+            duration: 100,
+            _0: {
+              affectType: AffectType.MAX_HP,
+              value: 0.4,
+            },
+          },
+        ];
+      });
+
+      G.characters.forEach((character, index) => {
+        if (
+          character.attribute === CharacterAttribute.FIRE &&
+          character.class !== CharacterClass.ATTACKER
+        ) {
+          G.characters[index].buff = [
+            ...G.characters[index].buff,
+            {
+              id: "10167-lead-2",
+              name: "第1回合時，觸發《熱情分享》",
+              type: 21,
+              condition: Condition.ON_TURN_START,
+              duration: 100,
+              _21: {
+                trigger: [
+                  {
+                    id: "10167-lead-2-1",
+                    name: "觸發《熱情分享》",
+                    type: 11,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _11: {
+                      target: Target.SELF,
+                      applySkill: [
+                        {
+                          id: "10167-lead-2-1-1",
+                          name: "普攻時，觸發「使目標受到傷害增加5%(1回合)」",
+                          type: 11,
+                          condition: Condition.BASIC_ATTACK,
+                          duration: 100,
+                          _11: {
+                            target: Target.ENEMY,
+                            applySkill: [
+                              {
+                                id: "10167-lead-2-1-1-1",
+                                name: "受到傷害增加5%",
+                                type: 0,
+                                condition: Condition.NONE,
+                                duration: 1,
+                                _0: {
+                                  value: 0.05,
+                                  affectType: AffectType.INCREASE_DMG_RECEIVED,
+                                },
+                              },
+                            ],
+                          },
+                        },
+                        {
+                          id: "10167-lead-2-1-2",
+                          name: "普攻時，觸發「使目標受到火屬性傷害增加5%(1回合)」",
+                          type: 11,
+                          condition: Condition.BASIC_ATTACK,
+                          duration: 100,
+                          _11: {
+                            target: Target.ENEMY,
+                            applySkill: [
+                              {
+                                id: "10167-lead-2-1-2-1",
+                                name: "受到火屬性傷害增加",
+                                type: 0,
+                                condition: Condition.NONE,
+                                duration: 1,
+                                _0: {
+                                  value: 0.05,
+                                  affectType:
+                                    AffectType.INCREASE_FIRE_DMG_RECEIVED,
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    id: "10167-lead-2-2",
+                    name: "觸發《熱情分享》",
+                    type: 4,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _4: {
+                      increaseStack: 1,
+                      targetSkill: "10167-lead-2-2-1",
+                      target: Target.ALL_ALLIES,
+                      applySkill: {
+                        id: "10167-lead-2-2-1",
+                        name: "攻擊力增加",
+                        type: 3,
+                        condition: Condition.NONE,
+                        duration: 100,
+                        _3: {
+                          id: "10167-lead-2-2-1",
+                          name: "攻擊力增加",
+                          stack: 1,
+                          maxStack: 4,
+                          affectType: AffectType.INCREASE_ATK,
+                          value: 0.2,
+                        },
+                      },
+                    },
+                  },
+                  {
+                    id: "10167-lead-2-3",
+                    name: "觸發《熱情分享》",
+                    type: 4,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _4: {
+                      increaseStack: 1,
+                      targetSkill: "10167-lead-2-3-1",
+                      target: Target.FIRE_ATTACKER,
+                      applySkill: {
+                        id: "10167-lead-2-3-1",
+                        name: "火屬性攻擊者普攻傷害增加15%(最多4層)",
+                        type: 3,
+                        condition: Condition.NONE,
+                        duration: 100,
+                        _3: {
+                          id: "10167-lead-2-3-1",
+                          name: "火屬性攻擊者普攻傷害增加15%(最多4層)",
+                          stack: 1,
+                          maxStack: 4,
+                          affectType: AffectType.INCREASE_BASIC_DMG,
+                          value: 0.15,
+                        },
+                      },
+                    },
+                  },
+                  {
+                    id: "10167-lead-2-4",
+                    name: "觸發《熱情分享》",
+                    type: 4,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _4: {
+                      increaseStack: 1,
+                      targetSkill: "10167-lead-2-4-1",
+                      target: Target.FIRE_ATTACKER,
+                      applySkill: {
+                        id: "10167-lead-2-4-1",
+                        name: "火屬性攻擊者造成傷害增加10%(最多4層)",
+                        type: 3,
+                        condition: Condition.NONE,
+                        duration: 100,
+                        _3: {
+                          id: "10167-lead-2-4-1",
+                          name: "火屬性攻擊者造成傷害增加10%(最多4層)",
+                          stack: 1,
+                          maxStack: 4,
+                          affectType: AffectType.INCREASE_DMG,
+                          value: 0.1,
+                        },
+                      },
+                    },
+                  },
+                  {
+                    id: "10167-lead-2-5",
+                    name: "觸發《熱情分享》",
+                    type: 11,
+                    condition: Condition.NONE,
+                    duration: 100,
+                    _11: {
+                      target: Target.FIRE_ATTACKER,
+                      applySkill: [
+                        {
+                          id: "10167-lead-2-5-1",
+                          name: "火屬性攻擊者普攻時，追加「以自身攻擊力15%對目標造成傷害」(50回合)",
+                          type: 101,
+                          condition: Condition.BASIC_ATTACK,
+                          duration: 50,
+                          _101: {
+                            value: 0.15,
+                            defender: Target.ENEMY,
+                            damageType: DamageType.BASIC_ADDON,
+                            multiple: false,
+                            isTrueDamage: false,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ];
+        }
+      });
+      break;
+    }
 
     // "10175": "翩舞雪花 初華"
     case "10175": {

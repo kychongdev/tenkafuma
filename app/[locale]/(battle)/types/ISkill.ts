@@ -71,6 +71,7 @@ export interface _6 {
   applyToSpecificChar?: string;
   duration: number;
   base: boolean;
+  overlap?: boolean;
 }
 
 // Check skill stack and apply buff
